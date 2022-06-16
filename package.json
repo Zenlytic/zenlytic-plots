@@ -32,8 +32,8 @@
   },
   "homepage": "https://github.com/Zenlytic/zenlytic-plots#readme",
   "peerDependencies": {
-    "react": "^18.x",
-    "react-dom": "^18.x"
+    "react": "16.x",
+    "react-dom": "16.x"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
@@ -44,7 +44,6 @@
     "@storybook/addon-essentials": "^6.5.9",
     "@storybook/addon-interactions": "^6.5.9",
     "@storybook/addon-links": "^6.5.9",
-    "@storybook/addon-storyshots": "^6.5.9",
     "@storybook/builder-webpack5": "^6.5.9",
     "@storybook/manager-webpack5": "^6.5.9",
     "@storybook/react": "^6.5.9",
@@ -53,17 +52,10 @@
     "babel-loader": "^8.2.5",
     "babel-plugin-module-resolver": "^4.1.0",
     "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^8.17.0",
-    "eslint-config-airbnb": "^19.0.4",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.30.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
-    "prettier": "^2.7.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-test-renderer": "^16.11.0",
     "rollup": "^2.75.6",
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
