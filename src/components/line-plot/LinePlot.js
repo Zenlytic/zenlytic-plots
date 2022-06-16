@@ -6,7 +6,7 @@ import { GridColumns } from '@visx/grid';
 import { Group } from '@visx/group';
 import { PatternLines } from '@visx/pattern';
 import { AreaClosed } from '@visx/shape';
-import { AxisBottom } from '@visx/axis';
+import { AxisBottom, AxisLeft } from '@visx/axis';
 
 import { PLOT_MARGIN, SCALE_TYPES } from 'constants/plotConstants';
 import PropTypes from 'prop-types';
@@ -218,23 +218,6 @@ function LinePlot({
           numTicks={width < 700 ? 4 : null}
           stroke={axisColor}
           tickStroke={axisColor}
-          label={xAxisLabel}
-        />
-        {/* <AxisLeft
-          scale={yScale}
-          numTicks={yAxisNumberOfTicks}
-          stroke={axisColor}
-          tickStroke={axisColor}
-          tickFormat={yScale.tickFormat(6, yAxisFormat)}
-          label={yAxisLabel}
-          labelOffset={50}
-        /> */}
-        {/* <AxisBottom
-          top={yMax}
-          scale={xScale}
-          numTicks={width < 700 ? 4 : null}
-          stroke={axisColor}
-          tickStroke={axisColor}
           tickLabelProps={() => axisBottomTickLabelProps}
           label={xAxisLabel}
         />
@@ -246,79 +229,10 @@ function LinePlot({
           tickFormat={yScale.tickFormat(6, yAxisFormat)}
           label={yAxisLabel}
           labelOffset={50}
-        /> */}
+        />
       </Group>
     </svg>
   );
-  // return (
-  //   <svg
-  //     width={width}
-  //     height={height}
-  //     xmlns="http://www.w3.org/2000/svg"
-  //     version="1.1"
-  //     style={{ overflow: 'visible' }}>
-  //     <Group left={PLOT_MARGIN.left} top={PLOT_MARGIN.top}>
-  //       <LinearGradient
-  //         id="area-background-gradient"
-  //         from={backgroundColor}
-  //         to={backgroundColor}
-  //         rotate={45}
-  //       />
-  //       <LinearGradient
-  //         id={`area-gradient-${plotId}`}
-  //         from={gradientFrom}
-  //         to={gradientTo}
-  //         fromOpacity={1}
-  //         toOpacity={0.0}
-  //       />
-  //       {lines.length === 1 && (
-  //         <AreaClosed
-  //           data={lines[0]}
-  //           x={(d) => xScale(getValue(d, xAxisDataIndex, scaleType))}
-  //           y={(d) => yScale(getValue(d, yAxisDataIndex))}
-  //           yScale={yScale}
-  //           fill={`url(#area-gradient-${plotId})`}
-  //           defined={(d) => getValue(d, yAxisDataIndex, scaleType) !== null}
-  //           curve={curveMonotoneX}
-  //         />
-  //       )}
-
-  //       <GridColumns
-  //         scale={xScale}
-  //         height={innerHeight}
-  //         stroke={accentColor}
-  //         strokeOpacity={0.2}
-  //         pointerEvents="none"
-  //       />
-  //       <AxisBottom
-  //         top={yMax}
-  //         scale={xScale}
-  //         numTicks={width < 700 ? 4 : null}
-  //         stroke={axisColor}
-  //         tickStroke={axisColor}
-  //         tickLabelProps={() => axisBottomTickLabelProps}
-  //         label={xAxisLabel}
-  //       />
-  //       <AxisLeft
-  //         scale={yScale}
-  //         numTicks={yAxisNumberOfTicks}
-  //         stroke={axisColor}
-  //         tickStroke={axisColor}
-  //         tickFormat={yScale.tickFormat(6, yAxisFormat)}
-  //         label={yAxisLabel}
-  //         labelOffset={50}
-  //       />
-  //       <PatternLines
-  //         id={PATTERN_ID}
-  //         height={8}
-  //         width={8}
-  //         stroke={axisColor}
-  //         strokeWidth={2}
-  //         orientation={['diagonal']}
-  //       />
-  //     </Group>
-  //   </svg>
-  // );
 }
 
 export default LinePlot;
