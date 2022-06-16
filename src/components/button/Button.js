@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function Button({ text, onClick, color }) {
   return (
@@ -20,7 +20,7 @@ Button.propTypes = {
   /**
    * How large should the button be?
    */
-  size: PropTypes.oneOf(["small", "medium", "large"]),
+  size: PropTypes.oneOf(['small', 'medium', 'large']),
   /**
    * Button contents
    */
@@ -28,13 +28,13 @@ Button.propTypes = {
   /**
    * Optional click handler
    */
-  onClick: PropTypes.func,
+  onClick: PropTypes.func
 };
 
 Button.defaultProps = {
   color: null,
   primary: false,
-  size: "medium",
+  size: 'medium',
   onClick: undefined,
-  color: "orange",
+  color: 'orange'
 };

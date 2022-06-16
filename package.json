@@ -15,7 +15,10 @@
     "postbuild": "npm pack && tar -xvzf *.tgz && rm -rf package *.tgz",
     "semantic-release": "semantic-release",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc"
   },
   "repository": {
     "type": "git",
@@ -50,8 +53,14 @@
     "babel-loader": "^8.2.5",
     "babel-plugin-module-resolver": "^4.1.0",
     "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
     "jest": "^28.1.1",
     "jest-environment-jsdom": "^28.1.1",
+    "prettier": "^2.7.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-test-renderer": "^16.11.0",
@@ -67,5 +76,18 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "dependencies": {
+    "@visx/axis": "^2.10.0",
+    "@visx/curve": "^2.1.0",
+    "@visx/gradient": "^2.10.0",
+    "@visx/grid": "^2.10.0",
+    "@visx/group": "^2.10.0",
+    "@visx/pattern": "^2.10.0",
+    "@visx/scale": "^2.2.2",
+    "@visx/shape": "^2.10.0",
+    "d3-array": "^3.1.6",
+    "moment": "^2.29.3",
+    "prop-types": "^15.8.1"
   }
 }
