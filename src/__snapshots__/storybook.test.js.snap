@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storyshots Tingle/Button Large 1`] = `
+<button
+  style={
+    Object {
+      "color": "orange",
+    }
+  }
+>
+  Button
+</button>
+`;
+
+exports[`Storyshots Tingle/Button Primary 1`] = `
+<button
+  style={
+    Object {
+      "color": "orange",
+    }
+  }
+>
+  Button
+</button>
+`;
+
+exports[`Storyshots Tingle/Button Secondary 1`] = `
+<button
+  style={
+    Object {
+      "color": "orange",
+    }
+  }
+>
+  Button
+</button>
+`;
+
+exports[`Storyshots Tingle/Button Small 1`] = `
+<button
+  style={
+    Object {
+      "color": "orange",
+    }
+  }
+>
+  Button
+</button>
+`;

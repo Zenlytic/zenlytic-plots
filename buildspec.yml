@@ -16,7 +16,7 @@ phases:
       - npm test
   post_build:
     commands:
-      - npm run docs:build
+      # - npm run docs:build
   cache:
     paths:
       - "node_modules/**/*"
