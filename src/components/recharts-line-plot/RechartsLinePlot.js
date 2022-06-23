@@ -127,69 +127,67 @@ function RechartsLinePlot({
   const data = lines[0];
   return (
     // <ResponsiveContainer width={300} height={100}>
-    <AreaChart
-      height={height}
-      width={width}
-      data={data}
-      // margin={PLOT_MARGIN}
-      onMouseDown={(e) => {
-        setIsDragging(true);
-        setRefAreaLeft(e.activeLabel);
-      }}
-      onMouseMove={(e) => {
-        if (refAreaLeft && isDragging) {
-          setRefAreaRight(e.activeLabel);
-          setClickTooltipCoords(e.activeCoordinate);
-        }
-      }}
-      // eslint-disable-next-line react/jsx-no-bind
-      onMouseUp={onBrushEnd}>
-      <defs>
-        <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-          <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-        </linearGradient>
-      </defs>
-      <CartesianGrid stroke="#f5f5f5" />
-      <XAxis
-        // angle={45}
-        // dx={15}
-        // dy={20}
-        height={70}
-        domain={['dataMin', 'dataMax']}
-        // tickCount={tickCount}
-        minTickGap={minTickGap}
-        dataKey={xAxisDataIndex}
-        interval={interval}
-        // tickFormatter={(timeStr) => formatValue(xAxisZenlyticFormat, timeStr)}
-      >
-        <Label value={xAxisLabel} offset={0} position="centerBottom" />
-      </XAxis>
-      <YAxis tickFormatter={(timeStr) => formatValue(yAxisZenlyticFormat, timeStr)}>
-        <Label value={yAxisLabel} offset={0} position="insideLeft" angle={-90} />
-      </YAxis>
-      {/* <Tooltip content={<CustomHoverTooltip />} />
-          <Tooltip position={clickTooltipCoords} content={<CustomTooltip />} /> */}
-      {/* <Brush dataKey={xAxisZenlyticFormat} height={30} stroke={plotColor} /> */}
-      <Legend />
-      <Area
-        type="monotone"
-        dataKey={yAxisDataIndex}
-        stroke={plotColor}
-        strokeWidth={2}
-        activeDot={{ r: 8 }}
-        fillOpacity={1}
-        fill="url(#colorUv)"
-      />
-      <ReferenceArea
-        x1={refAreaRight}
-        x2={refAreaLeft}
-        strokeOpacity={0.3}
-        isFront
-        stroke="gray"
-        alwaysShow
-      />
-    </AreaChart>
+    <div style={{ userSelect: 'none' }}>
+      <AreaChart
+        height={height}
+        width={width}
+        data={data}
+        // margin={PLOT_MARGIN}
+        onMouseDown={(e) => {
+          setIsDragging(true);
+          setRefAreaLeft(e.activeLabel);
+        }}
+        onMouseMove={(e) => {
+          if (refAreaLeft && isDragging) {
+            setRefAreaRight(e.activeLabel);
+            setClickTooltipCoords(e.activeCoordinate);
+          }
+        }}
+        // eslint-disable-next-line react/jsx-no-bind
+        onMouseUp={onBrushEnd}>
+        <defs>
+          <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <CartesianGrid stroke="#f5f5f5" />
+        <XAxis
+          height={70}
+          domain={['dataMin', 'dataMax']}
+          // tickCount={tickCount}
+          minTickGap={minTickGap}
+          dataKey={xAxisDataIndex}
+          interval={interval}
+          tickFormatter={(timeStr) => formatValue(xAxisZenlyticFormat, timeStr)}>
+          <Label value={xAxisLabel} offset={0} position="centerBottom" />
+        </XAxis>
+        <YAxis tickFormatter={(timeStr) => formatValue(yAxisZenlyticFormat, timeStr)}>
+          <Label value={yAxisLabel} offset={0} position="insideLeft" angle={-90} />
+        </YAxis>
+        {/* <Tooltip content={<CustomHoverTooltip />} />
+            <Tooltip position={clickTooltipCoords} content={<CustomTooltip />} /> */}
+        {/* <Brush dataKey={xAxisZenlyticFormat} height={30} stroke={plotColor} /> */}
+        <Legend />
+        <Area
+          type="monotone"
+          dataKey={yAxisDataIndex}
+          stroke={plotColor}
+          strokeWidth={2}
+          activeDot={{ r: 8 }}
+          fillOpacity={1}
+          fill="url(#colorUv)"
+        />
+        <ReferenceArea
+          x1={refAreaRight}
+          x2={refAreaLeft}
+          strokeOpacity={0.3}
+          isFront
+          stroke="gray"
+          alwaysShow
+        />
+      </AreaChart>
+    </div>
     // </ResponsiveContainer>
   );
 }
