@@ -19,67 +19,24 @@ import {
 import moment from 'moment';
 import formatValue from '../../utils/formatValue';
 import { PLOT_MARGIN } from '../../constants/plotConstants';
-
-// const data = [
-//   {
-//     name: 'Page A',
-//     uv: 4000,
-//     pv: 2400,
-//     amt: 2400,
-//   },
-//   {
-//     name: 'Page B',
-//     uv: 3000,
-//     pv: 1398,
-//     amt: 2210,
-//   },
-//   {
-//     name: 'Page C',
-//     uv: 2000,
-//     pv: 9800,
-//     amt: 2290,
-//   },
-//   {
-//     name: 'Page D',
-//     uv: 2780,
-//     pv: 3908,
-//     amt: 2000,
-//   },
-//   {
-//     name: 'Page E',
-//     uv: 1890,
-//     pv: 4800,
-//     amt: 2181,
-//   },
-//   {
-//     name: 'Page F',
-//     uv: 2390,
-//     pv: 3800,
-//     amt: 2500,
-//   },
-//   {
-//     name: 'Page G',
-//     uv: 3490,
-//     pv: 4300,
-//     amt: 2100,
-//   },
-// ];
+import getD3DataFormatter from '../../utils/getD3DataFormatter';
 
 function RechartsLinePlot({
-  lines,
-  xAxisDataIndex,
-  yAxisDataIndex,
-  xAxisZenlyticFormat,
-  yAxisZenlyticFormat,
-  xAxisLabel,
-  yAxisLabel,
-  plotColor,
+  plotColor = '#8a8a8a',
   width = 300,
   height = 300,
   tickCount = 5,
   minTickGap = 100,
   interval = 'preserveEnd',
+  xAxis = {},
+  yAxis = {},
+  data: lines,
+  margin = PLOT_MARGIN,
 }) {
+  console.log('🚀 ~ file: RechartsLinePlot.js ~ line 35 ~ lines', lines);
+  const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
+  const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
+
   const [refAreaLeft, setRefAreaLeft] = useState('');
   const [refAreaRight, setRefAreaRight] = useState('');
   const [isDragging, setIsDragging] = useState(false);
@@ -132,6 +89,7 @@ function RechartsLinePlot({
         height={height}
         width={width}
         data={data}
+        margin={margin}
         // margin={PLOT_MARGIN}
         onMouseDown={(e) => {
           setIsDragging(true);
@@ -147,31 +105,41 @@ function RechartsLinePlot({
         onMouseUp={onBrushEnd}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-            <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+            <stop offset="5%" stopColor={plotColor} stopOpacity={0.8} />
+            <stop offset="95%" stopColor={plotColor} stopOpacity={0} />
           </linearGradient>
         </defs>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis
-          height={70}
+          // height={70}
           domain={['dataMin', 'dataMax']}
           // tickCount={tickCount}
           minTickGap={minTickGap}
-          dataKey={xAxisDataIndex}
+          dataKey={xAxisKey}
           interval={interval}
-          tickFormatter={(timeStr) => formatValue(xAxisZenlyticFormat, timeStr)}>
-          <Label value={xAxisLabel} offset={0} position="centerBottom" />
+          tickFormatter={(timeStr) =>
+            formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr)
+          }>
+          <Label value={xAxisLabel} offset={-10} position="insideBottom" />
         </XAxis>
-        <YAxis tickFormatter={(timeStr) => formatValue(yAxisZenlyticFormat, timeStr)}>
-          <Label value={yAxisLabel} offset={0} position="insideLeft" angle={-90} />
+        <YAxis
+          tickFormatter={(timeStr) =>
+            formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
+          }>
+          <Label
+            value={yAxisLabel}
+            position="insideLeft"
+            angle={-90}
+            style={{ textAnchor: 'middle' }}
+          />
         </YAxis>
         {/* <Tooltip content={<CustomHoverTooltip />} />
             <Tooltip position={clickTooltipCoords} content={<CustomTooltip />} /> */}
         {/* <Brush dataKey={xAxisZenlyticFormat} height={30} stroke={plotColor} /> */}
-        <Legend />
+        {/* <Legend /> */}
         <Area
           type="monotone"
-          dataKey={yAxisDataIndex}
+          dataKey={yAxisKey}
           stroke={plotColor}
           strokeWidth={2}
           activeDot={{ r: 8 }}
