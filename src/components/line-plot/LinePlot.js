@@ -234,120 +234,118 @@ function LinePlot({
 
   if (width < 10) return null;
   return (
-    <>
-      <svg
-        width={width}
-        height={height}
-        ref={svgRef}
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        style={{ overflow: 'visible' }}>
-        <Group left={PLOT_MARGIN.left} top={PLOT_MARGIN.top}>
-          <LinearGradient
-            id="area-background-gradient"
-            from={backgroundColor}
-            to={backgroundColor}
-            rotate={45}
-          />
-          <GridColumns
-            scale={xScale}
-            height={innerHeight}
-            stroke={accentColor}
-            strokeOpacity={0.2}
-            pointerEvents="none"
-          />
-          <PatternLines
-            id={PATTERN_ID}
-            height={8}
-            width={8}
-            stroke={axisColor}
-            strokeWidth={2}
-            orientation={['diagonal']}
-          />
-          <AxisBottom
-            top={yMax}
-            scale={xScale}
-            numTicks={width < 700 ? 4 : null}
-            stroke={axisColor}
-            tickStroke={axisColor}
-            tickLabelProps={() => axisBottomTickLabelProps}
-            label={xAxisLabel}
-          />
-          <AxisLeft
-            scale={yScale}
-            numTicks={yAxisNumberOfTicks}
-            stroke={axisColor}
-            tickStroke={axisColor}
-            tickFormat={yScale.tickFormat(6, yAxisD3Format)}
-            label={yAxisLabel}
-            labelOffset={50}
-          />
-          {isSingleLine && (
-            <>
-              <LinearGradient
-                id={`area-gradient-${plotId}`}
-                from={plotColor}
-                to={null}
-                fromOpacity={1}
-                toOpacity={0.0}
-              />
-              <AreaClosed
-                data={lines[0]}
-                x={(d) => xScale(getXValue(d))}
-                y={(d) => yScale(getYValue(d))}
-                yScale={yScale}
-                fill={`url(#area-gradient-${plotId})`}
-                defined={(d) => getYValue(d) !== null}
-                curve={curve}
-              />
-            </>
-          )}
+    <svg
+      width={width}
+      height={height}
+      ref={svgRef}
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      style={{ overflow: 'visible' }}>
+      <Group left={PLOT_MARGIN.left} top={PLOT_MARGIN.top}>
+        <LinearGradient
+          id="area-background-gradient"
+          from={backgroundColor}
+          to={backgroundColor}
+          rotate={45}
+        />
+        <GridColumns
+          scale={xScale}
+          height={innerHeight}
+          stroke={accentColor}
+          strokeOpacity={0.2}
+          pointerEvents="none"
+        />
+        <PatternLines
+          id={PATTERN_ID}
+          height={8}
+          width={8}
+          stroke={axisColor}
+          strokeWidth={2}
+          orientation={['diagonal']}
+        />
+        <AxisBottom
+          top={yMax}
+          scale={xScale}
+          numTicks={width < 700 ? 4 : null}
+          stroke={axisColor}
+          tickStroke={axisColor}
+          tickLabelProps={() => axisBottomTickLabelProps}
+          label={xAxisLabel}
+        />
+        <AxisLeft
+          scale={yScale}
+          numTicks={yAxisNumberOfTicks}
+          stroke={axisColor}
+          tickStroke={axisColor}
+          tickFormat={yScale.tickFormat(6, yAxisD3Format)}
+          label={yAxisLabel}
+          labelOffset={50}
+        />
+        {isSingleLine && (
+          <>
+            <LinearGradient
+              id={`area-gradient-${plotId}`}
+              from={'green'}
+              to={null}
+              fromOpacity={1}
+              toOpacity={0.0}
+            />
+            <AreaClosed
+              data={lines[0]}
+              x={(d) => xScale(getXValue(d))}
+              y={(d) => yScale(getYValue(d))}
+              yScale={yScale}
+              fill={`url(#area-gradient-${plotId})`}
+              defined={(d) => getYValue(d) !== null}
+              curve={curve}
+            />
+          </>
+        )}
 
-          <Brush
-            xAxisZenlyticFormat={xAxisZenlyticFormat}
-            xScale={xScale}
-            yScale={yScale}
-            margin={PLOT_MARGIN}
-            useBrush={useBrush}
-            xMax={xMax}
-            yMax={yMax}
-            updateBrush={updateBrush}
-          />
-          <Lines
-            lines={lines}
-            xScale={xScale}
-            yScale={yScale}
-            getXValue={getXValue}
-            getYValue={getYValue}
-            xAxisDataIndex={xAxisDataIndex}
-            yAxisDataIndex={yAxisDataIndex}
-            plotId={plotId}
-            plotColor={plotColor}
-            categoryDataIndex={categoryDataIndex}
-            colorScale={colorScale}
-            onLineHover={handleOnLineHover}
-            onLineLeaveHover={handleOnLineLeaveHover}
-            curve={curve}
-          />
-        </Group>
-        <LegendOrdinal scale={colorScale} labelFormat={(label) => `${label.toUpperCase()}`}>
-          {(labels) => (
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              {labels.map((label, i) => (
-                <LegendItem key={`legend-quantile-${i}`} margin="0 5px">
-                  <svg width={15} height={15}>
-                    <rect fill={label.value} width={15} height={15} />
-                  </svg>
-                  <LegendLabel align="left" margin="0 0 0 4px">
-                    {label.text}
-                  </LegendLabel>
-                </LegendItem>
-              ))}
-            </div>
-          )}
-        </LegendOrdinal>
-      </svg>
-    </>
+        <Brush
+          xAxisZenlyticFormat={xAxisZenlyticFormat}
+          xScale={xScale}
+          yScale={yScale}
+          margin={PLOT_MARGIN}
+          useBrush={useBrush}
+          xMax={xMax}
+          yMax={yMax}
+          updateBrush={updateBrush}
+        />
+        <Lines
+          lines={lines}
+          xScale={xScale}
+          yScale={yScale}
+          getXValue={getXValue}
+          getYValue={getYValue}
+          xAxisDataIndex={xAxisDataIndex}
+          yAxisDataIndex={yAxisDataIndex}
+          plotId={plotId}
+          plotColor={'orange'}
+          categoryDataIndex={categoryDataIndex}
+          colorScale={colorScale}
+          onLineHover={handleOnLineHover}
+          onLineLeaveHover={handleOnLineLeaveHover}
+          curve={curve}
+        />
+      </Group>
+      <LegendOrdinal scale={colorScale} labelFormat={(label) => `${label.toUpperCase()}`}>
+        {(labels) => (
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            {labels.map((label, i) => (
+              <LegendItem key={`legend-quantile-${i}`} margin="0 5px">
+                <svg width={15} height={15}>
+                  <rect fill={label.value} width={15} height={15} />
+                </svg>
+                <LegendLabel align="left" margin="0 0 0 4px">
+                  {label.text}
+                </LegendLabel>
+              </LegendItem>
+            ))}
+          </div>
+        )}
+      </LegendOrdinal>
+    </svg>
   );
 }
 

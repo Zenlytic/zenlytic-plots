@@ -1,9 +1,9 @@
 import babel from 'rollup-plugin-babel';
-import commonjs from 'rollup-plugin-commonjs';
 import external from 'rollup-plugin-peer-deps-external';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser } from 'rollup-plugin-terser';
-import run from '@rollup/plugin-run';
+// import run from '@rollup/plugin-run';
+import commonjs from '@rollup/plugin-commonjs';
 
 import packageJSON from './package.json';
 const input = './src/index.js';
@@ -27,7 +27,7 @@ export default [
       external(),
       nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
       commonjs(),
-      dev && run(),
+      // dev && run(),
     ],
   },
   {
@@ -45,10 +45,10 @@ export default [
       nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
       commonjs(),
       terser(),
-      dev && run(),
+      // dev && run(),
     ],
   },
-  // UMD
+  // // UMD
   {
     input,
     output: {

@@ -1,0 +1,5314 @@
+{
+  "plotType": "waterfall",
+  "plotLabel": "Total Revenue",
+  "waterfallStart": {
+    "label": "2022-04-24 - 2022-05-23",
+    "value": 516151,
+    "valueLabel": "Total Revenue",
+    "count": 8573,
+    "countLabel": "Number of Orders"
+  },
+  "waterfallEnd": {
+    "label": "2022-05-24 - 2022-06-22",
+    "value": 493738.5,
+    "valueLabel": "Total Revenue",
+    "count": 5128,
+    "countLabel": "Number of Orders"
+  },
+  "otherDataValue": 0,
+  "bars": [
+    {
+      "id": "d0ace6435df83d666761437370e97e42",
+      "includeOnPlot": true,
+      "impact": -73693.5,
+      "pctImpact": 3.2880535416971806,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 184499.5,
+      "currentPeriodValue": 110806,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 3042,
+      "currentPeriodCount": 1861,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "7cb0d0a78553f3167dd5af5cd431c598",
+      "includeOnPlot": false,
+      "impact": 51281,
+      "pctImpact": -2.2880535416525625,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 331651.5,
+      "currentPeriodValue": 382932.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 5531,
+      "currentPeriodCount": 3267,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "83f8bd01b4768fe4668edfd77fa8b801",
+      "includeOnPlot": false,
+      "impact": -36750,
+      "pctImpact": 1.639709983341426,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 211423,
+      "currentPeriodValue": 174673,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 3856,
+      "currentPeriodCount": 2069,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "orange",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "orange",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "2ce126ead5cf33d6b32539d0799ac74a",
+      "includeOnPlot": false,
+      "impact": -32534,
+      "pctImpact": 1.4516006693341483,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 74942,
+      "currentPeriodValue": 42408,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1362,
+      "currentPeriodCount": 778,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "green",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "green",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "green",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "green",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "2bba3d3d149e9bcc0ef1e27e4554d649",
+      "includeOnPlot": false,
+      "impact": -29456,
+      "pctImpact": 1.314266592362042,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 57449.5,
+      "currentPeriodValue": 27993.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 814,
+      "currentPeriodCount": 431,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "721793fb2d48cd978b3e69f748060615",
+      "includeOnPlot": false,
+      "impact": -28897.5,
+      "pctImpact": 1.2893474624111254,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 152951,
+      "currentPeriodValue": 124053.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 2174,
+      "currentPeriodCount": 1262,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "12941c6e84461b13b7267d78c7c13285",
+      "includeOnPlot": true,
+      "impact": 25498,
+      "pctImpact": -1.1376687117072022,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 110928,
+      "currentPeriodValue": 136426,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1941,
+      "currentPeriodCount": 1144,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "pink",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "pink",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "1da5642049dc7fff9ee50a1df01934b0",
+      "includeOnPlot": false,
+      "impact": -24402.5,
+      "pctImpact": 1.088789737918072,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 64816.5,
+      "currentPeriodValue": 40414,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1076,
+      "currentPeriodCount": 677,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "0e248747deb75e5771ef428515780ba2",
+      "includeOnPlot": false,
+      "impact": 23807.5,
+      "pctImpact": -1.0622420524734966,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 116005,
+      "currentPeriodValue": 139812.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1947,
+      "currentPeriodCount": 1177,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "orange",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "orange",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "8fe5ffaa1966f60ec37ef9ea0eec3ef4",
+      "includeOnPlot": false,
+      "impact": -21004.5,
+      "pctImpact": 0.9371779141522444,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 49822.5,
+      "currentPeriodValue": 28818,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 590,
+      "currentPeriodCount": 354,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "green",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "green",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "green",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "green",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "84d614ad605e12c469a3351aeed42216",
+      "includeOnPlot": false,
+      "impact": -20071,
+      "pctImpact": 0.8955270496774357,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 58477.5,
+      "currentPeriodValue": 38406.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1029,
+      "currentPeriodCount": 663,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "648f516ec94f07d2d73caffc0d7ac898",
+      "includeOnPlot": false,
+      "impact": 19963,
+      "pctImpact": -0.8907083101345548,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 53027,
+      "currentPeriodValue": 72990,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 980,
+      "currentPeriodCount": 675,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "4e87c8652bb66f961a97f525cceef775",
+      "includeOnPlot": false,
+      "impact": 19920,
+      "pctImpact": -0.8887897379091485,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 86251.5,
+      "currentPeriodValue": 106171.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1032,
+      "currentPeriodCount": 658,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "pink",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "pink",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "5046f875a51863cc8ef37b3de35ad0c3",
+      "includeOnPlot": true,
+      "impact": 19425.5,
+      "pctImpact": -0.8667261573169761,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 93234.5,
+      "currentPeriodValue": 112660,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1660,
+      "currentPeriodCount": 966,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "red",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "red",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "e61cf9be7a02d4f4630b791f8278a18a",
+      "includeOnPlot": false,
+      "impact": -17052.5,
+      "pctImpact": 0.7608477412497868,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 37975,
+      "currentPeriodValue": 20922.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 617,
+      "currentPeriodCount": 350,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "orange",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "orange",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "f0948cab70a39f9c91bc0771ed4a94af",
+      "includeOnPlot": false,
+      "impact": -16997.5,
+      "pctImpact": 0.758393753519616,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 51213.5,
+      "currentPeriodValue": 34216,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 896,
+      "currentPeriodCount": 596,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "green",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "green",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "green",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "green",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "be3de9e4b654695a4e154e9186cd318a",
+      "includeOnPlot": false,
+      "impact": -16832,
+      "pctImpact": 0.7510094813497383,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 59822,
+      "currentPeriodValue": 42990,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 934,
+      "currentPeriodCount": 497,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "28389cdbeebfc01fed5ba7206b6c6279",
+      "includeOnPlot": false,
+      "impact": -16736.5,
+      "pctImpact": 0.7467484662909871,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 37816,
+      "currentPeriodValue": 21079.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 621,
+      "currentPeriodCount": 358,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "b67299f9b907e80cd1cfb7ebeb759b03",
+      "includeOnPlot": false,
+      "impact": 15614,
+      "pctImpact": -0.6966648076161368,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 55892,
+      "currentPeriodValue": 71506,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1025,
+      "currentPeriodCount": 643,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "pink",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "pink",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "10aac61379289072037f9149422d3a00",
+      "includeOnPlot": false,
+      "impact": -15502,
+      "pctImpact": 0.6916675962383343,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 43892,
+      "currentPeriodValue": 28390,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 728,
+      "currentPeriodCount": 476,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "29293ce6a1be6cfbc35460b934bd80e3",
+      "includeOnPlot": false,
+      "impact": 15027,
+      "pctImpact": -0.6704740658414043,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 64001,
+      "currentPeriodValue": 79028,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1074,
+      "currentPeriodCount": 658,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "orange",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "orange",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "2edf9fc8130fa3cef949707b58070771",
+      "includeOnPlot": false,
+      "impact": -11772,
+      "pctImpact": 0.5252426101740209,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 53084,
+      "currentPeriodValue": 41312,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 959,
+      "currentPeriodCount": 497,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "green",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "green",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "green",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "green",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "7d069da93627069ef11750ae8246ae17",
+      "includeOnPlot": false,
+      "impact": -11481,
+      "pctImpact": 0.5122587841834806,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 61870,
+      "currentPeriodValue": 50389,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1192,
+      "currentPeriodCount": 625,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "e033a8c72cdb468bea5f0b288d26743b",
+      "includeOnPlot": false,
+      "impact": -10729,
+      "pctImpact": 0.47870607921823566,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 37661.5,
+      "currentPeriodValue": 26932.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 532,
+      "currentPeriodCount": 286,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "1060ba4c15f087132b0020da08bad6ca",
+      "includeOnPlot": false,
+      "impact": -10472,
+      "pctImpact": 0.46723926382452824,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 29989,
+      "currentPeriodValue": 19517,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 547,
+      "currentPeriodCount": 361,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "pink",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "pink",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "fd01f0c90d030a8cd64ec5361707e36a",
+      "includeOnPlot": false,
+      "impact": -10111.5,
+      "pctImpact": 0.45115448970222666,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 128861.5,
+      "currentPeriodValue": 118750,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 2135,
+      "currentPeriodCount": 1250,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        }
+      ]
+    },
+    {
+      "id": "4ceaeb528a220cdd0303108caa8dfd53",
+      "includeOnPlot": false,
+      "impact": -9683,
+      "pctImpact": 0.4320356943862593,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 29746,
+      "currentPeriodValue": 20063,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 543,
+      "currentPeriodCount": 368,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "orange",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "New",
+            "columnColorTag": "orange",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "orange",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "New",
+          "columnColorTag": "orange",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "319d633551191b9a1de5df3037257e90",
+      "includeOnPlot": false,
+      "impact": -9680.5,
+      "pctImpact": 0.4319241494894333,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 104492,
+      "currentPeriodValue": 94811.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1724,
+      "currentPeriodCount": 1016,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "green",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "green",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        }
+      ]
+    },
+    {
+      "id": "ad97115df92139efd9686964e01bb3f9",
+      "includeOnPlot": false,
+      "impact": 9491,
+      "pctImpact": -0.4234690463100265,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 83016,
+      "currentPeriodValue": 92507,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1527,
+      "currentPeriodCount": 1036,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "42c254159736adcd5aae161b6413d56b",
+      "includeOnPlot": false,
+      "impact": -9337,
+      "pctImpact": 0.41659788066554815,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 74154,
+      "currentPeriodValue": 64817,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1365,
+      "currentPeriodCount": 754,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "e41b2694b21484f050aa73792aef7cf4",
+      "includeOnPlot": false,
+      "impact": -8074,
+      "pctImpact": 0.3602453987890796,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 42848,
+      "currentPeriodValue": 34774,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 783,
+      "currentPeriodCount": 397,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "pink",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "pink",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "pink",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "pink",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "5af6742056620c47456ea7eb447ee0f2",
+      "includeOnPlot": false,
+      "impact": -7894.5,
+      "pctImpact": 0.35223647519697654,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 52952.5,
+      "currentPeriodValue": 45058,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 760,
+      "currentPeriodCount": 461,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "red",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "red",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "1f81e6a06155afb534d3b771264dcb8b",
+      "includeOnPlot": false,
+      "impact": -7567,
+      "pctImpact": 0.3376240937127774,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 41337,
+      "currentPeriodValue": 33770,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 749,
+      "currentPeriodCount": 421,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "orange",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "orange",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "aafc26350eb19d282417e8d698874b30",
+      "includeOnPlot": false,
+      "impact": -7183.5,
+      "pctImpact": 0.32051310653967713,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 42303,
+      "currentPeriodValue": 35119.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 433,
+      "currentPeriodCount": 260,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "green",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "green",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "green",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "green",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "1d5cce401e5a36b2fb52180e9ae8f474",
+      "includeOnPlot": false,
+      "impact": 7056,
+      "pctImpact": -0.3148243168015538,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 66676,
+      "currentPeriodValue": 73732,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1103,
+      "currentPeriodCount": 658,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "dedf50f2c1eca45de075ca33b368e86d",
+      "includeOnPlot": false,
+      "impact": -6687,
+      "pctImpact": 0.29836029003004394,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 31370.5,
+      "currentPeriodValue": 24683.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 446,
+      "currentPeriodCount": 259,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "9956e827174d7e809620965dce7b3275",
+      "includeOnPlot": false,
+      "impact": 6656,
+      "pctImpact": -0.29697713330940223,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 20817.5,
+      "currentPeriodValue": 27473.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 350,
+      "currentPeriodCount": 220,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "CelebTrends_Email",
+            "columnColorTag": "pink",
+            "columnId": "orders.CAMPAIGN"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "CelebTrends_Email",
+          "columnColorTag": "pink",
+          "columnId": "orders.CAMPAIGN"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "33e81a0745e7169e4b6829556c0d49d1",
+      "includeOnPlot": false,
+      "impact": 6527,
+      "pctImpact": -0.29122141663318335,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 26030,
+      "currentPeriodValue": 32557,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 507,
+      "currentPeriodCount": 359,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "red",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "red",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "red",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "red",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "9faaf192875c79ce1dce36c634cc760b",
+      "includeOnPlot": false,
+      "impact": -6273,
+      "pctImpact": 0.27988845511566707,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 24803.5,
+      "currentPeriodValue": 18530.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 408,
+      "currentPeriodCount": 218,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "CabinSummerVideo_TikTok",
+            "columnColorTag": "orange",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "CabinSummerVideo_TikTok",
+          "columnColorTag": "orange",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "97698bbdd87dbe139171af7c5ecf80ed",
+      "includeOnPlot": false,
+      "impact": -6273,
+      "pctImpact": 0.27988845511566707,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 24803.5,
+      "currentPeriodValue": 18530.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 408,
+      "currentPeriodCount": 218,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "green",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "CabinSummerVideo_TikTok",
+            "columnColorTag": "green",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "green",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "CabinSummerVideo_TikTok",
+          "columnColorTag": "green",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "22d022a8ea2f6db539f5ff88b620cdb5",
+      "includeOnPlot": false,
+      "impact": -6219,
+      "pctImpact": 0.2774790853442266,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 43868,
+      "currentPeriodValue": 37649,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 726,
+      "currentPeriodCount": 410,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Social Network",
+            "columnValue": "Facebook",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.SOCIAL_NETWORK"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Social Network",
+          "columnValue": "Facebook",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.SOCIAL_NETWORK"
+        }
+      ]
+    },
+    {
+      "id": "58b138f1a77ae7ac701d329731110046",
+      "includeOnPlot": false,
+      "impact": -6219,
+      "pctImpact": 0.2774790853442266,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 43868,
+      "currentPeriodValue": 37649,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 726,
+      "currentPeriodCount": 410,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Social Network",
+            "columnValue": "Facebook",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.SOCIAL_NETWORK"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Social Network",
+          "columnValue": "Facebook",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.SOCIAL_NETWORK"
+        }
+      ]
+    },
+    {
+      "id": "3c5ab28196cb470ff12fe117e57d06e1",
+      "includeOnPlot": false,
+      "impact": 6099.5,
+      "pctImpact": -0.27214723927594636,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 30538.5,
+      "currentPeriodValue": 36638,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 512,
+      "currentPeriodCount": 306,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "ForeverYoung_FB",
+            "columnColorTag": "pink",
+            "columnId": "orders.CAMPAIGN"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "ForeverYoung_FB",
+          "columnColorTag": "pink",
+          "columnId": "orders.CAMPAIGN"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "4ed77154a980355119601376921e885f",
+      "includeOnPlot": false,
+      "impact": 5931,
+      "pctImpact": -0.2646291132298775,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 85638,
+      "currentPeriodValue": 91569,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1568,
+      "currentPeriodCount": 1011,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "red",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "red",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "fa8815103f73e5b7fd8518f0b7958e96",
+      "includeOnPlot": true,
+      "impact": 5799,
+      "pctImpact": -0.25873954267746746,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 31987.5,
+      "currentPeriodValue": 37786.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 570,
+      "currentPeriodCount": 326,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "orange",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Watering Spritz",
+            "columnColorTag": "orange",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "orange",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Watering Spritz",
+          "columnColorTag": "orange",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "c44b1cdc9aa6f82ff1d253aa93aa5cc7",
+      "includeOnPlot": false,
+      "impact": 5730,
+      "pctImpact": -0.2556609035250713,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 27967,
+      "currentPeriodValue": 33697,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 520,
+      "currentPeriodCount": 369,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "green",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "green",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "green",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "green",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "1106a168d463f9f0c896ba64b4677413",
+      "includeOnPlot": false,
+      "impact": 5582,
+      "pctImpact": -0.24905744563297524,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 28264,
+      "currentPeriodValue": 33846,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 548,
+      "currentPeriodCount": 360,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "da8297e794e91098727abed7145f77b9",
+      "includeOnPlot": false,
+      "impact": 5427,
+      "pctImpact": -0.2421416620297665,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 169405.5,
+      "currentPeriodValue": 174832.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 2970,
+      "currentPeriodCount": 1807,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "7ad6a6aed2778a818ceaa68e3cf838c3",
+      "includeOnPlot": false,
+      "impact": 5390.5,
+      "pctImpact": -0.24051310653610766,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 84969.5,
+      "currentPeriodValue": 90360,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1407,
+      "currentPeriodCount": 774,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "pink",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "pink",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "pink",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "pink",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "bbceb7ae1788ae6aa43a02c779bed5fc",
+      "includeOnPlot": false,
+      "impact": 5260,
+      "pctImpact": -0.2346904629217932,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 24476,
+      "currentPeriodValue": 29736,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 476,
+      "currentPeriodCount": 343,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "red",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "red",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "red",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "red",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "4dc9fd37fe4632396b557968866e10e3",
+      "includeOnPlot": false,
+      "impact": 5082,
+      "pctImpact": -0.22674846626778578,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 28590,
+      "currentPeriodValue": 33672,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 535,
+      "currentPeriodCount": 373,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "orange",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "orange",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "9dfe686b206a597a8adcdbc85305dc3f",
+      "includeOnPlot": false,
+      "impact": -5046,
+      "pctImpact": 0.22514221975349213,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 33070,
+      "currentPeriodValue": 28024,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 545,
+      "currentPeriodCount": 296,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PlantFriends_Insta",
+            "columnColorTag": "green",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PlantFriends_Insta",
+          "columnColorTag": "green",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "0c00902c410305ba8bd7a34ee215fdde",
+      "includeOnPlot": false,
+      "impact": -5046,
+      "pctImpact": 0.22514221975349213,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 33070,
+      "currentPeriodValue": 28024,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 545,
+      "currentPeriodCount": 296,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PlantFriends_Insta",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PlantFriends_Insta",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "aec911db50d5d72531f7f9afc053dd0e",
+      "includeOnPlot": false,
+      "impact": 4821,
+      "pctImpact": -0.21510317903915688,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 35790,
+      "currentPeriodValue": 40611,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 455,
+      "currentPeriodCount": 299,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "14eccb84dc82492c2f4533b5a447ab58",
+      "includeOnPlot": false,
+      "impact": 4587,
+      "pctImpact": -0.20466257669624818,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 19931,
+      "currentPeriodValue": 24518,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 366,
+      "currentPeriodCount": 271,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "pink",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "pink",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "pink",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "pink",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "91414da6158d2472f2e6e09af08a1dff",
+      "includeOnPlot": false,
+      "impact": -4216,
+      "pctImpact": 0.1881093140072776,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 136481,
+      "currentPeriodValue": 132265,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 2494,
+      "currentPeriodCount": 1291,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "red",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "red",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "d28a1218c71536bab07584bbab68676f",
+      "includeOnPlot": false,
+      "impact": 4059.5,
+      "pctImpact": -0.1811266034659733,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 60167,
+      "currentPeriodValue": 64226.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1054,
+      "currentPeriodCount": 634,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "orange",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "orange",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "5042684c96a31744ec53726813a31a92",
+      "includeOnPlot": false,
+      "impact": 3828,
+      "pctImpact": -0.17079754601989058,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 22312,
+      "currentPeriodValue": 26140,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 433,
+      "currentPeriodCount": 295,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "green",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "green",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "green",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "green",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "d6488225dea788396fcb835314affafc",
+      "includeOnPlot": false,
+      "impact": -3804.5,
+      "pctImpact": 0.16974902398972666,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 26292.5,
+      "currentPeriodValue": 22488,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 435,
+      "currentPeriodCount": 244,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PennStPlants_FB",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PennStPlants_FB",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "8f93bfd45c9b3a8a4e0831798b4c32ab",
+      "includeOnPlot": false,
+      "impact": -3804.5,
+      "pctImpact": 0.16974902398972666,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 26292.5,
+      "currentPeriodValue": 22488,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 435,
+      "currentPeriodCount": 244,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PennStPlants_FB",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PennStPlants_FB",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "cd1709d81ef34d718963519cddf3f673",
+      "includeOnPlot": false,
+      "impact": -3612,
+      "pctImpact": 0.16116006693412874,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 46321.5,
+      "currentPeriodValue": 42709.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 587,
+      "currentPeriodCount": 335,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "pink",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "pink",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "pink",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "pink",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "3fc2321d12579a1c49d542c46baf8141",
+      "includeOnPlot": false,
+      "impact": -3588,
+      "pctImpact": 0.16008923592459964,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 23061,
+      "currentPeriodValue": 19473,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 420,
+      "currentPeriodCount": 233,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "red",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "red",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "35cf22e0e7ef661d907c7ca614c54229",
+      "includeOnPlot": false,
+      "impact": -3587,
+      "pctImpact": 0.16004461796586925,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 30966.5,
+      "currentPeriodValue": 27379.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 436,
+      "currentPeriodCount": 256,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "orange",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "orange",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "3bd0e70e4d5e64adab24c62db9152c55",
+      "includeOnPlot": false,
+      "impact": -3456,
+      "pctImpact": 0.15419966537218963,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 35677.5,
+      "currentPeriodValue": 32221.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 587,
+      "currentPeriodCount": 333,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PlantNewsletter",
+            "columnColorTag": "green",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PlantNewsletter",
+          "columnColorTag": "green",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "716c76ebbe54c172eefb39a8ec6ff8b3",
+      "includeOnPlot": false,
+      "impact": -3456,
+      "pctImpact": 0.15419966537218963,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 35677.5,
+      "currentPeriodValue": 32221.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 587,
+      "currentPeriodCount": 333,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PlantNewsletter",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PlantNewsletter",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "9393a14504d05654cc9d04682bba3c9d",
+      "includeOnPlot": false,
+      "impact": 3252.5,
+      "pctImpact": -0.1451199107705575,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 26365.5,
+      "currentPeriodValue": 29618,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 466,
+      "currentPeriodCount": 301,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "53445c0bdb37469e7fd2ce7d92ded096",
+      "includeOnPlot": false,
+      "impact": -3070,
+      "pctImpact": 0.13697713330226335,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 68790,
+      "currentPeriodValue": 65720,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1328,
+      "currentPeriodCount": 753,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/our-sustainability-values",
+            "columnColorTag": "pink",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "pink",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/our-sustainability-values",
+          "columnColorTag": "pink",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "pink",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "b5b660418f4cbc4093741c32c8c054d6",
+      "includeOnPlot": false,
+      "impact": 3005,
+      "pctImpact": -0.13407696598478872,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 25197,
+      "currentPeriodValue": 28202,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 424,
+      "currentPeriodCount": 254,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "GrowTogether_FB",
+            "columnColorTag": "red",
+            "columnId": "orders.CAMPAIGN"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "GrowTogether_FB",
+          "columnColorTag": "red",
+          "columnId": "orders.CAMPAIGN"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "778efc1297d66a118a74a5a9b1428170",
+      "includeOnPlot": false,
+      "impact": -2921,
+      "pctImpact": 0.13032905745143689,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 32085.5,
+      "currentPeriodValue": 29164.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 521,
+      "currentPeriodCount": 305,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "TrendyPlants_Snap",
+            "columnColorTag": "orange",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "TrendyPlants_Snap",
+          "columnColorTag": "orange",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "d476544e1a03201fd641e030616ad87a",
+      "includeOnPlot": false,
+      "impact": -2921,
+      "pctImpact": 0.13032905745143689,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 32085.5,
+      "currentPeriodValue": 29164.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 521,
+      "currentPeriodCount": 305,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "TrendyPlants_Snap",
+            "columnColorTag": "green",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "TrendyPlants_Snap",
+          "columnColorTag": "green",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "61641883750566c1bf59bee6966c7404",
+      "includeOnPlot": false,
+      "impact": -2824,
+      "pctImpact": 0.1260011154545901,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 26415,
+      "currentPeriodValue": 23591,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 421,
+      "currentPeriodCount": 266,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "e5d4e6388adb950e211459c22d8a149d",
+      "includeOnPlot": false,
+      "impact": 2640.5,
+      "pctImpact": -0.11781372002756559,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 32341,
+      "currentPeriodValue": 34981.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 569,
+      "currentPeriodCount": 361,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "ee9000329e96eb999f0507e308490526",
+      "includeOnPlot": false,
+      "impact": 2428,
+      "pctImpact": -0.10833240379736006,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 144448,
+      "currentPeriodValue": 146876,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 2556,
+      "currentPeriodCount": 1562,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "pink",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "pink",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "4fbb94c246346ce06b921bcf7a392583",
+      "includeOnPlot": false,
+      "impact": 2137.5,
+      "pctImpact": -0.09537088678618498,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 23351,
+      "currentPeriodValue": 25488.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 388,
+      "currentPeriodCount": 222,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PlantNewsletter",
+            "columnColorTag": "red",
+            "columnId": "orders.CAMPAIGN"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PlantNewsletter",
+          "columnColorTag": "red",
+          "columnId": "orders.CAMPAIGN"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        }
+      ]
+    },
+    {
+      "id": "ced6afc77a879407940158d6d9234083",
+      "includeOnPlot": false,
+      "impact": -2127.5,
+      "pctImpact": 0.09492470719888119,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 31195,
+      "currentPeriodValue": 29067.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 516,
+      "currentPeriodCount": 300,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Social Network",
+            "columnValue": "Instagram",
+            "columnColorTag": "orange",
+            "columnId": "orders.SOCIAL_NETWORK"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Social Network",
+          "columnValue": "Instagram",
+          "columnColorTag": "orange",
+          "columnId": "orders.SOCIAL_NETWORK"
+        }
+      ]
+    },
+    {
+      "id": "5918be5b7a6c742884ce55fd641f6c2e",
+      "includeOnPlot": false,
+      "impact": -2127.5,
+      "pctImpact": 0.09492470719888119,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 31195,
+      "currentPeriodValue": 29067.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 516,
+      "currentPeriodCount": 300,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "green",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Social Network",
+            "columnValue": "Instagram",
+            "columnColorTag": "green",
+            "columnId": "orders.SOCIAL_NETWORK"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "green",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Social Network",
+          "columnValue": "Instagram",
+          "columnColorTag": "green",
+          "columnId": "orders.SOCIAL_NETWORK"
+        }
+      ]
+    },
+    {
+      "id": "b49187706a1fb2313566d6510a0ece87",
+      "includeOnPlot": false,
+      "impact": -2070,
+      "pctImpact": 0.0923591745718844,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 50110.5,
+      "currentPeriodValue": 48040.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 603,
+      "currentPeriodCount": 358,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "650f87c59824f51317cb99e294828dd3",
+      "includeOnPlot": false,
+      "impact": -2058,
+      "pctImpact": 0.09182375906711986,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 24411,
+      "currentPeriodValue": 22353,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 386,
+      "currentPeriodCount": 239,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/nyc-locals",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/nyc-locals",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "ae3f1ffd9bc8f716ff71b92bea7ec133",
+      "includeOnPlot": false,
+      "impact": -2025.5,
+      "pctImpact": 0.09037367540838254,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 101976,
+      "currentPeriodValue": 99950.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1691,
+      "currentPeriodCount": 1008,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "pink",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "pink",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        }
+      ]
+    },
+    {
+      "id": "65f09c5ee017db46afbd5667de2d09db",
+      "includeOnPlot": false,
+      "impact": -1739,
+      "pctImpact": 0.07759063023212898,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 29201.5,
+      "currentPeriodValue": 27462.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 505,
+      "currentPeriodCount": 302,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "red",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "red",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "5550d2a0698d79d7d246f25df10fc684",
+      "includeOnPlot": false,
+      "impact": -1713.5,
+      "pctImpact": 0.07645287228450431,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 39336.5,
+      "currentPeriodValue": 37623,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 658,
+      "currentPeriodCount": 415,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "GrowTogether_FB",
+            "columnColorTag": "orange",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "GrowTogether_FB",
+          "columnColorTag": "orange",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "1ef8703de7b8fd7f766ab79af9764313",
+      "includeOnPlot": false,
+      "impact": -1713.5,
+      "pctImpact": 0.07645287228450431,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 39336.5,
+      "currentPeriodValue": 37623,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 658,
+      "currentPeriodCount": 415,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "GrowTogether_FB",
+            "columnColorTag": "green",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "GrowTogether_FB",
+          "columnColorTag": "green",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "9c5c34b8bb759e04b82e320a7b446aca",
+      "includeOnPlot": false,
+      "impact": -1516,
+      "pctImpact": 0.06764082543525447,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 34731.5,
+      "currentPeriodValue": 33215.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 612,
+      "currentPeriodCount": 357,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "0cc95935ca13b028412598f3d5173fe5",
+      "includeOnPlot": false,
+      "impact": 1395.5,
+      "pctImpact": -0.06226436140824381,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 51947.5,
+      "currentPeriodValue": 53343,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 929,
+      "currentPeriodCount": 576,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "11fe7a997a1f8b585127dd586f57a35e",
+      "includeOnPlot": false,
+      "impact": -1370,
+      "pctImpact": 0.06112660346061915,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 49346.5,
+      "currentPeriodValue": 47976.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 873,
+      "currentPeriodCount": 497,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Watering Spritz",
+            "columnColorTag": "pink",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Watering Spritz",
+          "columnColorTag": "pink",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "491f9324f07070629dcfd5af17980559",
+      "includeOnPlot": false,
+      "impact": 1249.5,
+      "pctImpact": -0.05575013943360849,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 28057,
+      "currentPeriodValue": 29306.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 466,
+      "currentPeriodCount": 267,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "red",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Social Network",
+            "columnValue": "Facebook",
+            "columnColorTag": "red",
+            "columnId": "orders.SOCIAL_NETWORK"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "red",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Social Network",
+          "columnValue": "Facebook",
+          "columnColorTag": "red",
+          "columnId": "orders.SOCIAL_NETWORK"
+        }
+      ]
+    },
+    {
+      "id": "da4d7bff45c2f85a587fa8f61dadd9bb",
+      "includeOnPlot": false,
+      "impact": -1084.5,
+      "pctImpact": 0.04838817624309596,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 136074,
+      "currentPeriodValue": 134989.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1622,
+      "currentPeriodCount": 1012,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "orange",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "orange",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "efb9ed85beca1ea5e5dc0e8540a0e6cf",
+      "includeOnPlot": false,
+      "impact": 757.5,
+      "pctImpact": -0.033798103738262045,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 33793,
+      "currentPeriodValue": 34550.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 565,
+      "currentPeriodCount": 341,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "CelebTrends_Email",
+            "columnColorTag": "green",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "CelebTrends_Email",
+          "columnColorTag": "green",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "08bc45f6a49cd4dbe792e9948dcef3fa",
+      "includeOnPlot": false,
+      "impact": 757.5,
+      "pctImpact": -0.033798103738262045,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 33793,
+      "currentPeriodValue": 34550.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 565,
+      "currentPeriodCount": 341,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "CelebTrends_Email",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "CelebTrends_Email",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "46b24d9fdf376b68a67b0a96c701d874",
+      "includeOnPlot": false,
+      "impact": 673,
+      "pctImpact": -0.030027886225545027,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 32505.5,
+      "currentPeriodValue": 33178.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 539,
+      "currentPeriodCount": 334,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PlantNewsletterNew",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PlantNewsletterNew",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "9a85ab60598b8775c824191d590a326a",
+      "includeOnPlot": false,
+      "impact": 673,
+      "pctImpact": -0.030027886225545027,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 32505.5,
+      "currentPeriodValue": 33178.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 539,
+      "currentPeriodCount": 334,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Email",
+            "columnColorTag": "pink",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "PlantNewsletterNew",
+            "columnColorTag": "pink",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Email",
+          "columnColorTag": "pink",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "PlantNewsletterNew",
+          "columnColorTag": "pink",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "05b55221d80278142d12866472a39cbe",
+      "includeOnPlot": false,
+      "impact": 661.5,
+      "pctImpact": -0.02951477970014567,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 32785.5,
+      "currentPeriodValue": 33447,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 390,
+      "currentPeriodCount": 249,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/twitter-vase-campaign-landing",
+            "columnColorTag": "red",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/twitter-vase-campaign-landing",
+          "columnColorTag": "red",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    },
+    {
+      "id": "3aa30e59dd78c6f923c28ed65b8e567e",
+      "includeOnPlot": false,
+      "impact": -626,
+      "pctImpact": 0.027930842165217216,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 47942.5,
+      "currentPeriodValue": 47316.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 802,
+      "currentPeriodCount": 484,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "ForeverYoung_FB",
+            "columnColorTag": "orange",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "ForeverYoung_FB",
+          "columnColorTag": "orange",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "f93cfd26914a8ff555c9bb077921461b",
+      "includeOnPlot": false,
+      "impact": -626,
+      "pctImpact": 0.027930842165217216,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 47942.5,
+      "currentPeriodValue": 47316.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 802,
+      "currentPeriodCount": 484,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "green",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Campaign",
+            "columnValue": "ForeverYoung_FB",
+            "columnColorTag": "green",
+            "columnId": "orders.CAMPAIGN"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Campaign",
+          "columnValue": "ForeverYoung_FB",
+          "columnColorTag": "green",
+          "columnId": "orders.CAMPAIGN"
+        }
+      ]
+    },
+    {
+      "id": "492539914c7d597ae275be03d5c0f2d5",
+      "includeOnPlot": false,
+      "impact": -595,
+      "pctImpact": 0.026547685444575468,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 180821.5,
+      "currentPeriodValue": 180226.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 3023,
+      "currentPeriodCount": 1854,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "light_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Organic",
+            "columnColorTag": "light_blue",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Organic",
+          "columnColorTag": "light_blue",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        }
+      ]
+    },
+    {
+      "id": "603a5a5ca8ca78b8e10569b69eb82d70",
+      "includeOnPlot": true,
+      "impact": 558.5,
+      "pctImpact": -0.02491912995091664,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 95501.5,
+      "currentPeriodValue": 96060,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 1360,
+      "currentPeriodCount": 831,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "dark_blue",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "New Vs Repeat",
+            "columnValue": "Repeat",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.NEW_VS_REPEAT"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Lil Cactus",
+            "columnColorTag": "dark_blue",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "New Vs Repeat",
+          "columnValue": "Repeat",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.NEW_VS_REPEAT"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Lil Cactus",
+          "columnColorTag": "dark_blue",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "ad97c1dd5814dff7671330446c11b938",
+      "includeOnPlot": false,
+      "impact": -481,
+      "pctImpact": 0.02146123814931227,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 36933.5,
+      "currentPeriodValue": 36452.5,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 656,
+      "currentPeriodCount": 383,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "pink",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "pink",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Glass Vase",
+            "columnColorTag": "pink",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "pink",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Glass Vase",
+          "columnColorTag": "pink",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "e10bf5d7c67ea94a618ae3489091718c",
+      "includeOnPlot": false,
+      "impact": 243,
+      "pctImpact": -0.010842163971482082,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 42166,
+      "currentPeriodValue": 42409,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 735,
+      "currentPeriodCount": 455,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "red",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Paid",
+            "columnColorTag": "red",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Product",
+            "columnValue": "Airplant holder",
+            "columnColorTag": "red",
+            "columnId": "orders.PRODUCT"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Paid",
+          "columnColorTag": "red",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Product",
+          "columnValue": "Airplant holder",
+          "columnColorTag": "red",
+          "columnId": "orders.PRODUCT"
+        }
+      ]
+    },
+    {
+      "id": "4020d44ca4c722539fe06d586f09aad3",
+      "includeOnPlot": false,
+      "impact": -28,
+      "pctImpact": 0.0012493028444506102,
+      "valueFormatter": "usd",
+      "valueLabel": "Total Revenue",
+      "previousPeriodValue": 19107,
+      "currentPeriodValue": 19079,
+      "countLabel": "Number of Orders",
+      "previousPeriodCount": 344,
+      "currentPeriodCount": 216,
+      "questionTypes": [
+        "explain_change",
+        "compare",
+        "what",
+        "top_percentile",
+        "bottom_percentile",
+        "who_are_they"
+      ],
+      "group": {
+        "exploreName": "orders",
+        "colorTag": "orange",
+        "itemsets": [
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Acquisition Channel",
+            "columnValue": "Social",
+            "columnColorTag": "orange",
+            "columnId": "orders.ACQUISITION_CHANNEL"
+          },
+          {
+            "type": "COLUMN_VALUE",
+            "columnName": "Last Viewed Page",
+            "columnValue": "/customer-plant-stories",
+            "columnColorTag": "orange",
+            "columnId": "orders.LAST_VIEWED_PAGE"
+          }
+        ]
+      },
+      "itemsets": [
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Acquisition Channel",
+          "columnValue": "Social",
+          "columnColorTag": "orange",
+          "columnId": "orders.ACQUISITION_CHANNEL"
+        },
+        {
+          "type": "COLUMN_VALUE",
+          "columnName": "Last Viewed Page",
+          "columnValue": "/customer-plant-stories",
+          "columnColorTag": "orange",
+          "columnId": "orders.LAST_VIEWED_PAGE"
+        }
+      ]
+    }
+  ]
+}
