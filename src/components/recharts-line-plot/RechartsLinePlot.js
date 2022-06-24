@@ -32,6 +32,7 @@ function RechartsLinePlot({
   yAxis = {},
   data: lines,
   margin = PLOT_MARGIN,
+  CustomHoverTooltip = undefined,
 }) {
   console.log('🚀 ~ file: RechartsLinePlot.js ~ line 35 ~ lines', lines);
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
@@ -114,6 +115,7 @@ function RechartsLinePlot({
           // height={70}
           domain={['dataMin', 'dataMax']}
           // tickCount={tickCount}
+          name={xAxisLabel}
           minTickGap={minTickGap}
           dataKey={xAxisKey}
           interval={interval}
@@ -125,7 +127,8 @@ function RechartsLinePlot({
         <YAxis
           tickFormatter={(timeStr) =>
             formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
-          }>
+          }
+          name={yAxisLabel}>
           <Label
             value={yAxisLabel}
             position="insideLeft"
@@ -133,6 +136,11 @@ function RechartsLinePlot({
             style={{ textAnchor: 'middle' }}
           />
         </YAxis>
+        <Tooltip
+          content={CustomHoverTooltip}
+          formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
+          labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
+        />
         {/* <Tooltip content={<CustomHoverTooltip />} />
             <Tooltip position={clickTooltipCoords} content={<CustomTooltip />} /> */}
         {/* <Brush dataKey={xAxisZenlyticFormat} height={30} stroke={plotColor} /> */}
@@ -145,6 +153,7 @@ function RechartsLinePlot({
           activeDot={{ r: 8 }}
           fillOpacity={1}
           fill="url(#colorUv)"
+          name={yAxisLabel}
         />
         <ReferenceArea
           x1={refAreaRight}
