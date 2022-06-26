@@ -56,7 +56,6 @@ function WaterfallPlot(props) {
      Z`;
 
   const TriangleBar = (props) => {
-    console.log('🚀 ~ file: WaterfallPlot.js ~ line 59 ~ TriangleBar ~ props', props);
     const { fill, x, y, width, height, uv, t, name } = props;
 
     let totalHeight = y + height;

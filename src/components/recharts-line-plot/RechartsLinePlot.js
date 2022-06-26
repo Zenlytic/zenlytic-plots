@@ -16,10 +16,31 @@ import {
   Area,
   ReferenceArea,
 } from 'recharts';
+import OutsideClickHandler from 'react-outside-click-handler';
+
 import moment from 'moment';
 import formatValue from '../../utils/formatValue';
 import { PLOT_MARGIN } from '../../constants/plotConstants';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
+
+function TooltipHandler(props) {
+  const {
+    isClickTooltipVisible,
+    CustomHoverTooltip,
+    CustomClickTooltip,
+    active,
+    closeClickTooltip,
+  } = props;
+  if (isClickTooltipVisible) {
+    return (
+      <OutsideClickHandler onOutsideClick={() => closeClickTooltip()}>
+        <CustomClickTooltip {...props} />
+      </OutsideClickHandler>
+    );
+  }
+  if (!active) return false;
+  return <CustomHoverTooltip {...props} />;
+}
 
 function RechartsLinePlot({
   plotColor = '#8a8a8a',
@@ -33,8 +54,8 @@ function RechartsLinePlot({
   data: lines,
   margin = PLOT_MARGIN,
   CustomHoverTooltip = undefined,
+  CustomClickTooltip = undefined,
 }) {
-  console.log('🚀 ~ file: RechartsLinePlot.js ~ line 35 ~ lines', lines);
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
 
@@ -44,15 +65,24 @@ function RechartsLinePlot({
   const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
 
+  const closeClickTooltip = () => {
+    setRefAreaLeft('');
+    setRefAreaRight('');
+    setIsClickTooltipVisible(false);
+    setClickTooltipCoords(null);
+  };
+
   const onBrushEnd = () => {
     setIsDragging(false);
+
+    if (isClickTooltipVisible) {
+      return false;
+    }
+
     setIsClickTooltipVisible(true);
 
     if (refAreaLeft === refAreaRight || refAreaRight === '') {
-      setRefAreaLeft('');
-      setRefAreaRight('');
-      setIsClickTooltipVisible(false);
-      setClickTooltipCoords(null);
+      closeClickTooltip();
     }
     if (refAreaLeft > refAreaRight) {
       setRefAreaLeft(refAreaRight);
@@ -93,6 +123,8 @@ function RechartsLinePlot({
         margin={margin}
         // margin={PLOT_MARGIN}
         onMouseDown={(e) => {
+          console.log('🚀 ~ file: RechartsLinePlot.js ~ line 109 ~ e', e);
+          if (isClickTooltipVisible) return false;
           setIsDragging(true);
           setRefAreaLeft(e.activeLabel);
         }}
@@ -137,7 +169,17 @@ function RechartsLinePlot({
           />
         </YAxis>
         <Tooltip
-          content={CustomHoverTooltip}
+          cursor={!isClickTooltipVisible}
+          wrapperStyle={{ visibility: 'visible' }}
+          position={isClickTooltipVisible ? clickTooltipCoords : undefined}
+          content={
+            <TooltipHandler
+              CustomHoverTooltip={CustomHoverTooltip}
+              CustomClickTooltip={CustomClickTooltip}
+              isClickTooltipVisible={isClickTooltipVisible}
+              closeClickTooltip={closeClickTooltip}
+            />
+          }
           formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
           labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
         />
@@ -150,7 +192,7 @@ function RechartsLinePlot({
           dataKey={yAxisKey}
           stroke={plotColor}
           strokeWidth={2}
-          activeDot={{ r: 8 }}
+          activeDot={isClickTooltipVisible ? false : { r: 8 }}
           fillOpacity={1}
           fill="url(#colorUv)"
           name={yAxisLabel}

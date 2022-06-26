@@ -33,7 +33,6 @@ function MultiLinePlot({
   data: lines,
   margin = PLOT_MARGIN,
 }) {
-  console.log('🚀 ~ file: MultiLinePlot.js ~ line 35 ~ lines', lines);
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
   const {
