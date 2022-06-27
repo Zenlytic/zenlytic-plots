@@ -39,16 +39,9 @@ function BarPlot({
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
 
   const closeTooltip = () => {
-    console.log('🚀 ~ file: BarPlot.js ~ line 59 ~ clickTooltipCoords', clickTooltipCoords);
-
-    console.log(
-      '🚀 ~ file: BarPlot.js ~ line 45 ~ handleBarClick ~ isClickTooltipVisible',
-      isClickTooltipVisible
-    );
     setClickTooltipCoords(null);
   };
   const handleBarClick = (event) => {
-    console.log('🚀 ~ file: BarPlot.js ~ line 49 ~ handleBarClick ~ event', event);
     if (isClickTooltipVisible) {
       return;
     }
