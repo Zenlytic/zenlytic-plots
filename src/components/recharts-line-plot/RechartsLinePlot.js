@@ -22,25 +22,7 @@ import moment from 'moment';
 import formatValue from '../../utils/formatValue';
 import { PLOT_MARGIN } from '../../constants/plotConstants';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
-
-function TooltipHandler(props) {
-  const {
-    isClickTooltipVisible,
-    CustomHoverTooltip,
-    CustomClickTooltip,
-    active,
-    closeClickTooltip,
-  } = props;
-  if (isClickTooltipVisible) {
-    return (
-      <OutsideClickHandler onOutsideClick={() => closeClickTooltip()}>
-        <CustomClickTooltip {...props} />
-      </OutsideClickHandler>
-    );
-  }
-  if (!active) return false;
-  return <CustomHoverTooltip {...props} />;
-}
+import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
 function RechartsLinePlot({
   plotColor = '#8a8a8a',
@@ -55,6 +37,7 @@ function RechartsLinePlot({
   margin = PLOT_MARGIN,
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
+  onUpdateBrush = () => {},
 }) {
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
@@ -76,41 +59,22 @@ function RechartsLinePlot({
     setIsDragging(false);
 
     if (isClickTooltipVisible) {
-      return false;
+      return;
     }
 
     setIsClickTooltipVisible(true);
-
     if (refAreaLeft === refAreaRight || refAreaRight === '') {
       closeClickTooltip();
+      return;
     }
     if (refAreaLeft > refAreaRight) {
       setRefAreaLeft(refAreaRight);
       setRefAreaRight(refAreaLeft);
+      onUpdateBrush({ start: refAreaRight, end: refAreaLeft });
+    } else {
+      onUpdateBrush({ start: refAreaLeft, end: refAreaRight });
     }
   };
-
-  //   const CustomTooltip = ({ active, payload, label, ...restProps }) => {
-  //     if (isClickTooltipVisible) {
-  //       return (
-  //         <div style={{ background: 'white', borderRadius: '10px' }}>
-  //           <p className="desc">Anything you want can be displayed here.</p>
-  //         </div>
-  //       );
-  //     }
-  //     return false;
-  //   };
-
-  //   const CustomHoverTooltip = ({ active, payload, label, ...restProps }) => {
-  //     if (!isClickTooltipVisible) {
-  //       return (
-  //         <div style={{ background: 'white', borderRadius: '10px' }}>
-  //           <p className="desc">Things left to say</p>
-  //         </div>
-  //       );
-  //     }
-  //     return false;
-  //   };
 
   const data = lines[0];
   return (
@@ -123,7 +87,6 @@ function RechartsLinePlot({
         margin={margin}
         // margin={PLOT_MARGIN}
         onMouseDown={(e) => {
-          console.log('🚀 ~ file: RechartsLinePlot.js ~ line 109 ~ e', e);
           if (isClickTooltipVisible) return false;
           setIsDragging(true);
           setRefAreaLeft(e.activeLabel);

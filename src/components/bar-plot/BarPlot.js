@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Bar,
@@ -17,6 +17,7 @@ import { PLOT_MARGIN } from '../../constants/plotConstants';
 import { Legend } from '@visx/legend';
 import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
+import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
 function BarPlot({
   plotColor = '#8a8a8a',
@@ -24,15 +25,54 @@ function BarPlot({
   yAxis = {},
   data = [],
   margin = PLOT_MARGIN,
+  CustomHoverTooltip = undefined,
+  CustomClickTooltip = undefined,
   width = 300,
   height = 300,
 }) {
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
 
+  const layout = 'vertical';
+
+  const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
+  const [clickTooltipCoords, setClickTooltipCoords] = useState();
+
+  const closeTooltip = () => {
+    console.log('🚀 ~ file: BarPlot.js ~ line 59 ~ clickTooltipCoords', clickTooltipCoords);
+
+    console.log(
+      '🚀 ~ file: BarPlot.js ~ line 45 ~ handleBarClick ~ isClickTooltipVisible',
+      isClickTooltipVisible
+    );
+    setClickTooltipCoords(null);
+  };
+  const handleBarClick = (event) => {
+    console.log('🚀 ~ file: BarPlot.js ~ line 49 ~ handleBarClick ~ event', event);
+    if (isClickTooltipVisible) {
+      return;
+    }
+    if (!event) return;
+    setClickTooltipCoords(event.activeCoordinate);
+  };
+
+  useEffect(() => {
+    if (clickTooltipCoords) {
+      setIsClickTooltipVisible(true);
+    } else {
+      setIsClickTooltipVisible(false);
+    }
+  }, [clickTooltipCoords]);
+
   return (
     <div style={{ userSelect: 'none' }}>
-      <BarChart margin={margin} height={height} width={width} data={data} layout="vertical">
+      <BarChart
+        margin={margin}
+        height={height}
+        width={width}
+        data={data}
+        layout={layout}
+        onClick={handleBarClick}>
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis
           type="number"
@@ -57,9 +97,33 @@ function BarPlot({
             style={{ textAnchor: 'middle' }}
           /> */}
         </YAxis>
-        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+        <Tooltip
+          cursor={!isClickTooltipVisible}
+          wrapperStyle={{ visibility: 'visible' }}
+          position={isClickTooltipVisible ? clickTooltipCoords : undefined}
+          content={
+            <TooltipHandler
+              CustomHoverTooltip={CustomHoverTooltip}
+              CustomClickTooltip={CustomClickTooltip}
+              isClickTooltipVisible={isClickTooltipVisible}
+              closeClickTooltip={closeTooltip}
+            />
+          }
+          formatter={(value) =>
+            formatValue(
+              getD3DataFormatter(layout === 'vertical' ? xAxisFormat : yAxisFormat, value),
+              value
+            )
+          }
+          labelFormatter={(value) =>
+            formatValue(
+              getD3DataFormatter(layout === 'vertical' ? yAxisFormat : xAxisFormat, value),
+              value
+            )
+          }
+        />
         <Legend />
-        <Bar dataKey="value" fill={plotColor} />
+        <Bar dataKey="value" name={xAxisLabel} fill={plotColor} />
       </BarChart>
     </div>
   );
