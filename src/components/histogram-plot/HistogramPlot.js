@@ -521,7 +521,10 @@ function HistogramPlot({
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
 
   const [refAreaLeft, setRefAreaLeft] = useState('');
+  const [refAreaValueLeft, setRefAreaValueLeft] = useState('');
   const [refAreaRight, setRefAreaRight] = useState('');
+  const [refAreaValueRight, setRefAreaValueRight] = useState('');
+
   const [isDragging, setIsDragging] = useState(false);
   const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
@@ -529,28 +532,38 @@ function HistogramPlot({
   const closeClickTooltip = () => {
     setRefAreaLeft('');
     setRefAreaRight('');
+    setRefAreaValueLeft('');
+    setRefAreaValueRight('');
     setIsClickTooltipVisible(false);
     setClickTooltipCoords(null);
   };
 
-  const onBrushEnd = (a) => {
+  const onBrushEnd = () => {
     setIsDragging(false);
 
-    if (isClickTooltipVisible) {
+    if (
+      isClickTooltipVisible ||
+      !refAreaLeft ||
+      !refAreaValueLeft ||
+      !refAreaRight ||
+      !refAreaValueRight
+    ) {
       return;
     }
 
     setIsClickTooltipVisible(true);
-    if (refAreaLeft === refAreaRight || refAreaRight === '') {
+    if (refAreaLeft === refAreaRight || refAreaRight === '' || refAreaValueRight === '') {
       closeClickTooltip();
       return;
     }
-    if (refAreaLeft > refAreaRight) {
+    if (refAreaValueLeft > refAreaValueRight) {
       setRefAreaLeft(refAreaRight);
+      setRefAreaValueLeft(refAreaValueRight);
       setRefAreaRight(refAreaLeft);
-      onUpdateBrush({ start: refAreaRight, end: refAreaLeft });
+      setRefAreaValueRight(refAreaValueLeft);
+      onUpdateBrush({ start: refAreaValueRight, end: refAreaValueLeft });
     } else {
-      onUpdateBrush({ start: refAreaLeft, end: refAreaRight });
+      onUpdateBrush({ start: refAreaValueLeft, end: refAreaValueRight });
     }
   };
 
@@ -565,18 +578,29 @@ function HistogramPlot({
         onMouseDown={(e) => {
           if (isClickTooltipVisible) return;
           if (!e?.activeLabel) return;
+          if (!e?.activePayload) return;
+
+          if (isDragging) return;
           setIsDragging(true);
           setRefAreaLeft(e.activeLabel);
+          setRefAreaValueLeft(e.activePayload[0].payload?.rangeBottom);
         }}
         onMouseMove={(e) => {
           if (refAreaLeft && isDragging && e.activeLabel && e.activeCoordinate) {
             setRefAreaRight(e.activeLabel);
+            setRefAreaValueRight(e.activePayload[0].payload?.rangeTop);
             setClickTooltipCoords(e.activeCoordinate);
           }
         }}
         onMouseLeave={(e) => {
           setIsDragging(false);
-          if (refAreaLeft && refAreaRight && !isClickTooltipVisible) {
+          if (
+            refAreaLeft &&
+            refAreaValueLeft &&
+            refAreaRight &&
+            refAreaValueRight &&
+            !isClickTooltipVisible
+          ) {
             onBrushEnd();
           }
         }}
