@@ -29,11 +29,12 @@ function BarPlot({
   CustomClickTooltip = undefined,
   width = 300,
   height = 300,
+  layout = 'vertical',
 }) {
+  console.log('🚀 ~ file: BarPlot.js ~ line 34 ~ data', data);
+  console.log('🚀 ~ file: BarPlot.js ~ line 34 ~ layout', layout);
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
-
-  const layout = 'vertical';
 
   const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
