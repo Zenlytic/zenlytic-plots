@@ -6,3 +6,4 @@ export { default as ScatterPlot } from 'components/scatter-plot/ScatterPlot';
 export { default as BarPlot } from 'components/bar-plot/BarPlot';
 export { default as MultiLinePlot } from 'components/multi-line-plot/MultiLinePlot';
 export { default as SankeyPlot } from 'components/sankey-plot/SankeyPlot';
+export { default as HistogramPlot } from 'components/histogram-plot/HistogramPlot';

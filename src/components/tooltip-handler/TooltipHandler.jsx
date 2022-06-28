@@ -9,7 +9,6 @@ function TooltipHandler(props) {
     active,
     closeClickTooltip = () => {},
   } = props;
-  console.log('🚀 ~ file: TooltipHandler.jsx ~ line 12 ~ TooltipHandler ~ props', props);
 
   const handleOutsideClick = () => {
     closeClickTooltip();
