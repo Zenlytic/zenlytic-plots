@@ -2,7 +2,6 @@ import React from 'react';
 import { Rectangle, Layer } from 'recharts';
 
 export default function SankeyPlotNode(props) {
-  console.log('🚀 ~ file: SankeyPlotNode.jsx ~ line 5 ~ SankeyPlotNode ~ props', props);
   const { x, y, width, height, index, payload, containerWidth, colors } = props;
   const isOut = x + width + 6 > containerWidth;
 

@@ -15,6 +15,7 @@ import { PLOT_MARGIN } from '../../constants/plotConstants';
 import { Legend } from '@visx/legend';
 import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
+import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
 function ScatterPlot({
   plotColor = '#8a8a8a',
@@ -25,6 +26,7 @@ function ScatterPlot({
   margin = PLOT_MARGIN,
   width = 300,
   height = 300,
+  CustomHoverTooltip = undefined,
 }) {
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
@@ -33,6 +35,19 @@ function ScatterPlot({
     format: categoryAxisFormat,
     columnIndex: categoryAxisKey,
   } = categoryAxis;
+
+  const getAxisFormatFromDataKey = (dataKey) => {
+    if (dataKey === 'x') {
+      return xAxisFormat;
+    }
+    if (dataKey === 'y') {
+      return yAxisFormat;
+    }
+    if (dataKey === 'category') {
+      return categoryAxisFormat;
+    }
+    return '';
+  };
 
   return (
     <div style={{ userSelect: 'none' }}>
@@ -63,7 +78,13 @@ function ScatterPlot({
           />
         </YAxis>
         <ZAxis dataKey="category" name={categoryAxisLabel} />
-        <Tooltip cursor={{ strokeDasharray: '3 3' }} />
+        <Tooltip
+          content={<TooltipHandler CustomHoverTooltip={CustomHoverTooltip} />}
+          formatter={(value, dataKey) =>
+            formatValue(getD3DataFormatter(getAxisFormatFromDataKey(dataKey), value), value)
+          }
+          labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
+        />
         <Legend />
         <Scatter data={data} fill={plotColor} />
       </ScatterChart>

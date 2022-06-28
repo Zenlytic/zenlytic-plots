@@ -19,6 +19,7 @@ import moment from 'moment';
 import formatValue from '../../utils/formatValue';
 import { PLOT_MARGIN } from '../../constants/plotConstants';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
+import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
 function MultiLinePlot({
   plotColor = '#8a8a8a',
@@ -32,6 +33,8 @@ function MultiLinePlot({
   categoryAxis = {},
   data: lines,
   margin = PLOT_MARGIN,
+  CustomHoverTooltip = undefined,
+  CustomClickTooltip = undefined,
 }) {
   const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
@@ -46,6 +49,13 @@ function MultiLinePlot({
   const [isDragging, setIsDragging] = useState(false);
   const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
+
+  const closeClickTooltip = () => {
+    setRefAreaLeft('');
+    setRefAreaRight('');
+    setIsClickTooltipVisible(false);
+    setClickTooltipCoords(null);
+  };
 
   const onBrushEnd = () => {
     setIsDragging(false);
@@ -63,7 +73,28 @@ function MultiLinePlot({
     }
   };
 
-  const colors = ['red', 'green', 'blue'];
+  const colors = [
+    '#0f93e5',
+    '#e6ac00',
+    '#d510d9',
+    '#e57c04',
+    '#dac611',
+    '#74d912',
+    '#2ac2a5',
+    '#1501e5',
+    '#de0c08',
+  ];
+
+  const [hoveredLineDataKey, setHoveredLineDataKey] = useState(null);
+
+  const onLegendItemHover = (item) => {
+    const { value } = item;
+    setHoveredLineDataKey(value);
+  };
+
+  const onLegendItemLeave = (item) => {
+    setHoveredLineDataKey(null);
+  };
 
   return (
     // <ResponsiveContainer width={300} height={100}>
@@ -74,19 +105,24 @@ function MultiLinePlot({
         margin={margin}
         // data={lines[0]}
         // margin={PLOT_MARGIN}
-        // onMouseDown={(e) => {
-        //   setIsDragging(true);
-        //   setRefAreaLeft(e.activeLabel);
-        // }}
-        // onMouseMove={(e) => {
-        //   if (refAreaLeft && isDragging) {
-        //     setRefAreaRight(e.activeLabel);
-        //     setClickTooltipCoords(e.activeCoordinate);
-        //   }
-        // }}
-        // eslint-disable-next-line react/jsx-no-bind
-        // onMouseUp={onBrushEnd}
-      >
+        onMouseDown={(e) => {
+          if (isClickTooltipVisible) return false;
+          setIsDragging(true);
+          setRefAreaLeft(e.activeLabel);
+        }}
+        onMouseMove={(e) => {
+          if (refAreaLeft && isDragging) {
+            setRefAreaRight(e.activeLabel);
+            setClickTooltipCoords(e.activeCoordinate);
+          }
+        }}
+        onMouseLeave={(e) => {
+          setIsDragging(false);
+          if (refAreaLeft && refAreaRight && !isClickTooltipVisible) {
+            onBrushEnd();
+          }
+        }}
+        onMouseUp={onBrushEnd}>
         <defs>
           <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor={plotColor} stopOpacity={0.8} />
@@ -123,28 +159,55 @@ function MultiLinePlot({
         {/* <Tooltip content={<CustomHoverTooltip />} />
             <Tooltip position={clickTooltipCoords} content={<CustomTooltip />} /> */}
         {/* <Brush dataKey={xAxisZenlyticFormat} height={30} stroke={plotColor} /> */}
-        <Tooltip />
+        <Tooltip
+          cursor={!isClickTooltipVisible}
+          wrapperStyle={{ visibility: 'visible' }}
+          position={isClickTooltipVisible ? clickTooltipCoords : undefined}
+          content={
+            <TooltipHandler
+              CustomHoverTooltip={CustomHoverTooltip}
+              CustomClickTooltip={CustomClickTooltip}
+              isClickTooltipVisible={isClickTooltipVisible}
+              closeClickTooltip={closeClickTooltip}
+            />
+          }
+          formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
+          labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
+        />
         <Legend
           layout="vertical"
           align="right"
           verticalAlign="middle"
           iconType="circle"
+          iconSize={12}
           wrapperStyle={{
             paddingLeft: '16px',
+            paddingBottom: margin.bottom,
           }}
+          onMouseEnter={onLegendItemHover}
+          onMouseLeave={onLegendItemLeave}
         />
         {/* <Line dataKey={categoryAxisKey} /> */}
         {/* <Line dataKey={yAxisKey} name={lines[0][0][categoryAxisKey]} /> */}
-        {lines.map((line, index) => (
-          <Line
-            data={line}
-            stroke={colors[index]}
-            dataKey={yAxisKey}
-            type="monotone"
-            strokeWidth={2}
-            name={line[0][categoryAxisKey]}
-          />
-        ))}
+        {lines.map((line, index) => {
+          return (
+            <Line
+              data={line}
+              stroke={colors[index % colors.length]}
+              dataKey={yAxisKey}
+              type="monotone"
+              strokeWidth={2}
+              name={line[0][categoryAxisKey]}
+              strokeOpacity={
+                line[0][categoryAxisKey] === hoveredLineDataKey
+                  ? 1.0
+                  : hoveredLineDataKey === null
+                  ? 1.0
+                  : 0.2
+              }
+            />
+          );
+        })}
         {/* <Line dataKey={'ORDERS_TWITTER'} data={line} name={s.name} key={s.name} /> */}
         {/* <Area
           type="monotone"

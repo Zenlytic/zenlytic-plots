@@ -17,7 +17,6 @@ function SankeyPlot({
   width = 300,
   height = 300,
 }) {
-  console.log('🚀 ~ file: SankeyPlot.js ~ line 20 ~ data', data);
   // const dataOne = {
   //   nodes: [
   //     { name: 'L0' },
