@@ -121,6 +121,7 @@ function HistogramPlot({
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis
           padding={{ left: 20, right: 20 }}
+          allowDuplicatedCategory={false}
           interval="preserveStartEnd"
           name={xAxisLabel}
           dataKey={(ev) =>

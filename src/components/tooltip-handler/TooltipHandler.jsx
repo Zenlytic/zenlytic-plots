@@ -8,7 +8,10 @@ function TooltipHandler(props) {
     CustomClickTooltip,
     active,
     closeClickTooltip = () => {},
+    customPayload = undefined,
+    payload,
   } = props;
+  console.log('🚀 ~ file: TooltipHandler.jsx ~ line 12 ~ TooltipHandler ~ props', props);
 
   const handleOutsideClick = () => {
     closeClickTooltip();
@@ -17,7 +20,7 @@ function TooltipHandler(props) {
   if (isClickTooltipVisible) {
     return (
       <OutsideClickHandler onOutsideClick={handleOutsideClick}>
-        <CustomClickTooltip {...props} />
+        <CustomClickTooltip {...props} payload={customPayload || payload} />
       </OutsideClickHandler>
     );
   }

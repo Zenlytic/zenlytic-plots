@@ -48,6 +48,9 @@ function MultiLinePlot({
   const [refAreaRight, setRefAreaRight] = useState('');
   const [isDragging, setIsDragging] = useState(false);
   const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
+  const [activePayloadAtBrush, setActivePayloadAtBrush] = useState([]);
+  console.log('🚀 ~ file: MultiLinePlot.js ~ line 52 ~ activePayloadAtBrush', activePayloadAtBrush);
+
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
 
   const closeClickTooltip = () => {
@@ -55,21 +58,28 @@ function MultiLinePlot({
     setRefAreaRight('');
     setIsClickTooltipVisible(false);
     setClickTooltipCoords(null);
+    setActivePayloadAtBrush([]);
   };
 
-  const onBrushEnd = () => {
+  const onBrushEnd = (event) => {
     setIsDragging(false);
-    setIsClickTooltipVisible(true);
 
-    if (refAreaLeft === refAreaRight || refAreaRight === '') {
-      setRefAreaLeft('');
-      setRefAreaRight('');
-      setIsClickTooltipVisible(false);
-      setClickTooltipCoords(null);
+    if (isClickTooltipVisible || !refAreaLeft || !refAreaRight) {
+      return;
     }
+
+    setIsClickTooltipVisible(true);
+    if (refAreaLeft === refAreaRight || refAreaRight === '') {
+      closeClickTooltip();
+      return;
+    }
+    setActivePayloadAtBrush(event.activePayload);
     if (refAreaLeft > refAreaRight) {
       setRefAreaLeft(refAreaRight);
       setRefAreaRight(refAreaLeft);
+      // onUpdateBrush({ start: refAreaRight, end: refAreaLeft });
+    } else {
+      // onUpdateBrush({ start: refAreaLeft, end: refAreaRight });
     }
   };
 
@@ -106,12 +116,15 @@ function MultiLinePlot({
         // data={lines[0]}
         // margin={PLOT_MARGIN}
         onMouseDown={(e) => {
-          if (isClickTooltipVisible) return false;
+          if (isClickTooltipVisible) return;
+          if (!e?.activeLabel) return;
+          if (!e?.activePayload) return;
+          if (isDragging) return;
           setIsDragging(true);
           setRefAreaLeft(e.activeLabel);
         }}
         onMouseMove={(e) => {
-          if (refAreaLeft && isDragging) {
+          if (refAreaLeft && isDragging && e.activeLabel && e.activeCoordinate) {
             setRefAreaRight(e.activeLabel);
             setClickTooltipCoords(e.activeCoordinate);
           }
@@ -169,6 +182,7 @@ function MultiLinePlot({
               CustomClickTooltip={CustomClickTooltip}
               isClickTooltipVisible={isClickTooltipVisible}
               closeClickTooltip={closeClickTooltip}
+              customPayload={activePayloadAtBrush}
             />
           }
           formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
@@ -192,6 +206,7 @@ function MultiLinePlot({
         {lines.map((line, index) => {
           return (
             <Line
+              activeDot={!isClickTooltipVisible}
               data={line}
               stroke={colors[index % colors.length]}
               dataKey={yAxisKey}
