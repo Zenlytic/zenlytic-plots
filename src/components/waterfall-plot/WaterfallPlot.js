@@ -32,8 +32,8 @@ function WaterfallPlot({
   height = 300,
   CustomHoverTooltip = undefined,
 }) {
-  const { label: xAxisLabel = 'X-Axis', format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
-  const { label: yAxisLabel = 'Y-Axis', format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
+  const { label: xAxisLabel = 'X-Axis', format: xAxisFormat, dataKey: xAxisKey } = xAxis;
+  const { label: yAxisLabel = 'Y-Axis', format: yAxisFormat, dataKey: yAxisKey } = yAxis;
 
   const renderCustomizedLabel = (props) => {
     const { x, y, width, height, value, fill, label, index } = props;

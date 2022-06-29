@@ -31,22 +31,22 @@ function ScatterPlot({
   height = 300,
   CustomHoverTooltip = undefined,
 }) {
-  const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
-  const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
+  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisDataKey } = xAxis;
+  const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisDataKey } = yAxis;
   const {
     label: categoryAxisLabel,
     format: categoryAxisFormat,
-    columnIndex: categoryAxisKey,
+    dataKey: categoryAxisDataKey,
   } = categoryAxis;
 
   const getAxisFormatFromDataKey = (dataKey) => {
-    if (dataKey === 'x') {
+    if (dataKey === xAxisDataKey) {
       return xAxisFormat;
     }
-    if (dataKey === 'y') {
+    if (dataKey === yAxisDataKey) {
       return yAxisFormat;
     }
-    if (dataKey === 'category') {
+    if (dataKey === categoryAxisDataKey) {
       return categoryAxisFormat;
     }
     return '';
@@ -58,7 +58,7 @@ function ScatterPlot({
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis
           type="number"
-          dataKey={'x'}
+          dataKey={xAxisDataKey}
           name={xAxisLabel}
           allowDecimals={false}
           tickFormatter={(timeStr) =>
@@ -67,7 +67,7 @@ function ScatterPlot({
           <Label value={xAxisLabel} offset={-10} position="insideBottom" />
         </XAxis>
         <YAxis
-          dataKey={'y'}
+          dataKey={yAxisDataKey}
           allowDecimals={false}
           name={yAxisLabel}
           tickFormatter={(timeStr) =>
@@ -80,7 +80,7 @@ function ScatterPlot({
             style={{ textAnchor: 'middle' }}
           />
         </YAxis>
-        <ZAxis dataKey="category" name={categoryAxisLabel} />
+        <ZAxis dataKey={categoryAxisDataKey} name={categoryAxisLabel} />
         <Tooltip
           content={<TooltipHandler CustomHoverTooltip={CustomHoverTooltip} />}
           formatter={(value, dataKey) =>

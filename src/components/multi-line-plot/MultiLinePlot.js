@@ -29,7 +29,7 @@ function MultiLinePlot({
   xAxis = {},
   yAxis = {},
   categoryAxis = {},
-  data: lines,
+  data,
   margin = {
     top: 32,
     left: 24,
@@ -39,12 +39,12 @@ function MultiLinePlot({
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
 }) {
-  const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
-  const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
+  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisDataKey } = xAxis;
+  const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisDataKey } = yAxis;
   const {
     label: categoryAxisLabel,
     format: categoryAxisFormat,
-    columnIndex: categoryAxisKey,
+    dataKey: categoryAxisDataKey,
   } = categoryAxis;
 
   const [refAreaLeft, setRefAreaLeft] = useState('');
@@ -151,7 +151,7 @@ function MultiLinePlot({
           type="category"
           minTickGap={minTickGap}
           allowDuplicatedCategory={false}
-          dataKey={xAxisKey}
+          dataKey={xAxisDataKey}
           interval={interval}
           tickFormatter={(timeStr) =>
             formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr)
@@ -160,7 +160,7 @@ function MultiLinePlot({
         </XAxis>
         <YAxis
           type="number"
-          dataKey={yAxisKey}
+          dataKey={yAxisDataKey}
           tickFormatter={(timeStr) =>
             formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
           }>
@@ -203,20 +203,23 @@ function MultiLinePlot({
           onMouseEnter={onLegendItemHover}
           onMouseLeave={onLegendItemLeave}
         />
-        {/* <Line dataKey={categoryAxisKey} /> */}
-        {/* <Line dataKey={yAxisKey} name={lines[0][0][categoryAxisKey]} /> */}
-        {lines.map((line, index) => {
+        {/* <Line dataKey={categoryAxisDataKey} /> */}
+        {/* <Line dataKey={yAxisDataKey} name={lines[0][0][categoryAxisDataKey]} /> */}
+        {data.map((line, index) => {
           return (
             <Line
               activeDot={!isClickTooltipVisible}
-              data={line}
+              dot
+              data={line.data}
               stroke={colors[index % colors.length]}
-              dataKey={yAxisKey}
+              dataKey={yAxisDataKey}
               type="monotone"
               strokeWidth={2}
-              name={line[0][categoryAxisKey]}
+              name={line[categoryAxisDataKey]}
+              key={line[categoryAxisDataKey]}
+              isAnimationActive={false}
               strokeOpacity={
-                line[0][categoryAxisKey] === hoveredLineDataKey
+                line[categoryAxisDataKey] === hoveredLineDataKey
                   ? 1.0
                   : hoveredLineDataKey === null
                   ? 1.0
@@ -228,7 +231,7 @@ function MultiLinePlot({
         {/* <Line dataKey={'ORDERS_TWITTER'} data={line} name={s.name} key={s.name} /> */}
         {/* <Area
           type="monotone"
-          dataKey={yAxisKey}
+          dataKey={yAxisDataKey}
           stroke={plotColor}
           strokeWidth={2}
           activeDot={{ r: 8 }}

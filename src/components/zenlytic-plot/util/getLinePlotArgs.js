@@ -2,13 +2,13 @@ export const getLinePlotArgs = (plotData) => {
   const { xAxis = {}, yAxis = {}, categoryAxis = {}, lines = {}, plotColor = '#8a8a8a' } = plotData;
   const {
     format: yAxisZenlyticFormat,
-    columnIndex: yAxisDataIndex,
+    dataKey: yAxisDataIndex,
     label: yAxisLabel,
     showLabel: showYAxisLabel,
   } = yAxis;
 
   const {
-    columnIndex: xAxisDataIndex,
+    dataKey: xAxisDataIndex,
     format: xAxisZenlyticFormat,
     label: xAxisLabel,
     showLabel: showXAxisLabel,

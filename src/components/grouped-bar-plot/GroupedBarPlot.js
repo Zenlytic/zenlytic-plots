@@ -36,12 +36,12 @@ function GroupedBarPlot({
   height = 300,
   layout = 'horizontal',
 }) {
-  const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
-  const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
+  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisKey } = xAxis;
+  const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisKey } = yAxis;
   const {
     label: categoryAxisLabel,
     format: categoryAxisFormat,
-    columnIndex: categoryAxisKey,
+    dataKey: categoryAxisKey,
   } = categoryAxis;
 
   const colors = [

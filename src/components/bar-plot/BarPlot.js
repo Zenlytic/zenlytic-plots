@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useEffect, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Label, Legend, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, Label, Tooltip, XAxis, YAxis } from 'recharts';
 import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
@@ -22,8 +22,8 @@ function BarPlot({
   height = 300,
   layout = 'vertical',
 }) {
-  const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
-  const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
+  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisKey } = xAxis;
+  const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisKey } = yAxis;
 
   const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
@@ -105,7 +105,6 @@ function BarPlot({
             )
           }
         />
-        <Legend />
         <Bar dataKey="value" name={xAxisLabel} fill={plotColor} />
       </BarChart>
     </div>

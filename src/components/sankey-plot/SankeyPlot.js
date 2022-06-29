@@ -2,14 +2,16 @@
 
 import React from 'react';
 import { Sankey, Tooltip } from 'recharts';
+import formatValue from '../../utils/formatValue';
+import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
 import SankeyPlotLink from './components/sankey-plot-link/SankeyPlotLink';
 import SankeyPlotNode from './components/sankey-plot-node/SankeyPlotNode';
 
 function SankeyPlot({
   plotColor = '#8a8a8a',
-  xAxis = {},
-  yAxis = {},
+  valueAxis = {},
+  categoryAxis = {},
   data = [],
   margin = {
     top: 32,
@@ -22,35 +24,8 @@ function SankeyPlot({
   width = 300,
   height = 300,
 }) {
-  // const dataOne = {
-  //   nodes: [
-  //     { name: 'L0' },
-  //     { name: 'L1' },
-  //     { name: 'L2' },
-  //     { name: 'L3' },
-  //     { name: 'L4' },
-  //     { name: 'R5' },
-  //     { name: 'R6' },
-  //     { name: 'R7' },
-  //     { name: 'R8' },
-  //     { name: 'R9' },
-  //     { name: 'M10' },
-  //   ],
-  //   links: [
-  //     { source: 0, target: 5, value: 30 },
-  //     { source: 1, target: 8, value: 99 },
-  //     { source: 1, target: 7, value: 20 },
-  //     { source: 1, target: 6, value: 15 },
-  //     { source: 4, target: 5, value: 6 },
-  //     { source: 2, target: 8, value: 30 },
-  //     { source: 0, target: 6, value: 15 },
-  //     { source: 2, target: 9, value: 11 },
-  //     { source: 3, target: 9, value: 8 },
-  //     { source: 3, target: 8, value: 23 },
-  //     { source: 2, target: 5, value: 20 },
-  //     { source: 8, target: 10, value: 99 },
-  //   ],
-  // };
+  console.log('🚀 ~ file: SankeyPlot.js ~ line 27 ~ width', width);
+  const { format: valueAxisFormat } = valueAxis;
 
   const colors = [
     '#0f93e5',
@@ -81,8 +56,13 @@ function SankeyPlot({
         data={data}
         nodePadding={50}
         link={<SankeyPlotLink colorGradients={colorGradients} />}
-        node={<SankeyPlotNode containerWidth={960} colors={colors} />}>
-        <Tooltip content={<TooltipHandler CustomHoverTooltip={CustomHoverTooltip} />} />
+        node={
+          <SankeyPlotNode containerWidth={width - margin.left - margin.right} colors={colors} />
+        }>
+        <Tooltip
+          content={<TooltipHandler CustomHoverTooltip={CustomHoverTooltip} />}
+          formatter={(value) => formatValue(getD3DataFormatter(valueAxisFormat, value), value)}
+        />
       </Sankey>
     </div>
   );

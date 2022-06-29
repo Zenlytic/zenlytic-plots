@@ -23,7 +23,7 @@ function HistogramPlot({
   height = 300,
   xAxis = {},
   yAxis = {},
-  data,
+  data = [],
   margin = {
     top: 32,
     left: 24,
@@ -34,8 +34,8 @@ function HistogramPlot({
   CustomClickTooltip = undefined,
   onUpdateBrush = () => {},
 }) {
-  const { label: xAxisLabel, format: xAxisFormat, columnIndex: xAxisKey } = xAxis;
-  const { label: yAxisLabel, format: yAxisFormat, columnIndex: yAxisKey } = yAxis;
+  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisKey } = xAxis;
+  const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisKey } = yAxis;
 
   const [refAreaLeft, setRefAreaLeft] = useState('');
   const [refAreaValueLeft, setRefAreaValueLeft] = useState('');

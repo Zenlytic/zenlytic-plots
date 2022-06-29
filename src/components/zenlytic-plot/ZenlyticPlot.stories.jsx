@@ -137,13 +137,13 @@ Normal.args = {
       ],
     ],
     yAxis: {
-      columnIndex: 'ORDERS_TOTAL_REVENUE',
+      dataKey: 'ORDERS_TOTAL_REVENUE',
       label: 'Total Revenue',
       format: 'usd',
       showLabel: true,
     },
     xAxis: {
-      columnIndex: 'ORDERS_ORDER_CREATED_AT_DATE',
+      dataKey: 'ORDERS_ORDER_CREATED_AT_DATE',
       label: 'Order Created At Date',
       format: 'date',
       showLabel: false,
