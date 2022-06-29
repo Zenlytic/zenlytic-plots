@@ -24,7 +24,12 @@ function HistogramPlot({
   xAxis = {},
   yAxis = {},
   data,
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 24,
+    bottom: 40,
+    right: 32,
+  },
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
   onUpdateBrush = () => {},

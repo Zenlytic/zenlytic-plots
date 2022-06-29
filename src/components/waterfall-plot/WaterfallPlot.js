@@ -22,7 +22,12 @@ function WaterfallPlot({
   xAxis = {},
   yAxis = {},
   data = [],
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 32,
+    bottom: 40,
+    right: 32,
+  },
   width = 300,
   height = 300,
   CustomHoverTooltip = undefined,

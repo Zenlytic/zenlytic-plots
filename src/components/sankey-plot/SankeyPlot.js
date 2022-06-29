@@ -11,7 +11,12 @@ function SankeyPlot({
   xAxis = {},
   yAxis = {},
   data = [],
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 32,
+    bottom: 32,
+    right: 32,
+  },
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
   width = 300,

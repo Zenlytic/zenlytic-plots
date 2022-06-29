@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import {
   CartesianGrid,
   Label,
@@ -11,8 +11,6 @@ import {
   YAxis,
   ZAxis,
 } from 'recharts';
-import { PLOT_MARGIN } from '../../constants/plotConstants';
-import { Legend } from '@visx/legend';
 import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
@@ -23,7 +21,12 @@ function ScatterPlot({
   yAxis = {},
   categoryAxis = {},
   data = [],
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 24,
+    bottom: 40,
+    right: 32,
+  },
   width = 300,
   height = 300,
   CustomHoverTooltip = undefined,
@@ -85,7 +88,6 @@ function ScatterPlot({
           }
           labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
         />
-        <Legend />
         <Scatter data={data} fill={plotColor} />
       </ScatterChart>
     </div>

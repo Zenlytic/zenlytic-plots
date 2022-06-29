@@ -14,7 +14,6 @@ import {
   YAxis,
   ZAxis,
 } from 'recharts';
-import { PLOT_MARGIN } from '../../constants/plotConstants';
 import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
@@ -25,7 +24,12 @@ function GroupedBarPlot({
   yAxis = {},
   categoryAxis = {},
   data = [],
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 32,
+    bottom: 40,
+    right: 32,
+  },
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
   width = 300,

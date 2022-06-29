@@ -1,20 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Label,
-  Scatter,
-  ScatterChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-  ZAxis,
-} from 'recharts';
-import { PLOT_MARGIN } from '../../constants/plotConstants';
-import { Legend } from '@visx/legend';
+import { Bar, BarChart, CartesianGrid, Label, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
@@ -24,7 +10,12 @@ function BarPlot({
   xAxis = {},
   yAxis = {},
   data = [],
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 112,
+    bottom: 40,
+    right: 32,
+  },
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
   width = 300,

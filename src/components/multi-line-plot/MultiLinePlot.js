@@ -15,9 +15,7 @@ import {
   Area,
   ReferenceArea,
 } from 'recharts';
-import moment from 'moment';
 import formatValue from '../../utils/formatValue';
-import { PLOT_MARGIN } from '../../constants/plotConstants';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
@@ -32,7 +30,12 @@ function MultiLinePlot({
   yAxis = {},
   categoryAxis = {},
   data: lines,
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 24,
+    bottom: 40,
+    right: 32,
+  },
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
 }) {

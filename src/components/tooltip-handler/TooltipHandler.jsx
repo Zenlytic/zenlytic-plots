@@ -4,8 +4,8 @@ import OutsideClickHandler from 'react-outside-click-handler';
 function TooltipHandler(props) {
   const {
     isClickTooltipVisible,
-    CustomHoverTooltip,
-    CustomClickTooltip,
+    CustomHoverTooltip = undefined,
+    CustomClickTooltip = undefined,
     active,
     closeClickTooltip = () => {},
     customPayload = undefined,

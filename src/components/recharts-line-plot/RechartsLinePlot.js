@@ -1,26 +1,17 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import {
-  LineChart,
-  Line,
+  Area,
+  AreaChart,
   CartesianGrid,
+  Label,
+  ReferenceArea,
+  Tooltip,
   XAxis,
   YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  Legend,
-  Brush,
-  Label,
-  AreaChart,
-  Area,
-  ReferenceArea,
 } from 'recharts';
-import OutsideClickHandler from 'react-outside-click-handler';
 
-import moment from 'moment';
 import formatValue from '../../utils/formatValue';
-import { PLOT_MARGIN } from '../../constants/plotConstants';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
@@ -34,7 +25,12 @@ function RechartsLinePlot({
   xAxis = {},
   yAxis = {},
   data: lines,
-  margin = PLOT_MARGIN,
+  margin = {
+    top: 32,
+    left: 24,
+    bottom: 40,
+    right: 32,
+  },
   CustomHoverTooltip = undefined,
   CustomClickTooltip = undefined,
   onUpdateBrush = () => {},
@@ -85,7 +81,6 @@ function RechartsLinePlot({
         width={width}
         data={data}
         margin={margin}
-        // margin={PLOT_MARGIN}
         onMouseDown={(e) => {
           if (isClickTooltipVisible) return false;
           setIsDragging(true);
