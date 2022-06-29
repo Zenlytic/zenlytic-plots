@@ -49,7 +49,6 @@ function MultiLinePlot({
   const [isDragging, setIsDragging] = useState(false);
   const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
   const [activePayloadAtBrush, setActivePayloadAtBrush] = useState([]);
-  console.log('🚀 ~ file: MultiLinePlot.js ~ line 52 ~ activePayloadAtBrush', activePayloadAtBrush);
 
   const [clickTooltipCoords, setClickTooltipCoords] = useState();
 

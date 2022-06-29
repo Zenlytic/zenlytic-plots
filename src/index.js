@@ -8,3 +8,4 @@ export { default as MultiLinePlot } from 'components/multi-line-plot/MultiLinePl
 export { default as SankeyPlot } from 'components/sankey-plot/SankeyPlot';
 export { default as HistogramPlot } from 'components/histogram-plot/HistogramPlot';
 export { default as GroupedBarPlot } from 'components/grouped-bar-plot/GroupedBarPlot';
+export { default as WaterfallPlot } from 'components/waterfall-plot/WaterfallPlot';

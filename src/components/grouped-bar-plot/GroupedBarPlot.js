@@ -55,7 +55,6 @@ function GroupedBarPlot({
   const [hoveredLineDataKey, setHoveredLineDataKey] = useState(null);
 
   const onLegendItemHover = (item) => {
-    console.log('🚀 ~ file: GroupedBarPlot.js ~ line 58 ~ onLegendItemHover ~ item', item);
     const { value } = item;
     setHoveredLineDataKey(value);
   };

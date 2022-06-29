@@ -11,7 +11,6 @@ function TooltipHandler(props) {
     customPayload = undefined,
     payload,
   } = props;
-  console.log('🚀 ~ file: TooltipHandler.jsx ~ line 12 ~ TooltipHandler ~ props', props);
 
   const handleOutsideClick = () => {
     closeClickTooltip();
