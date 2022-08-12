@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
+import moment from 'moment';
 import React, { useState } from 'react';
 import {
   CartesianGrid,
@@ -30,7 +31,7 @@ function MultiLinePlot({
   data,
   margin = {
     top: 32,
-    left: 24,
+    left: 32,
     bottom: 40,
     right: 32,
   },
@@ -74,13 +75,21 @@ function MultiLinePlot({
       closeClickTooltip();
       return;
     }
+    if (!event || !event.activePayload) {
+      return;
+    }
     setActivePayloadAtBrush(event.activePayload);
+    const formattedRight = moment.unix(refAreaRight).utc().toDate();
+
+    const formattedLeft = moment.unix(refAreaLeft).utc().toDate();
+
     if (refAreaLeft > refAreaRight) {
       setRefAreaLeft(refAreaRight);
       setRefAreaRight(refAreaLeft);
-      onUpdateBrush({ start: refAreaRight, end: refAreaLeft });
+
+      onUpdateBrush({ start: formattedRight, end: formattedLeft });
     } else {
-      onUpdateBrush({ start: refAreaLeft, end: refAreaRight });
+      onUpdateBrush({ start: formattedLeft, end: formattedRight });
     }
   };
 
@@ -124,6 +133,7 @@ function MultiLinePlot({
           if (isDragging) return;
           setIsDragging(true);
           setRefAreaLeft(e.activeLabel);
+          setRefAreaRight(e.activeLabel);
         }}
         onMouseMove={(e) => {
           if (refAreaLeft && isDragging && e.activeLabel && e.activeCoordinate) {
@@ -148,14 +158,17 @@ function MultiLinePlot({
         <XAxis
           // height={70}
           // tickCount={tickCount}
-          type="category"
+          domain={['dataMin', 'dataMax']}
+          type="number"
+          scle="time"
           minTickGap={minTickGap}
           allowDuplicatedCategory={false}
-          dataKey={xAxisDataKey}
-          interval={interval}
-          tickFormatter={(timeStr) =>
-            formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr)
-          }>
+          tickFormatter={(timeStr) => moment.unix(timeStr).utc().format('MM/DD/YY')}
+          dataKey={(d) => {
+            if (!d) return null;
+            return moment.utc(d[xAxisDataKey]).format('X');
+          }}
+          interval={interval}>
           <Label value={xAxisLabel} offset={-10} position="insideBottom" />
         </XAxis>
         <YAxis
@@ -164,16 +177,9 @@ function MultiLinePlot({
           tickFormatter={(timeStr) =>
             formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
           }>
-          <Label
-            value={yAxisLabel}
-            position="insideLeft"
-            angle={-90}
-            style={{ textAnchor: 'middle' }}
-          />
+          <Label value={yAxisLabel} position="left" angle={-90} style={{ textAnchor: 'middle' }} />
         </YAxis>
-        {/* <Tooltip content={<CustomHoverTooltip />} />
-            <Tooltip position={clickTooltipCoords} content={<CustomTooltip />} /> */}
-        {/* <Brush dataKey={xAxisZenlyticFormat} height={30} stroke={plotColor} /> */}
+
         <Tooltip
           cursor={!isClickTooltipVisible}
           wrapperStyle={{ visibility: 'visible', zIndex: 10000 }}
@@ -188,7 +194,9 @@ function MultiLinePlot({
             />
           }
           formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
-          labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
+          labelFormatter={(value) => {
+            return moment.unix(value).utc().format('MM/DD/YY');
+          }}
         />
         <Legend
           layout="vertical"
