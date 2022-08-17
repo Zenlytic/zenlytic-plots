@@ -5,7 +5,9 @@ import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
-function GroupedBarPlot({
+const createBars = (data) => {};
+
+function FunnelBarPlot({
   plotColor = '#8a8a8a',
   plotSecondaryColor = '#8a8a8a',
   xAxis = {},
@@ -29,11 +31,76 @@ function GroupedBarPlot({
 }) {
   const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisKey } = xAxis;
   const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisKey } = yAxis;
-  const {
-    label: categoryAxisLabel,
-    format: categoryAxisFormat,
-    dataKey: categoryAxisKey,
-  } = categoryAxis;
+
+  const convertedData = [
+    {
+      California: 31351.5,
+      'New York': 14809.5,
+      Colorado: 5826.5,
+      Florida: 5232,
+      ORDERS_PRODUCT: 'Watering Spritz',
+    },
+    {
+      California: 21351.5,
+      'New York': 3809.5,
+      Colorado: 4826.5,
+      Florida: 5232,
+      ORDERS_PRODUCT: 'Pool Cleaning',
+    },
+  ];
+
+  const droppedOffData = [
+    {
+      California: 21351.5,
+      'New York': 4809.5,
+      Colorado: 2826.5,
+      Florida: 2232,
+      ORDERS_PRODUCT: 'Watering Spritz',
+    },
+    {
+      California: 11351.5,
+      'New York': 2809.5,
+      Colorado: 1826.5,
+      Florida: 1232,
+      ORDERS_PRODUCT: 'Pool Cleaning',
+    },
+  ];
+
+  // const dataa = [
+  //   {
+  //     converted: {
+  //       California: 31351.5,
+  //       'New York': 14809.5,
+  //       Colorado: 5826.5,
+  //       Florida: 5232,
+  //       ORDERS_PRODUCT: 'Watering Spritz',
+  //     },
+  //     dropOff: {
+  //       California: 11351.5,
+  //       'New York': 4809.5,
+  //       Colorado: 2826.5,
+  //       Florida: 2232,
+  //       ORDERS_PRODUCT: 'Watering Spritz',
+  //     },
+  //   },
+  //   {
+  //     converted: {
+  //       California: 31351.5,
+  //       'New York': 14809.5,
+  //       Colorado: 5826.5,
+  //       Florida: 5232,
+  //       ORDERS_PRODUCT: 'Pool Cleaner',
+  //     },
+  //     dropOff: {
+  //       California: 11351.5,
+  //       'New York': 4809.5,
+  //       Colorado: 2826.5,
+  //       Florida: 2232,
+  //       ORDERS_PRODUCT: 'PoolCleaner',
+  //     },
+  //   },
+  // ];
+  // console.log('🚀 ~ file: FunnelBarPlot.js ~ line 69 ~ dataa', dataa);
 
   const colors = [
     '#0f93e5',
@@ -61,32 +128,6 @@ function GroupedBarPlot({
 
   const [hoveredBarKey, setHoveredBarKey] = useState(null);
   const [activePayload, setActivePayload] = useState(null);
-  const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
-  const [clickTooltipCoords, setClickTooltipCoords] = useState();
-
-  const closeTooltip = () => {
-    setClickTooltipCoords(null);
-  };
-  const handleBarClick = (event) => {
-    if (isClickTooltipVisible) {
-      return;
-    }
-    if (!hoveredBarKey) {
-      return;
-    }
-    if (!event) return;
-    setClickTooltipCoords(event.activeCoordinate);
-  };
-
-  useEffect(() => {
-    if (disableFollowUps) return;
-    if (clickTooltipCoords) {
-      setIsClickTooltipVisible(true);
-      onBarClick(activePayload);
-    } else {
-      setIsClickTooltipVisible(false);
-    }
-  }, [clickTooltipCoords]);
 
   return (
     <div style={{ userSelect: 'none' }}>
@@ -94,9 +135,8 @@ function GroupedBarPlot({
         margin={margin}
         height={height}
         width={width}
-        data={data}
+        data={[...convertedData, droppedOffData]}
         barGap={6}
-        onClick={handleBarClick}
         onMouseMove={(e) => {
           const foundPayload = e.activePayload?.filter((bar) => {
             return bar.dataKey === hoveredBarKey;
@@ -133,15 +173,12 @@ function GroupedBarPlot({
           />
         </YAxis>
         <Tooltip
-          position={isClickTooltipVisible ? clickTooltipCoords : undefined}
-          cursor={!isClickTooltipVisible}
+          cursor
           wrapperStyle={{ visibility: 'visible', zIndex: 10000 }}
           content={
             <TooltipHandler
               CustomHoverTooltip={CustomHoverTooltip}
               CustomClickTooltip={CustomClickTooltip}
-              isClickTooltipVisible={isClickTooltipVisible}
-              closeClickTooltip={closeTooltip}
               customPayload={activePayload}
             />
           }
@@ -159,13 +196,12 @@ function GroupedBarPlot({
             paddingBottom: margin.bottom,
           }}
         />
-        {/* {data?.map((bar) => {
-          <Bar dataKey="value" name={xAxisLabel} fill={plotColor} />;
-        })} */}
-        {Object.keys(data[0]).map((key, index) => {
+
+        {Object.keys(convertedData[0]).map((key, index) => {
           if (key === xAxisKey) return false;
           return (
             <Bar
+              stackId={key}
               onMouseMove={() => setHoveredBarKey(key)}
               onMouseLeave={() => setHoveredBarKey(null)}
               dataKey={key}
@@ -178,11 +214,29 @@ function GroupedBarPlot({
             />
           );
         })}
+
+        {Object.keys(droppedOffData[0]).map((key, index) => {
+          if (key === xAxisKey) return false;
+          return (
+            <Bar
+              stackId={key}
+              onMouseMove={() => setHoveredBarKey(key)}
+              onMouseLeave={() => setHoveredBarKey(null)}
+              dataKey={key}
+              fill={'lightgray'}
+              stroke={'red'}
+              fillOpacity={key === hoveredBarKey ? 0.7 : hoveredBarKey === null ? 0.7 : 0.2}
+              radius={[3, 3, 0, 0]}
+              strokeWidth={2}
+              strokeOpacity={key === hoveredBarKey ? 0.7 : hoveredBarKey === null ? 0.7 : 0.2}
+            />
+          );
+        })}
       </BarChart>
     </div>
   );
 }
 
-GroupedBarPlot.propTypes = {};
+FunnelBarPlot.propTypes = {};
 
-export default GroupedBarPlot;
+export default FunnelBarPlot;

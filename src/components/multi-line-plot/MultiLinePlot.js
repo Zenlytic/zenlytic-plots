@@ -94,15 +94,14 @@ function MultiLinePlot({
   };
 
   const colors = [
-    '#0f93e5',
-    '#e6ac00',
-    '#d510d9',
-    '#e57c04',
-    '#dac611',
-    '#74d912',
-    '#2ac2a5',
-    '#1501e5',
-    '#de0c08',
+    '#F355F6',
+    '#FFAD4D',
+    '#F6E655',
+    '#A6F556',
+    '#68E3CD',
+    '#4DBFFF',
+    '#5B4DFF',
+    '#FA5252',
   ];
 
   const [hoveredLineDataKey, setHoveredLineDataKey] = useState(null);

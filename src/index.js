@@ -1,4 +1,5 @@
 export { default as BarPlot } from 'components/bar-plot/BarPlot';
+export { default as FunnelBarPlot } from 'components/funnel-bar-plot/FunnelBarPlot';
 export { default as GroupedBarPlot } from 'components/grouped-bar-plot/GroupedBarPlot';
 export { default as HistogramPlot } from 'components/histogram-plot/HistogramPlot';
 export { default as LinePlot } from 'components/line-plot/LinePlot';
