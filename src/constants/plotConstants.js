@@ -43,3 +43,7 @@ export const PLOT_COLOR_PALETTE = {
   PINK_MARK: 'pink',
   LIGHT_BLUE_MARK: 'lightblue',
 };
+
+export const AXIS_COLOR = '#A6A6A6';
+export const GRID_COLOR = '#F0F0F0';
+export const LABEL_COLOR = '#737373';

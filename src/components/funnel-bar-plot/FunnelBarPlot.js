@@ -1,6 +1,17 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useEffect, useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Label, Legend, Tooltip, XAxis, YAxis } from 'recharts';
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  Label,
+  LabelList,
+  Legend,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { AXIS_COLOR, GRID_COLOR, LABEL_COLOR } from '../../constants/plotConstants';
 import formatValue from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
@@ -101,64 +112,26 @@ function FunnelBarPlot({
   ];
   console.log('🚀 ~ file: FunnelBarPlot.js ~ line 84 ~ newData', newData);
 
-  // const dataa = [
-  //   {
-  //     converted: {
-  //       California: 31351.5,
-  //       'New York': 14809.5,
-  //       Colorado: 5826.5,
-  //       Florida: 5232,
-  //       ORDERS_PRODUCT: 'Watering Spritz',
-  //     },
-  //     dropOff: {
-  //       California: 11351.5,
-  //       'New York': 4809.5,
-  //       Colorado: 2826.5,
-  //       Florida: 2232,
-  //       ORDERS_PRODUCT: 'Watering Spritz',
-  //     },
-  //   },
-  //   {
-  //     converted: {
-  //       California: 31351.5,
-  //       'New York': 14809.5,
-  //       Colorado: 5826.5,
-  //       Florida: 5232,
-  //       ORDERS_PRODUCT: 'Pool Cleaner',
-  //     },
-  //     dropOff: {
-  //       California: 11351.5,
-  //       'New York': 4809.5,
-  //       Colorado: 2826.5,
-  //       Florida: 2232,
-  //       ORDERS_PRODUCT: 'PoolCleaner',
-  //     },
-  //   },
-  // ];
-  // console.log('🚀 ~ file: FunnelBarPlot.js ~ line 69 ~ dataa', dataa);
-
   const colors = [
-    '#0f93e5',
-    '#e6ac00',
-    '#d510d9',
-    '#e57c04',
-    '#dac611',
-    '#74d912',
-    '#2ac2a5',
-    '#1501e5',
-    '#de0c08',
+    '#F785FA',
+    '#FFC47F',
+    '#F9ED85',
+    '#BFF885',
+    '#91EBDB',
+    '#7ED1FF',
+    '#8A80FF',
+    '#FC8283',
   ];
 
   const secondaryColors = [
-    '#4dbfff',
-    '#ffd34b',
-    '#f355f6',
-    '#ffad4d',
-    '#f6e655',
-    '#a6f556',
-    '#68e3cd',
-    '#5b4dff',
-    '#fa5252',
+    '#FFEFFF',
+    '#FFF7EA',
+    '#FFFDEB',
+    '#F5FFEC',
+    '#EBFEFB',
+    '#E9FBFF',
+    '#F1EFFF',
+    '#FFEEEE',
   ];
 
   const [hoveredBarKey, setHoveredBarKey] = useState(null);
@@ -167,6 +140,7 @@ function FunnelBarPlot({
   return (
     <div style={{ userSelect: 'none' }}>
       <BarChart
+        reverseStackOrder
         margin={margin}
         height={height}
         width={width}
@@ -186,16 +160,26 @@ function FunnelBarPlot({
         onMouseLeave={(e) => {
           setActivePayload(null);
         }}>
-        <CartesianGrid stroke="#f5f5f5" />
-        <XAxis dataKey={xAxisKey} name={xAxisLabel} tickFormatter={(timeStr) => timeStr}>
-          <Label value={xAxisLabel} offset={-10} position="insideBottom" />
-        </XAxis>
+        <CartesianGrid stroke={GRID_COLOR} vertical={false} />
+        <XAxis
+          dataKey={xAxisKey}
+          name={xAxisLabel}
+          tickFormatter={(timeStr) => timeStr}
+          tickLine={false}
+          axisLine={false}
+          tick={{ fill: AXIS_COLOR }}
+          stroke={AXIS_COLOR}
+        />
         <YAxis
+          stroke={GRID_COLOR}
+          tick={{ fill: AXIS_COLOR }}
+          tickLine={{ stroke: GRID_COLOR }}
           name={yAxisLabel}
           tickFormatter={(timeStr) =>
             formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
           }>
           <Label
+            fill={AXIS_COLOR}
             value={yAxisLabel}
             position="insideLeft"
             angle={-90}
@@ -220,24 +204,24 @@ function FunnelBarPlot({
           <>
             <Bar
               stackId={'a'}
-              dataKey={`CONVERTED`}
-              fill={secondaryColors[0 % secondaryColors.length]}
-              stroke={colors[0 % colors.length]}
-              fillOpacity={1.0}
-              radius={[3, 3, 0, 0]}
-              strokeWidth={2}
-              strokeOpacity={1.0}
-            />
-            <Bar
-              stackId={'a'}
               dataKey={`DROPPED_OFF`}
-              fill={'lightgray'}
-              stroke={'red'}
+              fill={secondaryColors[0 % secondaryColors.length]}
               fillOpacity={0.7}
               radius={[3, 3, 0, 0]}
               strokeWidth={2}
               strokeOpacity={0.7}
             />
+            <Bar
+              stackId={'a'}
+              dataKey={`CONVERTED`}
+              fill={colors[0 % colors.length]}
+              fillOpacity={1.0}
+              radius={[3, 3, 0, 0]}
+              strokeWidth={2}
+              labe
+              strokeOpacity={1.0}>
+              <LabelList dataKey="CONVERTED" position="top" fill={LABEL_COLOR} />
+            </Bar>
           </>
         )}
 
@@ -251,8 +235,7 @@ function FunnelBarPlot({
                   onMouseMove={() => setHoveredBarKey(category)}
                   onMouseLeave={() => setHoveredBarKey(null)}
                   dataKey={`CONVERTED_${category}`}
-                  fill={secondaryColors[index % secondaryColors.length]}
-                  stroke={colors[index % colors.length]}
+                  fill={colors[index % colors.length]}
                   fillOpacity={
                     category === hoveredBarKey ? 1.0 : hoveredBarKey === null ? 1.0 : 0.2
                   }
@@ -267,8 +250,7 @@ function FunnelBarPlot({
                   onMouseMove={() => setHoveredBarKey(category)}
                   onMouseLeave={() => setHoveredBarKey(null)}
                   dataKey={`DROPPED_OFF_${category}`}
-                  fill={'lightgray'}
-                  stroke={'red'}
+                  fill={secondaryColors[index % secondaryColors.length]}
                   fillOpacity={
                     category === hoveredBarKey ? 0.7 : hoveredBarKey === null ? 0.7 : 0.2
                   }
