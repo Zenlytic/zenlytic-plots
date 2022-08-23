@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-filename-extension */
+import moment from 'moment';
 import React, { useState } from 'react';
 import {
   Area,
@@ -39,7 +40,20 @@ function LinePlot({
   disableBrush = false,
   disableFollowUps = false,
 }) {
-  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisKey } = xAxis;
+  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisDataKey } = xAxis;
+  const xAxisTickFormatter =
+    xAxisFormat === 'date'
+      ? (timeStr) => moment.unix(timeStr).utc().format('MM/DD/YY')
+      : (timeStr) => formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr);
+
+  const newXAxisDataKey =
+    xAxisFormat === 'date'
+      ? (d) => {
+          if (!d) return null;
+          return moment.utc(d[xAxisDataKey]).format('X');
+        }
+      : xAxisDataKey;
+
   const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisKey } = yAxis;
 
   const [refAreaLeft, setRefAreaLeft] = useState('');
@@ -66,12 +80,16 @@ function LinePlot({
       closeClickTooltip();
       return;
     }
+    const formattedRight =
+      xAxisFormat === 'date' ? moment.unix(refAreaRight).utc().toDate() : refAreaRight;
+    const formattedLeft =
+      xAxisFormat === 'date' ? moment.unix(refAreaLeft).utc().toDate() : refAreaLeft;
     if (refAreaLeft > refAreaRight) {
-      setRefAreaLeft(refAreaRight);
-      setRefAreaRight(refAreaLeft);
-      onUpdateBrush({ start: refAreaRight, end: refAreaLeft });
+      setRefAreaLeft(formattedRight);
+      setRefAreaRight(formattedLeft);
+      onUpdateBrush({ start: formattedRight, end: formattedLeft });
     } else {
-      onUpdateBrush({ start: refAreaLeft, end: refAreaRight });
+      onUpdateBrush({ start: formattedLeft, end: formattedRight });
     }
   };
 
@@ -111,12 +129,11 @@ function LinePlot({
         <XAxis
           domain={['dataMin', 'dataMax']}
           name={xAxisLabel}
+          type="number"
           minTickGap={minTickGap}
-          dataKey={xAxisKey}
+          dataKey={newXAxisDataKey}
           interval={interval}
-          tickFormatter={(timeStr) =>
-            formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr)
-          }>
+          tickFormatter={xAxisTickFormatter}>
           <Label value={xAxisLabel} offset={-10} position="insideBottom" />
         </XAxis>
         <YAxis
@@ -145,7 +162,7 @@ function LinePlot({
             />
           }
           formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
-          labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
+          labelFormatter={xAxisTickFormatter}
         />
         <Area
           type="monotone"
