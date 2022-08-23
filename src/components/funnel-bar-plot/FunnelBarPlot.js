@@ -234,32 +234,25 @@ function FunnelBarPlot({
                   stackId={category}
                   onMouseMove={() => setHoveredBarKey(category)}
                   onMouseLeave={() => setHoveredBarKey(null)}
-                  dataKey={`CONVERTED_${category}`}
-                  fill={colors[index % colors.length]}
-                  fillOpacity={
-                    category === hoveredBarKey ? 1.0 : hoveredBarKey === null ? 1.0 : 0.2
-                  }
+                  dataKey={`DROPPED_OFF_${category}`}
+                  fill={secondaryColors[index % secondaryColors.length]}
+                  fillOpacity={0.7}
                   radius={[3, 3, 0, 0]}
                   strokeWidth={2}
-                  strokeOpacity={
-                    category === hoveredBarKey ? 1.0 : hoveredBarKey === null ? 1.0 : 0.2
-                  }
+                  strokeOpacity={0.7}
                 />
                 <Bar
                   stackId={category}
                   onMouseMove={() => setHoveredBarKey(category)}
                   onMouseLeave={() => setHoveredBarKey(null)}
-                  dataKey={`DROPPED_OFF_${category}`}
-                  fill={secondaryColors[index % secondaryColors.length]}
-                  fillOpacity={
-                    category === hoveredBarKey ? 0.7 : hoveredBarKey === null ? 0.7 : 0.2
-                  }
+                  dataKey={`CONVERTED_${category}`}
+                  fill={colors[index % colors.length]}
+                  fillOpacity={1.0}
                   radius={[3, 3, 0, 0]}
                   strokeWidth={2}
-                  strokeOpacity={
-                    category === hoveredBarKey ? 0.7 : hoveredBarKey === null ? 0.7 : 0.2
-                  }
-                />
+                  strokeOpacity={1.0}>
+                  <LabelList dataKey="CONVERTED" position="top" fill={LABEL_COLOR} />
+                </Bar>
               </>
             );
           })}

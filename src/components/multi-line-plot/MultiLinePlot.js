@@ -40,6 +40,20 @@ function MultiLinePlot({
   isServerSide,
 }) {
   const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisDataKey } = xAxis;
+
+  const xAxisTickFormatter =
+    xAxisFormat === 'date'
+      ? (timeStr) => moment.unix(timeStr).utc().format('MM/DD/YY')
+      : (timeStr) => formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr);
+
+  const newXAxisDataKey =
+    xAxisFormat === 'date'
+      ? (d) => {
+          if (!d) return null;
+          return moment.utc(d[xAxisDataKey]).format('X');
+        }
+      : xAxisDataKey;
+
   const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisDataKey } = yAxis;
   const {
     label: categoryAxisLabel,
@@ -79,9 +93,10 @@ function MultiLinePlot({
       return;
     }
     setActivePayloadAtBrush(event.activePayload);
-    const formattedRight = moment.unix(refAreaRight).utc().toDate();
-
-    const formattedLeft = moment.unix(refAreaLeft).utc().toDate();
+    const formattedRight =
+      xAxisFormat === 'date' ? moment.unix(refAreaRight).utc().toDate() : refAreaRight;
+    const formattedLeft =
+      xAxisFormat === 'date' ? moment.unix(refAreaLeft).utc().toDate() : refAreaLeft;
 
     if (refAreaLeft > refAreaRight) {
       setRefAreaLeft(refAreaRight);
@@ -159,14 +174,10 @@ function MultiLinePlot({
           // tickCount={tickCount}
           domain={['dataMin', 'dataMax']}
           type="number"
-          scle="time"
           minTickGap={minTickGap}
           allowDuplicatedCategory={false}
-          tickFormatter={(timeStr) => moment.unix(timeStr).utc().format('MM/DD/YY')}
-          dataKey={(d) => {
-            if (!d) return null;
-            return moment.utc(d[xAxisDataKey]).format('X');
-          }}
+          tickFormatter={xAxisTickFormatter}
+          dataKey={newXAxisDataKey}
           interval={interval}>
           <Label value={xAxisLabel} offset={-10} position="insideBottom" />
         </XAxis>
@@ -193,9 +204,7 @@ function MultiLinePlot({
             />
           }
           formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
-          labelFormatter={(value) => {
-            return moment.unix(value).utc().format('MM/DD/YY');
-          }}
+          labelFormatter={xAxisTickFormatter}
         />
         <Legend
           layout="vertical"
