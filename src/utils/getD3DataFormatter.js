@@ -46,6 +46,8 @@ const getD3DataFormatter = (format, value) => {
       return 'week';
     case 'hour_of_day':
       return 'hour_of_day';
+    case 'time':
+      return 'time';
     case 'default':
       if (value && Math.abs(value) < 1) {
         return '.3~f';
