@@ -12,7 +12,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
-import formatValue from '../../utils/formatValue';
+import formatValue, { formatUnixValue } from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
@@ -41,10 +41,8 @@ function MultiLinePlot({
 }) {
   const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisDataKey } = xAxis;
 
-  const xAxisTickFormatter =
-    xAxisFormat === 'date'
-      ? (timeStr) => moment.unix(timeStr).utc().format('MM/DD/YY')
-      : (timeStr) => formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr);
+  const xAxisTickFormatter = (timeStr) =>
+    formatUnixValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr);
 
   const newXAxisDataKey =
     xAxisFormat === 'date'
