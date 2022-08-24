@@ -12,7 +12,7 @@ import {
   YAxis,
 } from 'recharts';
 
-import formatValue from '../../utils/formatValue';
+import formatValue, { formatUnixValue, TIME_FORMATS } from '../../utils/formatValue';
 import getD3DataFormatter from '../../utils/getD3DataFormatter';
 import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
@@ -41,18 +41,15 @@ function LinePlot({
   disableFollowUps = false,
 }) {
   const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisDataKey } = xAxis;
-  const xAxisTickFormatter =
-    xAxisFormat === 'date'
-      ? (timeStr) => moment.unix(timeStr).utc().format('MM/DD/YY')
-      : (timeStr) => formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr);
+  const xAxisTickFormatter = (timeStr) =>
+    formatUnixValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr);
 
-  const newXAxisDataKey =
-    xAxisFormat === 'date'
-      ? (d) => {
-          if (!d) return null;
-          return moment.utc(d[xAxisDataKey]).format('X');
-        }
-      : xAxisDataKey;
+  const newXAxisDataKey = TIME_FORMATS.includes(xAxisFormat)
+    ? (d) => {
+        if (!d) return null;
+        return moment.utc(d[xAxisDataKey]).format('X');
+      }
+    : xAxisDataKey;
 
   const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisKey } = yAxis;
 
