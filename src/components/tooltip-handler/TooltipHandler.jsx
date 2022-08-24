@@ -25,6 +25,7 @@ function TooltipHandler(props) {
     );
   }
   if (!active || isHidden) return false;
+  if (customPayload && Array.isArray(customPayload) && !customPayload.length) return false;
   return <CustomHoverTooltip {...props} payload={customPayload || payload} />;
 }
 
