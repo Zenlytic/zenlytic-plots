@@ -13,47 +13,47 @@ const minifyExtension = (pathToFile) => pathToFile.replace(/\.js$/, '.min.js');
 const dev = process.env.NODE_ENV !== 'production';
 
 export default [
-  // {
-  //   input,
-  //   output: {
-  //     file: packageJSON.main,
-  //     format: 'cjs',
-  //     sourcemap: true,
-  //   },
-  //   plugins: [
-  //     babel({
-  //       exclude: 'node_modules/**',
-  //     }),
-  //     external(),
-  //     nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
-  //     commonjs(),
-  //     postcss({
-  //       plugins: [],
-  //     }),
-  //     // dev && run(),
-  //   ],
-  // },
-  // {
-  //   input,
-  //   output: {
-  //     file: minifyExtension(packageJSON.main),
-  //     format: 'cjs',
-  //     sourcemap: true,
-  //   },
-  //   plugins: [
-  //     babel({
-  //       exclude: 'node_modules/**',
-  //     }),
-  //     external(),
-  //     nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
-  //     commonjs(),
-  //     postcss({
-  //       plugins: [],
-  //     }),
-  //     terser(),
-  //     // dev && run(),
-  //   ],
-  // },
+  {
+    input,
+    output: {
+      file: packageJSON.main,
+      format: 'cjs',
+      sourcemap: true,
+    },
+    plugins: [
+      babel({
+        exclude: 'node_modules/**',
+      }),
+      external(),
+      nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
+      commonjs(),
+      postcss({
+        plugins: [],
+      }),
+      // dev && run(),
+    ],
+  },
+  {
+    input,
+    output: {
+      file: minifyExtension(packageJSON.main),
+      format: 'cjs',
+      sourcemap: true,
+    },
+    plugins: [
+      babel({
+        exclude: 'node_modules/**',
+      }),
+      external(),
+      nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
+      commonjs(),
+      postcss({
+        plugins: [],
+      }),
+      terser(),
+      // dev && run(),
+    ],
+  },
   {
     input,
     output: {
@@ -101,45 +101,45 @@ export default [
       terser(),
     ],
   },
-  // {
-  //   input,
-  //   output: {
-  //     file: packageJSON.module,
-  //     format: 'es',
-  //     sourcemap: true,
-  //     exports: 'named',
-  //   },
-  //   plugins: [
-  //     babel({
-  //       exclude: 'node_modules/**',
-  //     }),
-  //     external(),
-  //     nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
-  //     commonjs(),
-  //     postcss({
-  //       plugins: [],
-  //     }),
-  //   ],
-  // },
-  // {
-  //   input,
-  //   output: {
-  //     file: minifyExtension(packageJSON.module),
-  //     format: 'es',
-  //     sourcemap: true,
-  //     exports: 'named',
-  //   },
-  //   plugins: [
-  //     babel({
-  //       exclude: 'node_modules/**',
-  //     }),
-  //     external(),
-  //     nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
-  //     commonjs(),
-  //     postcss({
-  //       plugins: [],
-  //     }),
-  //     terser(),
-  //   ],
-  // },
+  {
+    input,
+    output: {
+      file: packageJSON.module,
+      format: 'es',
+      sourcemap: true,
+      exports: 'named',
+    },
+    plugins: [
+      babel({
+        exclude: 'node_modules/**',
+      }),
+      external(),
+      nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
+      commonjs(),
+      postcss({
+        plugins: [],
+      }),
+    ],
+  },
+  {
+    input,
+    output: {
+      file: minifyExtension(packageJSON.module),
+      format: 'es',
+      sourcemap: true,
+      exports: 'named',
+    },
+    plugins: [
+      babel({
+        exclude: 'node_modules/**',
+      }),
+      external(),
+      nodeResolve({ extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
+      commonjs(),
+      postcss({
+        plugins: [],
+      }),
+      terser(),
+    ],
+  },
 ];
