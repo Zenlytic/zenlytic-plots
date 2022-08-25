@@ -174,6 +174,9 @@ function FunnelBarPlot({
                 fill="#737373"
                 fontWeight="medium"
                 fontSize="12px"
+                formatter={(value) => {
+                  return formatValue(getD3DataFormatter(yAxisFormat, value), value);
+                }}
               />
             </Bar>
           </>
@@ -221,6 +224,9 @@ function FunnelBarPlot({
                     fill="#737373"
                     fontWeight="medium"
                     fontSize="12px"
+                    formatter={(timeStr) =>
+                      formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
+                    }
                   />
                 </Bar>
               </>
