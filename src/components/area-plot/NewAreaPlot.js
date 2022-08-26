@@ -8,6 +8,7 @@ import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 import {
+  getAreaPlotDataAnnotationsChangeType,
   getAxisFormat,
   getCategoryAxisDataKey,
   getCategoryValueAxes,
@@ -29,6 +30,8 @@ function PivotedAreaPlot({ plotConfig }) {
   const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+  const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
+  const data = getData(plotConfig);
   return uniqueValuesOfCategoryKey.map((uniqueValueOfCategoryKeyInData, index) => (
     <Area
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
@@ -40,7 +43,15 @@ function PivotedAreaPlot({ plotConfig }) {
       key={uniqueValueOfCategoryKeyInData}
       stackId="1"
       label={
-        showDataAnnotations ? <DataAnnotation valueFormatter={yAxisTickFormatter} /> : undefined
+        showDataAnnotations ? (
+          <DataAnnotation
+            dataKey={uniqueValueOfCategoryKeyInData}
+            categoryKeyValues={uniqueValuesOfCategoryKey}
+            data={data}
+            dataChangeType={dataAnnotationsChangeType}
+            valueFormatter={yAxisTickFormatter}
+          />
+        ) : undefined
       }
     />
   ));
