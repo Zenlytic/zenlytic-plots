@@ -3,12 +3,13 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { Area, AreaChart } from 'recharts';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+import { changeTypes, PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 import {
   getAreaPlotDataAnnotationsChangeType,
+  getAreaPlotDataChangeType,
   getAxisFormat,
   getCategoryAxisDataKey,
   getCategoryValueAxes,
@@ -32,6 +33,7 @@ function PivotedAreaPlot({ plotConfig }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   const data = getData(plotConfig);
+  const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   return uniqueValuesOfCategoryKey.map((uniqueValueOfCategoryKeyInData, index) => (
     <Area
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
@@ -41,6 +43,7 @@ function PivotedAreaPlot({ plotConfig }) {
       strokeWidth={2}
       name={uniqueValueOfCategoryKeyInData}
       key={uniqueValueOfCategoryKeyInData}
+      stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
       label={
         <DataAnnotation
           dataKey={uniqueValueOfCategoryKeyInData}
@@ -68,6 +71,7 @@ function NonPivotedAreaPlot({ plotConfig }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   const data = getData(plotConfig);
+  const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   return categoryValueAxes.map((axis, index) => (
     <Area
       type="monotone"
@@ -77,6 +81,7 @@ function NonPivotedAreaPlot({ plotConfig }) {
       fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
       strokeWidth={2}
+      stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
       label={
         showDataAnnotations ? (
           <DataAnnotation
@@ -96,6 +101,14 @@ function NonPivotedAreaPlot({ plotConfig }) {
   ));
 }
 
+const toPercent = (decimal) => `${(decimal * 100).toFixed(0)}%`;
+
+const getPercent = (value, total) => {
+  const ratio = total > 0 ? value / total : 0;
+
+  return toPercent(ratio, 2);
+};
+
 function AreaPlot({
   plotConfig = {},
   TooltipContent = () => {},
@@ -107,7 +120,6 @@ function AreaPlot({
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisFormat = getAxisFormat(plotConfig, xAxisDataKey);
   const yAxis = getYAxis(plotConfig);
-  console.log(yAxis);
 
   const [tooltip, tooltipHandlers] = useTooltip();
   const [brush, brushEvents] = useBrush({
@@ -119,13 +131,24 @@ function AreaPlot({
     brushSelectionType: BRUSH_SELECTION_TYPES.RANGE_AND_ITEMS,
   });
 
+  const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
   // TODO: NJM Talk to Joe about why specifying a `dataKey` breaks
   // area charts and gives them a domain of [-Infinity, Infinity].
-  const yAxisConfig = { ...getYAxis(plotConfig), dataKey: undefined };
+  const yAxisConfig = {
+    ...getYAxis(plotConfig),
+    dataKey: undefined,
+    ...(plotDataChangeType === changeTypes.PERCENT ? { tickFormatter: toPercent } : {}),
+  };
+
+  const stackOffset = {
+    [changeTypes.ABSOLUTE]: 'none',
+    [changeTypes.PERCENT]: 'expand',
+  }[plotDataChangeType];
+  console.log({ stackOffset });
   return (
     <PlotContainer>
-      <AreaChart margin={margin} data={data} {...brushEvents}>
+      <AreaChart margin={margin} data={data} stackOffset={stackOffset} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
           brush,
