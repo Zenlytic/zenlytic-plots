@@ -70,7 +70,7 @@ function LinePlot({
           name={yAxisName}
           isAnimationActive={false}
           label={
-            showDataAnnotations ? <DataAnnotation formatter={yAxisTickFormatter} /> : undefined
+            showDataAnnotations ? <DataAnnotation valueFormatter={yAxisTickFormatter} /> : undefined
           }
         />
       </LineChart>

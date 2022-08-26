@@ -1,78 +1,73 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { Line, LineChart } from 'recharts';
+import { Area, AreaChart } from 'recharts';
 import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
-
 import {
   getAxisFormat,
+  getCategoryAxisDataKey,
   getCategoryValueAxes,
   getData,
   getIsDataPivoted,
   getMargin,
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
-  getXAxis,
+  getUniqueValuesOfDataKey,
   getXAxisDataKey,
-  getYAxis,
-  getYAxisDataKey,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 
-function PivotedMultiLinePlot({ plotConfig }) {
-  const yAxisDataKey = getYAxisDataKey(plotConfig);
-  const data = getData(plotConfig);
+function PivotedAreaPlot({ plotConfig }) {
+  const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
+  const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
-  return data.map((series, index) => {
-    return (
-      <Line
-        dot
-        data={series.data}
-        stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-        dataKey={yAxisDataKey}
-        type="monotone"
-        strokeWidth={2}
-        name={series.name}
-        key={series.name}
-        isAnimationActive={false}
-        label={
-          showDataAnnotations ? <DataAnnotation valueFormatter={yAxisTickFormatter} /> : undefined
-        }
-      />
-    );
-  });
+  return uniqueValuesOfCategoryKey.map((uniqueValueOfCategoryKeyInData, index) => (
+    <Area
+      stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
+      fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
+      dataKey={uniqueValueOfCategoryKeyInData}
+      type="monotone"
+      strokeWidth={2}
+      name={uniqueValueOfCategoryKeyInData}
+      key={uniqueValueOfCategoryKeyInData}
+      stackId="1"
+      label={
+        showDataAnnotations ? <DataAnnotation valueFormatter={yAxisTickFormatter} /> : undefined
+      }
+    />
+  ));
 }
 
-function NonPivotedMultiLinePlot({ plotConfig }) {
+function NonPivotedAreaPlot({ plotConfig }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   return categoryValueAxes.map((axis, index) => (
-    <Line
+    <Area
       type="monotone"
       dataKey={axis.dataKey}
       name={axis.name}
       key={axis.name}
       fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-      dot
       strokeWidth={2}
-      isAnimationActive={false}
+      stackId="1"
       label={
         showDataAnnotations ? (
-          <DataAnnotation valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)} />
+          <DataAnnotation formatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)} />
         ) : undefined
       }
     />
   ));
 }
 
-function MultiLinePlot({
+function AreaPlot({
   plotConfig = {},
   TooltipContent = () => {},
   onBrushUpdate = () => {},
@@ -80,8 +75,6 @@ function MultiLinePlot({
 }) {
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
-  const isDataPivoted = getIsDataPivoted(plotConfig);
-
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisFormat = getAxisFormat(plotConfig, xAxisDataKey);
 
@@ -95,9 +88,10 @@ function MultiLinePlot({
     brushSelectionType: BRUSH_SELECTION_TYPES.RANGE_AND_ITEMS,
   });
 
+  const isDataPivoted = getIsDataPivoted(plotConfig);
   return (
     <PlotContainer>
-      <LineChart data={data} margin={margin} {...brushEvents}>
+      <AreaChart margin={margin} data={data} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
           brush,
@@ -107,14 +101,14 @@ function MultiLinePlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
+          yAxisConfig: {},
         })}
-        {isDataPivoted && PivotedMultiLinePlot({ plotConfig })}
-        {!isDataPivoted && NonPivotedMultiLinePlot({ plotConfig })}
-      </LineChart>
+        {isDataPivoted ? PivotedAreaPlot({ plotConfig }) : NonPivotedAreaPlot({ plotConfig })}
+      </AreaChart>
     </PlotContainer>
   );
 }
 
-MultiLinePlot.propTypes = {};
+AreaPlot.propTypes = {};
 
-export default MultiLinePlot;
+export default AreaPlot;

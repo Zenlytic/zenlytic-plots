@@ -468,3 +468,21 @@ export const getIsSeriesStacked = (plotConfig) => {
   const { isStacked = false } = series || {};
   return isStacked;
 };
+
+const getPlotOptions = (plotConfig) => {
+  return plotConfig.plotOptions;
+};
+
+const getAreaPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig).area;
+};
+
+export const getAreaPlotDataChangeType = (plotConfig) => {
+  const areaPlotOptions = getAreaPlotOptions(plotConfig);
+  return areaPlotOptions?.dataChangeType;
+};
+
+export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
+  const areaPlotOptions = getAreaPlotOptions(plotConfig);
+  return areaPlotOptions?.dataAnnotationsChangeType;
+};
