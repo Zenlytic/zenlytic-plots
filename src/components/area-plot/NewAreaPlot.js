@@ -18,6 +18,7 @@ import {
   getTickFormatterFromDataKey,
   getUniqueValuesOfDataKey,
   getXAxisDataKey,
+  getYAxis,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
@@ -77,6 +78,8 @@ function AreaPlot({
   const margin = getMargin(plotConfig);
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisFormat = getAxisFormat(plotConfig, xAxisDataKey);
+  const yAxis = getYAxis(plotConfig);
+  console.log(yAxis);
 
   const [tooltip, tooltipHandlers] = useTooltip();
   const [brush, brushEvents] = useBrush({
@@ -89,6 +92,9 @@ function AreaPlot({
   });
 
   const isDataPivoted = getIsDataPivoted(plotConfig);
+  // TODO: NJM Talk to Joe about why specifying a `dataKey` breaks
+  // area charts and gives them a domain of [-Infinity, Infinity].
+  const yAxisConfig = { ...getYAxis(plotConfig), dataKey: undefined };
   return (
     <PlotContainer>
       <AreaChart margin={margin} data={data} {...brushEvents}>
@@ -101,7 +107,7 @@ function AreaPlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
-          yAxisConfig: {},
+          yAxisConfig,
         })}
         {isDataPivoted ? PivotedAreaPlot({ plotConfig }) : NonPivotedAreaPlot({ plotConfig })}
       </AreaChart>
