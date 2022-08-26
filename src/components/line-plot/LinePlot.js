@@ -9,13 +9,16 @@ import {
   getAxisFormat,
   getData,
   getMargin,
+  getSeriesShowDataAnnotations,
   getSeriesStrokeColor,
   getXAxisDataKey,
   getYAxisDataKey,
   getYAxisName,
+  getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 
 function LinePlot({
   plotConfig = {},
@@ -31,6 +34,9 @@ function LinePlot({
 
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
+
+  const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
 
@@ -63,6 +69,9 @@ function LinePlot({
           strokeWidth={2}
           name={yAxisName}
           isAnimationActive={false}
+          label={
+            showDataAnnotations ? <DataAnnotation formatter={yAxisTickFormatter} /> : undefined
+          }
         />
       </LineChart>
     </PlotContainer>

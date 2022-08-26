@@ -12,17 +12,23 @@ import {
   getData,
   getIsDataPivoted,
   getMargin,
+  getSeriesShowDataAnnotations,
+  getTickFormatterFromDataKey,
   getXAxis,
   getXAxisDataKey,
   getYAxis,
   getYAxisDataKey,
+  getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 
 function PivotedMultiLinePlot({ plotConfig }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const data = getData(plotConfig);
+  const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
   return data.map((series, index) => {
     return (
       <Line
@@ -35,6 +41,7 @@ function PivotedMultiLinePlot({ plotConfig }) {
         name={series.name}
         key={series.name}
         isAnimationActive={false}
+        label={showDataAnnotations ? <DataAnnotation formatter={yAxisTickFormatter} /> : undefined}
       />
     );
   });
@@ -42,6 +49,7 @@ function PivotedMultiLinePlot({ plotConfig }) {
 
 function NonPivotedMultiLinePlot({ plotConfig }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
+  const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   return categoryValueAxes.map((axis, index) => (
     <Line
       type="monotone"
@@ -53,6 +61,11 @@ function NonPivotedMultiLinePlot({ plotConfig }) {
       dot
       strokeWidth={2}
       isAnimationActive={false}
+      label={
+        showDataAnnotations ? (
+          <DataAnnotation formatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)} />
+        ) : undefined
+      }
     />
   ));
 }
