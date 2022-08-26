@@ -41,17 +41,23 @@ function PivotedAreaPlot({ plotConfig }) {
       strokeWidth={2}
       name={uniqueValueOfCategoryKeyInData}
       key={uniqueValueOfCategoryKeyInData}
-      stackId="1"
       label={
-        showDataAnnotations ? (
-          <DataAnnotation
-            dataKey={uniqueValueOfCategoryKeyInData}
-            categoryKeyValues={uniqueValuesOfCategoryKey}
-            data={data}
-            dataChangeType={dataAnnotationsChangeType}
-            valueFormatter={yAxisTickFormatter}
-          />
-        ) : undefined
+        <DataAnnotation
+          dataKey={uniqueValueOfCategoryKeyInData}
+          categoryKeyValues={uniqueValuesOfCategoryKey}
+          data={data}
+          dataChangeType={dataAnnotationsChangeType}
+          valueFormatter={yAxisTickFormatter}
+          getTotalValue={(index) => {
+            const datum = data[index];
+            const totalValue = uniqueValuesOfCategoryKey.reduce(
+              (total, categoryKeyValue) => datum[categoryKeyValue] + total,
+              0
+            );
+            return totalValue;
+          }}
+          showDataAnnotations={showDataAnnotations}
+        />
       }
     />
   ));
@@ -60,6 +66,8 @@ function PivotedAreaPlot({ plotConfig }) {
 function NonPivotedAreaPlot({ plotConfig }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
+  const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
+  const data = getData(plotConfig);
   return categoryValueAxes.map((axis, index) => (
     <Area
       type="monotone"
@@ -69,10 +77,19 @@ function NonPivotedAreaPlot({ plotConfig }) {
       fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
       strokeWidth={2}
-      stackId="1"
       label={
         showDataAnnotations ? (
-          <DataAnnotation formatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)} />
+          <DataAnnotation
+            data={data}
+            dataKey={axis.dataKey}
+            getTotalValue={(index) => {
+              // TODO: NJM
+              const datum = data[index];
+              return categoryValueAxes.reduce((total, axis) => datum[axis.dataKey] + total, 0);
+            }}
+            dataChangeType={dataAnnotationsChangeType}
+            valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)}
+          />
         ) : undefined
       }
     />
