@@ -191,7 +191,7 @@ function FunnelBarPlot({
                   stackId={category}
                   dataKey={`CONVERTED_${category}`}
                   name={`Converted - ${category}`}
-                  fill={plotColor[index % plotColors.length]}
+                  fill={plotColors[index % plotColors.length]}
                   radius={[0, 0, 3, 3]}>
                   <LabelList
                     offset={16}
