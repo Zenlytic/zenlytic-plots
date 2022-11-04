@@ -1,8 +1,7 @@
 import { isEmpty } from 'lodash';
-import moment from 'moment';
 import colors from '../constants/colors';
 import { AXIS_DATA_KEY_KEYS, DEFAULT_PLOT_MARGIN, PLOT_TYPES } from '../constants/plotConstants';
-import formatValue, { TIME_FORMATS } from './formatValue';
+import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
 
 export const getAxes = (plotConfig = {}) => {
@@ -47,6 +46,11 @@ const getAxisFromDataKey = (plotConfig, axisDataKey) => {
 export const getAxisFormat = (plotConfig, dataKey) => {
   const axis = getAxisFromDataKey(plotConfig, dataKey);
   return axis?.format;
+};
+
+export const getAxisName = (plotConfig, dataKey) => {
+  const axis = getAxisFromDataKey(plotConfig, dataKey);
+  return axis?.name;
 };
 
 export const getTickFormatterFromDataKey = (plotConfig, dataKey) => {
@@ -344,6 +348,52 @@ const getWaterfallSpecificData = (plotConfig, data) => {
   return [startDataPoint, ...accumulatedData, otherFactorsDataPoint, endDataPoint];
 };
 
+export const getSeriesStatDataKeys = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series?.statDataKeys ?? [];
+};
+
+const getSubStatDataKey = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series?.subStatDataKey;
+};
+
+export const getStatDataKeys = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series?.statDataKeys ?? [];
+};
+
+export const getSubStatAxis = (plotConfig) => {
+  const axes = getAxes(plotConfig);
+  const subStatDataKey = getSubStatDataKey(plotConfig);
+  return axes.find((a) => a.dataKey === subStatDataKey);
+};
+
+export const getDoesSeriesHaveSubStatDataKey = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series.subStatDataKey !== undefined;
+};
+
+// TODO: NJM Swap this out to get real data once Paul passes it in.
+const getStatSpecificData = (plotConfig, data) => {
+  const statDataKeys = getSeriesStatDataKeys(plotConfig);
+  const subStatDataKey = getSubStatDataKey(plotConfig);
+  return statDataKeys.map((statDataKey, index) => {
+    if (getDoesSeriesHaveSubStatDataKey(plotConfig)) {
+      return {
+        [statDataKey]: 432,
+        [subStatDataKey]: {
+          [statDataKey]: index % 2 === 0 ? 654 : 361,
+          time: '90 days',
+        },
+      };
+    }
+    return {
+      [statDataKey]: 594,
+    };
+  });
+};
+
 export const getData = (plotConfig) => {
   const { data = [] } = plotConfig;
   const isDataPivoted = getIsDataPivoted(plotConfig);
@@ -352,9 +402,24 @@ export const getData = (plotConfig) => {
       return getFunnelSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.WATERFALL:
       return getWaterfallSpecificData(plotConfig, data, isDataPivoted);
+    case PLOT_TYPES.STAT:
+      return getStatSpecificData(plotConfig, data);
     default:
       return isDataPivoted ? getPivotedData(plotConfig, data) : data;
   }
+};
+
+export const getStatDatumByDataKey = (plotConfig, dataKey) => {
+  const data = getData(plotConfig);
+  return data.find((datum) => datum[dataKey] !== undefined);
+};
+
+export const getSubStatData = (plotConfig, dataKey) => {
+  const datum = getStatDatumByDataKey(plotConfig, dataKey);
+  const subStatDataKey = getSubStatDataKey(plotConfig);
+  const currentValue = datum[dataKey];
+  const { [dataKey]: previousValue, time, ...rest } = datum[subStatDataKey];
+  return { currentValue, previousValue, time, ...rest };
 };
 
 export const getValuesOfCategoryAxis = (plotConfig) => {

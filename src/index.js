@@ -8,12 +8,12 @@ export { default as WaterfallPlot } from 'components/waterfall-plot/NewWaterfall
 export { default as FunnelBarPlot } from 'components/funnel-bar-plot/NewFunnelBarPlot';
 export { default as SankeyPlot } from 'components/sankey-plot/NewSankeyPlot';
 export { default as HistogramPlot } from 'components/histogram-plot/NewHistogramPlot';
+export { default as StatPlot } from 'components/stat-plot/NewStatPlot';
 
 // DONT NEED TO DO RIGHT NOW
 export { default as AreaPlot } from 'components/area-plot/AreaPlot';
 export { default as ResponsiveContainer } from 'components/responsive-container/ResponsiveContainer';
 export { default as FunnelPlot } from 'components/funnel-plot/FunnelPlot';
 export { default as TablePlot } from 'components/table-plot/TablePlot';
-export { default as StatPlot } from 'components/stat-plot/StatPlot';
 export { default as ZenlyticLegend } from 'components/zenlytic-legend/ZenlyticLegend';
 export { default as ZenlyticPlot } from 'components/zenlytic-plot/ZenlyticPlot';
