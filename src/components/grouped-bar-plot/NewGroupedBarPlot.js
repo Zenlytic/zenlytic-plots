@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { Bar, BarChart } from 'recharts';
+import { BarChart } from 'recharts';
+import Bar from '../shared/bar/Bar';
 import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import { v4 as uuidv4 } from 'uuid';
@@ -26,22 +27,20 @@ function PivotedGroupedBar({
   const data = getData(plotConfig);
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   return data.map((series, index) => {
-    return (
-      <Bar
-        id={series.name}
-        data={series.data}
-        stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-        fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-        dataKey={yAxisDataKey}
-        name={series.name}
-        key={series.name}
-        fillOpacity={!hoveredItemId || hoveredItemId === series.name ? 1 : 0.2}
-        strokeOpacity={!hoveredItemId || hoveredItemId === series.name ? 1 : 0.2}
-        onMouseOver={() => updateHoveredItemId(series.name)}
-        onMouseLeave={() => updateHoveredItemId(null)}
-        onClick={(e) => updateClickedItemId(series.name, e?.tooltipPosition)}
-      />
-    );
+    return Bar({
+      id: series.name,
+      data: series.data,
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+      dataKey: yAxisDataKey,
+      name: series.name,
+      key: series.name,
+      fillOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
+      strokeOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
+      onMouseOver: () => updateHoveredItemId(series.name),
+      onMouseLeave: () => updateHoveredItemId(null),
+      onClick: (e) => updateClickedItemId(series.name, e?.tooltipPosition),
+    });
   });
 }
 
@@ -53,17 +52,14 @@ function NonPivotedGroupedBar({
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const isSeriesStacked = getIsSeriesStacked(plotConfig);
   return categoryValueAxes.map((axes, index) => {
-    return (
-      <Bar
-        dataKey={axes.dataKey}
-        name={axes.name}
-        fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-        stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-        stackId={isSeriesStacked ? 'a' : undefined}
-        // onMouseOver={() => updateHoveredItemId(series.name)}
-        onMouseLeave={() => updateHoveredItemId(null)}
-      />
-    );
+    return Bar({
+      dataKey: axes.dataKey,
+      name: axes.name,
+      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      stackId: isSeriesStacked ? 'a' : undefined,
+      onMouseLeave: () => updateHoveredItemId(null),
+    });
   });
 }
 
