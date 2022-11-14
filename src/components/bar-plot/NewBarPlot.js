@@ -19,7 +19,7 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 
-function NewBarPlot({ plotConfig = {}, TooltipContent = false }) {
+function NewBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const xAxisName = getXAxisName(plotConfig);
 
@@ -45,7 +45,13 @@ function NewBarPlot({ plotConfig = {}, TooltipContent = false }) {
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin} onClick={onPlotClick}>
-        {GeneralChartComponents({ plotConfig, TooltipContent, tooltipHandlers, tooltip })}
+        {GeneralChartComponents({
+          plotConfig,
+          TooltipContent,
+          tooltipHandlers,
+          tooltip,
+          isFollowUpDisabled,
+        })}
         <Bar
           dataKey={yAxisDataKey}
           name={xAxisName}
