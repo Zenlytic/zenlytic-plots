@@ -28,19 +28,27 @@ function NewStatPlot({ plotConfig = {} }) {
       {statDataKeys.map((statDataKey) => {
         const tickFormatter = getTickFormatterFromDataKey(plotConfig, statDataKey);
         const datum = getStatDatumByDataKey(plotConfig, statDataKey);
-        const value = datum[statDataKey];
+        const value = datum?.[statDataKey];
         const axisName = getAxisName(plotConfig, statDataKey);
+
         return (
           <Stat showBorder={showBorder} key={statDataKey}>
             <Label>{axisName}</Label>
-            <Value>{tickFormatter(value)}</Value>
-            {doesSeriesHaveSubStatDataKey &&
-              getSubStatAxis(plotConfig).format(getSubStatData(plotConfig, statDataKey))}
+            <Value>{tickFormatter(value) ?? '-'}</Value>
+            {doesSeriesHaveSubStatDataKey && (
+              <SubStat statDataKey={statDataKey} plotConfig={plotConfig} />
+            )}
           </Stat>
         );
       })}
     </StatsList>
   );
+}
+
+function SubStat({ plotConfig, statDataKey }) {
+  const subStatAxis = getSubStatAxis(plotConfig);
+  const subStatData = getSubStatData(plotConfig, statDataKey);
+  return subStatAxis.format(subStatData);
 }
 
 const getStatGridCss = (numMetrics) => {

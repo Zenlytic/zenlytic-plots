@@ -370,28 +370,13 @@ export const getSubStatAxis = (plotConfig) => {
 };
 
 export const getDoesSeriesHaveSubStatDataKey = (plotConfig) => {
-  const series = getSeries(plotConfig);
-  return series.subStatDataKey !== undefined;
-};
-
-// TODO: NJM Swap this out to get real data once Paul passes it in.
-const getStatSpecificData = (plotConfig, data) => {
-  const statDataKeys = getSeriesStatDataKeys(plotConfig);
   const subStatDataKey = getSubStatDataKey(plotConfig);
-  return statDataKeys.map((statDataKey, index) => {
-    if (getDoesSeriesHaveSubStatDataKey(plotConfig)) {
-      return {
-        [statDataKey]: 432,
-        [subStatDataKey]: {
-          [statDataKey]: index % 2 === 0 ? 654 : 361,
-          time: '90 days',
-        },
-      };
-    }
-    return {
-      [statDataKey]: 594,
-    };
-  });
+  if (subStatDataKey === undefined) {
+    return false;
+  }
+  const data = getData(plotConfig);
+  const dataHasSubStatKey = data?.[0][subStatDataKey] !== undefined;
+  return dataHasSubStatKey;
 };
 
 export const getData = (plotConfig) => {
@@ -402,8 +387,6 @@ export const getData = (plotConfig) => {
       return getFunnelSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.WATERFALL:
       return getWaterfallSpecificData(plotConfig, data, isDataPivoted);
-    case PLOT_TYPES.STAT:
-      return getStatSpecificData(plotConfig, data);
     default:
       return isDataPivoted ? getPivotedData(plotConfig, data) : data;
   }
@@ -415,11 +398,12 @@ export const getStatDatumByDataKey = (plotConfig, dataKey) => {
 };
 
 export const getSubStatData = (plotConfig, dataKey) => {
+  console.log({ plotConfig, dataKey });
   const datum = getStatDatumByDataKey(plotConfig, dataKey);
   const subStatDataKey = getSubStatDataKey(plotConfig);
-  const currentValue = datum[dataKey];
-  const { [dataKey]: previousValue, time, ...rest } = datum[subStatDataKey];
-  return { currentValue, previousValue, time, ...rest };
+  const currentValue = datum?.[dataKey];
+  const { [dataKey]: previousValue, ...rest } = datum?.[subStatDataKey] ?? {};
+  return { currentValue, previousValue, ...rest };
 };
 
 export const getValuesOfCategoryAxis = (plotConfig) => {
