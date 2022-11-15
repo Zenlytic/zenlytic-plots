@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-// TODO: NJM Here
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { BarChart, Tooltip, XAxis, YAxis } from 'recharts';
+import Bar from '../shared/bar/Bar';
 import useBrush from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 
@@ -84,8 +84,12 @@ function NewHistogramPlot({
           },
           customLabelFormatter,
         })}
-
-        <Bar dataKey="value" fill={seriesFillColor} stroke={seriesStrokeColor} name="Frequency" />
+        {Bar({
+          dataKey: 'value',
+          fill: seriesFillColor,
+          stroke: seriesStrokeColor,
+          name: 'Frequency',
+        })}
       </BarChart>
     </PlotContainer>
   );

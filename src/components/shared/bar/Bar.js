@@ -14,11 +14,12 @@ function Bar({
   key,
   fillOpacity,
   strokeOpacity,
+  isAnimationActive = false,
   onMouseOver = () => {},
   onMouseLeave = () => {},
   onClick = () => {},
   stackId,
-  strokeWidth = 2,
+  strokeWidth,
 }) {
   return (
     <RechartsBar
@@ -35,6 +36,7 @@ function Bar({
       onMouseLeave={onMouseLeave}
       onClick={onClick}
       stackId={stackId}
+      isAnimationActive={isAnimationActive}
       strokeWidth={strokeWidth}>
       {children}
     </RechartsBar>
