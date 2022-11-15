@@ -17,10 +17,9 @@ import {
 } from '../../utils/plotConfigGetters';
 
 function NewStatPlot({ plotConfig = {} }) {
-  const data = getData(plotConfig);
   const statDataKeys = getStatDataKeys(plotConfig);
   const doesSeriesHaveSubStatDataKey = getDoesSeriesHaveSubStatDataKey(plotConfig);
-  const numMetrics = data.length;
+  const numMetrics = statDataKeys.length;
   const showBorder = numMetrics !== 1;
 
   return (

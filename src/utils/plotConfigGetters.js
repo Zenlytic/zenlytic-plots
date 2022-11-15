@@ -398,7 +398,6 @@ export const getStatDatumByDataKey = (plotConfig, dataKey) => {
 };
 
 export const getSubStatData = (plotConfig, dataKey) => {
-  console.log({ plotConfig, dataKey });
   const datum = getStatDatumByDataKey(plotConfig, dataKey);
   const subStatDataKey = getSubStatDataKey(plotConfig);
   const currentValue = datum?.[dataKey];
