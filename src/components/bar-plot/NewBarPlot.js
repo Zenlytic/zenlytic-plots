@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
-import { Bar, BarChart, Cell, Tooltip, XAxis, YAxis } from 'recharts';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+import { BarChart, Cell, Tooltip, XAxis, YAxis } from 'recharts';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
-
+import Bar from '../shared/bar/Bar';
 import {
   getData,
   getMargin,
@@ -18,6 +17,7 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
 
 function NewBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
@@ -52,12 +52,13 @@ function NewBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           tooltip,
           isFollowUpDisabled,
         })}
-        <Bar
-          dataKey={yAxisDataKey}
-          name={xAxisName}
-          fill={seriesFillColor}
-          stroke={seriesStrokeColor}>
-          {data.map((item, index) => {
+        {Bar({
+          dataKey: yAxisDataKey,
+          name: xAxisName,
+          fill: seriesFillColor,
+          stroke: seriesStrokeColor,
+          strokeWidth: BAR_STROKE_WIDTH,
+          children: data.map((item) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
             return (
               <Cell
@@ -69,8 +70,8 @@ function NewBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
                 strokeWidth={2}
               />
             );
-          })}
-        </Bar>
+          }),
+        })}
       </BarChart>
     </PlotContainer>
   );
