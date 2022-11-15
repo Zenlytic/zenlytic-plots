@@ -108,7 +108,7 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
   );
 }
 
-function FunnelBarPlot({ plotConfig = {}, TooltipContent = false }) {
+function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
 
@@ -133,6 +133,7 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false }) {
           TooltipContent,
           tooltipHandlers,
           tooltip,
+          isFollowUpDisabled,
           customValueFormatter: yAxisTickFormatter,
         })}
         {isDataPivoted && PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId })}

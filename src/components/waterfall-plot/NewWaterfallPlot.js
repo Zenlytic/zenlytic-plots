@@ -52,7 +52,7 @@ const renderCustomizedLabel = (props, yAxisTickFormatter) => {
   );
 };
 
-function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false }) {
+function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
@@ -82,6 +82,7 @@ function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false }) {
           TooltipContent,
           tooltipHandlers,
           tooltip,
+          isFollowUpDisabled,
           xAxisConfig: {
             ...xAxisConfig,
             tickLine: false,

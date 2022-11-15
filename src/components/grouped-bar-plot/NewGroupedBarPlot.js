@@ -67,7 +67,7 @@ function NonPivotedGroupedBar({
   });
 }
 
-function NewGroupedBar({ plotConfig = {}, TooltipContent = false }) {
+function NewGroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
@@ -86,6 +86,7 @@ function NewGroupedBar({ plotConfig = {}, TooltipContent = false }) {
           tooltip,
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
+          isFollowUpDisabled,
         })}
         {isDataPivoted &&
           PivotedGroupedBar({
