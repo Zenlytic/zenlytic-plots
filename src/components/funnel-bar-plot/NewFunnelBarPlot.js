@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
+// TODO: NJM Here
 import { Bar, BarChart, LabelList } from 'recharts';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';

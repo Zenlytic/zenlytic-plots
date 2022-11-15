@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+// TODO: NJM Here
 import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 import useBrush from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
