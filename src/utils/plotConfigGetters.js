@@ -1,8 +1,7 @@
 import { isEmpty } from 'lodash';
-import moment from 'moment';
 import colors from '../constants/colors';
 import { AXIS_DATA_KEY_KEYS, DEFAULT_PLOT_MARGIN, PLOT_TYPES } from '../constants/plotConstants';
-import formatValue, { TIME_FORMATS } from './formatValue';
+import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
 
 export const getAxes = (plotConfig = {}) => {
@@ -47,6 +46,11 @@ const getAxisFromDataKey = (plotConfig, axisDataKey) => {
 export const getAxisFormat = (plotConfig, dataKey) => {
   const axis = getAxisFromDataKey(plotConfig, dataKey);
   return axis?.format;
+};
+
+export const getAxisName = (plotConfig, dataKey) => {
+  const axis = getAxisFromDataKey(plotConfig, dataKey);
+  return axis?.name;
 };
 
 export const getTickFormatterFromDataKey = (plotConfig, dataKey) => {
@@ -344,6 +348,27 @@ const getWaterfallSpecificData = (plotConfig, data) => {
   return [startDataPoint, ...accumulatedData, otherFactorsDataPoint, endDataPoint];
 };
 
+const getSubStatDataKey = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series?.subStatDataKey;
+};
+
+export const getStatDataKeys = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series?.statDataKeys ?? [];
+};
+
+export const getSubStatAxis = (plotConfig) => {
+  const axes = getAxes(plotConfig);
+  const subStatDataKey = getSubStatDataKey(plotConfig);
+  return axes.find((a) => a.dataKey === subStatDataKey);
+};
+
+export const getDoesSubStatDataExist = (plotConfig) => {
+  const subStatDataKey = getSubStatDataKey(plotConfig);
+  return subStatDataKey !== undefined;
+};
+
 export const getData = (plotConfig) => {
   const { data = [] } = plotConfig;
   const isDataPivoted = getIsDataPivoted(plotConfig);
@@ -355,6 +380,20 @@ export const getData = (plotConfig) => {
     default:
       return isDataPivoted ? getPivotedData(plotConfig, data) : data;
   }
+};
+
+export const getStatDatumByDataKey = (plotConfig, dataKey) => {
+  const data = getData(plotConfig);
+  return data.find((datum) => datum[dataKey] !== undefined);
+};
+
+export const getSubStatDatumByDataKey = (plotConfig, dataKey) => {
+  const datum = getStatDatumByDataKey(plotConfig, dataKey);
+  if (datum === undefined) {
+    return {};
+  }
+  const subStatDataKey = getSubStatDataKey(plotConfig);
+  return datum[subStatDataKey];
 };
 
 export const getValuesOfCategoryAxis = (plotConfig) => {
