@@ -369,16 +369,6 @@ export const getSubStatAxis = (plotConfig) => {
   return axes.find((a) => a.dataKey === subStatDataKey);
 };
 
-export const getDoesSeriesHaveSubStatDataKey = (plotConfig) => {
-  const subStatDataKey = getSubStatDataKey(plotConfig);
-  if (subStatDataKey === undefined) {
-    return false;
-  }
-  const data = getData(plotConfig);
-  const dataHasSubStatKey = data?.[0][subStatDataKey] !== undefined;
-  return dataHasSubStatKey;
-};
-
 export const getData = (plotConfig) => {
   const { data = [] } = plotConfig;
   const isDataPivoted = getIsDataPivoted(plotConfig);
@@ -392,6 +382,16 @@ export const getData = (plotConfig) => {
   }
 };
 
+export const getDoesSubStatDataExist = (plotConfig) => {
+  const subStatDataKey = getSubStatDataKey(plotConfig);
+  if (subStatDataKey === undefined) {
+    return false;
+  }
+  const data = getData(plotConfig);
+  const dataHasSubStatKey = data?.[0][subStatDataKey] !== undefined;
+  return dataHasSubStatKey;
+};
+
 export const getStatDatumByDataKey = (plotConfig, dataKey) => {
   const data = getData(plotConfig);
   return data.find((datum) => datum[dataKey] !== undefined);
@@ -399,11 +399,41 @@ export const getStatDatumByDataKey = (plotConfig, dataKey) => {
 
 export const getSubStatData = (plotConfig, dataKey) => {
   const datum = getStatDatumByDataKey(plotConfig, dataKey);
+  if (datum === undefined) {
+    return {};
+  }
   const subStatDataKey = getSubStatDataKey(plotConfig);
-  const currentValue = datum?.[dataKey];
-  const { [dataKey]: previousValue, ...rest } = datum?.[subStatDataKey] ?? {};
-  return { currentValue, previousValue, ...rest };
+  return datum[subStatDataKey];
 };
+
+/**
+ * What is passed to the plotting library from the frontend
+ * {
+ *    AVERAGE_ORDER_VALUE: 1,
+ *    __COMPARE_PERIOD: {
+ *      currentValue: 1,
+ *      compareValue: 2,
+ *      __TIME_PERIOD: {
+ *        type: 'WEEKS',
+ *        value: "7"
+ *      }
+ *    }
+ * }
+ */
+
+/**
+ * Backend sends this to the frontend
+ * {
+ *    AVERAGE_ORDER_VALUE: 1,
+ *    __COMPARE_PERIOD: {
+ *      AVERAGE_ORDER_VALUE: 2,
+ *      __TIME_PERIOD: {
+ *        type: 'WEEKS',
+ *        value: "7"
+ *      }
+ *    }
+ * }
+ */
 
 export const getValuesOfCategoryAxis = (plotConfig) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);

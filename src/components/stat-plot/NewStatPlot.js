@@ -8,8 +8,7 @@ import space from '../../constants/space';
 import {
   getAxisName,
   getSubStatData,
-  getData,
-  getDoesSeriesHaveSubStatDataKey,
+  getDoesSubStatDataExist,
   getStatDataKeys,
   getStatDatumByDataKey,
   getSubStatAxis,
@@ -18,7 +17,7 @@ import {
 
 function NewStatPlot({ plotConfig = {} }) {
   const statDataKeys = getStatDataKeys(plotConfig);
-  const doesSeriesHaveSubStatDataKey = getDoesSeriesHaveSubStatDataKey(plotConfig);
+  const doesSubStatDataExist = getDoesSubStatDataExist(plotConfig);
   const numMetrics = statDataKeys.length;
   const showBorder = numMetrics !== 1;
 
@@ -34,9 +33,7 @@ function NewStatPlot({ plotConfig = {} }) {
           <Stat showBorder={showBorder} key={statDataKey}>
             <Label>{axisName}</Label>
             <Value>{tickFormatter(value) ?? '-'}</Value>
-            {doesSeriesHaveSubStatDataKey && (
-              <SubStat statDataKey={statDataKey} plotConfig={plotConfig} />
-            )}
+            {doesSubStatDataExist && <SubStat statDataKey={statDataKey} plotConfig={plotConfig} />}
           </Stat>
         );
       })}
