@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import styled from 'styled-components';
 import colors from '../../constants/colors';
@@ -7,7 +9,7 @@ import radii from '../../constants/radii';
 import space from '../../constants/space';
 import {
   getAxisName,
-  getSubStatData,
+  getSubStatDatumByDataKey,
   getDoesSubStatDataExist,
   getStatDataKeys,
   getStatDatumByDataKey,
@@ -43,7 +45,7 @@ function NewStatPlot({ plotConfig = {} }) {
 
 function SubStat({ plotConfig, statDataKey }) {
   const subStatAxis = getSubStatAxis(plotConfig);
-  const subStatData = getSubStatData(plotConfig, statDataKey);
+  const subStatData = getSubStatDatumByDataKey(plotConfig, statDataKey);
   return subStatAxis.format(subStatData);
 }
 
