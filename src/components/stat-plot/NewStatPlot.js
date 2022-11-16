@@ -51,7 +51,10 @@ function SubStat({ plotConfig, statDataKey }) {
 
 const getStatGridCss = (numMetrics) => {
   if (numMetrics <= 3) {
-    return 'grid-auto-flow: column;';
+    return `
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(0, 1fr);
+    `;
   }
   const numColumns = numMetrics === 4 ? 2 : 3;
   return `grid-template-columns: repeat(${numColumns}, 1fr);`;
