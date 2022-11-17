@@ -41,6 +41,7 @@ function PivotedGroupedBar({
       fillOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
       strokeOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
       strokeWidth: BAR_STROKE_WIDTH,
+      radius: 2,
       onMouseOver: () => updateHoveredItemId(series.name),
       onMouseLeave: () => updateHoveredItemId(null),
       onClick: (e) => updateClickedItemId(series.name, e?.tooltipPosition),
@@ -63,6 +64,7 @@ function NonPivotedGroupedBar({
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       stackId: isSeriesStacked ? 'a' : undefined,
       strokeWidth: BAR_STROKE_WIDTH,
+      radius: 2,
       onMouseLeave: () => updateHoveredItemId(null),
     });
   });

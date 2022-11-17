@@ -68,6 +68,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           fill: seriesFillColor,
           stroke: seriesStrokeColor,
           strokeWidth: BAR_STROKE_WIDTH,
+          radius: 2,
           children: data.map((item, index) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
             return (
@@ -85,7 +86,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}
-                strokeWidth={2}
+                strokeWidth={BAR_STROKE_WIDTH}
               />
             );
           }),
