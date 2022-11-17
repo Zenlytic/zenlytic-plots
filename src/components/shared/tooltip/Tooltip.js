@@ -1,13 +1,9 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Tooltip as RechartsTooltip } from 'recharts';
-import TooltipHandler from '../../tooltip-handler/TooltipHandler';
-import formatValue from '../../../utils/formatValue';
-import getD3DataFormatter from '../../../utils/getD3DataFormatter';
-import { getFormatter, getTickFormatterFromDataKey } from '../../../utils/plotConfigGetters';
 import OutsideClickHandler from 'react-outside-click-handler';
+import { Tooltip as RechartsTooltip } from 'recharts';
 import { HIGHLIGHT_BAR_COLOR } from '../../../constants/plotConstants';
+import { getTickFormatterFromDataKey } from '../../../utils/plotConfigGetters';
 
 // eslint-disable-next-line react/prop-types
 
@@ -17,7 +13,10 @@ const getPayloadFromTooltip = (tooltipPayload, clickedItemId, hoveredItemId) => 
     return tooltipPayload?.filter((payloadItem) => payloadItem?.payload?.id === clickedItemId);
   }
   if (hoveredItemId) {
-    return tooltipPayload?.filter((payloadItem) => payloadItem?.payload?.id === hoveredItemId);
+    return tooltipPayload?.filter((payloadItem) => {
+      // TODO: can't tell what is nested and what is not. Need to investigate to do one or the other
+      return payloadItem?.id === hoveredItemId || payloadItem?.payload?.id === hoveredItemId;
+    });
   }
 
   // if (Array.isArray(tooltipPayload?.payload)) {

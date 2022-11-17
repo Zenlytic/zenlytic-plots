@@ -95,7 +95,7 @@ export const getXAxis = (plotConfig) => {
     name,
     dataKey,
     tickFormatter,
-    allowDuplicatedCategory: !isDataPivoted,
+    allowDuplicatedCategory: seriesType === PLOT_TYPES.FUNNEL_BAR || !isDataPivoted,
   };
 };
 
