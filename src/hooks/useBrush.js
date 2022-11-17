@@ -60,7 +60,6 @@ function useBrush(params) {
   };
 
   const resetBrush = () => {
-    console.log('reset brush');
     setState(initialState);
   };
 
