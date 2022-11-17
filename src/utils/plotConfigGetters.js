@@ -14,6 +14,11 @@ export const getSeries = (plotConfig = {}) => {
   return series[0];
 };
 
+export const getReferenceLineValue = (plotConfig = {}) => {
+  const series = getSeries(plotConfig);
+  return series?.referenceLineValue;
+};
+
 export const getSeriesType = (plotConfig) => {
   const series = getSeries(plotConfig);
   const { type } = series || {};
@@ -370,10 +375,18 @@ export const getDoesSubStatDataExist = (plotConfig) => {
   return subStatDataKey !== undefined;
 };
 
+export const getBarSpecificData = (plotConfig, data) => {
+  const activeIds = getSeriesActiveIds(plotConfig);
+  const activeData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
+  return activeData;
+};
+
 export const getData = (plotConfig) => {
   const { data = [] } = plotConfig;
   const isDataPivoted = getIsDataPivoted(plotConfig);
   switch (getSeriesType(plotConfig)) {
+    case PLOT_TYPES.BAR:
+      return getBarSpecificData(plotConfig, data);
     case PLOT_TYPES.FUNNEL_BAR:
       return getFunnelSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.WATERFALL:
@@ -414,6 +427,16 @@ export const getWidth = (plotConfig) => {
 export const getMargin = (plotConfig = {}) => {
   const { margin = DEFAULT_PLOT_MARGIN } = plotConfig;
   return margin;
+};
+
+export const getDoesSeriesHaveFillColor = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series.fillColor !== undefined;
+};
+
+export const getDoesSeriesHaveStrokeColor = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series.strokeColor !== undefined;
 };
 
 // Series Getters

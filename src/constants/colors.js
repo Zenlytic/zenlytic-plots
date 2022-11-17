@@ -1,4 +1,4 @@
-export default {
+const colors = {
   transparent: 'transparent',
   black: '#000000',
   white: '#ffffff',
@@ -203,3 +203,5 @@ export default {
     900: '#101010',
   },
 };
+
+export default colors;
