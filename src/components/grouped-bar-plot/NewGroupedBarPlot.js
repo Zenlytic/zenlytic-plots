@@ -4,7 +4,6 @@ import React from 'react';
 import { Bar, BarChart } from 'recharts';
 import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
-import { v4 as uuidv4 } from 'uuid';
 
 import {
   getCategoryValueAxes,
@@ -37,7 +36,9 @@ function PivotedGroupedBar({
         key={series.name}
         fillOpacity={!hoveredItemId || hoveredItemId === series.name ? 1 : 0.2}
         strokeOpacity={!hoveredItemId || hoveredItemId === series.name ? 1 : 0.2}
-        onMouseOver={() => updateHoveredItemId(series.name)}
+        onMouseOver={() => {
+          updateHoveredItemId(series.name);
+        }}
         onMouseLeave={() => updateHoveredItemId(null)}
         onClick={(e) => updateClickedItemId(series.name, e?.tooltipPosition)}
       />
@@ -60,7 +61,9 @@ function NonPivotedGroupedBar({
         fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
         stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
         stackId={isSeriesStacked ? 'a' : undefined}
-        // onMouseOver={() => updateHoveredItemId(series.name)}
+        onMouseOver={() => {
+          // updateHoveredItemId(series.name);
+        }}
         onMouseLeave={() => updateHoveredItemId(null)}
       />
     );
@@ -73,8 +76,8 @@ function NewGroupedBar({ plotConfig = {}, TooltipContent = false }) {
   const isDataPivoted = getIsDataPivoted(plotConfig);
   const [tooltip, tooltipHandlers] = useTooltip();
   const { updateHoveredItemId = () => {}, updateClickedItemId = () => {} } = tooltipHandlers || {};
-  const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
 
+  const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin}>
@@ -87,6 +90,7 @@ function NewGroupedBar({ plotConfig = {}, TooltipContent = false }) {
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
         })}
+        {/* <Bar dataKey={'ORDERS_TOTAL_REVENUE'} name={'Total Revenue'} /> */}
         {isDataPivoted &&
           PivotedGroupedBar({
             plotConfig,

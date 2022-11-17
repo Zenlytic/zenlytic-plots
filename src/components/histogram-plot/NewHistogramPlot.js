@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart } from 'recharts';
 import useBrush from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 
@@ -15,8 +15,6 @@ import {
   getTickFormatterFromDataKey,
   getXAxis,
   getXAxisDataKey,
-  getXAxisTickFormatter,
-  getYAxisName,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';

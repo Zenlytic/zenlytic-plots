@@ -11,8 +11,8 @@ import {
   getMargin,
   getSeriesStrokeColor,
   getXAxisDataKey,
-  getXAxisName,
   getYAxisDataKey,
+  getYAxisName,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -25,7 +25,7 @@ function NewLinePlot({
 }) {
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisFormat = getAxisFormat(plotConfig, xAxisDataKey);
-  const xAxisName = getXAxisName(plotConfig);
+  const yAxisName = getYAxisName(plotConfig);
 
   const yAxisDataKey = getYAxisDataKey(plotConfig);
 
@@ -61,7 +61,7 @@ function NewLinePlot({
           stroke={seriesStrokeColor}
           dot
           strokeWidth={2}
-          name={xAxisName}
+          name={yAxisName}
         />
       </LineChart>
     </PlotContainer>

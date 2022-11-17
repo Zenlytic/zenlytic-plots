@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
-import { Bar, BarChart, Cell, Tooltip, XAxis, YAxis } from 'recharts';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+import { Bar, BarChart, Cell } from 'recharts';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
 
@@ -11,8 +10,6 @@ import {
   getMargin,
   getSeriesFillColor,
   getSeriesStrokeColor,
-  getXAxisDataKey,
-  getXAxisName,
   getYAxisDataKey,
   getYAxisName,
 } from '../../utils/plotConfigGetters';
@@ -21,7 +18,7 @@ import PlotContainer from '../plot-container/PlotContainer';
 
 function NewBarPlot({ plotConfig = {}, TooltipContent = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
-  const xAxisName = getXAxisName(plotConfig);
+  const yAxisName = getYAxisName(plotConfig);
 
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
@@ -48,7 +45,7 @@ function NewBarPlot({ plotConfig = {}, TooltipContent = false }) {
         {GeneralChartComponents({ plotConfig, TooltipContent, tooltipHandlers, tooltip })}
         <Bar
           dataKey={yAxisDataKey}
-          name={xAxisName}
+          name={yAxisName}
           fill={seriesFillColor}
           stroke={seriesStrokeColor}>
           {data.map((item, index) => {

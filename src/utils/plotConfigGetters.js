@@ -59,19 +59,34 @@ const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
   return getAxisFromDataKey(plotConfig, axisDataKey);
 };
 
+// Used in grouped bar to define the x axis
+export const getCategoryAxis = (plotConfig) => {
+  const categoryAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.CATEGORY_AXIS_DATA_KEY_KEY);
+
+  if (!categoryAxis) return {};
+  const { dataType, name, dataKey, format } = categoryAxis || {};
+  const tickFormatter = getFormatter(format);
+  return { type: dataType, name, dataKey, tickFormatter };
+};
+
+export const getIsDataPivoted = (plotConfig) => {
+  const categoryAxis = getCategoryAxis(plotConfig);
+  return !isEmpty(categoryAxis);
+};
+
 export const getXAxis = (plotConfig) => {
   const xAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.X_AXIS_DATA_KEY_KEY);
   const seriesType = getSeriesType(plotConfig);
   if (!xAxis) return {};
   const { dataType, name, dataKey, format } = xAxis || {};
+  const isDataPivoted = getIsDataPivoted(plotConfig);
   const tickFormatter = getFormatter(format);
   return {
     type: dataType,
     name,
     dataKey,
     tickFormatter,
-    allowDuplicatedCategory:
-      seriesType !== PLOT_TYPES.GROUPED_BAR && seriesType !== PLOT_TYPES.MULTI_LINE,
+    allowDuplicatedCategory: !isDataPivoted,
   };
 };
 
@@ -134,16 +149,6 @@ export const getZAxisName = (plotConfig) => {
   return zAxis?.name;
 };
 
-// Used in grouped bar to define the x axis
-export const getCategoryAxis = (plotConfig) => {
-  const categoryAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.CATEGORY_AXIS_DATA_KEY_KEY);
-
-  if (!categoryAxis) return {};
-  const { dataType, name, dataKey, format } = categoryAxis || {};
-  const tickFormatter = getFormatter(format);
-  return { type: dataType, name, dataKey, tickFormatter };
-};
-
 export const getCategoryAxisDataKey = (plotConfig) => {
   const categoryAxis = getCategoryAxis(plotConfig);
   return categoryAxis?.dataKey;
@@ -194,11 +199,6 @@ export const getCategoryValues = (plotConfig) => {
     const tickFormatter = getFormatter(format);
     return { type: dataType, name, dataKey, tickFormatter };
   });
-};
-
-export const getIsDataPivoted = (plotConfig) => {
-  const categoryAxis = getCategoryAxis(plotConfig);
-  return !isEmpty(categoryAxis);
 };
 
 const flatPivotDataByDataKey = (plotConfig, data, dataKey) => {
@@ -311,6 +311,7 @@ const getFunnelSpecificData = (plotConfig, data, isDataPivoted) => {
 
 const getWaterfallSpecificData = (plotConfig, data) => {
   const xAxisDataKey = getXAxisDataKey(plotConfig);
+
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const activeIds = getSeriesActiveIds(plotConfig);
 
