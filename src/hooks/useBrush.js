@@ -50,29 +50,40 @@ function useBrush(params) {
 
   const updateBrush = (brush) => {
     const { x1, x2, y1, y2, isBrushing } = brush;
-    setState({ x1, x2, y1, y2, isBrushing });
+    setState((currentState) => {
+      return { ...currentState, x1, x2, y1, y2, isBrushing };
+    });
   };
 
   const updateIsBrushing = (newIsBrushing) => {
-    updateBrush({ ...state, isBrushing: newIsBrushing });
+    setState((currentState) => ({ ...currentState, isBrushing: newIsBrushing }));
   };
 
   const resetBrush = () => {
+    console.log('reset brush');
     setState(initialState);
   };
 
   const onMouseDown = (e) => {
     if (isFollowUpMenuOpen) return; // If the follow up menu is open, don't allow the brush to start
     if (brushDirection === BRUSH_DIRECTIONS.BOTH) {
-      updateBrush({ x1: e?.xValue, x2: e?.xValue, y1: e?.yValue, y2: e?.yValue, isBrushing: true });
+      setState((currentState) => ({
+        ...currentState,
+        x1: e?.xValue,
+        x2: e?.xValue,
+        y1: e?.yValue,
+        y2: e?.yValue,
+        isBrushing: true,
+      }));
       return;
     }
     // Set both brush ends to the same value where the user clicked
-    updateBrush({
+    setState((currentState) => ({
+      ...currentState,
       x1: getHorizontalEventValue(e),
       x2: getHorizontalEventValue(e),
       isBrushing: true,
-    });
+    }));
   };
 
   const onMouseMove = (e) => {
@@ -81,23 +92,25 @@ function useBrush(params) {
     if (!state.x1 || (brushDirection === BRUSH_DIRECTIONS.BOTH && !state.y1)) return; // User moved their brushing cursor outside of the chart, so don't update the brush
 
     if (brushDirection === BRUSH_DIRECTIONS.BOTH && e?.xValue && e?.yValue) {
-      updateBrush({
+      setState((currentState) => ({
+        ...currentState,
         x1: state.x1,
         x2: e?.xValue,
         y1: state.y1,
         y2: e?.yValue,
         isBrushing: true,
-      });
+      }));
 
       updateTooltipCoords({ x: e?.chartX, y: e?.chartY });
       return;
     }
     if (getHorizontalEventValue(e)) {
-      updateBrush({
+      setState((currentState) => ({
+        ...currentState,
         x1: state.x1,
         x2: getHorizontalEventValue(e),
         isBrushing: true,
-      });
+      }));
       updateTooltipCoords(e?.activeCoordinate);
     }
   };
@@ -105,7 +118,7 @@ function useBrush(params) {
   const onMouseUp = (e) => {
     if (!state.isBrushing) return; // User is not brushing, so don't update the brush
     if (isFollowUpMenuOpen) return; // If the follow up menu is open, don't update the brush
-    updateIsBrushing(true); // User is done brushing, so set isBrushing to false
+    updateIsBrushing(false); // User is done brushing, so set isBrushing to false
     updateIsFollowUpMenuOpen(true); // Open the follow up menu
     // The user either clicked or dragged the brush off the plot, so invalidate the brush
     if (state.x1 === state.x2 || state.x2 === null) {

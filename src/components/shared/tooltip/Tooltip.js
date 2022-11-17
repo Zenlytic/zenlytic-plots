@@ -51,11 +51,11 @@ function TooltipContentWithOutsideClickHandler(props) {
   if (useOutsideClickHandler) {
     return (
       <OutsideClickHandler onOutsideClick={onOutsideClick}>
-        {TooltipContent({ ...props, payload: newPayload })}
+        {React.cloneElement(TooltipContent, { ...props, payload: newPayload })}
       </OutsideClickHandler>
     );
   }
-  return TooltipContent({ ...props, payload: newPayload });
+  return React.cloneElement(TooltipContent, { ...props, payload: newPayload });
 }
 
 function Tooltip({
@@ -69,6 +69,7 @@ function Tooltip({
   plotConfig = {},
   customLabelFormatter = null,
   customValueFormatter = null,
+  brush = {},
   brushEvents = {},
   isFollowUpDisabled = false,
 }) {
@@ -85,6 +86,7 @@ function Tooltip({
   } = tooltip || {};
 
   const { updateBrush = () => {}, resetBrush = () => {} } = brushEvents || {};
+  const { isBrushing = false } = brush;
   const {
     updateIsFollowUpMenuOpen = () => {},
     updateClickedItemId = () => {},
@@ -120,29 +122,27 @@ function Tooltip({
       wrapperStyle={
         isFollowUpMenuOpenAndEnabled ? { visibility: 'visible', zIndex: 10000 } : { zIndex: 10000 }
       }
-      isFollowUpMenuOpen={isFollowUpMenuOpenAndEnabled}
       position={isFollowUpMenuOpenAndEnabled ? tooltipCoords : undefined}
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}
-      content={(tooltipProps) => {
-        return TooltipContentWithOutsideClickHandler({
-          ...tooltipProps,
-          clickedItemId,
-          hoveredItemId,
-          categoryAxisDataKey,
-          // payload: getPayloadFromTooltip(tooltipProps?.payload, hoveredItemId),
-          // payload: hoveredItemId
-          //   ? tooltipProps?.payload?.filter((payloadItem) => payloadItem?.id === hoveredItemId)
-          //   : tooltipProps?.payload,
-          onOutsideClick: () => {
+      content={
+        <TooltipContentWithOutsideClickHandler
+          clickedItemId={clickedItemId}
+          hoveredItemId={hoveredItemId}
+          categoryAxisDataKey={categoryAxisDataKey}
+          isFollowUpMenuOpen={isFollowUpMenuOpenAndEnabled}
+          onOutsideClick={() => {
+            if (isBrushing) {
+              return;
+            }
             updateIsFollowUpMenuOpen(false);
             resetBrush();
             updateClickedItemId(null);
-          },
-          TooltipContent,
-        });
-      }}
+          }}
+          TooltipContent={TooltipContent}
+        />
+      }
     />
   );
 }

@@ -13,23 +13,33 @@ function useTooltip(params) {
   const [state, setState] = useState(initialState);
 
   const updateHoveredItemId = (hoveredItemId) => {
-    setState({ ...state, hoveredItemId });
+    setState((currentState) => {
+      return { ...currentState, hoveredItemId };
+    });
   };
 
   const updateTooltipCoords = (tooltipCoords) => {
-    setState({ ...state, tooltipCoords });
+    setState((currentState) => {
+      return { ...currentState, tooltipCoords };
+    });
   };
 
   const updateIsFollowUpMenuOpen = (isOpen) => {
-    setState({ ...state, isFollowUpMenuOpen: isOpen });
+    setState((currentState) => {
+      return { ...currentState, isFollowUpMenuOpen: isOpen };
+    });
   };
 
   const updateClickedItemId = (clickedItemId, tooltipCoords) => {
     if (!clickedItemId) {
-      setState({ ...state, clickedItemId, isFollowUpMenuOpen: false, tooltipCoords });
+      setState((currentState) => {
+        return { ...currentState, clickedItemId, isFollowUpMenuOpen: false, tooltipCoords };
+      });
       return;
     }
-    setState({ ...state, clickedItemId, isFollowUpMenuOpen: true, tooltipCoords });
+    setState((currentState) => {
+      return { ...currentState, clickedItemId, isFollowUpMenuOpen: true, tooltipCoords };
+    });
   };
 
   return [

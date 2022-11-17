@@ -58,6 +58,7 @@ function GeneralChartComponents({
         customValueFormatter,
         tooltipHandlers,
         brushEvents,
+        brush,
         isFollowUpDisabled,
       })}
     </>
