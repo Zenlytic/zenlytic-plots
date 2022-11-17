@@ -1,173 +1,97 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
+import { BarChart, Cell, ReferenceLine } from 'recharts';
+import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
+import useTooltip from '../../hooks/useTooltip';
+import getItemOpacity from '../../utils/getItemOpacity';
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  Cell,
-  Label,
-  ReferenceLine,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts';
+  getData,
+  getDoesSeriesHaveFillColor,
+  getDoesSeriesHaveStrokeColor,
+  getMargin,
+  getReferenceLineValue,
+  getSeriesFillColor,
+  getSeriesStrokeColor,
+  getYAxisDataKey,
+  getYAxisName,
+} from '../../utils/plotConfigGetters';
+import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
+import PlotContainer from '../plot-container/PlotContainer';
+import Bar from '../shared/bar/Bar';
 import {
+  PLOT_SECONDARY_COLORS,
+  PLOT_COLORS,
   DEFAULT_AXIS_COLOR,
-  DEFAULT_CARTESIAN_GRID_COLOR,
-  DEFAULT_LABEL_PROPS,
-  DEFAULT_PLOT_MARGIN,
-  DEFAULT_TICK_PROPS,
-  DEFAULT_X_AXIS_HEIGHT,
-  DEFAULT_Y_AXIS_WIDTH,
-  HIGHLIGHT_BAR_COLOR,
 } from '../../constants/plotConstants';
-import formatValue from '../../utils/formatValue';
-import getD3DataFormatter from '../../utils/getD3DataFormatter';
-import TooltipHandler from '../tooltip-handler/TooltipHandler';
 
-function BarPlot({
-  plotColor = '#8a8a8a',
-  plotSecondaryColor = '#8a8a8a',
-  xAxis = {},
-  yAxis = {},
-  data = [],
-  margin = DEFAULT_PLOT_MARGIN,
-  CustomHoverTooltip = undefined,
-  CustomClickTooltip = undefined,
-  width = 300,
-  height = 300,
-  layout = 'vertical',
-  disableFollowUps = false,
-  onBarClick = () => {},
-}) {
-  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisDataKey } = xAxis;
-  const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisDataKey } = yAxis;
+function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+  const yAxisName = getYAxisName(plotConfig);
+  const referenceLineValue = getReferenceLineValue(plotConfig);
 
-  const [hoveredBarKey, setHoveredBarKey] = useState(null);
-  const [activePayload, setActivePayload] = useState(null);
-  const [isClickTooltipVisible, setIsClickTooltipVisible] = useState(false);
-  const [clickTooltipCoords, setClickTooltipCoords] = useState();
+  const data = getData(plotConfig);
+  const margin = getMargin(plotConfig);
 
-  const closeTooltip = () => {
-    setClickTooltipCoords(null);
-  };
-  const handleBarClick = (event) => {
-    if (isClickTooltipVisible) {
-      return;
-    }
-    if (!hoveredBarKey) {
-      return;
-    }
-    if (!event) return;
-    setClickTooltipCoords(event.activeCoordinate);
-  };
+  const doesSeriesHaveFillColor = getDoesSeriesHaveFillColor(plotConfig);
+  const seriesFillColor = getSeriesFillColor(plotConfig);
+  const doesSeriesHaveStrokeColor = getDoesSeriesHaveStrokeColor(plotConfig);
+  const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
 
-  useEffect(() => {
-    if (disableFollowUps) return;
-    if (clickTooltipCoords) {
-      setIsClickTooltipVisible(true);
-      onBarClick(activePayload);
-    } else {
-      setIsClickTooltipVisible(false);
-    }
-  }, [clickTooltipCoords]);
+  const [tooltip, tooltipHandlers] = useTooltip();
+  const { isFollowUpMenuOpen } = tooltip;
+
+  const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
+  const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
+
+  const onPlotClick = useCallback(
+    (e) => {
+      updateClickedItemId(e?.activePayload?.[0]?.payload?.id, e?.activeCoordinate);
+    },
+    [isFollowUpMenuOpen, updateClickedItemId]
+  );
 
   return (
-    <div style={{ userSelect: 'none' }}>
-      <BarChart
-        margin={margin}
-        height={height}
-        width={width}
-        data={data}
-        layout={layout}
-        onClick={handleBarClick}
-        onMouseMove={(e) => {
-          const foundPayload = e.activePayload?.filter((bar) => {
-            return bar.dataKey === hoveredBarKey;
-          });
-          if (!foundPayload) return;
-          if (!foundPayload.length) {
-            setActivePayload(e.activePayload);
-            return;
-          }
-          setActivePayload(foundPayload);
-        }}
-        onMouseLeave={(e) => {
-          setActivePayload(null);
-        }}>
-        <CartesianGrid stroke={DEFAULT_CARTESIAN_GRID_COLOR} />
-        <ReferenceLine x="0" stroke={DEFAULT_AXIS_COLOR} />
-
-        <XAxis
-          height={DEFAULT_X_AXIS_HEIGHT}
-          stroke={DEFAULT_AXIS_COLOR}
-          tick={DEFAULT_TICK_PROPS}
-          type="number"
-          dataKey={xAxisDataKey}
-          name={xAxisLabel}
-          tickFormatter={(timeStr) =>
-            formatValue(getD3DataFormatter(xAxisFormat, timeStr), timeStr)
-          }>
-          <Label {...DEFAULT_LABEL_PROPS} value={xAxisLabel} position="bottom" />
-        </XAxis>
-        <YAxis
-          stroke={DEFAULT_AXIS_COLOR}
-          width={DEFAULT_Y_AXIS_WIDTH}
-          tick={DEFAULT_TICK_PROPS}
-          type="category"
-          dataKey={yAxisDataKey}
-          name={yAxisLabel}
-          tickFormatter={(timeStr) =>
-            formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
-          }></YAxis>
-        <Tooltip
-          position={isClickTooltipVisible ? clickTooltipCoords : undefined}
-          cursor={isClickTooltipVisible ? false : { fill: HIGHLIGHT_BAR_COLOR }}
-          wrapperStyle={{ visibility: 'visible', zIndex: 10000 }}
-          content={
-            <TooltipHandler
-              CustomHoverTooltip={CustomHoverTooltip}
-              CustomClickTooltip={CustomClickTooltip}
-              isClickTooltipVisible={isClickTooltipVisible}
-              closeClickTooltip={closeTooltip}
-              customPayload={activePayload}
-            />
-          }
-          formatter={(value) =>
-            formatValue(
-              getD3DataFormatter(layout === 'vertical' ? xAxisFormat : yAxisFormat, value),
-              value
-            )
-          }
-          labelFormatter={(value) =>
-            formatValue(
-              getD3DataFormatter(layout === 'vertical' ? yAxisFormat : xAxisFormat, value),
-              value
-            )
-          }
-        />
-
-        <Bar
-          dataKey={xAxisDataKey}
-          name={xAxisLabel}
-          onMouseMove={(bar) => {
-            setHoveredBarKey(bar?.id);
-          }}
-          onMouseLeave={() => setHoveredBarKey(null)}
-          radius={[0, 5, 5, 0]}
-          strokeWidth={2}>
-          {data.map((entry, index) => {
+    <PlotContainer>
+      <BarChart data={data} margin={margin} onClick={onPlotClick}>
+        {GeneralChartComponents({
+          plotConfig,
+          TooltipContent,
+          tooltipHandlers,
+          tooltip,
+          isFollowUpDisabled,
+        })}
+        {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
+        {Bar({
+          dataKey: yAxisDataKey,
+          name: yAxisName,
+          fill: seriesFillColor,
+          stroke: seriesStrokeColor,
+          strokeWidth: BAR_STROKE_WIDTH,
+          children: data.map((item, index) => {
+            const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
             return (
               <Cell
-                key={`cell-${index}`}
-                fill={entry.fill || plotSecondaryColor}
-                stroke={entry.stroke || plotColor}
+                key={item.id}
+                fill={
+                  doesSeriesHaveFillColor
+                    ? seriesFillColor
+                    : PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]
+                }
+                stroke={
+                  doesSeriesHaveStrokeColor
+                    ? seriesStrokeColor
+                    : PLOT_COLORS[index % PLOT_COLORS.length]
+                }
+                fillOpacity={itemOpacity}
+                strokeOpacity={itemOpacity}
+                strokeWidth={2}
               />
             );
-          })}
-        </Bar>
+          }),
+        })}
       </BarChart>
-    </div>
+    </PlotContainer>
   );
 }
 

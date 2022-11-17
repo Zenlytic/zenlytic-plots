@@ -1,202 +1,155 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useState } from 'react';
-import { Bar, BarChart, CartesianGrid, Label, LabelList, Tooltip, XAxis, YAxis } from 'recharts';
+import React from 'react';
+import { BarChart, LabelList } from 'recharts';
+import Bar from '../shared/bar/Bar';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
+import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+import useTooltip from '../../hooks/useTooltip';
+
 import {
-  DEFAULT_AXIS_COLOR,
-  DEFAULT_CARTESIAN_GRID_COLOR,
-  DEFAULT_LABEL_PROPS,
-  DEFAULT_NO_X_AXIS_PLOT_MARGIN,
-  DEFAULT_TICK_PROPS,
-  DEFAULT_X_AXIS_HEIGHT,
-  DEFAULT_Y_AXIS_WIDTH,
-  HIGHLIGHT_BAR_COLOR,
-  PLOT_COLORS,
-  PLOT_SECONDARY_COLORS,
-} from '../../constants/plotConstants';
-import formatValue from '../../utils/formatValue';
-import getD3DataFormatter from '../../utils/getD3DataFormatter';
-import TooltipHandler from '../tooltip-handler/TooltipHandler';
+  getCategoriesOfCategoryAxis,
+  getData,
+  getIsDataPivoted,
+  getMargin,
+  getSeriesFillColor,
+  getSeriesStrokeColor,
+  getYAxis,
+  getYAxisTickFormatter,
+} from '../../utils/plotConfigGetters';
+import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
+import PlotContainer from '../plot-container/PlotContainer';
 
-const createBars = (data) => {};
+function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
-function FunnelBarPlot({
-  plotColor = '#8a8a8a',
-  plotSecondaryColor = '#8a8a8a',
-  xAxis = {},
-  yAxis = {},
-  categoryAxis = {},
-  onBarClick = () => {},
-  data = {},
-  margin = DEFAULT_NO_X_AXIS_PLOT_MARGIN,
-  CustomHoverTooltip = undefined,
-  CustomClickTooltip = undefined,
-  width = 300,
-  height = 300,
-  // We use categories to create the stacked bar
-  categories = [],
-  layout = 'horizontal',
-  disableFollowUps = false,
-  isServerSide = false,
-}) {
-  const { label: xAxisLabel, format: xAxisFormat, dataKey: xAxisKey } = xAxis;
-  const { label: yAxisLabel, format: yAxisFormat, dataKey: yAxisKey } = yAxis;
+  const categoriesOfCategoryAxis = getCategoriesOfCategoryAxis(plotConfig);
+  return categoriesOfCategoryAxis.map((category, index) => {
+    const { name: categoryName } = category;
+    const convertedDataKey = `CONVERTED_${categoryName}`;
+    const droppedOffDataKey = `DROPPED_OFF_${categoryName}`;
+    return (
+      <>
+        {Bar({
+          id: droppedOffDataKey,
+          isAnimationActive: false,
+          stackId: categoryName,
+          dataKey: droppedOffDataKey,
+          name: `Dropped Off - ${categoryName}`,
+          stroke: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+          fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+          onMouseOver: () => updateHoveredItemId(convertedDataKey),
+          onMouseLeave: () => updateHoveredItemId(null),
+        })}
+        {Bar({
+          id: convertedDataKey,
+          isAnimationActive: false,
+          stackId: categoryName,
+          dataKey: convertedDataKey,
+          name: `Converted - ${categoryName}`,
+          stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+          fill: PLOT_COLORS[index % PLOT_COLORS.length],
+          onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
+          onMouseLeave: () => updateHoveredItemId(null),
+          children: (
+            <LabelList
+              offset={16}
+              dataKey={convertedDataKey}
+              position="top"
+              fill={colors.gray[500]}
+              fontWeight={fontWeights.medium}
+              fontSize={fontSizes.xs}
+              formatter={yAxisTickFormatter}
+            />
+          ),
+        })}
+      </>
+    );
+  });
+}
 
-  const plotColors = PLOT_COLORS;
-  const secondaryColors = PLOT_SECONDARY_COLORS;
+function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemId }) {
+  const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
+  const seriesFillColor = getSeriesFillColor(plotConfig);
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+  return (
+    <>
+      {Bar({
+        isAnimationActive: false,
+        id: 'DROPPED_OFF',
+        name: 'Dropped Off',
+        dataKey: 'DROPPED_OFF',
+        fill: seriesFillColor,
+        stackId: 'a',
+        radius: [3, 3, 0, 0],
+        onMouseOver: () => updateHoveredItemId('DROPPED_OFF'),
+        onMouseLeave: () => updateHoveredItemId(null),
+      })}
+      {Bar({
+        isAnimationActive: false,
+        id: 'CONVERTED',
+        name: 'Converted',
+        dataKey: 'CONVERTED',
+        fill: seriesStrokeColor,
+        stackId: 'a',
+        radius: [3, 3, 0, 0],
+        onMouseOver: () => updateHoveredItemId('CONVERTED'),
+        onMouseLeave: () => updateHoveredItemId(null),
+        children: (
+          <LabelList
+            offset={16}
+            dataKey="CONVERTED"
+            position="top"
+            fill={colors.gray[500]}
+            fontWeight={fontWeights.medium}
+            fontSize={fontSizes.xs}
+            formatter={yAxisTickFormatter}
+          />
+        ),
+      })}
+    </>
+  );
+}
 
-  const [hoveredBarKey, setHoveredBarKey] = useState(null);
-  const [activePayload, setActivePayload] = useState([]);
+function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
+  const data = getData(plotConfig);
+  const margin = getMargin(plotConfig);
+
+  const yAxisConfig = getYAxis(plotConfig);
+
+  const isDataPivoted = getIsDataPivoted(plotConfig);
+
+  const [tooltip, tooltipHandlers] = useTooltip();
+  const { isFollowUpMenuOpen } = tooltip;
+
+  const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
+  const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
+
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
   return (
-    <div style={{ userSelect: 'none' }}>
-      <BarChart
-        reverseStackOrder
-        margin={margin}
-        height={height}
-        width={width}
-        data={data}
-        barGap={6}
-        onMouseMove={(e) => {
-          const foundPayload = e.activePayload?.filter((bar) => {
-            return bar.dataKey === hoveredBarKey;
-          });
-          if (!foundPayload) return;
-          if (!foundPayload.length) {
-            setActivePayload([]);
-            return;
-          }
-          setActivePayload(foundPayload);
-        }}
-        onMouseLeave={(e) => {
-          setActivePayload([]);
-        }}>
-        <CartesianGrid stroke={DEFAULT_CARTESIAN_GRID_COLOR} vertical={false} />
-        <XAxis
-          height={DEFAULT_X_AXIS_HEIGHT}
-          stroke={DEFAULT_AXIS_COLOR}
-          tick={DEFAULT_TICK_PROPS}
-          dataKey={xAxisKey}
-          name={xAxisLabel}
-          tickFormatter={(timeStr) => timeStr}
-          tickLine={false}
-          axisLine={false}
-        />
-        <YAxis
-          stroke={DEFAULT_AXIS_COLOR}
-          width={DEFAULT_Y_AXIS_WIDTH}
-          tick={DEFAULT_TICK_PROPS}
-          name={yAxisLabel}
-          tickFormatter={(timeStr) =>
-            formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
-          }>
-          <Label {...DEFAULT_LABEL_PROPS} value={yAxisLabel} position="left" angle={-90} />
-        </YAxis>
-        <Tooltip
-          cursor={{ fill: HIGHLIGHT_BAR_COLOR }}
-          wrapperStyle={{ visibility: 'visible', zIndex: 10000 }}
-          content={
-            <TooltipHandler
-              CustomHoverTooltip={CustomHoverTooltip}
-              CustomClickTooltip={CustomClickTooltip}
-              customPayload={activePayload}
-            />
-          }
-          formatter={(value) => formatValue(getD3DataFormatter(yAxisFormat, value), value)}
-          labelFormatter={(value) => formatValue(getD3DataFormatter(xAxisFormat, value), value)}
-        />
-
-        {!categories.length && (
-          <>
-            <Bar
-              onMouseMove={() => setHoveredBarKey(`DROPPED_OFF`)}
-              onMouseLeave={() => setHoveredBarKey(null)}
-              stackId={'a'}
-              dataKey={`DROPPED_OFF`}
-              fill={plotSecondaryColor}
-              fillOpacity={0.7}
-              radius={[3, 3, 0, 0]}
-              name="Dropped Off"
-            />
-            <Bar
-              onMouseMove={() => setHoveredBarKey(`CONVERTED`)}
-              onMouseLeave={() => setHoveredBarKey(null)}
-              stackId={'a'}
-              name="Converted"
-              dataKey={`CONVERTED`}
-              fill={plotColor}
-              fillOpacity={1.0}
-              radius={[0, 0, 3, 3]}>
-              <LabelList
-                offset={16}
-                dataKey="CONVERTED"
-                position="top"
-                fill={colors.gray[500]}
-                fontWeight={fontWeights.medium}
-                fontSize={fontSizes.xs}
-                formatter={(value) => {
-                  return formatValue(getD3DataFormatter(yAxisFormat, value), value);
-                }}
-              />
-            </Bar>
-          </>
-        )}
-
-        {categories.length &&
-          categories.map((category, index) => {
-            if (category === xAxisKey) return false;
-            return (
-              <>
-                <Bar
-                  onMouseMove={() => setHoveredBarKey(`DROPPED_OFF_${category}`)}
-                  onMouseLeave={() => setHoveredBarKey(null)}
-                  fillOpacity={
-                    `DROPPED_OFF_${category}` === hoveredBarKey
-                      ? 1.0
-                      : hoveredBarKey === null
-                      ? 1.0
-                      : 0.3
-                  }
-                  name={`Dropped Off - ${category}`}
-                  stackId={category}
-                  dataKey={`DROPPED_OFF_${category}`}
-                  fill={secondaryColors[index % secondaryColors.length]}
-                  radius={[3, 3, 0, 0]}
-                />
-                <Bar
-                  onMouseMove={() => setHoveredBarKey(`CONVERTED_${category}`)}
-                  onMouseLeave={() => setHoveredBarKey(null)}
-                  fillOpacity={
-                    `CONVERTED_${category}` === hoveredBarKey
-                      ? 1.0
-                      : hoveredBarKey === null
-                      ? 1.0
-                      : 0.3
-                  }
-                  stackId={category}
-                  dataKey={`CONVERTED_${category}`}
-                  name={`Converted - ${category}`}
-                  fill={plotColors[index % plotColors.length]}
-                  radius={[0, 0, 3, 3]}>
-                  <LabelList
-                    offset={16}
-                    dataKey={`CONVERTED_${category}`}
-                    position="top"
-                    fill={colors.gray[500]}
-                    fontWeight={fontWeights.medium}
-                    fontSize={fontSizes.xs}
-                    formatter={(timeStr) =>
-                      formatValue(getD3DataFormatter(yAxisFormat, timeStr), timeStr)
-                    }
-                  />
-                </Bar>
-              </>
-            );
+    <PlotContainer>
+      <BarChart data={data} margin={margin} barGap={6} reverseStackOrder>
+        {GeneralChartComponents({
+          plotConfig,
+          yAxisConfig: { ...yAxisConfig, dataKey: undefined },
+          TooltipContent,
+          tooltipHandlers,
+          tooltip,
+          isFollowUpDisabled,
+          customValueFormatter: yAxisTickFormatter,
+        })}
+        {isDataPivoted && PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId })}
+        {!isDataPivoted &&
+          NonPivotedFunnelBarPlot({
+            plotConfig,
+            updateHoveredItemId,
+            hoveredItemId,
           })}
       </BarChart>
-    </div>
+    </PlotContainer>
   );
 }
 
