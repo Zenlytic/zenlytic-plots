@@ -20,6 +20,7 @@ function Bar({
   onClick = () => {},
   stackId,
   strokeWidth,
+  radius,
 }) {
   return (
     <RechartsBar
@@ -37,7 +38,8 @@ function Bar({
       onClick={onClick}
       stackId={stackId}
       isAnimationActive={isAnimationActive}
-      radius={strokeWidth}>
+      strokeWidth={strokeWidth}
+      radius={radius}>
       {children}
     </RechartsBar>
   );
