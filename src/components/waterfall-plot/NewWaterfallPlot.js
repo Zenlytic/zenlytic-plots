@@ -17,12 +17,15 @@ import getItemOpacity from '../../utils/getItemOpacity';
 import {
   getData,
   getMargin,
+  getSeriesFillColor,
+  getSeriesStrokeColor,
   getXAxis,
   getYAxisDataKey,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import colors from '../../constants/colors';
 
 const renderCustomizedLabel = (props, yAxisTickFormatter) => {
   const { x, y, width, height, value, fill, label, index } = props;
@@ -74,6 +77,21 @@ function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpD
     },
     [isFollowUpMenuOpen, updateClickedItemId]
   );
+  const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
+  const seriesFillColor = getSeriesFillColor(plotConfig);
+
+  const getBarFillColor = (barId, index) => {
+    if (barId === 'start' || barId === 'end') return seriesFillColor;
+    if (barId === 'other_factors') return colors.gray[50];
+    return PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length];
+  };
+
+  const getBarStrokeColor = (barId, index) => {
+    if (barId === 'start' || barId === 'end') return seriesStrokeColor;
+    if (barId === 'other_factors') return colors.gray[200];
+
+    return PLOT_COLORS[index % PLOT_COLORS.length];
+  };
 
   return (
     <PlotContainer>
@@ -99,6 +117,7 @@ function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpD
         {Bar({
           dataKey: yAxisDataKey,
           isAnimationActive: false,
+          radius: 2,
           children: (
             <>
               <LabelList
@@ -110,8 +129,8 @@ function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpD
                 return (
                   <Cell
                     key={item.id}
-                    fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-                    stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
+                    fill={getBarFillColor(item?.id, index)}
+                    stroke={getBarStrokeColor(item?.id, index)}
                     fillOpacity={itemOpacity}
                     strokeOpacity={itemOpacity}
                     strokeWidth={2}
