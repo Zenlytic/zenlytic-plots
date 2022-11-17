@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
-import { Bar, BarChart, Cell, LabelList } from 'recharts';
+import { BarChart, Cell, LabelList } from 'recharts';
+import Bar from '../shared/bar/Bar';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
 import {
@@ -52,7 +53,7 @@ const renderCustomizedLabel = (props, yAxisTickFormatter) => {
   );
 };
 
-function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false }) {
+function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
@@ -82,6 +83,7 @@ function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false }) {
           TooltipContent,
           tooltipHandlers,
           tooltip,
+          isFollowUpDisabled,
           xAxisConfig: {
             ...xAxisConfig,
             tickLine: false,
@@ -94,25 +96,31 @@ function NewWaterfallPlot({ plotConfig = {}, TooltipContent = false }) {
             },
           },
         })}
-        <Bar dataKey={yAxisDataKey} isAnimationActive={false}>
-          <LabelList
-            dataKey={yAxisDataKey}
-            content={(props) => renderCustomizedLabel(props, yAxisTickFormatter)}
-          />
-          {data.map((item, index) => {
-            const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
-            return (
-              <Cell
-                key={item.id}
-                fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-                stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-                fillOpacity={itemOpacity}
-                strokeOpacity={itemOpacity}
-                strokeWidth={2}
+        {Bar({
+          dataKey: yAxisDataKey,
+          isAnimationActive: false,
+          children: (
+            <>
+              <LabelList
+                dataKey={yAxisDataKey}
+                content={(props) => renderCustomizedLabel(props, yAxisTickFormatter)}
               />
-            );
-          })}
-        </Bar>
+              {data.map((item, index) => {
+                const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
+                return (
+                  <Cell
+                    key={item.id}
+                    fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
+                    stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
+                    fillOpacity={itemOpacity}
+                    strokeOpacity={itemOpacity}
+                    strokeWidth={2}
+                  />
+                );
+              })}
+            </>
+          ),
+        })}
       </BarChart>
     </PlotContainer>
   );

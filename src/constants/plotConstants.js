@@ -129,3 +129,5 @@ export const AXIS_DATA_KEY_KEYS = {
   CATEGORY_AXIS_DATA_KEY_KEY: 'categoryDataKey',
   CATEGORY_VALUE_DATA_KEYS_KEY: 'categoryValueDataKeys',
 };
+
+export const BAR_STROKE_WIDTH = 2;

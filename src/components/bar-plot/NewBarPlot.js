@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
-import { Bar, BarChart, Cell } from 'recharts';
+import { BarChart, Cell } from 'recharts';
+import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
-
 import {
   getData,
   getMargin,
@@ -15,8 +15,9 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import Bar from '../shared/bar/Bar';
 
-function NewBarPlot({ plotConfig = {}, TooltipContent = false }) {
+function NewBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const yAxisName = getYAxisName(plotConfig);
 
@@ -42,13 +43,20 @@ function NewBarPlot({ plotConfig = {}, TooltipContent = false }) {
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin} onClick={onPlotClick}>
-        {GeneralChartComponents({ plotConfig, TooltipContent, tooltipHandlers, tooltip })}
-        <Bar
-          dataKey={yAxisDataKey}
-          name={yAxisName}
-          fill={seriesFillColor}
-          stroke={seriesStrokeColor}>
-          {data.map((item, index) => {
+        {GeneralChartComponents({
+          plotConfig,
+          TooltipContent,
+          tooltipHandlers,
+          tooltip,
+          isFollowUpDisabled,
+        })}
+        {Bar({
+          dataKey: yAxisDataKey,
+          name: yAxisName,
+          fill: seriesFillColor,
+          stroke: seriesStrokeColor,
+          strokeWidth: BAR_STROKE_WIDTH,
+          children: data.map((item) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
             return (
               <Cell
@@ -60,8 +68,8 @@ function NewBarPlot({ plotConfig = {}, TooltipContent = false }) {
                 strokeWidth={2}
               />
             );
-          })}
-        </Bar>
+          }),
+        })}
       </BarChart>
     </PlotContainer>
   );

@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useCallback } from 'react';
-import { Bar, BarChart, LabelList } from 'recharts';
+import React from 'react';
+import { BarChart, LabelList } from 'recharts';
+import Bar from '../shared/bar/Bar';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
@@ -31,37 +32,39 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
     const droppedOffDataKey = `DROPPED_OFF_${categoryName}`;
     return (
       <>
-        <Bar
-          id={droppedOffDataKey}
-          isAnimationActive={false}
-          stackId={categoryName}
-          dataKey={droppedOffDataKey}
-          name={`Dropped Off - ${categoryName}`}
-          stroke={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-          fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-          onMouseOver={() => updateHoveredItemId(convertedDataKey)}
-          onMouseLeave={() => updateHoveredItemId(null)}
-        />
-        <Bar
-          id={convertedDataKey}
-          isAnimationActive={false}
-          stackId={categoryName}
-          dataKey={convertedDataKey}
-          name={`Converted - ${categoryName}`}
-          stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-          fill={PLOT_COLORS[index % PLOT_COLORS.length]}
-          onMouseOver={() => updateHoveredItemId(droppedOffDataKey)}
-          onMouseLeave={() => updateHoveredItemId(null)}>
-          <LabelList
-            offset={16}
-            dataKey={convertedDataKey}
-            position="top"
-            fill={colors.gray[500]}
-            fontWeight={fontWeights.medium}
-            fontSize={fontSizes.xs}
-            formatter={yAxisTickFormatter}
-          />
-        </Bar>
+        {Bar({
+          id: droppedOffDataKey,
+          isAnimationActive: false,
+          stackId: categoryName,
+          dataKey: droppedOffDataKey,
+          name: `Dropped Off - ${categoryName}`,
+          stroke: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+          fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+          onMouseOver: () => updateHoveredItemId(convertedDataKey),
+          onMouseLeave: () => updateHoveredItemId(null),
+        })}
+        {Bar({
+          id: convertedDataKey,
+          isAnimationActive: false,
+          stackId: categoryName,
+          dataKey: convertedDataKey,
+          name: `Converted - ${categoryName}`,
+          stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+          fill: PLOT_COLORS[index % PLOT_COLORS.length],
+          onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
+          onMouseLeave: () => updateHoveredItemId(null),
+          children: (
+            <LabelList
+              offset={16}
+              dataKey={convertedDataKey}
+              position="top"
+              fill={colors.gray[500]}
+              fontWeight={fontWeights.medium}
+              fontSize={fontSizes.xs}
+              formatter={yAxisTickFormatter}
+            />
+          ),
+        })}
       </>
     );
   });
@@ -73,42 +76,44 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
   return (
     <>
-      <Bar
-        isAnimationActive={false}
-        id="DROPPED_OFF"
-        name={'Dropped Off'}
-        dataKey={'DROPPED_OFF'}
-        fill={seriesFillColor}
-        stackId="a"
-        radius={[3, 3, 0, 0]}
-        onMouseOver={() => updateHoveredItemId('DROPPED_OFF')}
-        onMouseLeave={() => updateHoveredItemId(null)}
-      />
-      <Bar
-        isAnimationActive={false}
-        id="CONVERTED"
-        name={'Converted'}
-        dataKey={'CONVERTED'}
-        fill={seriesStrokeColor}
-        stackId="a"
-        radius={[3, 3, 0, 0]}
-        onMouseOver={() => updateHoveredItemId('CONVERTED')}
-        onMouseLeave={() => updateHoveredItemId(null)}>
-        <LabelList
-          offset={16}
-          dataKey="CONVERTED"
-          position="top"
-          fill={colors.gray[500]}
-          fontWeight={fontWeights.medium}
-          fontSize={fontSizes.xs}
-          formatter={yAxisTickFormatter}
-        />
-      </Bar>
+      {Bar({
+        isAnimationActive: false,
+        id: 'DROPPED_OFF',
+        name: 'Dropped Off',
+        dataKey: 'DROPPED_OFF',
+        fill: seriesFillColor,
+        stackId: 'a',
+        radius: [3, 3, 0, 0],
+        onMouseOver: () => updateHoveredItemId('DROPPED_OFF'),
+        onMouseLeave: () => updateHoveredItemId(null),
+      })}
+      {Bar({
+        isAnimationActive: false,
+        id: 'CONVERTED',
+        name: 'Converted',
+        dataKey: 'CONVERTED',
+        fill: seriesStrokeColor,
+        stackId: 'a',
+        radius: [3, 3, 0, 0],
+        onMouseOver: () => updateHoveredItemId('CONVERTED'),
+        onMouseLeave: () => updateHoveredItemId(null),
+        children: (
+          <LabelList
+            offset={16}
+            dataKey="CONVERTED"
+            position="top"
+            fill={colors.gray[500]}
+            fontWeight={fontWeights.medium}
+            fontSize={fontSizes.xs}
+            formatter={yAxisTickFormatter}
+          />
+        ),
+      })}
     </>
   );
 }
 
-function FunnelBarPlot({ plotConfig = {}, TooltipContent = false }) {
+function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
 
@@ -133,6 +138,7 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false }) {
           TooltipContent,
           tooltipHandlers,
           tooltip,
+          isFollowUpDisabled,
           customValueFormatter: yAxisTickFormatter,
         })}
         {isDataPivoted && PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId })}

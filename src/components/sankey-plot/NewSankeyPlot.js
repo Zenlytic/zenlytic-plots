@@ -17,7 +17,7 @@ import PlotContainer from '../plot-container/PlotContainer';
 import SankeyPlotLink from './components/sankey-plot-link/SankeyPlotLink';
 import SankeyPlotNode from './components/sankey-plot-node/SankeyPlotNode';
 
-function NewSankeyPlot({ plotConfig = {}, TooltipContent = () => {} }) {
+function NewSankeyPlot({ plotConfig = {}, TooltipContent = () => {}, isFollowUpDisabled = false }) {
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
 
@@ -66,6 +66,7 @@ function NewSankeyPlot({ plotConfig = {}, TooltipContent = () => {} }) {
           TooltipContent,
           useGridLines: false,
           customValueFormatter,
+          isFollowUpDisabled,
         })}
       </Sankey>
     </PlotContainer>

@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { Bar, BarChart } from 'recharts';
+import { BarChart } from 'recharts';
 import useBrush from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
+import Bar from '../shared/bar/Bar';
 
 import {
   getAxisFormat,
@@ -81,8 +82,12 @@ function NewHistogramPlot({
           },
           customLabelFormatter,
         })}
-
-        <Bar dataKey="value" fill={seriesFillColor} stroke={seriesStrokeColor} name="Frequency" />
+        {Bar({
+          dataKey: 'value',
+          fill: seriesFillColor,
+          stroke: seriesStrokeColor,
+          name: 'Frequency',
+        })}
       </BarChart>
     </PlotContainer>
   );
