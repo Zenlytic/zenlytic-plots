@@ -1,4 +1,4 @@
-export default {
+const colors = {
   transparent: 'transparent',
   black: '#000000',
   white: '#ffffff',
@@ -202,4 +202,16 @@ export default {
     800: '#282626',
     900: '#101010',
   },
+};
+
+export default colors;
+
+export const getThemeColorAsHex = (baseColor, paletteNumber) => {
+  const DEFAULT_PALETTE_NUMBER = 300;
+  const colorObject = colors[baseColor || 'gray'];
+  // Some theme colors dont have palette numbers
+  if (typeof colorObject !== 'object') {
+    return colorObject;
+  }
+  return paletteNumber ? colorObject[paletteNumber] : colorObject[DEFAULT_PALETTE_NUMBER];
 };
