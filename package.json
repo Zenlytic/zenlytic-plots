@@ -2,7 +2,7 @@
   "name": "zenlytic-plots",
   "version": "1.2.3",
   "description": "",
-  "main": "lib/index.js",
+  "main": "lib/index.umd.js",
   "browser": "lib/index.umd.js",
   "module": "lib/index.es.js",
   "files": [

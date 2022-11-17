@@ -17,7 +17,7 @@ export const getSeries = (plotConfig = {}) => {
 export const getReferenceLineValue = (plotConfig = {}) => {
   const series = getSeries(plotConfig);
   return series?.referenceLineValue;
-}
+};
 
 export const getSeriesType = (plotConfig) => {
   const series = getSeries(plotConfig);
@@ -377,8 +377,9 @@ export const getDoesSubStatDataExist = (plotConfig) => {
 
 export const getBarSpecificData = (plotConfig, data) => {
   const activeIds = getSeriesActiveIds(plotConfig);
-  if (activeIds )
-}
+  const activeData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
+  return activeData;
+};
 
 export const getData = (plotConfig) => {
   const { data = [] } = plotConfig;
@@ -426,6 +427,16 @@ export const getWidth = (plotConfig) => {
 export const getMargin = (plotConfig = {}) => {
   const { margin = DEFAULT_PLOT_MARGIN } = plotConfig;
   return margin;
+};
+
+export const getDoesSeriesHaveFillColor = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series.fillColor !== undefined;
+};
+
+export const getDoesSeriesHaveStrokeColor = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series.strokeColor !== undefined;
 };
 
 // Series Getters
