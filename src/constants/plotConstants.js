@@ -50,32 +50,22 @@ export const DEFAULT_AXIS_COLOR = '#A6A6A6';
 export const DEFAULT_CARTESIAN_GRID_COLOR = '#F0F0F0';
 
 export const PLOT_TYPES = {
+  AREA: 'area',
   BAR: 'bar',
+  GROUPED_BAR: 'grouped_bar',
   LINE: 'line',
+  MULTI_LINE: 'multi_line',
   LINE_COHORT: 'line_cohort',
   TABLE_ONLY: 'table_only',
   SCATTER: 'scatter',
   STAT: 'stat_plot',
-};
-
-export const AXIS_TYPES = {
-  DATE: 'date',
-  WEEK: 'week',
-  MONTH: 'month',
-  QUARTER: 'quarter',
-  YEAR: 'year',
+  FUNNEL: 'funnel',
+  FUNNEL_BAR: 'funnel_bar',
+  WATERFALL: 'waterfall',
 };
 
 export const COLOR_SUCCESS = colors.green[600];
 export const COLOR_FAIL = colors.red[600];
-
-export const DATE_AXIS_TYPES = [
-  AXIS_TYPES.DATE,
-  AXIS_TYPES.WEEK,
-  AXIS_TYPES.MONTH,
-  AXIS_TYPES.QUARTER,
-  AXIS_TYPES.YEAR,
-];
 
 export const PLOT_COLOR_PALETTE = {
   RED_MARK: 'red',
@@ -113,7 +103,31 @@ export const AXIS_COLOR = '#A6A6A6';
 export const GRID_COLOR = '#F0F0F0';
 export const LABEL_COLOR = '#737373';
 
-export const HIGHTLIGHT_BAR_COLOR = colors.gray[30];
+export const HIGHLIGHT_BAR_COLOR = colors.gray[30];
 
 export const BRUSH_COLOR = colors.gray[50];
 export const BRUSH_BORDER_COLOR = colors.gray[100];
+
+export const AXIS_TYPES = {
+  TIME: 'time',
+  NUMBER: 'number',
+  CATEGORY: 'category',
+};
+
+export const DATA_TYPES = {
+  TIME: 'time',
+  NUMBER: 'number',
+  CATEGORY: 'category',
+};
+
+// This is what is inside the series object that signifies which dataKey goes in which axis.
+// Example: xDataKey: 'ORDERS_ORDER_CREATED_AT_DATE'
+export const AXIS_DATA_KEY_KEYS = {
+  X_AXIS_DATA_KEY_KEY: 'xDataKey',
+  Y_AXIS_DATA_KEY_KEY: 'yDataKey',
+  Z_AXIS_DATA_KEY_KEY: 'zDataKey',
+  CATEGORY_AXIS_DATA_KEY_KEY: 'categoryDataKey',
+  CATEGORY_VALUE_DATA_KEYS_KEY: 'categoryValueDataKeys',
+};
+
+export const BAR_STROKE_WIDTH = 2;

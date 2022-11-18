@@ -33,6 +33,7 @@ export const formatUnixValue = (formatter, value) => {
 };
 
 const formatValue = (formatter, value) => {
+  if (value === null || value === undefined) return null;
   switch (formatter) {
     case 'date':
       return moment(value).utc().format(dateFormat);
