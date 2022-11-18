@@ -59,7 +59,6 @@ const ZenlyticLegend = ({
       align="right"
       verticalAlign={isServerSide ? 'top' : 'middle'}
       iconSize={useStrokeColorShape ? 0 : iconType === 'line' ? 14 : 12}
-      // iconSize={0}
       color={colors.gray[500]}
       wrapperStyle={{
         paddingLeft: space[6],
