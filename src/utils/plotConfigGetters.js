@@ -378,7 +378,10 @@ export const getDoesSubStatDataExist = (plotConfig) => {
 export const getBarSpecificData = (plotConfig, data) => {
   const activeIds = getSeriesActiveIds(plotConfig);
   const activeData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
-  return activeData;
+  // Give each bar a unique id if it doesnt have one
+  return activeData.map((d) => {
+    return { ...d, id: d ?? d[getXAxisDataKey(plotConfig)] };
+  });
 };
 
 export const getData = (plotConfig) => {
