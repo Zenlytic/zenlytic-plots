@@ -126,10 +126,6 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
-  console.log(
-    '🚀 ~ file: FunnelBarPlot.js ~ line 129 ~ FunnelBarPlot ~ hoveredItemId',
-    hoveredItemId
-  );
 
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
