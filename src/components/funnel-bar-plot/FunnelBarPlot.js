@@ -40,7 +40,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           name: `Dropped Off - ${categoryName}`,
           stroke: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
           fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-          onMouseOver: () => updateHoveredItemId(convertedDataKey),
+          onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
         })}
         {Bar({
@@ -51,7 +51,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           name: `Converted - ${categoryName}`,
           stroke: PLOT_COLORS[index % PLOT_COLORS.length],
           fill: PLOT_COLORS[index % PLOT_COLORS.length],
-          onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
+          onMouseOver: () => updateHoveredItemId(convertedDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
           children: (
             <LabelList
