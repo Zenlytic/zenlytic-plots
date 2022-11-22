@@ -62,6 +62,7 @@ function LinePlot({
           dot
           strokeWidth={2}
           name={yAxisName}
+          isAnimationActive={false}
         />
       </LineChart>
     </PlotContainer>
