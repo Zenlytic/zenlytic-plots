@@ -43,7 +43,8 @@ function PivotedAreaPlot({ plotConfig }) {
       strokeWidth={2}
       name={uniqueValueOfCategoryKeyInData}
       key={uniqueValueOfCategoryKeyInData}
-      stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
+      //   stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
+      stackId="1"
       label={
         <DataAnnotation
           dataKey={uniqueValueOfCategoryKeyInData}
@@ -51,6 +52,10 @@ function PivotedAreaPlot({ plotConfig }) {
           data={data}
           dataChangeType={dataAnnotationsChangeType}
           valueFormatter={yAxisTickFormatter}
+          getCurrentValue={(index, dataKey) => {
+            const datum = data[index];
+            return datum[dataKey];
+          }}
           getTotalValue={(index) => {
             const datum = data[index];
             const totalValue = uniqueValuesOfCategoryKey.reduce(
@@ -81,21 +86,25 @@ function NonPivotedAreaPlot({ plotConfig }) {
       fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
       strokeWidth={2}
-      stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
+      //   stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
+      stackId="1"
       label={
-        showDataAnnotations ? (
-          <DataAnnotation
-            data={data}
-            dataKey={axis.dataKey}
-            getTotalValue={(index) => {
-              // TODO: NJM
-              const datum = data[index];
-              return categoryValueAxes.reduce((total, axis) => datum[axis.dataKey] + total, 0);
-            }}
-            dataChangeType={dataAnnotationsChangeType}
-            valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)}
-          />
-        ) : undefined
+        <DataAnnotation
+          showDataAnnotations={showDataAnnotations}
+          data={data}
+          dataKey={axis.dataKey}
+          getCurrentValue={(index, dataKey) => {
+            const datum = data[index];
+            return datum[dataKey];
+          }}
+          getTotalValue={(index) => {
+            // TODO: NJM
+            const datum = data[index];
+            return categoryValueAxes.reduce((total, axis) => datum[axis.dataKey] + total, 0);
+          }}
+          dataChangeType={dataAnnotationsChangeType}
+          valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)}
+        />
       }
     />
   ));
@@ -141,11 +150,24 @@ function AreaPlot({
     ...(plotDataChangeType === changeTypes.PERCENT ? { tickFormatter: toPercent } : {}),
   };
 
+  const customValueFormatter = (value, dataKey, payload) => {
+    let formatter;
+    if (isDataPivoted) {
+      formatter = getYAxisTickFormatter(plotConfig);
+    } else {
+      formatter = getCategoryValueAxes(plotConfig).find(
+        (axis) => axis.dataKey === dataKey
+      ).tickFormatter;
+    }
+    const totalValue = payload.reduce((total, payloadEntry) => payloadEntry.value + total, 0);
+    const percent = getPercent(value, totalValue);
+    return `${formatter(value)} (${percent})`;
+  };
+
   const stackOffset = {
     [changeTypes.ABSOLUTE]: 'none',
     [changeTypes.PERCENT]: 'expand',
   }[plotDataChangeType];
-  console.log({ stackOffset });
   return (
     <PlotContainer>
       <AreaChart margin={margin} data={data} stackOffset={stackOffset} {...brushEvents}>
@@ -159,6 +181,7 @@ function AreaPlot({
           TooltipContent,
           tooltipHandlers,
           yAxisConfig,
+          customValueFormatter,
         })}
         {isDataPivoted ? PivotedAreaPlot({ plotConfig }) : NonPivotedAreaPlot({ plotConfig })}
       </AreaChart>

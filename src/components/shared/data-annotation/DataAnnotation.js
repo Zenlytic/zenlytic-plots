@@ -6,13 +6,19 @@ import { changeTypes } from '../../../constants/plotConstants';
 // TODO: NJM Rewrite this to move logic out of here and into area plot file.
 function getFormattedValue({
   valueFormatter,
-  value,
+  getCurrentValue,
+  dataKey,
   index,
   getTotalValue,
+  value,
   dataChangeType = changeTypes.ABSOLUTE,
 }) {
-  if (dataChangeType === changeTypes.ABSOLUTE) {
+  if (!getTotalValue) {
     return valueFormatter(value);
+  }
+  const currentValue = getCurrentValue(index, dataKey);
+  if (dataChangeType === changeTypes.ABSOLUTE) {
+    return valueFormatter(currentValue);
   }
 
   // Percentages
@@ -22,7 +28,7 @@ function getFormattedValue({
     return '0%';
   }
 
-  return `${((100 * value) / totalValue).toFixed(1)}%`;
+  return `${((100 * currentValue) / totalValue).toFixed(1)}%`;
 }
 
 function DataAnnotation({
@@ -38,6 +44,8 @@ function DataAnnotation({
   // don't show up.
   showDataAnnotations = true,
   getTotalValue,
+  getCurrentValue,
+  dataKey,
 }) {
   if (!showDataAnnotations) {
     return null;
@@ -49,6 +57,8 @@ function DataAnnotation({
         value,
         index,
         getTotalValue,
+        getCurrentValue,
+        dataKey,
         dataChangeType,
       })}
     </text>
