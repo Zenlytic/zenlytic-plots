@@ -54,4 +54,12 @@ const formatValue = (formatter, value) => {
   }
 };
 
+export const toPercent = (decimal) => `${(decimal * 100).toFixed(0)}%`;
+
+export const getPercent = (value, total) => {
+  const ratio = total > 0 ? value / total : 0;
+
+  return toPercent(ratio, 2);
+};
+
 export default formatValue;

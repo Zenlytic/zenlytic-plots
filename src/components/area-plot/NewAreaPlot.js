@@ -4,9 +4,9 @@
 import React from 'react';
 import { Area, AreaChart } from 'recharts';
 import { changeTypes, PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
-import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
+import { getPercent, toPercent } from '../../utils/formatValue';
 import {
   getAreaPlotDataAnnotationsChangeType,
   getAreaPlotDataChangeType,
@@ -25,6 +25,7 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import StackedDataAnnotation from './components/stacked-data-annotation/StackedDataAnnotation';
 
 function PivotedAreaPlot({ plotConfig }) {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
@@ -33,7 +34,6 @@ function PivotedAreaPlot({ plotConfig }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   const data = getData(plotConfig);
-  const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   return uniqueValuesOfCategoryKey.map((uniqueValueOfCategoryKeyInData, index) => (
     <Area
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
@@ -43,29 +43,24 @@ function PivotedAreaPlot({ plotConfig }) {
       strokeWidth={2}
       name={uniqueValueOfCategoryKeyInData}
       key={uniqueValueOfCategoryKeyInData}
-      //   stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
       stackId="1"
       label={
-        <DataAnnotation
-          dataKey={uniqueValueOfCategoryKeyInData}
-          categoryKeyValues={uniqueValuesOfCategoryKey}
-          data={data}
-          dataChangeType={dataAnnotationsChangeType}
-          valueFormatter={yAxisTickFormatter}
-          getCurrentValue={(index, dataKey) => {
-            const datum = data[index];
-            return datum[dataKey];
-          }}
-          getTotalValue={(index) => {
-            const datum = data[index];
-            const totalValue = uniqueValuesOfCategoryKey.reduce(
-              (total, categoryKeyValue) => datum[categoryKeyValue] + total,
-              0
-            );
-            return totalValue;
-          }}
-          showDataAnnotations={showDataAnnotations}
-        />
+        showDataAnnotations ? (
+          <StackedDataAnnotation
+            dataKey={uniqueValueOfCategoryKeyInData}
+            categoryKeyValues={uniqueValuesOfCategoryKey}
+            data={data}
+            dataChangeType={dataAnnotationsChangeType}
+            valueFormatter={yAxisTickFormatter}
+            getCurrentValue={(dataIndex, dataKey) => data[dataIndex][dataKey]}
+            getTotalValue={(dataIndex) =>
+              uniqueValuesOfCategoryKey.reduce(
+                (total, categoryKeyValue) => data[dataIndex][categoryKeyValue] + total,
+                0
+              )
+            }
+          />
+        ) : undefined
       }
     />
   ));
@@ -76,7 +71,6 @@ function NonPivotedAreaPlot({ plotConfig }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   const data = getData(plotConfig);
-  const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   return categoryValueAxes.map((axis, index) => (
     <Area
       type="monotone"
@@ -86,37 +80,28 @@ function NonPivotedAreaPlot({ plotConfig }) {
       fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
       strokeWidth={2}
-      //   stackId={plotDataChangeType === changeTypes.PERCENT ? '1' : undefined}
       stackId="1"
       label={
-        <DataAnnotation
-          showDataAnnotations={showDataAnnotations}
-          data={data}
-          dataKey={axis.dataKey}
-          getCurrentValue={(index, dataKey) => {
-            const datum = data[index];
-            return datum[dataKey];
-          }}
-          getTotalValue={(index) => {
-            // TODO: NJM
-            const datum = data[index];
-            return categoryValueAxes.reduce((total, axis) => datum[axis.dataKey] + total, 0);
-          }}
-          dataChangeType={dataAnnotationsChangeType}
-          valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)}
-        />
+        showDataAnnotations ? (
+          <StackedDataAnnotation
+            showDataAnnotations={showDataAnnotations}
+            data={data}
+            dataKey={axis.dataKey}
+            getCurrentValue={(dataIndex, dataKey) => data[dataIndex][dataKey]}
+            getTotalValue={(dataIndex) =>
+              categoryValueAxes.reduce(
+                (total, categoryValueAxis) => data[dataIndex][categoryValueAxis.dataKey] + total,
+                0
+              )
+            }
+            dataChangeType={dataAnnotationsChangeType}
+            valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)}
+          />
+        ) : undefined
       }
     />
   ));
 }
-
-const toPercent = (decimal) => `${(decimal * 100).toFixed(0)}%`;
-
-const getPercent = (value, total) => {
-  const ratio = total > 0 ? value / total : 0;
-
-  return toPercent(ratio, 2);
-};
 
 function AreaPlot({
   plotConfig = {},
@@ -128,7 +113,6 @@ function AreaPlot({
   const margin = getMargin(plotConfig);
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisFormat = getAxisFormat(plotConfig, xAxisDataKey);
-  const yAxis = getYAxis(plotConfig);
 
   const [tooltip, tooltipHandlers] = useTooltip();
   const [brush, brushEvents] = useBrush({
@@ -142,23 +126,19 @@ function AreaPlot({
 
   const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
-  // TODO: NJM Talk to Joe about why specifying a `dataKey` breaks
-  // area charts and gives them a domain of [-Infinity, Infinity].
   const yAxisConfig = {
     ...getYAxis(plotConfig),
+    // DataKey is not included in Y-Axis when multiple metrics are shown on the y-axis.
+    // Including it will break the y-axis domain.
     dataKey: undefined,
     ...(plotDataChangeType === changeTypes.PERCENT ? { tickFormatter: toPercent } : {}),
   };
 
   const customValueFormatter = (value, dataKey, payload) => {
-    let formatter;
-    if (isDataPivoted) {
-      formatter = getYAxisTickFormatter(plotConfig);
-    } else {
-      formatter = getCategoryValueAxes(plotConfig).find(
-        (axis) => axis.dataKey === dataKey
-      ).tickFormatter;
-    }
+    const formatter = isDataPivoted
+      ? getYAxisTickFormatter(plotConfig)
+      : getCategoryValueAxes(plotConfig).find((axis) => axis.dataKey === dataKey).tickFormatter;
+
     const totalValue = payload.reduce((total, payloadEntry) => payloadEntry.value + total, 0);
     const percent = getPercent(value, totalValue);
     return `${formatter(value)} (${percent})`;
@@ -168,9 +148,15 @@ function AreaPlot({
     [changeTypes.ABSOLUTE]: 'none',
     [changeTypes.PERCENT]: 'expand',
   }[plotDataChangeType];
+
   return (
     <PlotContainer>
-      <AreaChart margin={margin} data={data} stackOffset={stackOffset} {...brushEvents}>
+      <AreaChart
+        margin={margin}
+        data={data}
+        stackOffset={stackOffset}
+        reverseStackOrder
+        {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
           brush,
