@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { changeTypes } from '../../../../constants/plotConstants';
+import { dataChangeTypes } from '../../../../constants/plotConstants';
 import DataAnnotation from '../../../shared/data-annotation/DataAnnotation';
 
 function getFormattedAbsoluteValue({ currentValue, valueFormatter }) {
@@ -34,8 +34,8 @@ export default function StackedDataAnnotation({
   const currentValue = getCurrentValue(index, dataKey);
 
   const changeTypeToFormattingFunc = {
-    [changeTypes.ABSOLUTE]: () => getFormattedAbsoluteValue({ currentValue, valueFormatter }),
-    [changeTypes.PERCENT]: () =>
+    [dataChangeTypes.ABSOLUTE]: () => getFormattedAbsoluteValue({ currentValue, valueFormatter }),
+    [dataChangeTypes.PERCENT]: () =>
       getFormattedPercentageValue({ currentValue, getTotalValue, index }),
   };
 

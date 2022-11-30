@@ -114,11 +114,6 @@ function Tooltip({
     [plotConfig]
   );
 
-  // const valueFormatter = (...args) => {
-  //   console.log(args);
-  //   return args[0];
-  // };
-
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
   return (

@@ -9,7 +9,7 @@ export { default as FunnelBarPlot } from 'components/funnel-bar-plot/FunnelBarPl
 export { default as SankeyPlot } from 'components/sankey-plot/SankeyPlot';
 export { default as HistogramPlot } from 'components/histogram-plot/HistogramPlot';
 export { default as StatPlot } from 'components/stat-plot/StatPlot';
-export { default as AreaPlot } from 'components/area-plot/NewAreaPlot';
+export { default as AreaPlot } from 'components/area-plot/AreaPlot';
 
 // DONT NEED TO DO RIGHT NOW
 export { default as ResponsiveContainer } from 'components/responsive-container/ResponsiveContainer';
