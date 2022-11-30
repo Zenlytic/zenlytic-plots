@@ -22,6 +22,7 @@ import {
   getXAxisDataKey,
   getYAxis,
   getYAxisTickFormatter,
+  getCategoryValueAxisByDataKey,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -136,7 +137,7 @@ function AreaPlot({
   const customValueFormatter = (value, dataKey, payload) => {
     const formatter = isDataPivoted
       ? getYAxisTickFormatter(plotConfig)
-      : getCategoryValueAxes(plotConfig).find((axis) => axis.dataKey === dataKey).tickFormatter;
+      : getCategoryValueAxisByDataKey(plotConfig, dataKey);
 
     const totalValue = payload.reduce((total, payloadEntry) => payloadEntry.value + total, 0);
     const percent = getPercent(value, totalValue);
