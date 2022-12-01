@@ -136,3 +136,8 @@ export const dataChangeTypes = {
   ABSOLUTE: 'ABSOLUTE',
   PERCENT: 'PERCENT',
 };
+
+export const dataChangeTypeToStackOffsetMapping = {
+  [dataChangeTypes.ABSOLUTE]: 'none',
+  [dataChangeTypes.PERCENT]: 'expand',
+};

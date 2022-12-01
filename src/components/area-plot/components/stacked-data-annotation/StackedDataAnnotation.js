@@ -3,10 +3,6 @@ import React from 'react';
 import { dataChangeTypes } from '../../../../constants/plotConstants';
 import DataAnnotation from '../../../shared/data-annotation/DataAnnotation';
 
-function getFormattedAbsoluteValue({ currentValue, valueFormatter }) {
-  return valueFormatter(currentValue);
-}
-
 function getFormattedPercentageValue({ currentValue, getTotalValue, index }) {
   const totalValue = getTotalValue(index);
 
@@ -34,7 +30,7 @@ export default function StackedDataAnnotation({
   const currentValue = getCurrentValue(index, dataKey);
 
   const changeTypeToFormattingFunc = {
-    [dataChangeTypes.ABSOLUTE]: () => getFormattedAbsoluteValue({ currentValue, valueFormatter }),
+    [dataChangeTypes.ABSOLUTE]: () => valueFormatter(currentValue),
     [dataChangeTypes.PERCENT]: () =>
       getFormattedPercentageValue({ currentValue, getTotalValue, index }),
   };

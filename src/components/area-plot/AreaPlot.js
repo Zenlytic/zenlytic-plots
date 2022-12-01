@@ -3,7 +3,12 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { Area, AreaChart } from 'recharts';
-import { dataChangeTypes, PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+import {
+  dataChangeTypes,
+  PLOT_COLORS,
+  PLOT_SECONDARY_COLORS,
+  dataChangeTypeToStackOffsetMapping,
+} from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 import { getPercent, toPercent } from '../../utils/formatValue';
@@ -28,7 +33,6 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 import StackedDataAnnotation from './components/stacked-data-annotation/StackedDataAnnotation';
-import Tick from './components/tick/Tick';
 
 function PivotedAreaPlot({ plotConfig }) {
   const data = getData(plotConfig);
@@ -47,6 +51,7 @@ function PivotedAreaPlot({ plotConfig }) {
       name={uniqueValueOfCategoryKey}
       key={uniqueValueOfCategoryKey}
       stackId="1"
+      isAnimationActive={false}
       label={
         showDataAnnotations ? (
           <StackedDataAnnotation
@@ -84,6 +89,7 @@ function NonPivotedAreaPlot({ plotConfig }) {
       stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
       strokeWidth={2}
       stackId="1"
+      isAnimationActive={false}
       label={
         showDataAnnotations ? (
           <StackedDataAnnotation
@@ -127,18 +133,15 @@ function AreaPlot({
 
   const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
+  const fullYAxisConfig = getYAxis(plotConfig);
   const yAxisConfig = {
-    ...getYAxis(plotConfig),
-    // DataKey is not included in Y-Axis when multiple metrics are shown on the y-axis.
+    ...fullYAxisConfig,
+    // DataKey should not be included in Y-Axis when multiple metrics are shown on the y-axis.
     // Including it will break the y-axis domain.
-    dataKey: undefined,
-    ...(plotDataChangeType === dataChangeTypes.PERCENT ? { tickFormatter: toPercent } : {}),
+    dataKey: isDataPivoted ? undefined : fullYAxisConfig.dataKey,
+    tickFormatter:
+      plotDataChangeType === dataChangeTypes.PERCENT ? toPercent : fullYAxisConfig.tickFormatter,
   };
-
-  // Necessary to pass custom tick for x-axis to prevent bug where
-  // data annotations transiently disappear from the plot.
-  // See https://github.com/recharts/recharts/issues/1664
-  const xAxisConfig = { ...getXAxis(plotConfig), tick: <Tick /> };
 
   const customValueFormatter = (value, dataKey, payload) => {
     const formatter = isDataPivoted
@@ -150,10 +153,7 @@ function AreaPlot({
     return `${formatter(value)} (${percent})`;
   };
 
-  const stackOffset = {
-    [dataChangeTypes.ABSOLUTE]: 'none',
-    [dataChangeTypes.PERCENT]: 'expand',
-  }[plotDataChangeType];
+  const stackOffset = dataChangeTypeToStackOffsetMapping[plotDataChangeType];
 
   return (
     <PlotContainer>
@@ -173,7 +173,6 @@ function AreaPlot({
           TooltipContent,
           tooltipHandlers,
           yAxisConfig,
-          xAxisConfig,
           customValueFormatter,
         })}
         {isDataPivoted ? PivotedAreaPlot({ plotConfig }) : NonPivotedAreaPlot({ plotConfig })}
