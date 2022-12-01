@@ -201,10 +201,10 @@ export const getCategoryValueAxes = (plotConfig) => {
   });
 };
 
-expot const getCategoryValueAxisByDataKey = (plotConfig, dataKey) => {
+export const getCategoryValueAxisByDataKey = (plotConfig, dataKey) => {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
-  return categoryValueAxes.find(axis => axis.dataKey === dataKey);
-}
+  return categoryValueAxes.find((axis) => axis.dataKey === dataKey);
+};
 
 // TODO refactor the bar stuff and anything else using this to use the new function
 export const getCategoryValues = (plotConfig) => {

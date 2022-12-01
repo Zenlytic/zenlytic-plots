@@ -23,6 +23,7 @@ import {
   getYAxis,
   getYAxisTickFormatter,
   getCategoryValueAxisByDataKey,
+  getXAxis,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -103,6 +104,17 @@ function NonPivotedAreaPlot({ plotConfig }) {
   ));
 }
 
+// Necessary to pass custom tick for x-axis to prevent bug where
+// data annotations transiently disappear from the plot.
+// See https://github.com/recharts/recharts/issues/1664
+function Tick({ payload: { value }, verticalAnchor, visibleTicksCount, ...rest }) {
+  return (
+    <text {...rest} className="bar-chart-tick" dy={12}>
+      {value}
+    </text>
+  );
+}
+
 function AreaPlot({
   plotConfig = {},
   TooltipContent = () => {},
@@ -133,11 +145,12 @@ function AreaPlot({
     dataKey: undefined,
     ...(plotDataChangeType === dataChangeTypes.PERCENT ? { tickFormatter: toPercent } : {}),
   };
+  const xAxisConfig = { ...getXAxis(plotConfig), tick: <Tick /> };
 
   const customValueFormatter = (value, dataKey, payload) => {
     const formatter = isDataPivoted
       ? getYAxisTickFormatter(plotConfig)
-      : getCategoryValueAxisByDataKey(plotConfig, dataKey);
+      : getCategoryValueAxisByDataKey(plotConfig, dataKey).tickFormatter;
 
     const totalValue = payload.reduce((total, payloadEntry) => payloadEntry.value + total, 0);
     const percent = getPercent(value, totalValue);
@@ -167,6 +180,7 @@ function AreaPlot({
           TooltipContent,
           tooltipHandlers,
           yAxisConfig,
+          xAxisConfig,
           customValueFormatter,
         })}
         {isDataPivoted ? PivotedAreaPlot({ plotConfig }) : NonPivotedAreaPlot({ plotConfig })}
