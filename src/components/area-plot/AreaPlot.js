@@ -28,6 +28,7 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 import StackedDataAnnotation from './components/stacked-data-annotation/StackedDataAnnotation';
+import Tick from './components/tick/Tick';
 
 function PivotedAreaPlot({ plotConfig }) {
   const data = getData(plotConfig);
@@ -103,18 +104,6 @@ function NonPivotedAreaPlot({ plotConfig }) {
     />
   ));
 }
-
-// Necessary to pass custom tick for x-axis to prevent bug where
-// data annotations transiently disappear from the plot.
-// See https://github.com/recharts/recharts/issues/1664
-function Tick({ payload: { value }, verticalAnchor, visibleTicksCount, ...rest }) {
-  return (
-    <text {...rest} className="bar-chart-tick" dy={12}>
-      {value}
-    </text>
-  );
-}
-
 function AreaPlot({
   plotConfig = {},
   TooltipContent = () => {},
@@ -145,6 +134,10 @@ function AreaPlot({
     dataKey: undefined,
     ...(plotDataChangeType === dataChangeTypes.PERCENT ? { tickFormatter: toPercent } : {}),
   };
+
+  // Necessary to pass custom tick for x-axis to prevent bug where
+  // data annotations transiently disappear from the plot.
+  // See https://github.com/recharts/recharts/issues/1664
   const xAxisConfig = { ...getXAxis(plotConfig), tick: <Tick /> };
 
   const customValueFormatter = (value, dataKey, payload) => {
