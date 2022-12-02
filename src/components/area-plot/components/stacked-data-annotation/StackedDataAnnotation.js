@@ -22,16 +22,16 @@ export default function StackedDataAnnotation({
   const currentValue = getCurrentValue(index, dataKey);
   const totalValue = getTotalValue(index);
 
-  const { value, valueFormatterFinal } = {
+  const { value, valueFormatterForDataChangeType } = {
     [dataChangeTypes.ABSOLUTE]: {
-      valueFormatterFinal: valueFormatter,
+      valueFormatterForDataChangeType: valueFormatter,
       value: currentValue,
     },
     [dataChangeTypes.PERCENT]: {
-      valueFormatterFinal: getFormatter('percent_1'),
+      valueFormatterForDataChangeType: getFormatter('percent_1'),
       value: getRatioSafe(currentValue, totalValue),
     },
   }[dataChangeType];
 
-  return DataAnnotation({ x, y, stroke, value, valueFormatter: valueFormatterFinal });
+  return DataAnnotation({ x, y, stroke, value, valueFormatter: valueFormatterForDataChangeType });
 }

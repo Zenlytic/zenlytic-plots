@@ -2,7 +2,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { Area, AreaChart } from 'recharts';
+import { AreaChart } from 'recharts';
+import { Area } from './components/area/Area';
 import {
   dataChangeTypes,
   PLOT_COLORS,
@@ -33,7 +34,6 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import StackedDataAnnotation from './components/stacked-data-annotation/StackedDataAnnotation';
 
 function PivotedAreaPlot({ plotConfig }) {
   const data = getData(plotConfig);
@@ -42,38 +42,31 @@ function PivotedAreaPlot({ plotConfig }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
-  return uniqueValuesOfCategoryKey.map((uniqueValueOfCategoryKey, index) => (
-    <Area
-      stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-      fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-      dataKey={uniqueValueOfCategoryKey}
-      type="monotone"
-      strokeWidth={2}
-      name={uniqueValueOfCategoryKey}
-      key={uniqueValueOfCategoryKey}
-      stackId="1"
-      dot
-      isAnimationActive={false}
-      label={
-        showDataAnnotations ? (
-          <StackedDataAnnotation
-            dataKey={uniqueValueOfCategoryKey}
-            categoryKeyValues={uniqueValuesOfCategoryKey}
-            data={data}
-            dataChangeType={dataAnnotationsChangeType}
-            valueFormatter={yAxisTickFormatter}
-            getCurrentValue={(dataIndex, dataKey) => data[dataIndex][dataKey]}
-            getTotalValue={(dataIndex) =>
-              uniqueValuesOfCategoryKey.reduce(
-                (total, categoryKeyValue) => data[dataIndex][categoryKeyValue] + total,
-                0
-              )
-            }
-          />
-        ) : undefined
-      }
-    />
-  ));
+  return uniqueValuesOfCategoryKey.map((uniqueValueOfCategoryKey, index) =>
+    Area({
+      type: 'monotone',
+      stackId: '1',
+      dot: true,
+      strokeWidth: 2,
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+      dataKey: uniqueValueOfCategoryKey,
+      name: uniqueValueOfCategoryKey,
+      key: uniqueValueOfCategoryKey,
+      isAnimationActive: false,
+      showDataAnnotations,
+      data,
+      axisDataKey: uniqueValueOfCategoryKey,
+      dataChangeType: dataAnnotationsChangeType,
+      valueFormatter: yAxisTickFormatter,
+      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey],
+      getTotalValue: (dataIndex) =>
+        uniqueValuesOfCategoryKey.reduce(
+          (total, categoryKeyValue) => data[dataIndex][categoryKeyValue] + total,
+          0
+        ),
+    })
+  );
 }
 
 function NonPivotedAreaPlot({ plotConfig }) {
@@ -81,37 +74,31 @@ function NonPivotedAreaPlot({ plotConfig }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   const data = getData(plotConfig);
-  return categoryValueAxes.map((axis, index) => (
-    <Area
-      type="monotone"
-      dataKey={axis.dataKey}
-      name={axis.name}
-      key={axis.name}
-      fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-      stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-      strokeWidth={2}
-      stackId="1"
-      isAnimationActive={false}
-      dot
-      label={
-        showDataAnnotations ? (
-          <StackedDataAnnotation
-            data={data}
-            dataKey={axis.dataKey}
-            getCurrentValue={(dataIndex, dataKey) => data[dataIndex][dataKey]}
-            getTotalValue={(dataIndex) =>
-              categoryValueAxes.reduce(
-                (total, categoryValueAxis) => data[dataIndex][categoryValueAxis.dataKey] + total,
-                0
-              )
-            }
-            dataChangeType={dataAnnotationsChangeType}
-            valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)}
-          />
-        ) : undefined
-      }
-    />
-  ));
+  return categoryValueAxes.map((axis, index) =>
+    Area({
+      type: 'monotone',
+      stackId: '1',
+      dot: true,
+      dataKey: axis.dataKey,
+      name: axis.name,
+      key: axis.name,
+      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      strokeWidth: 2,
+      isAnimationActive: false,
+      data,
+      showDataAnnotations,
+      axisDataKey: axis.dataKey,
+      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey],
+      getTotalValue: (dataIndex) =>
+        categoryValueAxes.reduce(
+          (total, categoryValueAxis) => data[dataIndex][categoryValueAxis.dataKey] + total,
+          0
+        ),
+      dataChangeType: dataAnnotationsChangeType,
+      valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
+    })
+  );
 }
 function AreaPlot({
   plotConfig = {},

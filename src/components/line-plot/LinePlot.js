@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { Line, LineChart } from 'recharts';
+import { LineChart } from 'recharts';
 import useBrush from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
-
+import Line from '../shared/Line/Line';
 import {
   getAxisFormat,
   getData,
@@ -18,7 +18,6 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import DataAnnotation from '../shared/data-annotation/DataAnnotation';
 
 function LinePlot({
   plotConfig = {},
@@ -61,18 +60,17 @@ function LinePlot({
           tooltipHandlers,
           isFollowUpDisabled,
         })}
-        <Line
-          type="monotone"
-          dataKey={yAxisDataKey}
-          stroke={seriesStrokeColor}
-          dot
-          strokeWidth={2}
-          name={yAxisName}
-          isAnimationActive={false}
-          label={
-            showDataAnnotations ? <DataAnnotation valueFormatter={yAxisTickFormatter} /> : undefined
-          }
-        />
+        {Line({
+          type: 'monotone',
+          dataKey: yAxisDataKey,
+          stroke: seriesStrokeColor,
+          dot: true,
+          strokeWidth: 2,
+          name: yAxisName,
+          isAnimationActive: false,
+          valueFormatter: yAxisTickFormatter,
+          showDataAnnotations,
+        })}
       </LineChart>
     </PlotContainer>
   );

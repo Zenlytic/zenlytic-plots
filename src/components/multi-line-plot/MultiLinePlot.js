@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { Line, LineChart } from 'recharts';
+import { LineChart } from 'recharts';
 import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
@@ -14,15 +14,13 @@ import {
   getMargin,
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
-  getXAxis,
   getXAxisDataKey,
-  getYAxis,
   getYAxisDataKey,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import DataAnnotation from '../shared/data-annotation/DataAnnotation';
+import Line from '../shared/Line/Line';
 
 function PivotedMultiLinePlot({ plotConfig }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
@@ -30,46 +28,40 @@ function PivotedMultiLinePlot({ plotConfig }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
   return data.map((series, index) => {
-    return (
-      <Line
-        dot
-        data={series.data}
-        stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-        dataKey={yAxisDataKey}
-        type="monotone"
-        strokeWidth={2}
-        name={series.name}
-        key={series.name}
-        isAnimationActive={false}
-        label={
-          showDataAnnotations ? <DataAnnotation valueFormatter={yAxisTickFormatter} /> : undefined
-        }
-      />
-    );
+    return Line({
+      dot: true,
+      data: series.data,
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      dataKey: yAxisDataKey,
+      type: 'monotone',
+      strokeWidth: 2,
+      name: series.name,
+      key: series.name,
+      isAnimationActive: false,
+      showDataAnnotations,
+      valueFormatter: yAxisTickFormatter,
+    });
   });
 }
 
 function NonPivotedMultiLinePlot({ plotConfig }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
-  return categoryValueAxes.map((axis, index) => (
-    <Line
-      type="monotone"
-      dataKey={axis.dataKey}
-      name={axis.name}
-      key={axis.name}
-      fill={PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]}
-      stroke={PLOT_COLORS[index % PLOT_COLORS.length]}
-      dot
-      strokeWidth={2}
-      isAnimationActive={false}
-      label={
-        showDataAnnotations ? (
-          <DataAnnotation valueFormatter={getTickFormatterFromDataKey(plotConfig, axis.dataKey)} />
-        ) : undefined
-      }
-    />
-  ));
+  return categoryValueAxes.map((axis, index) =>
+    Line({
+      type: 'monotone',
+      dataKey: axis.dataKey,
+      name: axis.name,
+      key: axis.name,
+      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      dot: true,
+      strokeWidth: 2,
+      isAnimationActive: false,
+      showDataAnnotations,
+      valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
+    })
+  );
 }
 
 function MultiLinePlot({
