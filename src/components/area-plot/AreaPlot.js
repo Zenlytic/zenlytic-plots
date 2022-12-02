@@ -51,6 +51,7 @@ function PivotedAreaPlot({ plotConfig }) {
       name={uniqueValueOfCategoryKey}
       key={uniqueValueOfCategoryKey}
       stackId="1"
+      dot
       isAnimationActive={false}
       label={
         showDataAnnotations ? (
@@ -90,6 +91,7 @@ function NonPivotedAreaPlot({ plotConfig }) {
       strokeWidth={2}
       stackId="1"
       isAnimationActive={false}
+      dot
       label={
         showDataAnnotations ? (
           <StackedDataAnnotation
