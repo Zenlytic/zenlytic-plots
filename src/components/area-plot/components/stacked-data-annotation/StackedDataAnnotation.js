@@ -1,17 +1,9 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import { dataChangeTypes } from '../../../../constants/plotConstants';
+import { getRatioSafe } from '../../../../utils/numberUtils';
+import { getFormatter } from '../../../../utils/plotConfigGetters';
 import DataAnnotation from '../../../shared/data-annotation/DataAnnotation';
-
-function getFormattedPercentageValue({ currentValue, getTotalValue, index }) {
-  const totalValue = getTotalValue(index);
-
-  if (totalValue === 0) {
-    return '0%';
-  }
-
-  return `${((100 * currentValue) / totalValue).toFixed(1)}%`;
-}
 
 export default function StackedDataAnnotation({
   x,
@@ -28,14 +20,18 @@ export default function StackedDataAnnotation({
   dataKey,
 }) {
   const currentValue = getCurrentValue(index, dataKey);
+  const totalValue = getTotalValue(index);
 
-  const changeTypeToFormattingFunc = {
-    [dataChangeTypes.ABSOLUTE]: () => valueFormatter(currentValue),
-    [dataChangeTypes.PERCENT]: () =>
-      getFormattedPercentageValue({ currentValue, getTotalValue, index }),
-  };
+  const { value, valueFormatterFinal } = {
+    [dataChangeTypes.ABSOLUTE]: {
+      valueFormatterFinal: valueFormatter,
+      value: currentValue,
+    },
+    [dataChangeTypes.PERCENT]: {
+      valueFormatterFinal: getFormatter('percent_1'),
+      value: getRatioSafe(currentValue, totalValue),
+    },
+  }[dataChangeType];
 
-  const formattedValue = changeTypeToFormattingFunc[dataChangeType]();
-
-  return DataAnnotation({ x, y, stroke, value: formattedValue });
+  return DataAnnotation({ x, y, stroke, value, valueFormatter: valueFormatterFinal });
 }

@@ -11,7 +11,7 @@ import {
 } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
-import { getPercent, toPercent } from '../../utils/formatValue';
+import { getRatioSafe } from '../../utils/numberUtils';
 import {
   getAreaPlotDataAnnotationsChangeType,
   getAreaPlotDataChangeType,
@@ -28,7 +28,7 @@ import {
   getYAxis,
   getYAxisTickFormatter,
   getCategoryValueAxisByDataKey,
-  getXAxis,
+  getFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -136,13 +136,16 @@ function AreaPlot({
   const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
   const fullYAxisConfig = getYAxis(plotConfig);
+  const percentageFormatter = getFormatter('percent_1');
   const yAxisConfig = {
     ...fullYAxisConfig,
     // DataKey should not be included in Y-Axis when multiple metrics are shown on the y-axis.
     // Including it will break the y-axis domain.
     dataKey: isDataPivoted ? undefined : fullYAxisConfig.dataKey,
     tickFormatter:
-      plotDataChangeType === dataChangeTypes.PERCENT ? toPercent : fullYAxisConfig.tickFormatter,
+      plotDataChangeType === dataChangeTypes.PERCENT
+        ? percentageFormatter
+        : fullYAxisConfig.tickFormatter,
   };
 
   const customValueFormatter = (value, dataKey, payload) => {
@@ -151,8 +154,9 @@ function AreaPlot({
       : getCategoryValueAxisByDataKey(plotConfig, dataKey).tickFormatter;
 
     const totalValue = payload.reduce((total, payloadEntry) => payloadEntry.value + total, 0);
-    const percent = getPercent(value, totalValue);
-    return `${formatter(value)} (${percent})`;
+    const percentTotal = getRatioSafe(value, totalValue);
+    const percentTotalFormatted = percentageFormatter(percentTotal);
+    return `${formatter(value)} (${percentTotalFormatted})`;
   };
 
   const stackOffset = dataChangeTypeToStackOffsetMapping[plotDataChangeType];
