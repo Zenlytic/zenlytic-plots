@@ -1,6 +1,11 @@
 import { isEmpty } from 'lodash';
 import colors from '../constants/colors';
-import { AXIS_DATA_KEY_KEYS, DEFAULT_PLOT_MARGIN, PLOT_TYPES } from '../constants/plotConstants';
+import {
+  AXIS_DATA_KEY_KEYS,
+  dataChangeTypes,
+  DEFAULT_PLOT_MARGIN,
+  PLOT_TYPES,
+} from '../constants/plotConstants';
 import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
 
@@ -484,10 +489,10 @@ const getAreaPlotOptions = (plotConfig) => {
 
 export const getAreaPlotDataChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
-  return areaPlotOptions?.dataChangeType;
+  return areaPlotOptions?.dataChangeType ?? dataChangeTypes.ABSOLUTE;
 };
 
 export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
-  return areaPlotOptions?.dataAnnotationsChangeType;
+  return areaPlotOptions?.dataAnnotationsChangeType ?? dataChangeTypes.ABSOLUTE;
 };
