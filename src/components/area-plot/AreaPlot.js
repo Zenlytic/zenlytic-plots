@@ -12,6 +12,7 @@ import {
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 import { getRatioSafe } from '../../utils/numberUtils';
+import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 import {
   getAreaPlotDataAnnotationsChangeType,
   getAreaPlotDataChangeType,
@@ -135,18 +136,8 @@ function AreaPlot({
 
   const plotDataChangeType = getAreaPlotDataChangeType(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
-  const fullYAxisConfig = getYAxis(plotConfig);
+  const yAxisConfig = getYAxis(plotConfig);
   const percentageFormatter = getFormatter('percent_1');
-  const yAxisConfig = {
-    ...fullYAxisConfig,
-    // DataKey should not be included in Y-Axis when multiple metrics are shown on the y-axis.
-    // Including it will break the y-axis domain.
-    dataKey: isDataPivoted ? undefined : fullYAxisConfig.dataKey,
-    tickFormatter:
-      plotDataChangeType === dataChangeTypes.PERCENT
-        ? percentageFormatter
-        : fullYAxisConfig.tickFormatter,
-  };
 
   const customValueFormatter = (value, dataKey, payload) => {
     const formatter = isDataPivoted
@@ -178,7 +169,15 @@ function AreaPlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
-          yAxisConfig,
+          yAxisConfig: overrideAxisConfig(yAxisConfig, {
+            // DataKey should not be included in Y-Axis when multiple metrics are shown on the y-axis.
+            // Including it will break the y-axis domain.
+            dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
+            tickFormatter:
+              plotDataChangeType === dataChangeTypes.PERCENT
+                ? percentageFormatter
+                : yAxisConfig.tickFormatter,
+          }),
           customValueFormatter,
         })}
         {isDataPivoted ? PivotedAreaPlot({ plotConfig }) : NonPivotedAreaPlot({ plotConfig })}
