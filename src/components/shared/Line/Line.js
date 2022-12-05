@@ -16,6 +16,7 @@ export default function Line({
   isAnimationActive,
   showDataAnnotations,
   valueFormatter,
+  data,
 }) {
   const label = showDataAnnotations ? (
     <DataAnnotation valueFormatter={valueFormatter} />
@@ -32,6 +33,7 @@ export default function Line({
       strokeWidth={strokeWidth}
       isAnimationActive={isAnimationActive}
       label={label}
+      data={data}
     />
   );
 }
