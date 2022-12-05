@@ -5,7 +5,7 @@ import fontSizes from '../../../constants/fontSizes';
 
 function DataAnnotation({ x, y, stroke, value, valueFormatter }) {
   return (
-    <text x={x} y={y} dy={-4} fill={stroke} fontSize={fontSizes['2sx']} textAnchor="middle">
+    <text x={x} y={y} dy={-4} fill={stroke} fontSize={fontSizes['2xs']} textAnchor="middle">
       {valueFormatter(value)}
     </text>
   );
