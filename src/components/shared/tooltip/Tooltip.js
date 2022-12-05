@@ -104,9 +104,9 @@ function Tooltip({
   );
 
   const valueFormatter = useCallback(
-    (value, dataKey) => {
+    (value, dataKey, payload) => {
       if (customValueFormatter) {
-        return customValueFormatter(value, dataKey);
+        return customValueFormatter(value, dataKey, payload);
       }
       const formatter = getTickFormatterFromDataKey(plotConfig, dataKey);
       return formatter(value);

@@ -131,3 +131,13 @@ export const AXIS_DATA_KEY_KEYS = {
 };
 
 export const BAR_STROKE_WIDTH = 2;
+
+export const dataChangeTypes = {
+  ABSOLUTE: 'ABSOLUTE',
+  PERCENT: 'PERCENT',
+};
+
+export const dataChangeTypeToStackOffsetMapping = {
+  [dataChangeTypes.ABSOLUTE]: 'none',
+  [dataChangeTypes.PERCENT]: 'expand',
+};

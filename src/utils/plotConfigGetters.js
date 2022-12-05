@@ -1,6 +1,11 @@
 import { isEmpty } from 'lodash';
 import colors from '../constants/colors';
-import { AXIS_DATA_KEY_KEYS, DEFAULT_PLOT_MARGIN, PLOT_TYPES } from '../constants/plotConstants';
+import {
+  AXIS_DATA_KEY_KEYS,
+  dataChangeTypes,
+  DEFAULT_PLOT_MARGIN,
+  PLOT_TYPES,
+} from '../constants/plotConstants';
 import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
 
@@ -29,6 +34,12 @@ export const getSeriesActiveIds = (plotConfig) => {
   const series = getSeries(plotConfig);
   const { activeIds } = series || {};
   return activeIds;
+};
+
+export const getSeriesShowDataAnnotations = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  const { showDataAnnotations = false } = series;
+  return showDataAnnotations;
 };
 
 export const getFormatter = (format) => {
@@ -193,6 +204,11 @@ export const getCategoryValueAxes = (plotConfig) => {
     const tickFormatter = getFormatter(format);
     return { type: dataType, name, dataKey, tickFormatter };
   });
+};
+
+export const getCategoryValueAxisByDataKey = (plotConfig, dataKey) => {
+  const categoryValueAxes = getCategoryValueAxes(plotConfig);
+  return categoryValueAxes.find((axis) => axis.dataKey === dataKey);
 };
 
 // TODO refactor the bar stuff and anything else using this to use the new function
@@ -461,4 +477,22 @@ export const getIsSeriesStacked = (plotConfig) => {
   const series = getSeries(plotConfig);
   const { isStacked = false } = series || {};
   return isStacked;
+};
+
+const getPlotOptions = (plotConfig) => {
+  return plotConfig.plotOptions;
+};
+
+const getAreaPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig).area;
+};
+
+export const getAreaPlotDataChangeType = (plotConfig) => {
+  const areaPlotOptions = getAreaPlotOptions(plotConfig);
+  return areaPlotOptions?.dataChangeType ?? dataChangeTypes.ABSOLUTE;
+};
+
+export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
+  const areaPlotOptions = getAreaPlotOptions(plotConfig);
+  return areaPlotOptions?.dataAnnotationsChangeType ?? dataChangeTypes.ABSOLUTE;
 };

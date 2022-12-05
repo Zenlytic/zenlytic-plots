@@ -21,6 +21,7 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 
 function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
@@ -134,7 +135,7 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
       <BarChart data={data} margin={margin} barGap={6} reverseStackOrder>
         {GeneralChartComponents({
           plotConfig,
-          yAxisConfig: { ...yAxisConfig, dataKey: undefined },
+          yAxisConfig: overrideAxisConfig(yAxisConfig, { dataKey: undefined }),
           TooltipContent,
           tooltipHandlers,
           tooltip,
