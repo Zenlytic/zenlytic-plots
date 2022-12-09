@@ -256,7 +256,6 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
     if (!dataDict[dataKeyValue]) {
       dataDict[dataKeyValue] = [];
     }
-
     dataDict[dataKeyValue].push(item);
   });
   return Object.keys(dataDict).map((key) => {
@@ -271,8 +270,6 @@ export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
 };
 
 const getPivotedData = (plotConfig, data) => {
-  // const xAxisDataKey = getXAxisDataKey(plotConfig);
-  // const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const pivotedData = pivotDataByDataKey(plotConfig, data, categoryAxisDataKey);
   return pivotedData;
