@@ -29,7 +29,10 @@ function PivotedGroupedBar({
 }) {
   const data = getData(plotConfig);
   const yAxisDataKey = getYAxisDataKey(plotConfig);
+  console.log(yAxisDataKey);
   return data.map((series, index) => {
+    // console.log(plotConfig);
+    console.log(series);
     return Bar({
       id: series.name,
       data: series.data,
@@ -84,7 +87,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
         {GeneralChartComponents({
           plotConfig,
           useLegend: true,
-          yAxisConfig: {},
+          // yAxisConfig: {},
           TooltipContent,
           tooltip,
           tooltipHandlers,
