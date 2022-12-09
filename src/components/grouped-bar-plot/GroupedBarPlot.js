@@ -31,12 +31,9 @@ function PivotedGroupedBar({
   hoveredItemId = null,
 }) {
   const data = getData(plotConfig);
-  const yAxisDataKey = getYAxisDataKey(plotConfig);
-  // console.log(data);
   console.log(data);
   const categoricalAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const uniqueCategoryAxisValues = getUniqueValuesOfDataKey(plotConfig, categoricalAxisDataKey);
-  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
   console.log(uniqueCategoryAxisValues);
   return uniqueCategoryAxisValues.map((value, index) => {
     return Bar({
@@ -44,7 +41,6 @@ function PivotedGroupedBar({
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
       dataKey: value,
-      // xAxisId: categoricalAxisDataKey,
       name: value,
       key: value,
       data,
@@ -52,8 +48,6 @@ function PivotedGroupedBar({
       strokeOpacity: !hoveredItemId || hoveredItemId === value.name ? 1 : 0.2,
       strokeWidth: BAR_STROKE_WIDTH,
       radius: 2,
-      valueFormatter: yAxisTickFormatter,
-      // onMouseOver: () => updateHoveredItemId(value),
       onMouseLeave: () => updateHoveredItemId(null),
       onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
     });
