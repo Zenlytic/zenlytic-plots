@@ -253,7 +253,6 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
   let dataDict = {};
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const uniqueCategoryValues = getUniqueValuesOfDataKey(plotConfig, xAxisDataKey);
-  // console.log(uniqueCategoryValues);
   data.forEach((item) => {
     const dataKeyValue = item[dataKey];
     if (!dataDict[dataKeyValue]) {
@@ -263,7 +262,6 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
   });
 
   return Object.keys(dataDict).map((key) => {
-    console.log('NJM', dataDict[key]);
     return {
       name: key,
       data: dataDict[key].sort((a, b) =>
