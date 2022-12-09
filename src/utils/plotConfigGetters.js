@@ -283,7 +283,6 @@ export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
 const getPivotedData = (plotConfig, data) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const pivotedData = pivotDataByDataKey(plotConfig, data, categoryAxisDataKey);
-  // console.log(pivotedData);
   return pivotedData;
 };
 
