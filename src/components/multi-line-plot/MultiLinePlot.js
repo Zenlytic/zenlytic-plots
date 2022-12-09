@@ -27,6 +27,7 @@ function PivotedMultiLinePlot({ plotConfig }) {
   const data = getData(plotConfig);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+  // console.log(data);
   return data.map((series, index) => {
     return Line({
       dot: true,

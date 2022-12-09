@@ -251,6 +251,9 @@ const flatPivotDataByDataKey = (plotConfig, data, dataKey) => {
 
 const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
   let dataDict = {};
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const uniqueCategoryValues = getUniqueValuesOfDataKey(plotConfig, xAxisDataKey);
+  // console.log(uniqueCategoryValues);
   data.forEach((item) => {
     const dataKeyValue = item[dataKey];
     if (!dataDict[dataKeyValue]) {
@@ -258,8 +261,18 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
     }
     dataDict[dataKeyValue].push(item);
   });
+
   return Object.keys(dataDict).map((key) => {
-    return { name: key, data: dataDict[key] };
+    console.log('NJM', dataDict[key]);
+    return {
+      name: key,
+      data: dataDict[key].sort((a, b) =>
+        uniqueCategoryValues.indexOf(a[xAxisDataKey]) <
+        uniqueCategoryValues.indexOf(b[xAxisDataKey])
+          ? -1
+          : 1
+      ),
+    };
   });
 };
 
@@ -272,6 +285,7 @@ export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
 const getPivotedData = (plotConfig, data) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const pivotedData = pivotDataByDataKey(plotConfig, data, categoryAxisDataKey);
+  // console.log(pivotedData);
   return pivotedData;
 };
 
