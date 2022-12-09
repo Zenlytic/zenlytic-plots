@@ -11,12 +11,15 @@ import {
 import useTooltip from '../../hooks/useTooltip';
 
 import {
+  getCategoryAxisDataKey,
   getCategoryValueAxes,
   getData,
   getIsDataPivoted,
   getIsSeriesStacked,
   getMargin,
   getYAxisDataKey,
+  getUniqueValuesOfDataKey,
+  getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -29,22 +32,30 @@ function PivotedGroupedBar({
 }) {
   const data = getData(plotConfig);
   const yAxisDataKey = getYAxisDataKey(plotConfig);
-  return data.map((series, index) => {
+  // console.log(data);
+  console.log(data);
+  const categoricalAxisDataKey = getCategoryAxisDataKey(plotConfig);
+  const uniqueCategoryAxisValues = getUniqueValuesOfDataKey(plotConfig, categoricalAxisDataKey);
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+  console.log(uniqueCategoryAxisValues);
+  return uniqueCategoryAxisValues.map((value, index) => {
     return Bar({
-      id: series.name,
-      data: series.data,
+      id: value,
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-      dataKey: yAxisDataKey,
-      name: series.name,
-      key: series.name,
-      fillOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
-      strokeOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
+      dataKey: value,
+      // xAxisId: categoricalAxisDataKey,
+      name: value,
+      key: value,
+      data,
+      fillOpacity: !hoveredItemId || hoveredItemId === value.name ? 1 : 0.2,
+      strokeOpacity: !hoveredItemId || hoveredItemId === value.name ? 1 : 0.2,
       strokeWidth: BAR_STROKE_WIDTH,
       radius: 2,
-      onMouseOver: () => updateHoveredItemId(series.name),
+      valueFormatter: yAxisTickFormatter,
+      // onMouseOver: () => updateHoveredItemId(value),
       onMouseLeave: () => updateHoveredItemId(null),
-      onClick: (e) => updateClickedItemId(series.name, e?.tooltipPosition),
+      onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
     });
   });
 }
@@ -76,6 +87,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   const isDataPivoted = getIsDataPivoted(plotConfig);
   const [tooltip, tooltipHandlers] = useTooltip();
   const { updateHoveredItemId = () => {}, updateClickedItemId = () => {} } = tooltipHandlers || {};
+  const customValueFormatter = isDataPivoted ? getYAxisTickFormatter(plotConfig) : undefined;
 
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
   return (
@@ -90,8 +102,8 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
+          customValueFormatter,
         })}
-        {/* <Bar dataKey={'ORDERS_TOTAL_REVENUE'} name={'Total Revenue'} /> */}
         {isDataPivoted &&
           PivotedGroupedBar({
             plotConfig,

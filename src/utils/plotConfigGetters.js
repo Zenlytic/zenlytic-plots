@@ -256,6 +256,7 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
     if (!dataDict[dataKeyValue]) {
       dataDict[dataKeyValue] = [];
     }
+
     dataDict[dataKeyValue].push(item);
   });
   return Object.keys(dataDict).map((key) => {
@@ -270,6 +271,8 @@ export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
 };
 
 const getPivotedData = (plotConfig, data) => {
+  // const xAxisDataKey = getXAxisDataKey(plotConfig);
+  // const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const pivotedData = pivotDataByDataKey(plotConfig, data, categoryAxisDataKey);
   return pivotedData;
@@ -400,10 +403,32 @@ export const getBarSpecificData = (plotConfig, data) => {
   });
 };
 
+export const getGroupedBarSpecificData = (plotConfig, data) => {
+  const isDataPivoted = getIsDataPivoted(plotConfig);
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+  const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
+  const processedPivotedData = pivotedData.map((d) => {
+    const data = d.data;
+    const builtObj = data.reduce((agg, cur) => {
+      agg[cur[categoryAxisDataKey]] = cur[yAxisDataKey];
+      return agg;
+    }, {});
+    return {
+      [xAxisDataKey]: d.name,
+      ...builtObj,
+    };
+  });
+  return isDataPivoted ? processedPivotedData : data;
+};
+
 export const getData = (plotConfig) => {
   const { data = [] } = plotConfig;
   const isDataPivoted = getIsDataPivoted(plotConfig);
   switch (getSeriesType(plotConfig)) {
+    case PLOT_TYPES.GROUPED_BAR:
+      return getGroupedBarSpecificData(plotConfig, data);
     case PLOT_TYPES.BAR:
       return getBarSpecificData(plotConfig, data);
     case PLOT_TYPES.FUNNEL_BAR:
