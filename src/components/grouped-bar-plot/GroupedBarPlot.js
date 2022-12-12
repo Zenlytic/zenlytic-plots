@@ -84,14 +84,12 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
         {GeneralChartComponents({
           plotConfig,
           useLegend: true,
-          yAxisConfig: {},
           TooltipContent,
           tooltip,
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
         })}
-        {/* <Bar dataKey={'ORDERS_TOTAL_REVENUE'} name={'Total Revenue'} /> */}
         {isDataPivoted &&
           PivotedGroupedBar({
             plotConfig,
