@@ -5,6 +5,7 @@ import { Legend } from 'recharts';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
+import { MAX_NUM_VISIBLE_LEGEND_ENTRIES } from '../../constants/plotConstants';
 import space from '../../constants/space';
 import { LegendIcon } from './LegendIcon';
 
@@ -17,49 +18,10 @@ const ZenlyticLegend = ({
   useStrokeColorShape,
   ...restProps
 }) => {
-  // const legendItem = (value, entry) => {
-  //   const strokeColor = entry?.payload?.stroke;
-
-  //   if (useStrokeColorShape) {
-  //     return (
-  //       <span>
-  //         <span
-  //           style={{
-  //             color: strokeColor,
-  //             height: '10px',
-  //             width: '10px',
-  //             backgroundColor: strokeColor,
-  //             display: 'inline-block',
-  //           }}
-  //         />
-  //         <span
-  //           style={{
-  //             color: colors.gray[500],
-  //             fontSize: fontSizes.xs,
-  //             fontWeight: fontWeights.normal,
-  //           }}>{` ${value}`}</span>
-  //       </span>
-  //     );
-  //   }
-  //   return (
-  //     <span>
-  //       <span
-  //         style={{
-  //           color: colors.gray[500],
-  //           fontSize: fontSizes.xs,
-  //           fontWeight: fontWeights.normal,
-  //         }}>
-  //         {`${value}`}
-  //       </span>
-  //     </span>
-  //   );
-  // };
-
   const renderLegend = (props) => {
     const { payload } = props;
 
-    const NUM_VISIBLE_ENTRIES = 10;
-    const visibleEntries = payload.slice(0, NUM_VISIBLE_ENTRIES);
+    const visibleEntries = payload.slice(0, MAX_NUM_VISIBLE_LEGEND_ENTRIES);
 
     return (
       <ul style={{ listStyle: 'none' }}>
