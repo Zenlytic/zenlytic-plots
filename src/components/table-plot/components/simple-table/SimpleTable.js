@@ -55,7 +55,8 @@ function SimpleTable({ columns = [], data }) {
                   ...thProps,
                   borderRight:
                     headerGroup.headers.length - 1 === columnIndex ? '0' : '1px solid black',
-                }}>
+                }}
+              >
                 {column.render('Header')}
               </th>
             ))}
@@ -75,7 +76,8 @@ function SimpleTable({ columns = [], data }) {
                       ...tdProps,
                       borderRight: row.cells.length - 1 === cellIndex ? '0' : '1px solid black',
                       borderBottom: rows.length - 1 === rowIndex ? '0' : '1px solid black',
-                    }}>
+                    }}
+                  >
                     {cell.render('Cell')}
                   </td>
                 );

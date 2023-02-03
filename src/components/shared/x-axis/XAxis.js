@@ -32,7 +32,8 @@ const XAxis = (props) => {
       height={DEFAULT_X_AXIS_HEIGHT}
       tickLine={tickLine}
       interval={interval}
-      tick={DEFAULT_TICK_PROPS}>
+      tick={DEFAULT_TICK_PROPS}
+    >
       <Label {...DEFAULT_LABEL_PROPS} value={name} position="bottom" />
     </RechartsXAxis>
   );
