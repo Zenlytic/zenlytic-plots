@@ -146,8 +146,7 @@ function AreaPlot({
         data={data}
         stackOffset={stackOffset}
         reverseStackOrder
-        {...brushEvents}
-      >
+        {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
           brush,

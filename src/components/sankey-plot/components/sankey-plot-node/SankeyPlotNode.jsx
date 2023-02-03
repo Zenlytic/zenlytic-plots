@@ -39,8 +39,7 @@ export default function SankeyPlotNode(props) {
         fontSize={fontSizes.xs}
         fontWeight={fontWeights.medium}
         strokeWidth={0}
-        stroke="#333"
-      >
+        stroke="#333">
         {`${name} (${depth + 1})`}
       </text>
       <text
@@ -50,8 +49,7 @@ export default function SankeyPlotNode(props) {
         fontSize={fontSizes['2xs']}
         fontWeight={fontWeights.normal}
         stroke="#333"
-        strokeWidth={0}
-      >
+        strokeWidth={0}>
         {valueFormatter(payload.value)}
       </text>
     </Layer>

@@ -39,8 +39,7 @@ function Bar({
       stackId={stackId}
       isAnimationActive={isAnimationActive}
       strokeWidth={strokeWidth}
-      radius={radius}
-    >
+      radius={radius}>
       {children}
     </RechartsBar>
   );

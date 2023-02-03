@@ -60,8 +60,7 @@ function SankeyPlot({ plotConfig = {}, TooltipContent = () => {}, isFollowUpDisa
             valueFormatter={yAxisTickFormatter}
             nodeColors={nodeColors}
           />
-        }
-      >
+        }>
         {GeneralChartComponents({
           plotConfig,
           TooltipContent,

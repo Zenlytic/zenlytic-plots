@@ -49,8 +49,7 @@ const renderCustomizedLabel = (props, yAxisTickFormatter) => {
         textAnchor="middle"
         fontSize={fontSizes.xs}
         fontWeight={fontWeights.medium}
-        dominantBaseline="middle"
-      >
+        dominantBaseline="middle">
         {valueDifference}
       </text>
     </g>
