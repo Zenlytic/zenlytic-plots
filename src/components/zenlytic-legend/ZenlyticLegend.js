@@ -26,7 +26,7 @@ const ZenlyticLegend = ({
     return (
       <ul style={{ listStyle: 'none' }}>
         {visibleEntries.map((entry, index) => (
-          <li key={`item-${index}`}>
+          <li key={`item-${index}`} style={{ marginRight: '10px' }}>
             <LegendIcon type={iconType} color={entry.payload?.stroke} />
             <span
               style={{
