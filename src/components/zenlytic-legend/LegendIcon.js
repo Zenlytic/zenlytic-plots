@@ -9,7 +9,7 @@ export const LegendIcon = ({ color, type = 'line' }) => {
         height="12"
         viewBox="0 0 32 32"
         version="1.1"
-        style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '4px' }}>
+        style={{ display: 'inline-block', verticalAlign: 'middle' }}>
         <path
           strokeWidth="4"
           fill="none"

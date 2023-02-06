@@ -33,7 +33,7 @@ const ZenlyticLegend = ({
                 color: colors.gray[500],
                 fontSize: fontSizes.xs,
                 fontWeight: fontWeights.normal,
-              }}>{`${entry.value}`}</span>
+              }}>{` ${entry.value}`}</span>
           </li>
         ))}
       </ul>
