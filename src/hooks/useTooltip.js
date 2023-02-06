@@ -31,6 +31,7 @@ function useTooltip(params) {
   };
 
   const updateClickedItemId = (clickedItemId, tooltipCoords) => {
+    console.log('updateClickedItemId', { clickedItemId, tooltipCoords })
     // TODO: This is a hack to disable the premade bars on a waterfall
     if (clickedItemId === 'other_factors' || clickedItemId === 'start' || clickedItemId === 'end') {
       return;

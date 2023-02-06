@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { LineChart } from 'recharts';
 import useBrush from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
@@ -40,6 +40,8 @@ function LinePlot({
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
 
   const [tooltip, tooltipHandlers] = useTooltip();
+  const { isFollowUpMenuOpen } = tooltip;
+  const { updateClickedItemId } = tooltipHandlers || {};
   const [brush, brushEvents] = useBrush({
     onBrushUpdate,
     tooltipHandlers,
@@ -48,9 +50,17 @@ function LinePlot({
     xAxisFormat,
   });
 
+  const onPlotClick = useCallback(
+    (e) => {
+      console.log('onPlotClick', e);
+      updateClickedItemId(e?.activePayload?.[0]?.payload?.[xAxisDataKey], e?.activeCoordinate);
+    },
+    [isFollowUpMenuOpen, updateClickedItemId]
+  );
+
   return (
     <PlotContainer>
-      <LineChart data={data} margin={margin} {...brushEvents}>
+      <LineChart data={data} margin={margin} onClick={onPlotClick} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
           brush,
