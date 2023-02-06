@@ -52,8 +52,8 @@ function LinePlot({
 
   const onPlotClick = useCallback(
     (e) => {
-      console.log('onPlotClick', e);
-      updateClickedItemId(e?.activePayload?.[0]?.payload?.[xAxisDataKey], e?.activeCoordinate);
+      console.log('LinePlot.onPlotClick', e);
+      updateClickedItemId(e?.activePayload?.[0]?.payload, e?.activeCoordinate);
     },
     [isFollowUpMenuOpen, updateClickedItemId]
   );

@@ -46,7 +46,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
 
   const onPlotClick = useCallback(
     (e) => {
-      console.log(e);
+      console.log('BarPlot.onPlotClick', e);
       updateClickedItemId(e?.activePayload?.[0]?.payload?.id, e?.activeCoordinate);
     },
     [isFollowUpMenuOpen, updateClickedItemId]
