@@ -4,7 +4,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { Tooltip as RechartsTooltip } from 'recharts';
 import { HIGHLIGHT_BAR_COLOR } from '../../../constants/plotConstants';
 import { getTickFormatterFromDataKey } from '../../../utils/plotConfigGetters';
-import useMousePosition from '../../../utils/useMousePosition';
 
 // eslint-disable-next-line react/prop-types
 
@@ -72,9 +71,7 @@ function Tooltip({
   brush = {},
   brushEvents = {},
   isFollowUpDisabled = false,
-  ...rest
 }) {
-  console.log('Tooltip', rest);
   const { tickFormatter: xAxisTickFormatter } = xAxisConfig;
   const { tickFormatter: yAxisTickFormatter } = yAxisConfig;
   const { dataKey: categoryAxisDataKey } = categoryAxisConfig;
@@ -116,8 +113,6 @@ function Tooltip({
     },
     [plotConfig]
   );
-
-  // const mousePosition = useMousePosition();
 
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
