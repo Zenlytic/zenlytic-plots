@@ -80,6 +80,7 @@ function LinePlot({
           isAnimationActive: false,
           valueFormatter: yAxisTickFormatter,
           showDataAnnotations,
+          // onClick: onPlotClick
         })}
       </LineChart>
     </PlotContainer>
