@@ -5,9 +5,7 @@ import { Legend } from 'recharts';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
-import { MAX_NUM_VISIBLE_LEGEND_ENTRIES } from '../../constants/plotConstants';
 import space from '../../constants/space';
-import { LegendIcon } from './LegendIcon';
 
 const ZenlyticLegend = ({
   isServerSide = false,
@@ -18,25 +16,39 @@ const ZenlyticLegend = ({
   useStrokeColorShape,
   ...restProps
 }) => {
-  const renderLegend = (props) => {
-    const { payload } = props;
+  const legendItem = (value, entry) => {
+    const strokeColor = entry?.payload?.stroke;
 
-    const visibleEntries = payload.slice(0, MAX_NUM_VISIBLE_LEGEND_ENTRIES);
-
+    if (useStrokeColorShape) {
+      return (
+        <span>
+          <span
+            style={{
+              color: strokeColor,
+              height: '10px',
+              width: '10px',
+              backgroundColor: strokeColor,
+              display: 'inline-block',
+            }}
+          />
+          <span
+            style={{
+              color: colors.gray[500],
+              fontSize: fontSizes.xs,
+              fontWeight: fontWeights.normal,
+            }}>{` ${value}`}</span>
+        </span>
+      );
+    }
     return (
-      <ul style={{ listStyle: 'none' }}>
-        {visibleEntries.map((entry, index) => (
-          <li key={`item-${index}`} style={{ marginRight: '10px' }}>
-            <LegendIcon type={iconType} color={entry.payload?.stroke} />
-            <span
-              style={{
-                color: colors.gray[500],
-                fontSize: fontSizes.xs,
-                fontWeight: fontWeights.normal,
-              }}>{` ${entry.value}`}</span>
-          </li>
-        ))}
-      </ul>
+      <span>
+        <span
+          style={{
+            color: colors.gray[500],
+            fontSize: fontSizes.xs,
+            fontWeight: fontWeights.normal,
+          }}>{`${value}`}</span>
+      </span>
     );
   };
 
@@ -46,15 +58,18 @@ const ZenlyticLegend = ({
       layout="vertical"
       align="right"
       verticalAlign={isServerSide ? 'top' : 'middle'}
+      iconSize={useStrokeColorShape ? 0 : iconType === 'line' ? 14 : 12}
       color={colors.gray[500]}
       wrapperStyle={{
         paddingLeft: space[6],
         paddingBottom: margin.bottom,
+        height: '210px',
+        overflow: 'auto'
       }}
-      content={renderLegend}
       onMouseEnter={onLegendItemHover}
       onMouseLeave={onLegendItemLeave}
       isAnimationActive={!isServerSide}
+      formatter={legendItem}
       {...restProps}
     />
   );

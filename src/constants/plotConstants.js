@@ -141,5 +141,3 @@ export const dataChangeTypeToStackOffsetMapping = {
   [dataChangeTypes.ABSOLUTE]: 'none',
   [dataChangeTypes.PERCENT]: 'expand',
 };
-
-export const MAX_NUM_VISIBLE_LEGEND_ENTRIES = 10;
