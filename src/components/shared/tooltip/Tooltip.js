@@ -72,7 +72,9 @@ function Tooltip({
   brush = {},
   brushEvents = {},
   isFollowUpDisabled = false,
+  ...rest
 }) {
+  console.log('Tooltip', rest);
   const { tickFormatter: xAxisTickFormatter } = xAxisConfig;
   const { tickFormatter: yAxisTickFormatter } = yAxisConfig;
   const { dataKey: categoryAxisDataKey } = categoryAxisConfig;
@@ -115,7 +117,7 @@ function Tooltip({
     [plotConfig]
   );
 
-  const mousePosition = useMousePosition();
+  // const mousePosition = useMousePosition();
 
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
@@ -124,10 +126,11 @@ function Tooltip({
       wrapperStyle={
         isFollowUpMenuOpenAndEnabled ? { visibility: 'visible', zIndex: 10000 } : { zIndex: 10000 }
       }
-      position={isFollowUpMenuOpenAndEnabled ? tooltipCoords : mousePosition}
+      position={isFollowUpMenuOpenAndEnabled ? tooltipCoords : undefined}
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}
+      allowEscapeViewBox={{ x: true, y: true }}
       content={
         <TooltipContentWithOutsideClickHandler
           clickedItemId={clickedItemId}
