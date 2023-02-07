@@ -4,6 +4,7 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { Tooltip as RechartsTooltip } from 'recharts';
 import { HIGHLIGHT_BAR_COLOR } from '../../../constants/plotConstants';
 import { getTickFormatterFromDataKey } from '../../../utils/plotConfigGetters';
+import useMousePosition from '../../../utils/useMousePosition';
 
 // eslint-disable-next-line react/prop-types
 
@@ -114,6 +115,8 @@ function Tooltip({
     [plotConfig]
   );
 
+  const mousePosition = useMousePosition();
+
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
   return (
@@ -121,7 +124,7 @@ function Tooltip({
       wrapperStyle={
         isFollowUpMenuOpenAndEnabled ? { visibility: 'visible', zIndex: 10000 } : { zIndex: 10000 }
       }
-      position={isFollowUpMenuOpenAndEnabled ? tooltipCoords : undefined}
+      position={isFollowUpMenuOpenAndEnabled ? tooltipCoords : mousePosition}
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}
