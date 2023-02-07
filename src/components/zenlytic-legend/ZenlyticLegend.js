@@ -65,7 +65,7 @@ const ZenlyticLegend = ({
         paddingBottom: margin.bottom,
         // Explicitly set to prevent legend items from taking up too much space
         // and expanding off the plot. 
-        height: '210px',
+        maxHeight: '210px',
         overflow: 'hidden'
       }}
       onMouseEnter={onLegendItemHover}
