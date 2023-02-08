@@ -7,7 +7,7 @@ import { getTickFormatterFromDataKey } from '../../../utils/plotConfigGetters';
 
 // eslint-disable-next-line react/prop-types
 
-// The tooltip payload can have a nested array in it
+// The tooltip payload can have a nested array inside it
 const getPayloadFromTooltip = (tooltipPayload, clickedItemId, hoveredItemId) => {
   if (clickedItemId) {
     return tooltipPayload?.filter((payloadItem) => payloadItem?.payload?.id === clickedItemId);
