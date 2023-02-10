@@ -64,6 +64,7 @@ function useBrush(params) {
   };
 
   const onMouseDown = (e) => {
+    console.log(e, 'useBrush.onMouseDown');
     if (isFollowUpMenuOpen) return; // If the follow up menu is open, don't allow the brush to start
     if (brushDirection === BRUSH_DIRECTIONS.BOTH) {
       setState((currentState) => ({
@@ -83,6 +84,7 @@ function useBrush(params) {
       x2: getHorizontalEventValue(e),
       isBrushing: true,
     }));
+
   };
 
   const onMouseMove = (e) => {
@@ -115,17 +117,20 @@ function useBrush(params) {
   };
 
   const onMouseUp = (e) => {
+    console.log('useBrush.onMouseUp', e, state, isFollowUpMenuOpen)
     if (!state.isBrushing) return; // User is not brushing, so don't update the brush
     if (isFollowUpMenuOpen) return; // If the follow up menu is open, don't update the brush
     updateIsBrushing(false); // User is done brushing, so set isBrushing to false
     updateIsFollowUpMenuOpen(true); // Open the follow up menu
     // The user either clicked or dragged the brush off the plot, so invalidate the brush
-    if (state.x1 === state.x2 || state.x2 === null) {
+    if (state.x2 === null) {
       resetBrush();
       updateIsFollowUpMenuOpen(false);
       updateTooltipCoords(null);
       return;
     }
+
+    updateTooltipCoords(e?.activeCoordinate);
 
     const isXFlipped = state.x1 > state.x2;
     const isYFlipped = state.y1 > state.y2;

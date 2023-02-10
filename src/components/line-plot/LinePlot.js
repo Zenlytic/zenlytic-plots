@@ -52,15 +52,16 @@ function LinePlot({
 
   const onPlotClick = useCallback(
     (e) => {
-      console.log('LinePlot.onPlotClick', e);
-      updateClickedItemId(e?.activePayload?.[0]?.payload, e?.activeCoordinate);
+      console.log('LinePlot.onPlotClick', e, xAxisDataKey);
+      updateClickedItemId(e?.activePayload?.[0]?.payload[xAxisDataKey], e?.activeCoordinate);
     },
     [isFollowUpMenuOpen, updateClickedItemId]
   );
 
   return (
     <PlotContainer>
-      <LineChart data={data} margin={margin} onClick={onPlotClick} {...brushEvents}>
+      <LineChart data={data} margin={margin} {...brushEvents}>
+      {/* <LineChart data={data} margin={margin} onClick={onPlotClick} {...brushEvents}> */}
         {GeneralChartComponents({
           plotConfig,
           brush,
