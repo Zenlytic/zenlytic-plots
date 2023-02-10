@@ -84,7 +84,6 @@ function useBrush(params) {
       x2: getHorizontalEventValue(e),
       isBrushing: true,
     }));
-
   };
 
   const onMouseMove = (e) => {
@@ -129,7 +128,7 @@ function useBrush(params) {
       updateTooltipCoords(null);
       return;
     }
-
+    
     updateTooltipCoords(e?.activeCoordinate);
 
     const isXFlipped = state.x1 > state.x2;

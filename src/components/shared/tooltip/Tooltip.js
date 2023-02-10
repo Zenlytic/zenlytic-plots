@@ -116,20 +116,6 @@ function Tooltip({
 
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
-  const [currentTooltipCoords, setCurrentTooltipCoords] = useState(tooltipCoords);
-
-  // Freeze the tooltip position when follow up is open. 
-  useEffect(() => {
-    if (isFollowUpMenuOpen) {
-      console.log(`isFollowUpMenuOpenAndEnabled, so keeping currentTooltipCoords at ${currentTooltipCoords}. TooltipCoords is at ${tooltipCoords}`)
-
-      return;
-    }
-    setCurrentTooltipCoords(tooltipCoords);
-  }, [tooltipCoords, isFollowUpMenuOpen])
-
-  console.log('currentTooltipCoords', currentTooltipCoords)
-  console.log('tooltipCoords', tooltipCoords)
   return (
     <RechartsTooltip
       wrapperStyle={
