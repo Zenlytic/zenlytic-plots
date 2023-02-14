@@ -119,13 +119,19 @@ function useBrush(params) {
     if (isFollowUpMenuOpen) return; // If the follow up menu is open, don't update the brush
     updateIsBrushing(false); // User is done brushing, so set isBrushing to false
     updateIsFollowUpMenuOpen(true); // Open the follow up menu
-    // The user either clicked or dragged the brush off the plot, so invalidate the brush
-    if (state.x1 === state.x2 || state.x2 === null) {
+    
+    // The user dragged the brush off the plot, so invalidate the brush
+    if (state.x2 === null) {
       resetBrush();
       updateIsFollowUpMenuOpen(false);
       updateTooltipCoords(null);
       return;
     }
+    // The user clicked, so open follow up menu at location of cursor
+    if (state.x1 === state.x2) {
+      updateTooltipCoords(e?.activeCoordinate);
+    }
+
 
     const isXFlipped = state.x1 > state.x2;
     const isYFlipped = state.y1 > state.y2;
