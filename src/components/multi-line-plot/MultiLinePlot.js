@@ -12,6 +12,7 @@ import {
   getData,
   getIsDataPivoted,
   getMargin,
+  getSeriesHiddenColumns,
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
   getXAxisDataKey,
@@ -47,21 +48,26 @@ function PivotedMultiLinePlot({ plotConfig }) {
 function NonPivotedMultiLinePlot({ plotConfig }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
-  return categoryValueAxes.map((axis, index) =>
-    Line({
-      type: 'monotone',
-      dataKey: axis.dataKey,
-      name: axis.name,
-      key: axis.name,
-      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-      dot: true,
-      strokeWidth: 2,
-      isAnimationActive: false,
-      showDataAnnotations,
-      valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
+  const seriesHiddenColumns = getSeriesHiddenColumns(plotConfig);
+  return categoryValueAxes
+    .filter((axis) => {
+      return !seriesHiddenColumns.includes(axis.dataKey);
     })
-  );
+    .map((axis, index) =>
+      Line({
+        type: 'monotone',
+        dataKey: axis.dataKey,
+        name: axis.name,
+        key: axis.name,
+        fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+        stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+        dot: true,
+        strokeWidth: 2,
+        isAnimationActive: false,
+        showDataAnnotations,
+        valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
+      })
+    );
 }
 
 function MultiLinePlot({

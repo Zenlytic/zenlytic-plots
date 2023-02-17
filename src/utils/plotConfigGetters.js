@@ -42,6 +42,12 @@ export const getSeriesShowDataAnnotations = (plotConfig) => {
   return showDataAnnotations;
 };
 
+export const getSeriesHiddenColumns = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  const { hiddenColumns = [] } = series;
+  return hiddenColumns;
+};
+
 export const getFormatter = (format) => {
   return (value) => {
     return formatValue(getD3DataFormatter(format, value), value);
