@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-filename-extension */
-import { isEmpty } from 'lodash';
 import React from 'react';
 import {
   getCategoryAxis,
@@ -43,8 +42,6 @@ function GeneralChartComponents({
       {XAxis({ ...xAxisConfig })}
       {YAxis({ ...yAxisConfig })}
       {YAxis({ ...secondYAxisConfig })}
-
-      {/* {!isEmpty(secondYAxisConfig) && YAxis({ ...secondYAxisConfig })} */}
       {ZAxis({ ...zAxisConfig })}
       {useGridLines && GridLines({})}
       {useLegend &&
