@@ -26,6 +26,8 @@ export const DEFAULT_NO_X_AXIS_PLOT_MARGIN = {
 };
 
 export const DEFAULT_Y_AXIS_WIDTH = 80;
+export const DEFAULT_RIGHT_Y_AXIS_WIDTH = 40;
+
 export const DEFAULT_X_AXIS_HEIGHT = 40;
 
 export const DEFAULT_BAR_Y_AXIS_WIDTH = 120;
@@ -125,6 +127,7 @@ export const DATA_TYPES = {
 export const AXIS_DATA_KEY_KEYS = {
   X_AXIS_DATA_KEY_KEY: 'xDataKey',
   Y_AXIS_DATA_KEY_KEY: 'yDataKey',
+  SECOND_Y_AXIS_DATA_KEY_KEY: 'secondYDataKey',
   Z_AXIS_DATA_KEY_KEY: 'zDataKey',
   CATEGORY_AXIS_DATA_KEY_KEY: 'categoryDataKey',
   CATEGORY_VALUE_DATA_KEYS_KEY: 'categoryValueDataKeys',

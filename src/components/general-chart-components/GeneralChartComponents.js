@@ -1,8 +1,10 @@
 /* eslint-disable react/jsx-filename-extension */
+import { isEmpty } from 'lodash';
 import React from 'react';
 import {
   getCategoryAxis,
   getMargin,
+  getSecondYAxis,
   getXAxis,
   getYAxis,
   getZAxis,
@@ -19,6 +21,7 @@ function GeneralChartComponents({
   plotConfig = {},
   xAxisConfig = getXAxis(plotConfig),
   yAxisConfig = getYAxis(plotConfig),
+  secondYAxisConfig = getSecondYAxis(plotConfig),
   zAxisConfig = getZAxis(plotConfig),
   categoryAxisConfig = getCategoryAxis(plotConfig),
   useLegend = false,
@@ -33,11 +36,15 @@ function GeneralChartComponents({
   customValueFormatter = null,
   tooltipHandlers = {},
   isFollowUpDisabled = false,
+  isSplitAxes = false,
 }) {
   return (
     <>
       {XAxis({ ...xAxisConfig })}
       {YAxis({ ...yAxisConfig })}
+      {YAxis({ ...secondYAxisConfig })}
+
+      {/* {!isEmpty(secondYAxisConfig) && YAxis({ ...secondYAxisConfig })} */}
       {ZAxis({ ...zAxisConfig })}
       {useGridLines && GridLines({})}
       {useLegend &&
@@ -45,7 +52,9 @@ function GeneralChartComponents({
           margin,
           ...legendConfig,
         })}
-      {!isFollowUpDisabled && brush && Brush({ ...brush })}
+      {!isFollowUpDisabled &&
+        brush &&
+        Brush({ ...brush, yAxisId: isSplitAxes ? 'left' : undefined })}
       {Tooltip({
         plotConfig,
         xAxisConfig,

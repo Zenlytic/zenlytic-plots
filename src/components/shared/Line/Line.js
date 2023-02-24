@@ -17,6 +17,7 @@ export default function Line({
   showDataAnnotations,
   valueFormatter,
   data,
+  yAxisId,
 }) {
   const label = showDataAnnotations ? (
     <DataAnnotation valueFormatter={valueFormatter} />
@@ -34,6 +35,7 @@ export default function Line({
       isAnimationActive={isAnimationActive}
       label={label}
       data={data}
+      yAxisId={yAxisId}
     />
   );
 }
