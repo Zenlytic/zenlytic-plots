@@ -10,7 +10,7 @@ import {
   DEFAULT_Y_AXIS_WIDTH,
 } from '../../../constants/plotConstants';
 
-const YAxis = ({ type, dataKey, name, tickFormatter }) => {
+const YAxis = ({ type, dataKey, name, tickFormatter, orientation, yAxisId }) => {
   return (
     <RechartsYAxis
       dataKey={dataKey}
@@ -18,9 +18,16 @@ const YAxis = ({ type, dataKey, name, tickFormatter }) => {
       name={name}
       type={type}
       stroke={DEFAULT_AXIS_COLOR}
-      width={DEFAULT_Y_AXIS_WIDTH}
-      tick={DEFAULT_TICK_PROPS}>
-      <Label {...DEFAULT_LABEL_PROPS} value={name} position="left" angle={-90} />
+      width={orientation === 'right' ? DEFAULT_Y_AXIS_WIDTH : DEFAULT_Y_AXIS_WIDTH}
+      tick={DEFAULT_TICK_PROPS}
+      orientation={orientation}
+      yAxisId={yAxisId}>
+      <Label
+        {...DEFAULT_LABEL_PROPS}
+        value={name}
+        position={orientation === 'right' ? 'right' : 'left'}
+        angle={orientation === 'right' ? 90 : -90}
+      />
     </RechartsYAxis>
   );
 };

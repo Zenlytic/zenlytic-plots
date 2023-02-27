@@ -129,13 +129,49 @@ export const getXAxisName = (plotConfig) => {
   const xAxis = getXAxis(plotConfig);
   return xAxis?.name;
 };
+
+export const getSecondYAxis = (plotConfig) => {
+  const secondYAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.SECOND_Y_AXIS_DATA_KEY_KEY);
+  if (!secondYAxis) return {};
+  const { dataType, name, dataKey, format } = secondYAxis || {};
+  const tickFormatter = getFormatter(format);
+  return { type: dataType, name, dataKey, tickFormatter, yAxisId: 'right', orientation: 'right' };
+};
+
+export const getSecondYAxisTickFormatter = (plotConfig) => {
+  const secondYAxis = getSecondYAxis(plotConfig);
+  return secondYAxis.tickFormatter;
+};
+
+export const getSecondYAxisName = (plotConfig) => {
+  const secondYAxis = getSecondYAxis(plotConfig);
+  return secondYAxis?.name;
+};
+
+export const getSecondYAxisDataKey = (plotConfig) => {
+  const secondYAxis = getSecondYAxis(plotConfig);
+  return secondYAxis?.dataKey;
+};
+
+export const getIsSplitAxes = (plotConfig) => {
+  return !!getSecondYAxisDataKey(plotConfig);
+};
+
 export const getYAxis = (plotConfig) => {
   const yAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
   if (!yAxis) return {};
   const { dataType, name, dataKey, format } = yAxis || {};
+  const isSplitAxes = getIsSplitAxes(plotConfig);
 
   const tickFormatter = getFormatter(format);
-  return { type: dataType, name, dataKey, tickFormatter };
+  return {
+    type: dataType,
+    name,
+    dataKey,
+    tickFormatter,
+    yAxisId: isSplitAxes ? 'left' : undefined,
+    orientation: isSplitAxes ? 'left' : undefined,
+  };
 };
 
 export const getYAxisTickFormatter = (plotConfig) => {
@@ -150,6 +186,17 @@ export const getYAxisDataKey = (plotConfig) => {
 export const getYAxisName = (plotConfig) => {
   const yAxis = getYAxis(plotConfig);
   return yAxis?.name;
+};
+
+export const getYAxisId = (plotConfig) => {
+  if (getSecondYAxisDataKey(plotConfig)) {
+    return 'left';
+  }
+  return undefined;
+};
+
+export const getSecondYAxisId = (plotConfig) => {
+  return 'right';
 };
 
 export const getZAxis = (plotConfig) => {
