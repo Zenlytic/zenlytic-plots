@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash';
+import { isEmpty, sortBy } from 'lodash';
 import colors from '../constants/colors';
 import {
   AXIS_DATA_KEY_KEYS,
@@ -182,7 +182,7 @@ export const getCategoryAxisDataKey = (plotConfig) => {
 
 export const getUniqueValuesOfDataKey = (plotConfig, dataKey) => {
   const { data = [] } = plotConfig;
-  return [...new Set(data.map((item) => item[dataKey]))];
+  return [...new Set(data.map((item) => item[dataKey]))].sort();
 };
 
 export const getCategoriesOfCategoryAxis = (plotConfig) => {
@@ -195,21 +195,22 @@ export const getCategoriesOfCategoryAxis = (plotConfig) => {
 
 export const getCategoryValueAxes = (plotConfig) => {
   // Used if we should use the categories of a certain axis as the legend items
-
   if (getCategoryAxisDataKey(plotConfig)) {
-    return getCategoriesOfCategoryAxis(plotConfig);
+    return getCategoriesOfCategoryAxis(plotConfig).sort(sortBySeriesName);
   }
   const categoryValueDataKeys = getSeriesKeyValue(
     plotConfig,
     AXIS_DATA_KEY_KEYS.CATEGORY_VALUE_DATA_KEYS_KEY
   );
   if (!categoryValueDataKeys || !categoryValueDataKeys.length) return null;
-  return categoryValueDataKeys.map((categoryValueDataKey) => {
-    const categoryValue = getAxisFromDataKey(plotConfig, categoryValueDataKey);
-    const { dataType, name, dataKey, format } = categoryValue || {};
-    const tickFormatter = getFormatter(format);
-    return { type: dataType, name, dataKey, tickFormatter };
-  });
+  return categoryValueDataKeys
+    .map((categoryValueDataKey) => {
+      const categoryValue = getAxisFromDataKey(plotConfig, categoryValueDataKey);
+      const { dataType, name, dataKey, format } = categoryValue || {};
+      const tickFormatter = getFormatter(format);
+      return { type: dataType, name, dataKey, tickFormatter };
+    })
+    .sort(sortBySeriesName);
 };
 
 export const getCategoryValueAxisByDataKey = (plotConfig, dataKey) => {
@@ -288,7 +289,9 @@ export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
 
 const getPivotedData = (plotConfig, data) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
-  const pivotedData = pivotDataByDataKey(plotConfig, data, categoryAxisDataKey);
+  const pivotedData = pivotDataByDataKey(plotConfig, data, categoryAxisDataKey).sort(
+    sortBySeriesName
+  );
   return pivotedData;
 };
 
@@ -513,3 +516,6 @@ export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
   return areaPlotOptions?.dataAnnotationsChangeType ?? dataChangeTypes.ABSOLUTE;
 };
+
+export const sortBySeriesName = (firstSeries, secondSeries) =>
+  firstSeries.name < secondSeries.name ? -1 : 1;
