@@ -2,19 +2,20 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { BarChart } from 'recharts';
-import Bar from '../shared/bar/Bar';
 import {
   BAR_STROKE_WIDTH,
+  groupedBarDisplayTypes,
   PLOT_COLORS,
   PLOT_SECONDARY_COLORS,
 } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
+import Bar from '../shared/bar/Bar';
 
 import {
   getCategoryValueAxes,
   getData,
+  getGroupedBarPlotDisplayType,
   getIsDataPivoted,
-  getIsSeriesStacked,
   getMargin,
   getYAxisDataKey,
 } from '../../utils/plotConfigGetters';
@@ -29,6 +30,8 @@ function PivotedGroupedBar({
 }) {
   const data = getData(plotConfig);
   const yAxisDataKey = getYAxisDataKey(plotConfig);
+  const displayType = getGroupedBarPlotDisplayType(plotConfig);
+  const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
   return data.map((series, index) => {
     return Bar({
       id: series.name,
@@ -38,6 +41,7 @@ function PivotedGroupedBar({
       dataKey: yAxisDataKey,
       name: series.name,
       key: series.name,
+      stackId: isSeriesStacked ? 'a' : undefined,
       fillOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
       strokeOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
       strokeWidth: BAR_STROKE_WIDTH,
@@ -55,7 +59,8 @@ function NonPivotedGroupedBar({
   updateClickedItemId = () => {},
 }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
-  const isSeriesStacked = getIsSeriesStacked(plotConfig);
+  const displayType = getGroupedBarPlotDisplayType(plotConfig);
+  const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
   return categoryValueAxes.map((axes, index) => {
     return Bar({
       dataKey: axes.dataKey,

@@ -144,3 +144,8 @@ export const dataChangeTypeToStackOffsetMapping = {
   [dataChangeTypes.ABSOLUTE]: 'none',
   [dataChangeTypes.PERCENT]: 'expand',
 };
+
+export const groupedBarDisplayTypes = {
+  GROUPED: 'GROUPED',
+  STACKED: 'STACKED',
+};

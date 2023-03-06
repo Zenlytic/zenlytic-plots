@@ -4,6 +4,7 @@ import {
   AXIS_DATA_KEY_KEYS,
   dataChangeTypes,
   DEFAULT_PLOT_MARGIN,
+  groupedBarDisplayTypes,
   PLOT_TYPES,
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
@@ -552,6 +553,15 @@ const getPlotOptions = (plotConfig) => {
 
 const getAreaPlotOptions = (plotConfig) => {
   return getPlotOptions(plotConfig).area;
+};
+
+const getGroupedBarPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig).grouped_bar;
+};
+
+export const getGroupedBarPlotDisplayType = (plotConfig) => {
+  const groupedBarPlotOptions = getGroupedBarPlotOptions(plotConfig);
+  return groupedBarPlotOptions?.displayType ?? groupedBarDisplayTypes.GROUPED;
 };
 
 export const getAreaPlotDataChangeType = (plotConfig) => {
