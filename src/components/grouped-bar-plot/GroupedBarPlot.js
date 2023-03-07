@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { BarChart } from 'recharts';
+import { BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import {
   BAR_STROKE_WIDTH,
   groupedBarDisplayTypes,
@@ -17,10 +17,56 @@ import {
   getGroupedBarPlotDisplayType,
   getIsDataPivoted,
   getMargin,
+  getUniqueValuesOfDataKey,
+  getXAxis,
+  getXAxisDataKey,
+  getYAxis,
   getYAxisDataKey,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+
+const getFormattedData = ({ data, xAxisDataKey, yAxisDataKey }) =>
+  data.map((datum) => {
+    const builtData = datum.data.reduce((agg, cur) => {
+      const xAxisValue = cur[xAxisDataKey];
+      const yAxisValue = cur[yAxisDataKey];
+      agg[xAxisValue] = yAxisValue;
+      return agg;
+    }, {});
+    return {
+      name: datum.name,
+      ...builtData,
+    };
+  });
+
+function PivotedGroupedBarNew({
+  plotConfig = {},
+  updateHoveredItemId = () => {},
+  updateClickedItemId = () => {},
+  hoveredItemId = null,
+}) {
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const displayType = getGroupedBarPlotDisplayType(plotConfig);
+  const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
+  const xAxisUniqueValues = getUniqueValuesOfDataKey(plotConfig, xAxisDataKey);
+
+  return xAxisUniqueValues.map((value, index) =>
+    Bar({
+      id: value,
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+      dataKey: value,
+      stackId: isSeriesStacked ? 'a' : undefined,
+      name: value,
+      key: value,
+      fillOpacity: 1,
+      strokeOpacity: 1,
+      strokeWidth: BAR_STROKE_WIDTH,
+      radius: 2,
+    })
+  );
+}
 
 function PivotedGroupedBar({
   plotConfig = {},
@@ -29,8 +75,8 @@ function PivotedGroupedBar({
   hoveredItemId = null,
 }) {
   const data = getData(plotConfig);
-  const yAxisDataKey = getYAxisDataKey(plotConfig);
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
   const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
   return data.map((series, index) => {
     return Bar({
@@ -39,9 +85,9 @@ function PivotedGroupedBar({
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
       dataKey: yAxisDataKey,
+      stackId: isSeriesStacked ? 'a' : undefined,
       name: series.name,
       key: series.name,
-      stackId: isSeriesStacked ? 'a' : undefined,
       fillOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
       strokeOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
       strokeWidth: BAR_STROKE_WIDTH,
@@ -76,13 +122,21 @@ function NonPivotedGroupedBar({
 }
 
 function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
-  const data = getData(plotConfig);
-  const margin = getMargin(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+  const data = isDataPivoted
+    ? getFormattedData({ data: getData(plotConfig), xAxisDataKey, yAxisDataKey })
+    : getData(plotConfig);
+  // const data = getData(plotConfig);
+
+  const margin = getMargin(plotConfig);
   const [tooltip, tooltipHandlers] = useTooltip();
   const { updateHoveredItemId = () => {}, updateClickedItemId = () => {} } = tooltipHandlers || {};
-
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
+  const xAxisConfig = { ...getXAxis(plotConfig), dataKey: 'name' };
+  const yAxisConfig = {};
+
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin}>
@@ -94,9 +148,16 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
+          xAxisConfig,
+          yAxisConfig,
         })}
+        {/* <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend /> */}
         {isDataPivoted &&
-          PivotedGroupedBar({
+          PivotedGroupedBarNew({
             plotConfig,
             updateHoveredItemId,
             updateClickedItemId,
