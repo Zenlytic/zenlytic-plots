@@ -10,7 +10,7 @@ import {
   DEFAULT_Y_AXIS_WIDTH,
 } from '../../../constants/plotConstants';
 
-const YAxis = ({ type, dataKey, name, tickFormatter, orientation, yAxisId }) => {
+const YAxis = ({ type, dataKey, name, tickFormatter, orientation, yAxisId, ...rest }) => {
   return (
     <RechartsYAxis
       dataKey={dataKey}
@@ -21,7 +21,8 @@ const YAxis = ({ type, dataKey, name, tickFormatter, orientation, yAxisId }) => 
       width={orientation === 'right' ? DEFAULT_Y_AXIS_WIDTH : DEFAULT_Y_AXIS_WIDTH}
       tick={DEFAULT_TICK_PROPS}
       orientation={orientation}
-      yAxisId={yAxisId}>
+      yAxisId={yAxisId}
+      {...rest}>
       <Label
         {...DEFAULT_LABEL_PROPS}
         value={name}

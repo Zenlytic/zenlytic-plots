@@ -396,6 +396,29 @@ const getNonPivotedFunnelSpecificData = (plotConfig, data) => {
   return newData;
 };
 
+const getGroupedBarSpecificData = (plotConfig, data, isDataPivoted) => {
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+  const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
+  const getFormattedData = (data) =>
+    data.map((datum) => {
+      const builtData = datum.data.reduce((agg, cur) => {
+        const categoryAxisValue = cur[categoryAxisDataKey];
+        const yAxisValue = cur[yAxisDataKey];
+        agg[categoryAxisValue] = yAxisValue;
+        return agg;
+      }, {});
+      return {
+        name: datum.name,
+        ...builtData,
+      };
+    });
+  const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
+  const formattedPivotedData = getFormattedData(pivotedData);
+  console.log({ pivotedData, formattedPivotedData });
+  return isDataPivoted ? formattedPivotedData : data;
+};
+
 const getFunnelSpecificData = (plotConfig, data, isDataPivoted) => {
   return isDataPivoted
     ? getPivotedFunnelSpecificData(plotConfig, data)
@@ -476,6 +499,8 @@ export const getData = (plotConfig) => {
       return getBarSpecificData(plotConfig, data);
     case PLOT_TYPES.FUNNEL_BAR:
       return getFunnelSpecificData(plotConfig, data, isDataPivoted);
+    case PLOT_TYPES.GROUPED_BAR:
+      return getGroupedBarSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.WATERFALL:
       return getWaterfallSpecificData(plotConfig, data, isDataPivoted);
     default:
