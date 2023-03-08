@@ -55,10 +55,7 @@ function PivotedGroupedBar({
       fillOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       strokeOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       radius: 2,
-      onMouseOver: () => {
-        console.log('onMouseOver', value);
-        updateHoveredItemId(value);
-      },
+      onMouseOver: () => updateHoveredItemId(value),
       onMouseLeave: () => updateHoveredItemId(null),
       onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
     })
@@ -88,13 +85,13 @@ function NonPivotedGroupedBar({
 }
 
 function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
-  const isDataPivoted = getIsDataPivoted(plotConfig);
   const data = getData(plotConfig);
-
   const margin = getMargin(plotConfig);
+  const isDataPivoted = getIsDataPivoted(plotConfig);
   const [tooltip, tooltipHandlers] = useTooltip();
   const { updateHoveredItemId = () => {}, updateClickedItemId = () => {} } = tooltipHandlers || {};
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
+
   const xAxisConfig = getXAxis(plotConfig);
   const yAxisConfig = getYAxis(plotConfig);
 

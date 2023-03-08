@@ -411,14 +411,13 @@ const getGroupedBarSpecificData = (plotConfig, data, isDataPivoted) => {
       }, {});
       return {
         name: datum.name,
-        xAxisDataKey,
         categoryAxisDataKey,
+        plotType: PLOT_TYPES.GROUPED_BAR,
         ...builtData,
       };
     });
   const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
   const formattedPivotedData = getFormattedData(pivotedData);
-  console.log(data);
   return isDataPivoted ? formattedPivotedData : data;
 };
 
@@ -488,9 +487,15 @@ export const getDoesSubStatDataExist = (plotConfig) => {
 export const getBarSpecificData = (plotConfig, data) => {
   const activeIds = getSeriesActiveIds(plotConfig);
   const activeData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
   // Give each bar a unique id if it doesnt have one
   return activeData.map((d) => {
-    return { ...d, id: d ?? d[getXAxisDataKey(plotConfig)] };
+    return {
+      ...d,
+      id: d ?? d[getXAxisDataKey(plotConfig)],
+      xAxisDataKey,
+      plotType: PLOT_TYPES.BAR,
+    };
   });
 };
 
