@@ -102,6 +102,7 @@ function NonPivotedGroupedBar({
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
   const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
+  // return [];
   return categoryValueAxes.map((axes, index) => {
     return Bar({
       dataKey: axes.dataKey,
@@ -131,7 +132,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin}>
-        {GeneralChartComponents({
+        {/* {GeneralChartComponents({
           plotConfig,
           useLegend: true,
           TooltipContent,
@@ -140,12 +141,17 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
           xAxisConfig: overrideAxisConfig(xAxisConfig, {
-            dataKey: isDataPivoted ? 'name' : xAxisConfig.dataKey,
+            // dataKey: isDataPivoted ? 'name' : xAxisConfig.dataKey,
           }),
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
-            dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
+            // dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),
-        })}
+        })} */}
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="name" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
         {isDataPivoted &&
           PivotedGroupedBarNew({
             plotConfig,

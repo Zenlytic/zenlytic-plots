@@ -415,7 +415,6 @@ const getGroupedBarSpecificData = (plotConfig, data, isDataPivoted) => {
     });
   const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
   const formattedPivotedData = getFormattedData(pivotedData);
-  console.log({ pivotedData, formattedPivotedData });
   return isDataPivoted ? formattedPivotedData : data;
 };
 
