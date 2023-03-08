@@ -35,14 +35,11 @@ function PivotedGroupedBarNew({
   updateClickedItemId = () => {},
   hoveredItemId = null,
 }) {
-  const xAxisDataKey = getXAxisDataKey(plotConfig);
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
   const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
-  const xAxisUniqueValues = getUniqueValuesOfDataKey(plotConfig, xAxisDataKey);
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
-  // console.log({ uniqueValuesOfCategoryKey });
-  console.log({ xAxisUniqueValues, uniqueValuesOfCategoryKey });
+
   return uniqueValuesOfCategoryKey.map((value, index) =>
     Bar({
       id: value,
@@ -56,9 +53,12 @@ function PivotedGroupedBarNew({
       fillOpacity: 1,
       strokeOpacity: 1,
       radius: 2,
-      onMouseOver: () => updateHoveredItemId(value),
-      onMouseLeave: () => updateHoveredItemId(null),
-      onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
+      // onMouseOver: () => {
+      //   console.log('onMouseOver', value);
+      //   updateHoveredItemId(value);
+      // },
+      // onMouseLeave: () => updateHoveredItemId(null),
+      // onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
     })
   );
 }
@@ -146,11 +146,6 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
             dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),
         })}
-        {/* <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend /> */}
         {isDataPivoted &&
           PivotedGroupedBarNew({
             plotConfig,
