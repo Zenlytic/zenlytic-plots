@@ -113,7 +113,8 @@ export const getXAxis = (plotConfig) => {
     name,
     dataKey,
     tickFormatter,
-    allowDuplicatedCategory: seriesType === PLOT_TYPES.FUNNEL_BAR || !isDataPivoted,
+    allowDuplicatedCategory:
+      [PLOT_TYPES.FUNNEL_BAR, PLOT_TYPES.GROUPED_BAR].includes(seriesType) || !isDataPivoted,
   };
 };
 
@@ -410,11 +411,14 @@ const getGroupedBarSpecificData = (plotConfig, data, isDataPivoted) => {
       }, {});
       return {
         name: datum.name,
+        xAxisDataKey,
+        categoryAxisDataKey,
         ...builtData,
       };
     });
   const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
   const formattedPivotedData = getFormattedData(pivotedData);
+  console.log(data);
   return isDataPivoted ? formattedPivotedData : data;
 };
 

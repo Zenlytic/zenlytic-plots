@@ -125,7 +125,7 @@ function Tooltip({
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}
-      allowEscapeViewBox={{x: true, y: true}}
+      allowEscapeViewBox={{ x: true, y: true }}
       content={
         <TooltipContentWithOutsideClickHandler
           clickedItemId={clickedItemId}

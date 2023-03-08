@@ -14,6 +14,7 @@ import Bar from '../shared/bar/Bar';
 import {
   getCategoryAxisDataKey,
   getCategoryValueAxes,
+  getCategoryValueAxisByDataKey,
   getData,
   getGroupedBarPlotDisplayType,
   getIsDataPivoted,
@@ -23,6 +24,7 @@ import {
   getXAxisDataKey,
   getYAxis,
   getYAxisDataKey,
+  getYAxisTickFormatter,
   pivotDataByDataKey,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
@@ -50,15 +52,15 @@ function PivotedGroupedBarNew({
       fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       strokeWidth: BAR_STROKE_WIDTH,
-      fillOpacity: 1,
-      strokeOpacity: 1,
+      fillOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
+      strokeOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       radius: 2,
-      // onMouseOver: () => {
-      //   console.log('onMouseOver', value);
-      //   updateHoveredItemId(value);
-      // },
-      // onMouseLeave: () => updateHoveredItemId(null),
-      // onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
+      onMouseOver: () => {
+        console.log('onMouseOver', value);
+        updateHoveredItemId(value);
+      },
+      onMouseLeave: () => updateHoveredItemId(null),
+      onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
     })
   );
 }
@@ -103,7 +105,7 @@ function NonPivotedGroupedBar({
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
   const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
   // return [];
-  return categoryValueAxes.map((axes, index) => {
+  return categoryValueAxes?.map((axes, index) => {
     return Bar({
       dataKey: axes.dataKey,
       name: axes.name,
@@ -128,11 +130,17 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   const xAxisConfig = getXAxis(plotConfig);
   const yAxisConfig = getYAxis(plotConfig);
 
-  console.log(data);
+  const customValueFormatter = (value, dataKey, payload) => {
+    const formatter = isDataPivoted
+      ? getYAxisTickFormatter(plotConfig)
+      : getCategoryValueAxisByDataKey(plotConfig, dataKey).tickFormatter;
+    return formatter(value);
+  };
+
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin}>
-        {/* {GeneralChartComponents({
+        {GeneralChartComponents({
           plotConfig,
           useLegend: true,
           TooltipContent,
@@ -141,17 +149,18 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
           xAxisConfig: overrideAxisConfig(xAxisConfig, {
-            // dataKey: isDataPivoted ? 'name' : xAxisConfig.dataKey,
+            dataKey: isDataPivoted ? 'name' : xAxisConfig.dataKey,
           }),
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
-            // dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
+            dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),
-        })} */}
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
+          customValueFormatter,
+        })}
+        {/* <CartesianGrid strokeDasharray="3 3" /> */}
+        {/* <XAxis dataKey="name" /> */}
+        {/* <YAxis /> */}
+        {/* <Legend /> */}
+        {/* <Tooltip /> */}
         {isDataPivoted &&
           PivotedGroupedBarNew({
             plotConfig,
