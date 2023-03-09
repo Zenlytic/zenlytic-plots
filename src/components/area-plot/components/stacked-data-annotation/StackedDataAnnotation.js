@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
-import { dataChangeTypes } from '../../../../constants/plotConstants';
+import { DATA_CHANGE_TYPES } from '../../../../constants/plotConstants';
 import { getRatioSafe } from '../../../../utils/numberUtils';
 import { getFormatter } from '../../../../utils/plotConfigGetters';
 import DataAnnotation from '../../../shared/data-annotation/DataAnnotation';
@@ -23,11 +23,11 @@ export default function StackedDataAnnotation({
   const totalValue = getTotalValue(index);
 
   const { value, valueFormatterForDataChangeType } = {
-    [dataChangeTypes.ABSOLUTE]: {
+    [DATA_CHANGE_TYPES.ABSOLUTE]: {
       valueFormatterForDataChangeType: valueFormatter,
       value: currentValue,
     },
-    [dataChangeTypes.PERCENT]: {
+    [DATA_CHANGE_TYPES.PERCENT]: {
       valueFormatterForDataChangeType: getFormatter('percent_1'),
       value: getRatioSafe(currentValue, totalValue),
     },

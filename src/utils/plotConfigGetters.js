@@ -2,9 +2,9 @@ import { isEmpty, sortBy } from 'lodash';
 import colors from '../constants/colors';
 import {
   AXIS_DATA_KEY_KEYS,
-  dataChangeTypes,
+  DATA_CHANGE_TYPES,
   DEFAULT_PLOT_MARGIN,
-  groupedBarDisplayTypes,
+  GROUPED_BAR_DISPLAY_TYPES,
   PLOT_TYPES,
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
@@ -585,17 +585,17 @@ const getGroupedBarPlotOptions = (plotConfig) => {
 
 export const getGroupedBarPlotDisplayType = (plotConfig) => {
   const groupedBarPlotOptions = getGroupedBarPlotOptions(plotConfig);
-  return groupedBarPlotOptions?.displayType ?? groupedBarDisplayTypes.GROUPED;
+  return groupedBarPlotOptions?.displayType ?? GROUPED_BAR_DISPLAY_TYPES.GROUPED;
 };
 
 export const getAreaPlotDataChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
-  return areaPlotOptions?.dataChangeType ?? dataChangeTypes.ABSOLUTE;
+  return areaPlotOptions?.dataChangeType ?? DATA_CHANGE_TYPES.ABSOLUTE;
 };
 
 export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
-  return areaPlotOptions?.dataAnnotationsChangeType ?? dataChangeTypes.ABSOLUTE;
+  return areaPlotOptions?.dataAnnotationsChangeType ?? DATA_CHANGE_TYPES.ABSOLUTE;
 };
 
 export const sortBySeriesName = (firstSeries, secondSeries) =>

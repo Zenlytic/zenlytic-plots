@@ -4,7 +4,7 @@ import React from 'react';
 import { BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import {
   BAR_STROKE_WIDTH,
-  groupedBarDisplayTypes,
+  GROUPED_BAR_DISPLAY_TYPES,
   PLOT_COLORS,
   PLOT_SECONDARY_COLORS,
 } from '../../constants/plotConstants';
@@ -38,7 +38,7 @@ function PivotedGroupedBar({
   hoveredItemId = null,
 }) {
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
-  const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
+  const isSeriesStacked = displayType === GROUPED_BAR_DISPLAY_TYPES.STACKED;
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
 
@@ -69,7 +69,7 @@ function NonPivotedGroupedBar({
 }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
-  const isSeriesStacked = displayType === groupedBarDisplayTypes.STACKED;
+  const isSeriesStacked = displayType === GROUPED_BAR_DISPLAY_TYPES.STACKED;
   return categoryValueAxes?.map((axes, index) => {
     return Bar({
       dataKey: axes.dataKey,

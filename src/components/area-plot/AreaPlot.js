@@ -5,10 +5,10 @@ import React from 'react';
 import { AreaChart } from 'recharts';
 import { Area } from './components/area/Area';
 import {
-  dataChangeTypes,
+  DATA_CHANGE_TYPES,
   PLOT_COLORS,
   PLOT_SECONDARY_COLORS,
-  dataChangeTypeToStackOffsetMapping,
+  DATA_CHANGE_TYPE_TO_STACK_OFFSET_MAPPING,
 } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
@@ -137,7 +137,7 @@ function AreaPlot({
     return `${formatter(value)} (${percentTotalFormatted})`;
   };
 
-  const stackOffset = dataChangeTypeToStackOffsetMapping[plotDataChangeType];
+  const stackOffset = DATA_CHANGE_TYPE_TO_STACK_OFFSET_MAPPING[plotDataChangeType];
 
   return (
     <PlotContainer>
@@ -161,7 +161,7 @@ function AreaPlot({
             // Including it will break the y-axis domain.
             dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
             tickFormatter:
-              plotDataChangeType === dataChangeTypes.PERCENT
+              plotDataChangeType === DATA_CHANGE_TYPES.PERCENT
                 ? percentageFormatter
                 : yAxisConfig.tickFormatter,
           }),
