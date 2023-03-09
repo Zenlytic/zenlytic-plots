@@ -401,23 +401,21 @@ const getGroupedBarSpecificData = (plotConfig, data, isDataPivoted) => {
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
-  const getFormattedData = (data) =>
-    data.map((datum) => {
-      const builtData = datum.data.reduce((agg, cur) => {
-        const categoryAxisValue = cur[categoryAxisDataKey];
-        const yAxisValue = cur[yAxisDataKey];
-        agg[categoryAxisValue] = yAxisValue;
-        return agg;
-      }, {});
-      return {
-        name: datum.name,
-        categoryAxisDataKey,
-        plotType: PLOT_TYPES.GROUPED_BAR,
-        ...builtData,
-      };
-    });
   const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
-  const formattedPivotedData = getFormattedData(pivotedData);
+  const formattedPivotedData = pivotedData.map((datum) => {
+    const builtData = datum.data.reduce((aggregate, currentDatum) => {
+      const categoryAxisValue = currentDatum[categoryAxisDataKey];
+      const yAxisValue = currentDatum[yAxisDataKey];
+      aggregate[categoryAxisValue] = yAxisValue;
+      return aggregate;
+    }, {});
+    return {
+      name: datum.name,
+      [xAxisDataKey]: datum.name,
+      ...builtData,
+    };
+  });
+
   return isDataPivoted ? formattedPivotedData : data;
 };
 
@@ -493,8 +491,6 @@ export const getBarSpecificData = (plotConfig, data) => {
     return {
       ...d,
       id: d ?? d[getXAxisDataKey(plotConfig)],
-      xAxisDataKey,
-      plotType: PLOT_TYPES.BAR,
     };
   });
 };
