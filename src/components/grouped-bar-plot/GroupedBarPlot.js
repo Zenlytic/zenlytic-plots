@@ -92,7 +92,6 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   const { updateHoveredItemId = () => {}, updateClickedItemId = () => {} } = tooltipHandlers || {};
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
 
-  const xAxisConfig = getXAxis(plotConfig);
   const yAxisConfig = getYAxis(plotConfig);
 
   const customValueFormatter = (value, dataKey) => {
@@ -113,9 +112,6 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
-          xAxisConfig: overrideAxisConfig(xAxisConfig, {
-            dataKey: isDataPivoted ? 'name' : xAxisConfig.dataKey,
-          }),
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
             dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),
