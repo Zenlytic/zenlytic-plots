@@ -2,8 +2,9 @@ import { isEmpty, sortBy } from 'lodash';
 import colors from '../constants/colors';
 import {
   AXIS_DATA_KEY_KEYS,
-  dataChangeTypes,
+  DATA_CHANGE_TYPES,
   DEFAULT_PLOT_MARGIN,
+  GROUPED_BAR_DISPLAY_TYPES,
   PLOT_TYPES,
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
@@ -112,7 +113,8 @@ export const getXAxis = (plotConfig) => {
     name,
     dataKey,
     tickFormatter,
-    allowDuplicatedCategory: seriesType === PLOT_TYPES.FUNNEL_BAR || !isDataPivoted,
+    allowDuplicatedCategory:
+      [PLOT_TYPES.FUNNEL_BAR, PLOT_TYPES.GROUPED_BAR].includes(seriesType) || !isDataPivoted,
   };
 };
 
@@ -395,6 +397,27 @@ const getNonPivotedFunnelSpecificData = (plotConfig, data) => {
   return newData;
 };
 
+const getGroupedBarSpecificData = (plotConfig, data, isDataPivoted) => {
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+  const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
+  const pivotedData = pivotDataByDataKey(plotConfig, data, xAxisDataKey);
+  const formattedPivotedData = pivotedData.map((datum) => {
+    const builtData = datum.data.reduce((aggregate, currentDatum) => {
+      const categoryAxisValue = currentDatum[categoryAxisDataKey];
+      const yAxisValue = currentDatum[yAxisDataKey];
+      aggregate[categoryAxisValue] = yAxisValue;
+      return aggregate;
+    }, {});
+    return {
+      [xAxisDataKey]: datum.name,
+      ...builtData,
+    };
+  });
+
+  return isDataPivoted ? formattedPivotedData : data;
+};
+
 const getFunnelSpecificData = (plotConfig, data, isDataPivoted) => {
   return isDataPivoted
     ? getPivotedFunnelSpecificData(plotConfig, data)
@@ -475,6 +498,8 @@ export const getData = (plotConfig) => {
       return getBarSpecificData(plotConfig, data);
     case PLOT_TYPES.FUNNEL_BAR:
       return getFunnelSpecificData(plotConfig, data, isDataPivoted);
+    case PLOT_TYPES.GROUPED_BAR:
+      return getGroupedBarSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.WATERFALL:
       return getWaterfallSpecificData(plotConfig, data, isDataPivoted);
     default:
@@ -554,14 +579,23 @@ const getAreaPlotOptions = (plotConfig) => {
   return getPlotOptions(plotConfig).area;
 };
 
+const getGroupedBarPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig).grouped_bar;
+};
+
+export const getGroupedBarPlotDisplayType = (plotConfig) => {
+  const groupedBarPlotOptions = getGroupedBarPlotOptions(plotConfig);
+  return groupedBarPlotOptions?.displayType ?? GROUPED_BAR_DISPLAY_TYPES.GROUPED;
+};
+
 export const getAreaPlotDataChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
-  return areaPlotOptions?.dataChangeType ?? dataChangeTypes.ABSOLUTE;
+  return areaPlotOptions?.dataChangeType ?? DATA_CHANGE_TYPES.ABSOLUTE;
 };
 
 export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
-  return areaPlotOptions?.dataAnnotationsChangeType ?? dataChangeTypes.ABSOLUTE;
+  return areaPlotOptions?.dataAnnotationsChangeType ?? DATA_CHANGE_TYPES.ABSOLUTE;
 };
 
 export const sortBySeriesName = (firstSeries, secondSeries) =>

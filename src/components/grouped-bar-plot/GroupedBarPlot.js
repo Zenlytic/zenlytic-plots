@@ -1,25 +1,35 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { BarChart } from 'recharts';
-import Bar from '../shared/bar/Bar';
+import { BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
 import {
   BAR_STROKE_WIDTH,
+  GROUPED_BAR_DISPLAY_TYPES,
   PLOT_COLORS,
   PLOT_SECONDARY_COLORS,
 } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
+import Bar from '../shared/bar/Bar';
 
 import {
+  getCategoryAxisDataKey,
   getCategoryValueAxes,
+  getCategoryValueAxisByDataKey,
   getData,
+  getGroupedBarPlotDisplayType,
   getIsDataPivoted,
-  getIsSeriesStacked,
   getMargin,
+  getUniqueValuesOfDataKey,
+  getXAxis,
+  getXAxisDataKey,
+  getYAxis,
   getYAxisDataKey,
+  getYAxisTickFormatter,
+  pivotDataByDataKey,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 
 function PivotedGroupedBar({
   plotConfig = {},
@@ -27,26 +37,29 @@ function PivotedGroupedBar({
   updateClickedItemId = () => {},
   hoveredItemId = null,
 }) {
-  const data = getData(plotConfig);
-  const yAxisDataKey = getYAxisDataKey(plotConfig);
-  return data.map((series, index) => {
-    return Bar({
-      id: series.name,
-      data: series.data,
-      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+  const displayType = getGroupedBarPlotDisplayType(plotConfig);
+  const isSeriesStacked = displayType === GROUPED_BAR_DISPLAY_TYPES.STACKED;
+  const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
+  const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
+
+  return uniqueValuesOfCategoryKey.map((value, index) =>
+    Bar({
+      id: value,
+      dataKey: value,
+      name: value,
+      key: value,
+      stackId: isSeriesStacked ? 'a' : undefined,
       fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-      dataKey: yAxisDataKey,
-      name: series.name,
-      key: series.name,
-      fillOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
-      strokeOpacity: !hoveredItemId || hoveredItemId === series.name ? 1 : 0.2,
+      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       strokeWidth: BAR_STROKE_WIDTH,
+      fillOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
+      strokeOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       radius: 2,
-      onMouseOver: () => updateHoveredItemId(series.name),
+      onMouseOver: () => updateHoveredItemId(value),
       onMouseLeave: () => updateHoveredItemId(null),
-      onClick: (e) => updateClickedItemId(series.name, e?.tooltipPosition),
-    });
-  });
+      onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
+    })
+  );
 }
 
 function NonPivotedGroupedBar({
@@ -55,8 +68,9 @@ function NonPivotedGroupedBar({
   updateClickedItemId = () => {},
 }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
-  const isSeriesStacked = getIsSeriesStacked(plotConfig);
-  return categoryValueAxes.map((axes, index) => {
+  const displayType = getGroupedBarPlotDisplayType(plotConfig);
+  const isSeriesStacked = displayType === GROUPED_BAR_DISPLAY_TYPES.STACKED;
+  return categoryValueAxes?.map((axes, index) => {
     return Bar({
       dataKey: axes.dataKey,
       name: axes.name,
@@ -76,8 +90,17 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   const isDataPivoted = getIsDataPivoted(plotConfig);
   const [tooltip, tooltipHandlers] = useTooltip();
   const { updateHoveredItemId = () => {}, updateClickedItemId = () => {} } = tooltipHandlers || {};
-
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
+
+  const yAxisConfig = getYAxis(plotConfig);
+
+  const customValueFormatter = (value, dataKey) => {
+    const formatter = isDataPivoted
+      ? getYAxisTickFormatter(plotConfig)
+      : getCategoryValueAxisByDataKey(plotConfig, dataKey).tickFormatter;
+    return formatter(value);
+  };
+
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin}>
@@ -89,6 +112,10 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
+          yAxisConfig: overrideAxisConfig(yAxisConfig, {
+            dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
+          }),
+          customValueFormatter,
         })}
         {isDataPivoted &&
           PivotedGroupedBar({

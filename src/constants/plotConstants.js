@@ -135,12 +135,17 @@ export const AXIS_DATA_KEY_KEYS = {
 
 export const BAR_STROKE_WIDTH = 2;
 
-export const dataChangeTypes = {
+export const DATA_CHANGE_TYPES = {
   ABSOLUTE: 'ABSOLUTE',
   PERCENT: 'PERCENT',
 };
 
-export const dataChangeTypeToStackOffsetMapping = {
-  [dataChangeTypes.ABSOLUTE]: 'none',
-  [dataChangeTypes.PERCENT]: 'expand',
+export const DATA_CHANGE_TYPE_TO_STACK_OFFSET_MAPPING = {
+  [DATA_CHANGE_TYPES.ABSOLUTE]: 'none',
+  [DATA_CHANGE_TYPES.PERCENT]: 'expand',
+};
+
+export const GROUPED_BAR_DISPLAY_TYPES = {
+  GROUPED: 'GROUPED',
+  STACKED: 'STACKED',
 };
