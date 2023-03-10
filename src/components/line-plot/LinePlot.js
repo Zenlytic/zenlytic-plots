@@ -17,9 +17,11 @@ import {
   getSeriesShowDataAnnotations,
   getSeriesStrokeColor,
   getXAxisDataKey,
+  getYAxis,
   getYAxisDataKey,
   getYAxisId,
   getYAxisName,
+  getYAxisPlotOptions,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
@@ -38,6 +40,7 @@ function LinePlot({
   const yAxisId = getYAxisId(plotConfig);
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+  const yAxisPlotOptions = getYAxisPlotOptions(plotConfig);
 
   const secondYAxisName = getSecondYAxisName(plotConfig);
   const secondYAxisDataKey = getSecondYAxisDataKey(plotConfig);
@@ -61,6 +64,10 @@ function LinePlot({
     xAxisFormat,
   });
 
+  const minValue = yAxisPlotOptions?.range?.minValue ?? 0;
+  const maxValue = yAxisPlotOptions?.range?.maxValue ?? 'auto';
+  const domain = [minValue, maxValue];
+  const yAxisConfig = { ...getYAxis(plotConfig), domain };
   return (
     <PlotContainer>
       <LineChart data={data} margin={margin} {...brushEvents}>
@@ -74,6 +81,7 @@ function LinePlot({
           isFollowUpDisabled,
           useLegend: isSplitAxes,
           isSplitAxes,
+          yAxisConfig,
         })}
         {Line({
           yAxisId,

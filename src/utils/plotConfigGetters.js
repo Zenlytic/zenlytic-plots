@@ -600,3 +600,8 @@ export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
 
 export const sortBySeriesName = (firstSeries, secondSeries) =>
   firstSeries.name < secondSeries.name ? -1 : 1;
+
+export const getYAxisPlotOptions = (plotConfig) => {
+  const yAxisPlotOptions = getPlotOptions(plotConfig).yAxis;
+  return yAxisPlotOptions;
+};
