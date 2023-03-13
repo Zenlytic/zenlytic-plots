@@ -160,11 +160,11 @@ export const getIsSplitAxes = (plotConfig) => {
 };
 
 export const getYAxis = (plotConfig) => {
+  const domain = getYAxisDomainWithFallback(plotConfig);
   const yAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
-  if (!yAxis) return {};
+  if (!yAxis) return { domain };
   const { dataType, name, dataKey, format } = yAxis || {};
   const isSplitAxes = getIsSplitAxes(plotConfig);
-
   const tickFormatter = getFormatter(format);
   return {
     type: dataType,
@@ -173,6 +173,7 @@ export const getYAxis = (plotConfig) => {
     tickFormatter,
     yAxisId: isSplitAxes ? 'left' : undefined,
     orientation: isSplitAxes ? 'left' : undefined,
+    domain,
   };
 };
 
@@ -604,4 +605,11 @@ export const sortBySeriesName = (firstSeries, secondSeries) =>
 export const getYAxisPlotOptions = (plotConfig) => {
   const yAxisPlotOptions = getPlotOptions(plotConfig).yAxis;
   return yAxisPlotOptions;
+};
+
+export const getYAxisDomainWithFallback = (plotConfig) => {
+  const yAxisPlotOptions = getYAxisPlotOptions(plotConfig);
+  const minValue = yAxisPlotOptions?.range?.minValue ?? 0;
+  const maxValue = yAxisPlotOptions?.range?.maxValue ?? 'auto';
+  return [minValue, maxValue];
 };
