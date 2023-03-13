@@ -11,6 +11,7 @@ import {
 } from '../../../constants/plotConstants';
 
 const YAxis = ({ type, dataKey, name, tickFormatter, orientation, yAxisId, domain }) => {
+  console.log(domain);
   return (
     <RechartsYAxis
       dataKey={dataKey}

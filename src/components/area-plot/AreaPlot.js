@@ -31,6 +31,7 @@ import {
   getYAxisTickFormatter,
   getCategoryValueAxisByDataKey,
   getFormatter,
+  getSeriesHiddenColumns,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -74,31 +75,34 @@ function NonPivotedAreaPlot({ plotConfig }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   const data = getData(plotConfig);
-  return categoryValueAxes.map((axis, index) =>
-    Area({
-      type: 'monotone',
-      stackId: '1',
-      dot: true,
-      dataKey: axis.dataKey,
-      name: axis.name,
-      key: axis.name,
-      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-      strokeWidth: 2,
-      isAnimationActive: false,
-      data,
-      showDataAnnotations,
-      axisDataKey: axis.dataKey,
-      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey],
-      getTotalValue: (dataIndex) =>
-        categoryValueAxes.reduce(
-          (total, categoryValueAxis) => data[dataIndex][categoryValueAxis.dataKey] + total,
-          0
-        ),
-      dataChangeType: dataAnnotationsChangeType,
-      valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
-    })
-  );
+  const seriesHiddenColumns = getSeriesHiddenColumns(plotConfig);
+  return categoryValueAxes
+    .filter((axis) => !seriesHiddenColumns.includes(axis.dataKey))
+    .map((axis, index) =>
+      Area({
+        type: 'monotone',
+        stackId: '1',
+        dot: true,
+        dataKey: axis.dataKey,
+        name: axis.name,
+        key: axis.name,
+        fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+        stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+        strokeWidth: 2,
+        isAnimationActive: false,
+        data,
+        showDataAnnotations,
+        axisDataKey: axis.dataKey,
+        getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey],
+        getTotalValue: (dataIndex) =>
+          categoryValueAxes.reduce(
+            (total, categoryValueAxis) => data[dataIndex][categoryValueAxis.dataKey] + total,
+            0
+          ),
+        dataChangeType: dataAnnotationsChangeType,
+        valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
+      })
+    );
 }
 function AreaPlot({
   plotConfig = {},

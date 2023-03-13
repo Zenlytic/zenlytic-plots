@@ -19,6 +19,7 @@ import {
   getGroupedBarPlotDisplayType,
   getIsDataPivoted,
   getMargin,
+  getSeriesHiddenColumns,
   getUniqueValuesOfDataKey,
   getXAxis,
   getXAxisDataKey,
@@ -70,18 +71,22 @@ function NonPivotedGroupedBar({
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
   const isSeriesStacked = displayType === GROUPED_BAR_DISPLAY_TYPES.STACKED;
-  return categoryValueAxes?.map((axes, index) => {
-    return Bar({
-      dataKey: axes.dataKey,
-      name: axes.name,
-      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-      stackId: isSeriesStacked ? 'a' : undefined,
-      strokeWidth: BAR_STROKE_WIDTH,
-      radius: 2,
-      onMouseLeave: () => updateHoveredItemId(null),
+  const seriesHiddenColumns = getSeriesHiddenColumns(plotConfig);
+  console.log(seriesHiddenColumns);
+  return categoryValueAxes
+    ?.filter((axis) => !seriesHiddenColumns.includes(axis.dataKey))
+    .map((axes, index) => {
+      return Bar({
+        dataKey: axes.dataKey,
+        name: axes.name,
+        fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+        stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+        stackId: isSeriesStacked ? 'a' : undefined,
+        strokeWidth: BAR_STROKE_WIDTH,
+        radius: 2,
+        onMouseLeave: () => updateHoveredItemId(null),
+      });
     });
-  });
 }
 
 function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
