@@ -49,7 +49,6 @@ function NonPivotedMultiLinePlot({ plotConfig }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const seriesHiddenColumns = getSeriesHiddenColumns(plotConfig);
-  console.log(seriesHiddenColumns);
   return categoryValueAxes
     .filter((axis) => {
       return !seriesHiddenColumns.includes(axis.dataKey);

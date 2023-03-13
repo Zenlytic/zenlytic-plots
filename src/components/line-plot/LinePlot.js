@@ -17,12 +17,9 @@ import {
   getSeriesShowDataAnnotations,
   getSeriesStrokeColor,
   getXAxisDataKey,
-  getYAxis,
   getYAxisDataKey,
-  getYAxisDomainWithFallback,
   getYAxisId,
   getYAxisName,
-  getYAxisPlotOptions,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
