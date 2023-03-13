@@ -162,6 +162,9 @@ export const getIsSplitAxes = (plotConfig) => {
 export const getYAxis = (plotConfig) => {
   const domain = getYAxisDomainWithFallback(plotConfig);
   const yAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
+
+  // Not all plotTypes will have a column associated with the yAxis,
+  // but we still want to return Recharts-centric yAxis information like domain.
   if (!yAxis) return { domain };
   const { dataType, name, dataKey, format } = yAxis || {};
   const isSplitAxes = getIsSplitAxes(plotConfig);
