@@ -134,10 +134,19 @@ export const getXAxisName = (plotConfig) => {
 
 export const getSecondYAxis = (plotConfig) => {
   const secondYAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.SECOND_Y_AXIS_DATA_KEY_KEY);
-  if (!secondYAxis) return {};
+  const domain = getSecondYAxisDomainWithFallback(plotConfig);
+  if (!secondYAxis) return { domain };
   const { dataType, name, dataKey, format } = secondYAxis || {};
   const tickFormatter = getFormatter(format);
-  return { type: dataType, name, dataKey, tickFormatter, yAxisId: 'right', orientation: 'right' };
+  return {
+    type: dataType,
+    name,
+    dataKey,
+    tickFormatter,
+    yAxisId: 'right',
+    orientation: 'right',
+    domain,
+  };
 };
 
 export const getSecondYAxisTickFormatter = (plotConfig) => {
@@ -610,9 +619,21 @@ export const getYAxisPlotOptions = (plotConfig) => {
   return yAxisPlotOptions;
 };
 
+const convertYAxisRangeToDomain = (range) => [range?.minValue ?? 0, range?.maxValue ?? 'auto'];
+
 export const getYAxisDomainWithFallback = (plotConfig) => {
   const yAxisPlotOptions = getYAxisPlotOptions(plotConfig);
-  const minValue = yAxisPlotOptions?.range?.minValue ?? 0;
-  const maxValue = yAxisPlotOptions?.range?.maxValue ?? 'auto';
-  return [minValue, maxValue];
+  const domain = convertYAxisRangeToDomain(yAxisPlotOptions?.range);
+  return domain;
+};
+
+export const getSecondYAxisPlotOptions = (plotConfig) => {
+  const secondYAxisPlotOptions = getPlotOptions(plotConfig).secondYAxis;
+  return secondYAxisPlotOptions;
+};
+
+export const getSecondYAxisDomainWithFallback = (plotConfig) => {
+  const secondYAxisPlotOptions = getSecondYAxisPlotOptions(plotConfig);
+  const domain = convertYAxisRangeToDomain(secondYAxisPlotOptions?.range);
+  return domain;
 };
