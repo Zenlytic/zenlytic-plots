@@ -134,10 +134,19 @@ export const getXAxisName = (plotConfig) => {
 
 export const getSecondYAxis = (plotConfig) => {
   const secondYAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.SECOND_Y_AXIS_DATA_KEY_KEY);
-  if (!secondYAxis) return {};
+  const domain = getSecondYAxisDomainWithFallback(plotConfig);
+  if (!secondYAxis) return { domain };
   const { dataType, name, dataKey, format } = secondYAxis || {};
   const tickFormatter = getFormatter(format);
-  return { type: dataType, name, dataKey, tickFormatter, yAxisId: 'right', orientation: 'right' };
+  return {
+    type: dataType,
+    name,
+    dataKey,
+    tickFormatter,
+    yAxisId: 'right',
+    orientation: 'right',
+    domain,
+  };
 };
 
 export const getSecondYAxisTickFormatter = (plotConfig) => {
@@ -160,11 +169,14 @@ export const getIsSplitAxes = (plotConfig) => {
 };
 
 export const getYAxis = (plotConfig) => {
+  const domain = getYAxisDomainWithFallback(plotConfig);
   const yAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
-  if (!yAxis) return {};
+
+  // Not all plotTypes will have a column associated with the yAxis,
+  // but we still want to return Recharts-centric yAxis information like domain.
+  if (!yAxis) return { domain };
   const { dataType, name, dataKey, format } = yAxis || {};
   const isSplitAxes = getIsSplitAxes(plotConfig);
-
   const tickFormatter = getFormatter(format);
   return {
     type: dataType,
@@ -173,6 +185,7 @@ export const getYAxis = (plotConfig) => {
     tickFormatter,
     yAxisId: isSplitAxes ? 'left' : undefined,
     orientation: isSplitAxes ? 'left' : undefined,
+    domain,
   };
 };
 
@@ -623,3 +636,27 @@ export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
 
 export const sortBySeriesName = (firstSeries, secondSeries) =>
   firstSeries.name < secondSeries.name ? -1 : 1;
+
+export const getYAxisPlotOptions = (plotConfig) => {
+  const yAxisPlotOptions = getPlotOptions(plotConfig).yAxis;
+  return yAxisPlotOptions;
+};
+
+const convertYAxisRangeToDomain = (range) => [range?.minValue ?? 0, range?.maxValue ?? 'auto'];
+
+export const getYAxisDomainWithFallback = (plotConfig) => {
+  const yAxisPlotOptions = getYAxisPlotOptions(plotConfig);
+  const domain = convertYAxisRangeToDomain(yAxisPlotOptions?.range);
+  return domain;
+};
+
+export const getSecondYAxisPlotOptions = (plotConfig) => {
+  const secondYAxisPlotOptions = getPlotOptions(plotConfig).secondYAxis;
+  return secondYAxisPlotOptions;
+};
+
+export const getSecondYAxisDomainWithFallback = (plotConfig) => {
+  const secondYAxisPlotOptions = getSecondYAxisPlotOptions(plotConfig);
+  const domain = convertYAxisRangeToDomain(secondYAxisPlotOptions?.range);
+  return domain;
+};
