@@ -5,44 +5,49 @@ import { LineChart } from 'recharts';
 import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
+import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 
 import {
   getAxisFormat,
+  getCategoryAxisDataKey,
   getCategoryValueAxes,
+  getCategoryValueAxisByDataKey,
   getData,
   getIsDataPivoted,
   getMargin,
   getSeriesHiddenColumns,
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
+  getUniqueValuesOfDataKey,
   getXAxisDataKey,
-  getYAxisDataKey,
+  getYAxis,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 import Line from '../shared/Line/Line';
 
-function PivotedMultiLinePlot({ plotConfig }) {
-  const yAxisDataKey = getYAxisDataKey(plotConfig);
-  const data = getData(plotConfig);
+function PivotedMultiLinePlot({ plotConfig = {} }) {
+  const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
+  const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
-  return data.map((series, index) => {
-    return Line({
-      dot: true,
-      data: series.data,
+
+  return uniqueValuesOfCategoryKey.map((value, index) =>
+    Line({
+      id: value,
+      dataKey: value,
+      name: value,
+      key: value,
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-      dataKey: yAxisDataKey,
       type: 'monotone',
       strokeWidth: 2,
-      name: series.name,
-      key: series.name,
+      dot: true,
       isAnimationActive: false,
       showDataAnnotations,
       valueFormatter: yAxisTickFormatter,
-    });
-  });
+    })
+  );
 }
 
 function NonPivotedMultiLinePlot({ plotConfig }) {
@@ -83,6 +88,15 @@ function MultiLinePlot({
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisFormat = getAxisFormat(plotConfig, xAxisDataKey);
 
+  const yAxisConfig = getYAxis(plotConfig);
+
+  const customValueFormatter = (value, dataKey) => {
+    const formatter = isDataPivoted
+      ? getYAxisTickFormatter(plotConfig)
+      : getCategoryValueAxisByDataKey(plotConfig, dataKey).tickFormatter;
+    return formatter(value);
+  };
+
   const [tooltip, tooltipHandlers] = useTooltip();
   const [brush, brushEvents] = useBrush({
     onBrushUpdate,
@@ -105,6 +119,10 @@ function MultiLinePlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
+          yAxisConfig: overrideAxisConfig(yAxisConfig, {
+            dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
+          }),
+          customValueFormatter,
         })}
         {isDataPivoted && PivotedMultiLinePlot({ plotConfig })}
         {!isDataPivoted && NonPivotedMultiLinePlot({ plotConfig })}
