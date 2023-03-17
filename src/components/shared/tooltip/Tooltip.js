@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { Tooltip as RechartsTooltip } from 'recharts';
 import { HIGHLIGHT_BAR_COLOR } from '../../../constants/plotConstants';
-import { getTickFormatterFromDataKey } from '../../../utils/plotConfigGetters';
+import { getTickFormatterFromDataKey, getYAxisDataKey } from '../../../utils/plotConfigGetters';
 
 // eslint-disable-next-line react/prop-types
 
@@ -73,9 +73,11 @@ function Tooltip({
   isFollowUpDisabled = false,
 }) {
   const { tickFormatter: xAxisTickFormatter } = xAxisConfig;
-  const { tickFormatter: yAxisTickFormatter } = yAxisConfig;
+  const { tickFormatter: yAxisTickFormatter, dataKey: yAxisDataKey } = yAxisConfig;
   const { dataKey: categoryAxisDataKey } = categoryAxisConfig;
+
   const { dataKey: xAxisDataKey } = xAxisConfig || {};
+  const yAxisDataKeyToUse = yAxisDataKey || getYAxisDataKey(plotConfig);
   const {
     tooltipCoords,
     isFollowUpMenuOpen,
@@ -125,11 +127,12 @@ function Tooltip({
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}
-      allowEscapeViewBox={{x: true, y: true}}
+      allowEscapeViewBox={{ x: true, y: true }}
       content={
         <TooltipContentWithOutsideClickHandler
           clickedItemId={clickedItemId}
           hoveredItemId={hoveredItemId}
+          yAxisDataKey={yAxisDataKeyToUse}
           categoryAxisDataKey={categoryAxisDataKey}
           isFollowUpMenuOpen={isFollowUpMenuOpenAndEnabled}
           onOutsideClick={() => {
