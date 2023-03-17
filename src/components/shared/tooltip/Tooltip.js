@@ -35,7 +35,6 @@ function TooltipContentWithOutsideClickHandler(props) {
     payload,
     isFollowUpMenuOpen,
   } = props;
-  console.log('🚀 ~ file: Tooltip.js:38 ~ TooltipContentWithOutsideClickHandler ~ props:', props);
 
   const [newPayload, setNewPayload] = useState(
     getPayloadFromTooltip(payload, clickedItemId, hoveredItemId)
