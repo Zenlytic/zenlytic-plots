@@ -10,6 +10,7 @@ import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 import {
   getAxisFormat,
   getCategoryAxisDataKey,
+  getCategoryAxisFormatter,
   getCategoryValueAxes,
   getCategoryValueAxisByDataKey,
   getData,
@@ -33,11 +34,12 @@ function PivotedMultiLinePlot({ plotConfig = {} }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
+  const nameFormatter = getCategoryAxisFormatter(plotConfig);
   return uniqueValuesOfCategoryKey.map((value, index) =>
     Line({
       id: value,
       dataKey: value,
-      name: value,
+      name: nameFormatter(value),
       key: value,
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       type: 'monotone',

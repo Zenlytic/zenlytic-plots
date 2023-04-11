@@ -13,6 +13,7 @@ import Bar from '../shared/bar/Bar';
 
 import {
   getCategoryAxisDataKey,
+  getCategoryAxisFormatter,
   getCategoryValueAxes,
   getCategoryValueAxisByDataKey,
   getData,
@@ -41,12 +42,13 @@ function PivotedGroupedBar({
   const isSeriesStacked = displayType === GROUPED_BAR_DISPLAY_TYPES.STACKED;
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
+  const nameFormatter = getCategoryAxisFormatter(plotConfig);
 
   return uniqueValuesOfCategoryKey.map((value, index) =>
     Bar({
       id: value,
       dataKey: value,
-      name: value,
+      name: nameFormatter(value),
       key: value,
       stackId: isSeriesStacked ? 'a' : undefined,
       fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],

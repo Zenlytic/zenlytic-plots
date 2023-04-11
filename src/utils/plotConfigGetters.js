@@ -96,6 +96,11 @@ export const getCategoryAxis = (plotConfig) => {
   return { type: dataType, name, dataKey, tickFormatter };
 };
 
+export const getCategoryAxisFormatter = (plotConfig) => {
+  const categoryAxis = getCategoryAxis(plotConfig);
+  return categoryAxis?.tickFormatter;
+};
+
 export const getIsDataPivoted = (plotConfig) => {
   const categoryAxis = getCategoryAxis(plotConfig);
   return !isEmpty(categoryAxis);
