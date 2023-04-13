@@ -31,6 +31,7 @@ import {
   getYAxisTickFormatter,
   getCategoryValueAxisByDataKey,
   getFormatter,
+  getCategoryAxisFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -41,6 +42,8 @@ function PivotedAreaPlot({ plotConfig }) {
   const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+  const nameFormatter = getCategoryAxisFormatter(plotConfig);
+
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   return uniqueValuesOfCategoryKey.map((uniqueValueOfCategoryKey, index) =>
     Area({
@@ -51,7 +54,7 @@ function PivotedAreaPlot({ plotConfig }) {
       stroke: PLOT_COLORS[index % PLOT_COLORS.length],
       fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
       dataKey: uniqueValueOfCategoryKey,
-      name: uniqueValueOfCategoryKey,
+      name: nameFormatter(uniqueValueOfCategoryKey),
       key: uniqueValueOfCategoryKey,
       isAnimationActive: false,
       showDataAnnotations,
