@@ -12,7 +12,7 @@ const getD3DataFormatter = (format, value) => {
     case 'usd_2':
       return '$,.2f';
     case 'percent_0':
-      return '~%';
+      return '0.0~%';
     case 'percent_1':
       return '0.1~%';
     case 'percent_2':
