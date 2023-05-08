@@ -553,12 +553,47 @@ export const getBarSpecificData = (plotConfig, data) => {
   return processedData;
 };
 
+export const getHorizontalBarSpecificData = (plotConfig, data) => {
+  const activeIds = getSeriesActiveIds(plotConfig);
+
+  let processedData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
+
+  // Give each bar a unique id if it doesnt have one
+  processedData = processedData.map((d) => {
+    return { ...d, id: d ?? d[getXAxisDataKey(plotConfig)] };
+  });
+
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+
+  const getParsedNumber = (value) => Number.parseInt(value, 10);
+
+  const getIsNumeric = (value) => !Number.isNaN(getParsedNumber(value));
+
+  const getIsDatumNumeric = (datum) => getIsNumeric(datum[xAxisDataKey]);
+
+  const isNumericallySortable = data.every(getIsDatumNumeric);
+
+  const sortByNumber = (firstDatum, secondDatum) => {
+    const firstDatumNumeric = getParsedNumber(firstDatum[xAxisDataKey]);
+    const secondDatumNumeric = getParsedNumber(secondDatum[xAxisDataKey]);
+    return firstDatumNumeric < secondDatumNumeric ? -1 : 1;
+  };
+
+  if (isNumericallySortable) {
+    processedData = processedData.sort(sortByNumber);
+  }
+
+  return processedData;
+};
+
 export const getData = (plotConfig) => {
   const { data = [] } = plotConfig;
   const isDataPivoted = getIsDataPivoted(plotConfig);
   switch (getSeriesType(plotConfig)) {
     case PLOT_TYPES.BAR:
       return getBarSpecificData(plotConfig, data);
+    case PLOT_TYPES.HORIZONTAL_BAR:
+      return getHorizontalBarSpecificData(plotConfig, data);
     case PLOT_TYPES.FUNNEL_BAR:
       return getFunnelSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.GROUPED_BAR:
@@ -688,4 +723,12 @@ export const getSecondYAxisDomainWithFallback = (plotConfig) => {
   const secondYAxisPlotOptions = getSecondYAxisPlotOptions(plotConfig);
   const domain = convertYAxisRangeToDomain(secondYAxisPlotOptions?.range);
   return domain;
+};
+
+export const getTooltipLabelDataKey = (plotConfig) => {
+  const seriesType = getSeriesType(plotConfig);
+  if (seriesType === PLOT_TYPES.HORIZONTAL_BAR) {
+    return getYAxisDataKey(plotConfig);
+  }
+  return getXAxisDataKey(plotConfig);
 };

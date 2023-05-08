@@ -3,7 +3,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { Tooltip as RechartsTooltip } from 'recharts';
 import { HIGHLIGHT_BAR_COLOR } from '../../../constants/plotConstants';
-import { getTickFormatterFromDataKey, getYAxisDataKey } from '../../../utils/plotConfigGetters';
+import {
+  getTickFormatterFromDataKey,
+  getTooltipLabelDataKey,
+  getXAxisDataKey,
+  getYAxisDataKey,
+} from '../../../utils/plotConfigGetters';
 
 // eslint-disable-next-line react/prop-types
 
@@ -77,7 +82,7 @@ function Tooltip({
   const { dataKey: categoryAxisDataKey } = categoryAxisConfig;
 
   const { dataKey: xAxisDataKey } = xAxisConfig || {};
-  const yAxisDataKeyToUse = yAxisDataKey || getYAxisDataKey(plotConfig);
+  const yAxisDataKeyToUse = xAxisDataKey || getXAxisDataKey(plotConfig);
   const {
     tooltipCoords,
     isFollowUpMenuOpen,
@@ -94,15 +99,17 @@ function Tooltip({
     updateHoveredItemId = () => {},
   } = tooltipHandlers || {};
 
+  const tooltipLabelDataKey = getTooltipLabelDataKey(plotConfig);
+
   const labelFormatter = useCallback(
     (value, payload) => {
       if (customLabelFormatter) {
         return customLabelFormatter(value, payload);
       }
-      const formatter = getTickFormatterFromDataKey(plotConfig, xAxisDataKey);
+      const formatter = getTickFormatterFromDataKey(plotConfig, tooltipLabelDataKey);
       return formatter(value);
     },
-    [plotConfig, xAxisDataKey]
+    [plotConfig, tooltipLabelDataKey]
   );
 
   const valueFormatter = useCallback(

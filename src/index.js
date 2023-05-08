@@ -1,5 +1,6 @@
 // DONE
 export { default as BarPlot } from 'components/bar-plot/BarPlot';
+export { default as HorizontalBarPlot } from 'components/horizontal-bar-plot/HorizontalBarPlot';
 export { default as GroupedBarPlot } from 'components/grouped-bar-plot/GroupedBarPlot';
 export { default as LinePlot } from 'components/line-plot/LinePlot';
 export { default as ScatterPlot } from 'components/scatter-plot/ScatterPlot';
