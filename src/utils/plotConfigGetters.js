@@ -522,11 +522,35 @@ export const getDoesSubStatDataExist = (plotConfig) => {
 
 export const getBarSpecificData = (plotConfig, data) => {
   const activeIds = getSeriesActiveIds(plotConfig);
-  const activeData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
+
+  let processedData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
+
   // Give each bar a unique id if it doesnt have one
-  return activeData.map((d) => {
+  processedData = processedData.map((d) => {
     return { ...d, id: d ?? d[getXAxisDataKey(plotConfig)] };
   });
+
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+
+  const getParsedNumber = (value) => Number.parseInt(value, 10);
+
+  const getIsNumeric = (value) => !Number.isNaN(getParsedNumber(value));
+
+  const getIsDatumNumeric = (datum) => getIsNumeric(datum[xAxisDataKey]);
+
+  const isNumericallySortable = data.every(getIsDatumNumeric);
+
+  const sortByNumber = (firstDatum, secondDatum) => {
+    const firstDatumNumeric = getParsedNumber(firstDatum[xAxisDataKey]);
+    const secondDatumNumeric = getParsedNumber(secondDatum[xAxisDataKey]);
+    return firstDatumNumeric < secondDatumNumeric ? -1 : 1;
+  };
+
+  if (isNumericallySortable) {
+    processedData = processedData.sort(sortByNumber);
+  }
+
+  return processedData;
 };
 
 export const getData = (plotConfig) => {

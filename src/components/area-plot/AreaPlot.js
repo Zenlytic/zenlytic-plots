@@ -62,12 +62,12 @@ function PivotedAreaPlot({ plotConfig }) {
       axisDataKey: uniqueValueOfCategoryKey,
       dataChangeType: dataAnnotationsChangeType,
       valueFormatter: yAxisTickFormatter,
-      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey],
+      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey] ?? 0,
       getTotalValue: (dataIndex) =>
-        uniqueValuesOfCategoryKey.reduce(
-          (total, categoryKeyValue) => data[dataIndex][categoryKeyValue] + total,
-          0
-        ),
+        uniqueValuesOfCategoryKey.reduce((total, categoryKeyValue) => {
+          const value = data[dataIndex][categoryKeyValue] ?? 0;
+          return value + total;
+        }, 0),
     })
   );
 }
@@ -92,12 +92,12 @@ function NonPivotedAreaPlot({ plotConfig }) {
       data,
       showDataAnnotations,
       axisDataKey: axis.dataKey,
-      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey],
+      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey] ?? 0,
       getTotalValue: (dataIndex) =>
-        categoryValueAxes.reduce(
-          (total, categoryValueAxis) => data[dataIndex][categoryValueAxis.dataKey] + total,
-          0
-        ),
+        categoryValueAxes.reduce((total, categoryValueAxis) => {
+          const value = data[dataIndex][categoryValueAxis.dataKey] ?? 0;
+          return value + total;
+        }, 0),
       dataChangeType: dataAnnotationsChangeType,
       valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
     })
