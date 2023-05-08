@@ -1,10 +1,6 @@
 {
   "name": "zenlytic-plots",
-<<<<<<< HEAD
-  "version": "1.8.3",
-=======
   "version": "1.8.6",
->>>>>>> 714f75a40e8ce37012f058f9a1ad906c1803f933
   "description": "",
   "main": "lib/index.umd.js",
   "browser": "lib/index.umd.js",
