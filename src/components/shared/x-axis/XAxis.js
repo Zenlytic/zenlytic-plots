@@ -19,6 +19,7 @@ const XAxis = (props) => {
     allowDuplicatedCategory,
     tickLine = true,
     interval = 'preserveEnd',
+    rotateXAxis = false,
   } = props;
 
   return (
@@ -29,15 +30,17 @@ const XAxis = (props) => {
       tickFormatter={tickFormatter}
       allowDuplicatedCategory={allowDuplicatedCategory}
       stroke={DEFAULT_AXIS_COLOR}
-      height={DEFAULT_X_AXIS_HEIGHT}
+      height={rotateXAxis ? 150 : DEFAULT_X_AXIS_HEIGHT}
       tickLine={tickLine}
       interval={interval}
+      minTickGap={rotateXAxis ? 0 : undefined}
+      textAnchor={rotateXAxis ? 'end' : 'middle'}
+      angle={rotateXAxis ? -90 : undefined}
+      dx={rotateXAxis ? -5 : undefined}
       tick={DEFAULT_TICK_PROPS}>
       <Label {...DEFAULT_LABEL_PROPS} value={name} position="bottom" />
     </RechartsXAxis>
   );
 };
-
-XAxis.propTypes = {};
 
 export default XAxis;

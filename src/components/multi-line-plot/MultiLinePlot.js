@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { useResizeDetector } from 'react-resize-detector';
 import { LineChart } from 'recharts';
 import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
@@ -20,7 +21,9 @@ import {
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
   getUniqueValuesOfDataKey,
+  getXAxis,
   getXAxisDataKey,
+  getXAxisInterval,
   getYAxis,
   getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
@@ -109,8 +112,12 @@ function MultiLinePlot({
     brushSelectionType: BRUSH_SELECTION_TYPES.RANGE_AND_ITEMS,
   });
 
+  const { width, ref } = useResizeDetector();
+  const xAxisConfig = getXAxis(plotConfig);
+  const xAxisInterval = getXAxisInterval(plotConfig, width);
+
   return (
-    <PlotContainer>
+    <PlotContainer ref={ref}>
       <LineChart data={data} margin={margin} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
@@ -121,6 +128,7 @@ function MultiLinePlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
+          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
             dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),

@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
-import { BarChart, Cell, ReferenceLine, XAxis, YAxis } from 'recharts';
+import { useResizeDetector } from 'react-resize-detector';
+import { BarChart, Cell, ReferenceLine } from 'recharts';
 import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
@@ -13,18 +14,20 @@ import {
   getReferenceLineValue,
   getSeriesFillColor,
   getSeriesStrokeColor,
+  getXAxis,
   getXAxisDataKey,
+  getXAxisInterval,
   getXAxisName,
-  getYAxisDataKey,
-  getYAxisName,
+  getYAxis,
+  getYAxisInterval,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 // import Bar from '../shared/bar/Bar';
 import {
-  PLOT_SECONDARY_COLORS,
-  PLOT_COLORS,
   DEFAULT_AXIS_COLOR,
+  PLOT_COLORS,
+  PLOT_SECONDARY_COLORS,
 } from '../../constants/plotConstants';
 import Bar from '../shared/bar/Bar';
 
@@ -33,13 +36,11 @@ function HorizontalBarPlot({
   TooltipContent = false,
   isFollowUpDisabled = false,
 }) {
-  console.log('🚀 ~ file: HorizontalBarPlot.jsx:33 ~ plotConfig:', plotConfig);
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisName = getXAxisName(plotConfig);
   const referenceLineValue = getReferenceLineValue(plotConfig);
 
   const data = getData(plotConfig);
-  console.log('🚀 ~ file: HorizontalBarPlot.jsx:38 ~ data:', data);
   const margin = getMargin(plotConfig);
 
   const doesSeriesHaveFillColor = getDoesSeriesHaveFillColor(plotConfig);
@@ -52,20 +53,25 @@ function HorizontalBarPlot({
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
-  console.log('🚀 ~ file: HorizontalBarPlot.jsx:55 ~ clickedItemId:', clickedItemId);
 
   const onPlotClick = useCallback(
     (e) => {
       {
-        console.log('🚀 ~ file: HorizontalBarPlot.jsx:108 ~ e:', e);
-
         updateClickedItemId(e?.activePayload?.[0]?.payload?.id, e?.activeCoordinate);
       }
     },
     [isFollowUpMenuOpen, updateClickedItemId]
   );
+
+  const { width, height, ref } = useResizeDetector();
+  const xAxisConfig = getXAxis(plotConfig);
+  const xAxisInterval = getXAxisInterval(plotConfig, width);
+
+  const yAxisConfig = getYAxis(plotConfig);
+  const yAxisInterval = getYAxisInterval(plotConfig, height);
+
   return (
-    <PlotContainer>
+    <PlotContainer ref={ref}>
       <BarChart data={data} margin={margin} onClick={onPlotClick} layout="vertical">
         {GeneralChartComponents({
           plotConfig,
@@ -73,6 +79,8 @@ function HorizontalBarPlot({
           tooltipHandlers,
           tooltip,
           isFollowUpDisabled,
+          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          yAxisConfig: { ...yAxisConfig, interval: yAxisInterval },
         })}
         {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
         {Bar({

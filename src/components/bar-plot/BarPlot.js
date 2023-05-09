@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
+import { useResizeDetector } from 'react-resize-detector';
+
 import { BarChart, Cell, ReferenceLine } from 'recharts';
 import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
@@ -13,7 +15,11 @@ import {
   getReferenceLineValue,
   getSeriesFillColor,
   getSeriesStrokeColor,
+  getXAxis,
+  getXAxisInterval,
+  getYAxis,
   getYAxisDataKey,
+  getYAxisInterval,
   getYAxisName,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
@@ -51,8 +57,12 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
     [isFollowUpMenuOpen, updateClickedItemId]
   );
 
+  const { width, ref } = useResizeDetector();
+  const xAxisConfig = getXAxis(plotConfig);
+  const xAxisInterval = getXAxisInterval(plotConfig, width);
+
   return (
-    <PlotContainer>
+    <PlotContainer ref={ref}>
       <BarChart data={data} margin={margin} onClick={onPlotClick}>
         {GeneralChartComponents({
           plotConfig,
@@ -60,6 +70,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           tooltipHandlers,
           tooltip,
           isFollowUpDisabled,
+          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
         })}
         {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
         {Bar({

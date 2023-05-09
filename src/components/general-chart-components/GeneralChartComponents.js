@@ -5,6 +5,7 @@ import {
   getMargin,
   getSecondYAxis,
   getXAxis,
+  getXAxisInterval,
   getYAxis,
   getZAxis,
 } from '../../utils/plotConfigGetters';

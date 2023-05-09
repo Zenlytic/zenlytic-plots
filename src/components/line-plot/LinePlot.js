@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { useResizeDetector } from 'react-resize-detector';
 import { LineChart } from 'recharts';
+import colors from '../../constants/colors';
 import useBrush from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
-import Line from '../shared/Line/Line';
 import {
   getAxisFormat,
   getData,
@@ -16,7 +17,9 @@ import {
   getSecondYAxisTickFormatter,
   getSeriesShowDataAnnotations,
   getSeriesStrokeColor,
+  getXAxis,
   getXAxisDataKey,
+  getXAxisInterval,
   getYAxisDataKey,
   getYAxisId,
   getYAxisName,
@@ -24,7 +27,7 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import colors from '../../constants/colors';
+import Line from '../shared/Line/Line';
 
 function LinePlot({
   plotConfig = {},
@@ -61,8 +64,12 @@ function LinePlot({
     xAxisFormat,
   });
 
+  const { width, ref } = useResizeDetector();
+  const xAxisConfig = getXAxis(plotConfig);
+  const xAxisInterval = getXAxisInterval(plotConfig, width);
+
   return (
-    <PlotContainer>
+    <PlotContainer ref={ref}>
       <LineChart data={data} margin={margin} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
@@ -74,6 +81,7 @@ function LinePlot({
           isFollowUpDisabled,
           useLegend: isSplitAxes,
           isSplitAxes,
+          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
         })}
         {Line({
           yAxisId,

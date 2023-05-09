@@ -1,7 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
+import { useResizeDetector } from 'react-resize-detector';
+import { BarChart } from 'recharts';
 import {
   BAR_STROKE_WIDTH,
   GROUPED_BAR_DISPLAY_TYPES,
@@ -11,6 +12,7 @@ import {
 import useTooltip from '../../hooks/useTooltip';
 import Bar from '../shared/bar/Bar';
 
+import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 import {
   getCategoryAxisDataKey,
   getCategoryAxisFormatter,
@@ -22,15 +24,12 @@ import {
   getMargin,
   getUniqueValuesOfDataKey,
   getXAxis,
-  getXAxisDataKey,
+  getXAxisInterval,
   getYAxis,
-  getYAxisDataKey,
   getYAxisTickFormatter,
-  pivotDataByDataKey,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 
 function PivotedGroupedBar({
   plotConfig = {},
@@ -103,8 +102,12 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
     return formatter(value);
   };
 
+  const { width, ref } = useResizeDetector();
+  const xAxisConfig = getXAxis(plotConfig);
+  const xAxisInterval = getXAxisInterval(plotConfig, width);
+
   return (
-    <PlotContainer>
+    <PlotContainer ref={ref}>
       <BarChart data={data} margin={margin}>
         {GeneralChartComponents({
           plotConfig,
@@ -114,6 +117,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
+          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
             dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),
