@@ -134,7 +134,7 @@ export const getXAxisInterval = (plotConfig, width) => {
   return 'preserveEnd';
 };
 
-// We use this to show all of the points if possible.
+// We use this to show all of the points if possible..
 // If we can't show everything, then we just let Recharts to it.
 export const getYAxisInterval = (plotConfig, height) => {
   const isDataPivoted = getIsDataPivoted(plotConfig);
