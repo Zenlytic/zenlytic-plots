@@ -2,8 +2,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { Tooltip as RechartsTooltip } from 'recharts';
-import { HIGHLIGHT_BAR_COLOR } from '../../../constants/plotConstants';
+import { HIGHLIGHT_BAR_COLOR, PLOT_TYPES } from '../../../constants/plotConstants';
 import {
+  getSeriesType,
   getTickFormatterFromDataKey,
   getTooltipLabelDataKey,
   getXAxisDataKey,
@@ -82,7 +83,12 @@ function Tooltip({
   const { dataKey: categoryAxisDataKey } = categoryAxisConfig;
 
   const { dataKey: xAxisDataKey } = xAxisConfig || {};
-  const yAxisDataKeyToUse = xAxisDataKey || getXAxisDataKey(plotConfig);
+  const yAxisDataKeyToUse = yAxisDataKey || getYAxisDataKey(plotConfig);
+  const xAxisDataKeyToUse = xAxisDataKey || getXAxisDataKey(plotConfig);
+  const seriesType = getSeriesType(plotConfig);
+  const tooltipYAxisDataKey =
+    seriesType === PLOT_TYPES.HORIZONTAL_BAR ? xAxisDataKeyToUse : yAxisDataKeyToUse;
+
   const {
     tooltipCoords,
     isFollowUpMenuOpen,
@@ -139,7 +145,7 @@ function Tooltip({
         <TooltipContentWithOutsideClickHandler
           clickedItemId={clickedItemId}
           hoveredItemId={hoveredItemId}
-          yAxisDataKey={yAxisDataKeyToUse}
+          yAxisDataKey={tooltipYAxisDataKey}
           categoryAxisDataKey={categoryAxisDataKey}
           isFollowUpMenuOpen={isFollowUpMenuOpenAndEnabled}
           onOutsideClick={() => {
