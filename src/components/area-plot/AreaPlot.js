@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { useResizeDetector } from 'react-resize-detector';
 import { AreaChart } from 'recharts';
 import { Area } from './components/area/Area';
 import {
@@ -32,6 +33,9 @@ import {
   getCategoryValueAxisByDataKey,
   getFormatter,
   getCategoryAxisFormatter,
+  getSeriesHiddenColumns,
+  getXAxis,
+  getXAxisInterval,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -77,31 +81,37 @@ function NonPivotedAreaPlot({ plotConfig }) {
   const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
   const dataAnnotationsChangeType = getAreaPlotDataAnnotationsChangeType(plotConfig);
   const data = getData(plotConfig);
-  return categoryValueAxes.map((axis, index) =>
-    Area({
-      type: 'monotone',
-      stackId: '1',
-      dot: true,
-      dataKey: axis.dataKey,
-      name: axis.name,
-      key: axis.name,
-      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-      strokeWidth: 2,
-      isAnimationActive: false,
-      data,
-      showDataAnnotations,
-      axisDataKey: axis.dataKey,
-      getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey] ?? 0,
-      getTotalValue: (dataIndex) =>
-        categoryValueAxes.reduce((total, categoryValueAxis) => {
-          const value = data[dataIndex][categoryValueAxis.dataKey] ?? 0;
-          return value + total;
-        }, 0),
-      dataChangeType: dataAnnotationsChangeType,
-      valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
+  const seriesHiddenColumns = getSeriesHiddenColumns(plotConfig);
+
+  return categoryValueAxes
+    .filter((axis) => {
+      return !seriesHiddenColumns.includes(axis.dataKey);
     })
-  );
+    .map((axis, index) =>
+      Area({
+        type: 'monotone',
+        stackId: '1',
+        dot: true,
+        dataKey: axis.dataKey,
+        name: axis.name,
+        key: axis.name,
+        fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+        stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+        strokeWidth: 2,
+        isAnimationActive: false,
+        data,
+        showDataAnnotations,
+        axisDataKey: axis.dataKey,
+        getCurrentValue: (dataIndex, dataKey) => data[dataIndex][dataKey] ?? 0,
+        getTotalValue: (dataIndex) =>
+          categoryValueAxes.reduce((total, categoryValueAxis) => {
+            const value = data[dataIndex][categoryValueAxis.dataKey] ?? 0;
+            return value + total;
+          }, 0),
+        dataChangeType: dataAnnotationsChangeType,
+        valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
+      })
+    );
 }
 function AreaPlot({
   plotConfig = {},
@@ -142,8 +152,12 @@ function AreaPlot({
 
   const stackOffset = DATA_CHANGE_TYPE_TO_STACK_OFFSET_MAPPING[plotDataChangeType];
 
+  const { width, ref } = useResizeDetector();
+  const xAxisConfig = getXAxis(plotConfig);
+  const xAxisInterval = getXAxisInterval(plotConfig, width);
+
   return (
-    <PlotContainer>
+    <PlotContainer ref={ref}>
       <AreaChart
         margin={margin}
         data={data}
@@ -159,6 +173,7 @@ function AreaPlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
+          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
             // DataKey should not be included in Y-Axis when multiple metrics are shown on the y-axis.
             // Including it will break the y-axis domain.

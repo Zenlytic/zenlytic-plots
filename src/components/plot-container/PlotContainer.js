@@ -3,13 +3,13 @@
 import React from 'react';
 import { ResponsiveContainer } from 'recharts';
 
-function PlotContainer({ children }) {
+const PlotContainer = React.forwardRef(({ children }, ref) => {
   return (
-    <div style={{ userSelect: 'none', width: '100%', height: '100%' }}>
+    <div style={{ userSelect: 'none', width: '100%', height: '100%' }} ref={ref}>
       <ResponsiveContainer>{children}</ResponsiveContainer>
     </div>
   );
-}
+});
 
 PlotContainer.propTypes = {};
 

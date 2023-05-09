@@ -54,15 +54,16 @@ export const DEFAULT_CARTESIAN_GRID_COLOR = '#F0F0F0';
 export const PLOT_TYPES = {
   AREA: 'area',
   BAR: 'bar',
+  FUNNEL_BAR: 'funnel_bar',
+  FUNNEL: 'funnel',
   GROUPED_BAR: 'grouped_bar',
+  HORIZONTAL_BAR: 'horizontal_bar',
+  LINE_COHORT: 'line_cohort',
   LINE: 'line',
   MULTI_LINE: 'multi_line',
-  LINE_COHORT: 'line_cohort',
-  TABLE_ONLY: 'table_only',
   SCATTER: 'scatter',
   STAT: 'stat_plot',
-  FUNNEL: 'funnel',
-  FUNNEL_BAR: 'funnel_bar',
+  TABLE_ONLY: 'table_only',
   WATERFALL: 'waterfall',
 };
 

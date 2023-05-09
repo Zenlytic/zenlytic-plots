@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { useResizeDetector } from 'react-resize-detector';
 import { Scatter, ScatterChart } from 'recharts';
 import useBrush, { BRUSH_DIRECTIONS } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
@@ -10,7 +11,9 @@ import {
   getData,
   getMargin,
   getSeriesStrokeColor,
+  getXAxis,
   getXAxisDataKey,
+  getXAxisInterval,
   getYAxisDataKey,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
@@ -44,8 +47,12 @@ function ScatterPlot({
     yAxisFormat,
   });
 
+  const { width, ref } = useResizeDetector();
+  const xAxisConfig = getXAxis(plotConfig);
+  const xAxisInterval = getXAxisInterval(plotConfig, width);
+
   return (
-    <PlotContainer>
+    <PlotContainer ref={ref}>
       <ScatterChart margin={margin} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
@@ -55,6 +62,7 @@ function ScatterPlot({
           tooltipHandlers,
           tooltip,
           isFollowUpDisabled,
+          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
         })}
         <Scatter data={data} fill={seriesStrokeColor} />
       </ScatterChart>

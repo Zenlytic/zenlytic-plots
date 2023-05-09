@@ -7,10 +7,19 @@ import {
   DEFAULT_AXIS_COLOR,
   DEFAULT_LABEL_PROPS,
   DEFAULT_TICK_PROPS,
-  DEFAULT_Y_AXIS_WIDTH,
 } from '../../../constants/plotConstants';
 
-const YAxis = ({ type, dataKey, name, tickFormatter, orientation, yAxisId, domain }) => {
+const YAxis = ({
+  type,
+  dataKey,
+  name,
+  tickFormatter,
+  orientation,
+  yAxisId,
+  domain,
+  width,
+  interval = 'preserveEnd',
+}) => {
   return (
     <RechartsYAxis
       dataKey={dataKey}
@@ -18,11 +27,12 @@ const YAxis = ({ type, dataKey, name, tickFormatter, orientation, yAxisId, domai
       name={name}
       type={type}
       stroke={DEFAULT_AXIS_COLOR}
-      width={orientation === 'right' ? DEFAULT_Y_AXIS_WIDTH : DEFAULT_Y_AXIS_WIDTH}
+      width={width}
       tick={DEFAULT_TICK_PROPS}
       orientation={orientation}
       domain={domain}
       allowDataOverflow={true}
+      interval={interval}
       yAxisId={yAxisId}>
       <Label
         {...DEFAULT_LABEL_PROPS}

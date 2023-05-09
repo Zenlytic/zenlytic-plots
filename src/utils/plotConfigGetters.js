@@ -4,6 +4,7 @@ import {
   AXIS_DATA_KEY_KEYS,
   DATA_CHANGE_TYPES,
   DEFAULT_PLOT_MARGIN,
+  DEFAULT_Y_AXIS_WIDTH,
   GROUPED_BAR_DISPLAY_TYPES,
   PLOT_TYPES,
 } from '../constants/plotConstants';
@@ -41,6 +42,12 @@ export const getSeriesShowDataAnnotations = (plotConfig) => {
   const series = getSeries(plotConfig);
   const { showDataAnnotations = false } = series;
   return showDataAnnotations;
+};
+
+export const getSeriesRotateXAxis = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  const { rotateXAxis = false } = series;
+  return rotateXAxis;
 };
 
 export const getSeriesHiddenColumns = (plotConfig) => {
@@ -106,6 +113,42 @@ export const getIsDataPivoted = (plotConfig) => {
   return !isEmpty(categoryAxis);
 };
 
+export const getRawData = (plotConfig) => {
+  const { data = [] } = plotConfig;
+  return data;
+};
+
+// We use this to show all of the points if possible.
+// If we can't show everything, then we just let Recharts to it.
+export const getXAxisInterval = (plotConfig, width) => {
+  const isDataPivoted = getIsDataPivoted(plotConfig);
+  const rotateXAxis = getSeriesRotateXAxis(plotConfig);
+  if (isDataPivoted || !rotateXAxis) {
+    return 'preserveEnd';
+  }
+  if (width) {
+    const data = getRawData(plotConfig);
+    const dataLength = data.length;
+    return width - dataLength * 14 > 0 ? 0 : 'preserveEnd';
+  }
+  return 'preserveEnd';
+};
+
+// We use this to show all of the points if possible.
+// If we can't show everything, then we just let Recharts to it.
+export const getYAxisInterval = (plotConfig, height) => {
+  const isDataPivoted = getIsDataPivoted(plotConfig);
+  if (isDataPivoted) {
+    return 'preserveEnd';
+  }
+  if (height) {
+    const data = getRawData(plotConfig);
+    const dataLength = data.length;
+    return height - dataLength * 14 > 0 ? 0 : 'preserveEnd';
+  }
+  return 'preserveEnd';
+};
+
 export const getXAxis = (plotConfig) => {
   const xAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.X_AXIS_DATA_KEY_KEY);
   const seriesType = getSeriesType(plotConfig);
@@ -113,11 +156,15 @@ export const getXAxis = (plotConfig) => {
   const { dataType, name, dataKey, format } = xAxis || {};
   const isDataPivoted = getIsDataPivoted(plotConfig);
   const tickFormatter = getFormatter(format);
+  const rotateXAxis = getSeriesRotateXAxis(plotConfig);
+  const interval = getXAxisInterval(plotConfig);
   return {
     type: dataType,
     name,
     dataKey,
     tickFormatter,
+    rotateXAxis,
+    interval,
     allowDuplicatedCategory:
       [PLOT_TYPES.FUNNEL_BAR, PLOT_TYPES.GROUPED_BAR].includes(seriesType) || !isDataPivoted,
   };
@@ -182,6 +229,7 @@ export const getYAxis = (plotConfig) => {
   if (!yAxis) return { domain };
   const { dataType, name, dataKey, format } = yAxis || {};
   const isSplitAxes = getIsSplitAxes(plotConfig);
+  const useWideYAxis = getSeriesType(plotConfig) === PLOT_TYPES.HORIZONTAL_BAR;
   const tickFormatter = getFormatter(format);
   return {
     type: dataType,
@@ -191,6 +239,7 @@ export const getYAxis = (plotConfig) => {
     yAxisId: isSplitAxes ? 'left' : undefined,
     orientation: isSplitAxes ? 'left' : undefined,
     domain,
+    width: useWideYAxis ? 200 : DEFAULT_Y_AXIS_WIDTH,
   };
 };
 
@@ -553,12 +602,47 @@ export const getBarSpecificData = (plotConfig, data) => {
   return processedData;
 };
 
+export const getHorizontalBarSpecificData = (plotConfig, data) => {
+  const activeIds = getSeriesActiveIds(plotConfig);
+
+  let processedData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
+
+  // Give each bar a unique id if it doesnt have one
+  processedData = processedData.map((d) => {
+    return { ...d, id: d ?? d[getXAxisDataKey(plotConfig)] };
+  });
+
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+
+  const getParsedNumber = (value) => Number.parseInt(value, 10);
+
+  const getIsNumeric = (value) => !Number.isNaN(getParsedNumber(value));
+
+  const getIsDatumNumeric = (datum) => getIsNumeric(datum[xAxisDataKey]);
+
+  const isNumericallySortable = data.every(getIsDatumNumeric);
+
+  const sortByNumber = (firstDatum, secondDatum) => {
+    const firstDatumNumeric = getParsedNumber(firstDatum[xAxisDataKey]);
+    const secondDatumNumeric = getParsedNumber(secondDatum[xAxisDataKey]);
+    return firstDatumNumeric < secondDatumNumeric ? -1 : 1;
+  };
+
+  if (isNumericallySortable) {
+    processedData = processedData.sort(sortByNumber);
+  }
+
+  return processedData;
+};
+
 export const getData = (plotConfig) => {
-  const { data = [] } = plotConfig;
+  const data = getRawData(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
   switch (getSeriesType(plotConfig)) {
     case PLOT_TYPES.BAR:
       return getBarSpecificData(plotConfig, data);
+    case PLOT_TYPES.HORIZONTAL_BAR:
+      return getHorizontalBarSpecificData(plotConfig, data);
     case PLOT_TYPES.FUNNEL_BAR:
       return getFunnelSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.GROUPED_BAR:
@@ -688,4 +772,12 @@ export const getSecondYAxisDomainWithFallback = (plotConfig) => {
   const secondYAxisPlotOptions = getSecondYAxisPlotOptions(plotConfig);
   const domain = convertYAxisRangeToDomain(secondYAxisPlotOptions?.range);
   return domain;
+};
+
+export const getTooltipLabelDataKey = (plotConfig) => {
+  const seriesType = getSeriesType(plotConfig);
+  if (seriesType === PLOT_TYPES.HORIZONTAL_BAR) {
+    return getYAxisDataKey(plotConfig);
+  }
+  return getXAxisDataKey(plotConfig);
 };

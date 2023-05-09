@@ -2,7 +2,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
-
 import { BarChart, Cell, ReferenceLine } from 'recharts';
 import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
@@ -16,24 +15,29 @@ import {
   getSeriesFillColor,
   getSeriesStrokeColor,
   getXAxis,
+  getXAxisDataKey,
   getXAxisInterval,
+  getXAxisName,
   getYAxis,
-  getYAxisDataKey,
   getYAxisInterval,
-  getYAxisName,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import Bar from '../shared/bar/Bar';
+// import Bar from '../shared/bar/Bar';
 import {
-  PLOT_SECONDARY_COLORS,
-  PLOT_COLORS,
   DEFAULT_AXIS_COLOR,
+  PLOT_COLORS,
+  PLOT_SECONDARY_COLORS,
 } from '../../constants/plotConstants';
+import Bar from '../shared/bar/Bar';
 
-function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
-  const yAxisDataKey = getYAxisDataKey(plotConfig);
-  const yAxisName = getYAxisName(plotConfig);
+function HorizontalBarPlot({
+  plotConfig = {},
+  TooltipContent = false,
+  isFollowUpDisabled = false,
+}) {
+  const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const xAxisName = getXAxisName(plotConfig);
   const referenceLineValue = getReferenceLineValue(plotConfig);
 
   const data = getData(plotConfig);
@@ -52,18 +56,23 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
 
   const onPlotClick = useCallback(
     (e) => {
-      updateClickedItemId(e?.activePayload?.[0]?.payload?.id, e?.activeCoordinate);
+      {
+        updateClickedItemId(e?.activePayload?.[0]?.payload?.id, e?.activeCoordinate);
+      }
     },
     [isFollowUpMenuOpen, updateClickedItemId]
   );
 
-  const { width, ref } = useResizeDetector();
+  const { width, height, ref } = useResizeDetector();
   const xAxisConfig = getXAxis(plotConfig);
   const xAxisInterval = getXAxisInterval(plotConfig, width);
 
+  const yAxisConfig = getYAxis(plotConfig);
+  const yAxisInterval = getYAxisInterval(plotConfig, height);
+
   return (
     <PlotContainer ref={ref}>
-      <BarChart data={data} margin={margin} onClick={onPlotClick}>
+      <BarChart data={data} margin={margin} onClick={onPlotClick} layout="vertical">
         {GeneralChartComponents({
           plotConfig,
           TooltipContent,
@@ -71,11 +80,12 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           tooltip,
           isFollowUpDisabled,
           xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          yAxisConfig: { ...yAxisConfig, interval: yAxisInterval },
         })}
         {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
         {Bar({
-          dataKey: yAxisDataKey,
-          name: yAxisName,
+          dataKey: xAxisDataKey,
+          name: xAxisName,
           fill: seriesFillColor,
           stroke: seriesStrokeColor,
           strokeWidth: BAR_STROKE_WIDTH,
@@ -107,6 +117,6 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   );
 }
 
-BarPlot.propTypes = {};
+HorizontalBarPlot.propTypes = {};
 
-export default BarPlot;
+export default HorizontalBarPlot;
