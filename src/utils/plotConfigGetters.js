@@ -129,7 +129,7 @@ export const getXAxisInterval = (plotConfig, width) => {
   if (width) {
     const data = getRawData(plotConfig);
     const dataLength = data.length;
-    return width - dataLength * 12 > 0 ? 0 : 'preserveEnd';
+    return width - dataLength * 14 > 0 ? 0 : 'preserveEnd';
   }
   return 'preserveEnd';
 };
@@ -144,7 +144,7 @@ export const getYAxisInterval = (plotConfig, height) => {
   if (height) {
     const data = getRawData(plotConfig);
     const dataLength = data.length;
-    return height - dataLength * 12 > 0 ? 0 : 'preserveEnd';
+    return height - dataLength * 14 > 0 ? 0 : 'preserveEnd';
   }
   return 'preserveEnd';
 };
