@@ -118,6 +118,12 @@ function Tooltip({
 
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
+  const onCloseFollowUpMenu = () => {
+    updateIsFollowUpMenuOpen(false);
+    resetBrush();
+    updateClickedItemId(null);
+  };
+
   return (
     <RechartsTooltip
       wrapperStyle={
@@ -135,13 +141,12 @@ function Tooltip({
           yAxisDataKey={yAxisDataKeyToUse}
           categoryAxisDataKey={categoryAxisDataKey}
           isFollowUpMenuOpen={isFollowUpMenuOpenAndEnabled}
+          onCloseFollowUpMenu={onCloseFollowUpMenu}
           onOutsideClick={() => {
             if (isBrushing) {
               return;
             }
-            updateIsFollowUpMenuOpen(false);
-            resetBrush();
-            updateClickedItemId(null);
+            onCloseFollowUpMenu();
           }}
           TooltipContent={TooltipContent}
         />
