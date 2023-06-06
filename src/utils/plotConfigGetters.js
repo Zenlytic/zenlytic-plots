@@ -607,24 +607,24 @@ export const getHorizontalBarSpecificData = (plotConfig, data) => {
 
   let processedData = activeIds ? data.filter((d) => activeIds.includes(d.id)) : data;
 
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+
   // Give each bar a unique id if it doesnt have one
   processedData = processedData.map((d) => {
-    return { ...d, id: d ?? d[getXAxisDataKey(plotConfig)] };
+    return { ...d, id: d ?? d[yAxisDataKey] };
   });
-
-  const xAxisDataKey = getXAxisDataKey(plotConfig);
 
   const getParsedNumber = (value) => Number.parseInt(value, 10);
 
   const getIsNumeric = (value) => !Number.isNaN(getParsedNumber(value));
 
-  const getIsDatumNumeric = (datum) => getIsNumeric(datum[xAxisDataKey]);
+  const getIsDatumNumeric = (datum) => getIsNumeric(datum[yAxisDataKey]);
 
   const isNumericallySortable = data.every(getIsDatumNumeric);
 
   const sortByNumber = (firstDatum, secondDatum) => {
-    const firstDatumNumeric = getParsedNumber(firstDatum[xAxisDataKey]);
-    const secondDatumNumeric = getParsedNumber(secondDatum[xAxisDataKey]);
+    const firstDatumNumeric = getParsedNumber(firstDatum[yAxisDataKey]);
+    const secondDatumNumeric = getParsedNumber(secondDatum[yAxisDataKey]);
     return firstDatumNumeric < secondDatumNumeric ? -1 : 1;
   };
 
