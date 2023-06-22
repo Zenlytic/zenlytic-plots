@@ -69,7 +69,8 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   // console.log({ plotConfig, data, xAxisDataKey });
 
   const children = data.map((_, index) => {
-    return Cell({ key: `cell-${index}`, fill: PLOT_COLORS[index % PLOT_COLORS.length] });
+    const cellColor = PLOT_COLORS[index % PLOT_COLORS.length];
+    return Cell({ key: `cell-${index}`, fill: cellColor, stroke: 'transparent', strokeWidth: 5 });
   });
 
   const customLabelFormatter = (value, payload) => {
