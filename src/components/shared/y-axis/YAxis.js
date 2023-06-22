@@ -31,6 +31,8 @@ const YAxis = ({
       tick={DEFAULT_TICK_PROPS}
       orientation={orientation}
       domain={domain}
+      // TODO: NJM Consider setting this to `false` when a domain is not specified.
+      // That way it won't cut off the dots.
       allowDataOverflow={true}
       interval={interval}
       yAxisId={yAxisId}>

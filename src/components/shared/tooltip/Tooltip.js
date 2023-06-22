@@ -74,6 +74,7 @@ function Tooltip({
   plotConfig = {},
   customLabelFormatter = null,
   customValueFormatter = null,
+  customNameFormatter = null,
   brush = {},
   brushEvents = {},
   isFollowUpDisabled = false,
@@ -109,6 +110,7 @@ function Tooltip({
 
   const labelFormatter = useCallback(
     (value, payload) => {
+      // console.log('labelFormatter', { value, payload, customLabelFormatter });
       if (customLabelFormatter) {
         return customLabelFormatter(value, payload);
       }
@@ -118,6 +120,8 @@ function Tooltip({
     [plotConfig, tooltipLabelDataKey]
   );
 
+  // console.log('labelFormatter', { customLabelFormatter });
+
   const valueFormatter = useCallback(
     (value, dataKey, payload) => {
       if (customValueFormatter) {
@@ -125,6 +129,16 @@ function Tooltip({
       }
       const formatter = getTickFormatterFromDataKey(plotConfig, dataKey);
       return formatter(value);
+    },
+    [plotConfig]
+  );
+
+  const nameFormatter = useCallback(
+    ({ value, dataKey, payload }) => {
+      if (customNameFormatter) {
+        return customNameFormatter({ value, dataKey, payload });
+      }
+      return null;
     },
     [plotConfig]
   );
@@ -146,6 +160,7 @@ function Tooltip({
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}
+      nameFormatter={nameFormatter}
       allowEscapeViewBox={{ x: true, y: true }}
       content={
         <TooltipContentWithOutsideClickHandler

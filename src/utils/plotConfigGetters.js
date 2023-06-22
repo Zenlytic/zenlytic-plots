@@ -397,6 +397,23 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
   });
 };
 
+const RADIAL_PLOT_TYPES = ['donut', 'pie'];
+
+const getPlotDimensionsType = (plotConfig) => {
+  const plotType = getSeriesType(plotConfig);
+  return RADIAL_PLOT_TYPES.includes(plotType) ? 'radial' : 'cartesian';
+};
+
+export const getIsCartesianPlot = (plotConfig) => {
+  const plotDimensionsType = getPlotDimensionsType(plotConfig);
+  return plotDimensionsType === 'cartesian';
+};
+
+export const getIsRadialPlot = (plotConfig) => {
+  const plotDimensionsType = getPlotDimensionsType(plotConfig);
+  return plotDimensionsType === 'radial';
+};
+
 export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
   const plotType = getSeriesType(plotConfig);
   if (plotType === PLOT_TYPES.AREA) return flatPivotDataByDataKey(plotConfig, data, dataKey);
@@ -721,15 +738,15 @@ export const getIsSeriesStacked = (plotConfig) => {
 };
 
 const getPlotOptions = (plotConfig) => {
-  return plotConfig.plotOptions;
+  return plotConfig.plotOptions ?? {};
 };
 
 const getAreaPlotOptions = (plotConfig) => {
-  return getPlotOptions(plotConfig).area;
+  return getPlotOptions(plotConfig).area ?? {};
 };
 
 const getGroupedBarPlotOptions = (plotConfig) => {
-  return getPlotOptions(plotConfig).grouped_bar;
+  return getPlotOptions(plotConfig).grouped_bar ?? {};
 };
 
 export const getGroupedBarPlotDisplayType = (plotConfig) => {
