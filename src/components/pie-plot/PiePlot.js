@@ -78,7 +78,7 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   };
 
   const customNameFormatter = ({ value, payload, dataKey }) => {
-    console.log({ value, payload, dataKey });
+    // console.log({ value, payload, dataKey });
     return yAxisName;
   };
 

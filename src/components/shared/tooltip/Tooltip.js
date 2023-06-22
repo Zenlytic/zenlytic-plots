@@ -133,15 +133,14 @@ function Tooltip({
     [plotConfig]
   );
 
-  const nameFormatter = useCallback(
+  const memoizedCustomNameFormatter = useCallback(
     ({ value, dataKey, payload }) => {
-      if (customNameFormatter) {
-        return customNameFormatter({ value, dataKey, payload });
-      }
-      return null;
+      return customNameFormatter({ value, dataKey, payload });
     },
     [plotConfig]
   );
+
+  const nameFormatter = customNameFormatter ? memoizedCustomNameFormatter : null;
 
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
