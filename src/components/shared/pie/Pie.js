@@ -14,6 +14,7 @@ export default function Pie({
   label,
   paddingAngle,
   children,
+  onClick,
 }) {
   const labelLine = { strokeWidth: 1, stroke: colors.gray[200] };
   return (
@@ -30,6 +31,7 @@ export default function Pie({
       label={label}
       labelLine={labelLine}
       cornerRadius={7}
+      onClick={onClick}
       paddingAngle={paddingAngle}>
       {children}
     </RechartsPie>

@@ -90,6 +90,7 @@ export const getGetPercentageValue =
 export const updateClickedItemIdToPayloadItemId =
   ({ updateClickedItemId, xAxisDataKey }) =>
   (event) => {
+    console.log(event);
     updateClickedItemId(
       event?.activePayload?.[0]?.payload?.[xAxisDataKey],
       event?.activeCoordinate

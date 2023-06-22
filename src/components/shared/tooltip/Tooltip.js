@@ -147,12 +147,20 @@ function Tooltip({
     updateClickedItemId(null);
   };
 
+  const [currentTooltipCoords, setCurrentTooltipCoords] = useState(tooltipCoords);
+
+  useEffect(() => {
+    if (!Object.is(tooltipCoords, currentTooltipCoords) && !isFollowUpMenuOpenAndEnabled) {
+      setCurrentTooltipCoords(tooltipCoords);
+    }
+  }, [tooltipCoords]);
+
   return (
     <RechartsTooltip
       wrapperStyle={
         isFollowUpMenuOpenAndEnabled ? { visibility: 'visible', zIndex: 10000 } : { zIndex: 10000 }
       }
-      position={isFollowUpMenuOpenAndEnabled ? tooltipCoords : undefined}
+      position={isFollowUpMenuOpenAndEnabled ? currentTooltipCoords : undefined}
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}

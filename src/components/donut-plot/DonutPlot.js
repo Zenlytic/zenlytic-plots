@@ -50,9 +50,13 @@ function DonutPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled
 
   const label = getLabel({ yAxisFormatter, getPercentageValue });
 
+  const onPieClick = (event) => {
+    updateClickedItemId(event.name, event.activeCoordinate);
+  };
+
   return (
     <PlotContainer>
-      <PieChart margin={margin} onClick={onPlotClick}>
+      <PieChart margin={margin}>
         {GeneralChartComponents({
           plotConfig,
           TooltipContent,
@@ -69,8 +73,9 @@ function DonutPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled
           data,
           children,
           label,
-          innerRadius: '85%',
-          outerRadius: '100%',
+          innerRadius: '75%',
+          outerRadius: '90%',
+          onClick: onPieClick,
         })}
       </PieChart>
     </PlotContainer>

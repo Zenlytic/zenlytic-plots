@@ -35,11 +35,6 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
 
-  const onPlotClick = useCallback(
-    updateClickedItemIdToPayloadItemId({ updateClickedItemId, xAxisDataKey }),
-    [isFollowUpMenuOpen, updateClickedItemId, xAxisDataKey]
-  );
-
   const children = getChildren({ plotConfig, clickedItemId, hoveredItemId, updateHoveredItemId });
 
   const customNameFormatter = getCustomNameFormatter({ plotConfig });
@@ -50,9 +45,13 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
 
   const label = getLabel({ yAxisFormatter, getPercentageValue });
 
+  const onPieClick = (event) => {
+    updateClickedItemId(event.name, event.activeCoordinate);
+  };
+
   return (
     <PlotContainer>
-      <PieChart margin={margin} onClick={onPlotClick}>
+      <PieChart margin={margin}>
         {GeneralChartComponents({
           plotConfig,
           TooltipContent,
@@ -69,6 +68,7 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           data,
           children,
           label,
+          onClick: onPieClick,
         })}
       </PieChart>
     </PlotContainer>
