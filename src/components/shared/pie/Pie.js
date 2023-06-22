@@ -1,10 +1,10 @@
 import React from 'react';
 import { Pie as RechartsPie } from 'recharts';
+import colors from '../../../constants/colors';
 
 export default function Pie({
   dataKey,
   nameKey,
-  isAnimationActive,
   data,
   cx,
   cy,
@@ -15,11 +15,12 @@ export default function Pie({
   paddingAngle,
   children,
 }) {
+  const labelLine = { strokeWidth: 1, stroke: colors.gray[200] };
   return (
     <RechartsPie
       dataKey={dataKey}
       nameKey={nameKey}
-      isAnimationActive={isAnimationActive}
+      isAnimationActive={false}
       data={data}
       cx={cx}
       cy={cy}
@@ -27,6 +28,8 @@ export default function Pie({
       outerRadius={outerRadius}
       fill={fill}
       label={label}
+      labelLine={labelLine}
+      cornerRadius={7}
       paddingAngle={paddingAngle}>
       {children}
     </RechartsPie>

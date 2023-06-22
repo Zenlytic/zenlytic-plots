@@ -22,6 +22,7 @@ import {
   getYAxisDataKey,
   getYAxisInterval,
   getYAxisName,
+  getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -33,6 +34,38 @@ import {
 } from '../../constants/plotConstants';
 import Pie from '../shared/pie/Pie';
 import Cell from '../shared/cell/Cell';
+import colors from '../../constants/colors';
+import fontSizes from '../../constants/fontSizes';
+
+const RADIAN = Math.PI / 180;
+
+const getLabel =
+  ({ yAxisFormatter, getPercentageValue }) =>
+  (props) => {
+    const { value, cx, cy, innerRadius, outerRadius, midAngle } = props;
+    const formattedValue = yAxisFormatter(value);
+    const radius = (innerRadius + (outerRadius - innerRadius)) * 1.2;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    const percentageValue = getPercentageValue(value);
+    const formattedPercentageValue = `(${(percentageValue * 100).toFixed(1)}%)`;
+    const dy = '16px';
+    return (
+      <text
+        dominantBaseline="central"
+        textAnchor={x > cx ? 'start' : 'end'}
+        x={x}
+        y={y}
+        stroke="none">
+        <tspan fill={colors.gray[500]} x={x} dy={`-${dy}`} fontSize={fontSizes.xs}>
+          {formattedValue}
+        </tspan>
+        <tspan fill={colors.gray[300]} x={x} dy={dy} fontSize={fontSizes['2xs']}>
+          {formattedPercentageValue}
+        </tspan>
+      </text>
+    );
+  };
 
 function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
@@ -55,38 +88,52 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
 
   const onPlotClick = useCallback(
     (e) => {
-      updateClickedItemId(e?.activePayload?.[0]?.payload?.id, e?.activeCoordinate);
+      updateClickedItemId(e?.activePayload?.[0]?.payload?.[xAxisDataKey], e?.activeCoordinate);
     },
     [isFollowUpMenuOpen, updateClickedItemId]
   );
 
-  const { width, ref } = useResizeDetector();
-  const xAxisConfig = getXAxis(plotConfig);
-  const xAxisInterval = getXAxisInterval(plotConfig, width);
-
   const xAxisDataKey = getXAxisDataKey(plotConfig);
 
-  // console.log({ plotConfig, data, xAxisDataKey });
-
-  const children = data.map((_, index) => {
+  const children = data.map((entry, index) => {
     const cellColor = PLOT_COLORS[index % PLOT_COLORS.length];
-    return Cell({ key: `cell-${index}`, fill: cellColor, stroke: 'transparent', strokeWidth: 5 });
+    const id = entry[xAxisDataKey];
+    const onMouseOver = () => updateHoveredItemId(id);
+    const onMouseLeave = () => updateHoveredItemId(null);
+    const fillOpacity = getItemOpacity({ id, clickedItemId, hoveredItemId });
+    return Cell({
+      key: `cell-${index}`,
+      onMouseOver,
+      onMouseLeave,
+      fill: cellColor,
+      stroke: 'transparent',
+      strokeWidth: 5,
+      fillOpacity,
+      id,
+    });
   });
 
   const customLabelFormatter = (value, payload) => {
-    // console.log('PiePlotz', { value, payload });
     return payload[0]?.name;
   };
 
   const customNameFormatter = ({ value, payload, dataKey }) => {
-    // console.log({ value, payload, dataKey });
     return yAxisName;
   };
 
-  // const customLabelFormatter = null;
+  const yAxisFormatter = getYAxisTickFormatter(plotConfig);
+
+  const totalValue = data.reduce((agg, cur) => {
+    agg += cur[yAxisDataKey];
+    return agg;
+  }, 0);
+  const getPercentageValue = (value) => {
+    return value / totalValue;
+  };
+  const label = getLabel({ yAxisFormatter, getPercentageValue });
 
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <PieChart margin={margin} onClick={onPlotClick}>
         {GeneralChartComponents({
           plotConfig,
@@ -101,9 +148,9 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
         {Pie({
           dataKey: yAxisDataKey,
           nameKey: xAxisDataKey,
-          isAnimationActive: false,
           data,
           children,
+          label,
         })}
       </PieChart>
     </PlotContainer>

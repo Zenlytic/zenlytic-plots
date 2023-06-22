@@ -110,7 +110,6 @@ function Tooltip({
 
   const labelFormatter = useCallback(
     (value, payload) => {
-      // console.log('labelFormatter', { value, payload, customLabelFormatter });
       if (customLabelFormatter) {
         return customLabelFormatter(value, payload);
       }
@@ -119,8 +118,6 @@ function Tooltip({
     },
     [plotConfig, tooltipLabelDataKey]
   );
-
-  // console.log('labelFormatter', { customLabelFormatter });
 
   const valueFormatter = useCallback(
     (value, dataKey, payload) => {
