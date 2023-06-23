@@ -45,6 +45,9 @@ export const getLabel =
 export const getChildren = ({ plotConfig, clickedItemId, hoveredItemId, updateHoveredItemId }) => {
   const data = getData(plotConfig);
   const xAxisDataKey = getXAxisDataKey(plotConfig);
+  const isSingleCategory = Array.isArray(data) && data.length === 1;
+  // Hide stroke when there is only a single datum.
+  const stroke = isSingleCategory ? 'transparent' : 'white';
   return data.map((entry, index) => {
     const cellColor = PLOT_COLORS[index % PLOT_COLORS.length];
     const id = entry[xAxisDataKey];
@@ -56,7 +59,7 @@ export const getChildren = ({ plotConfig, clickedItemId, hoveredItemId, updateHo
       onMouseOver,
       onMouseLeave,
       fill: cellColor,
-      stroke: 'white',
+      stroke,
       strokeWidth: 6,
       fillOpacity,
       id,
