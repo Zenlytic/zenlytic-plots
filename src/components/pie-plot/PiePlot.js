@@ -15,7 +15,7 @@ import GeneralChartComponents from '../general-chart-components/GeneralChartComp
 import PlotContainer from '../plot-container/PlotContainer';
 import Pie from '../shared/pie/Pie';
 import {
-  customLabelFormatter,
+  getCustomLabelFormatter,
   getChildren,
   getCustomNameFormatter,
   getGetPercentageValue,
@@ -46,6 +46,8 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   const onPieClick = (event) => {
     updateClickedItemId(event.name, event.activeCoordinate);
   };
+
+  const customLabelFormatter = getCustomLabelFormatter({ plotConfig });
 
   return (
     <PlotContainer>

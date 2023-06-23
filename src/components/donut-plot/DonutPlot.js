@@ -13,7 +13,7 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import {
-  customLabelFormatter,
+  getCustomLabelFormatter,
   getChildren,
   getCustomNameFormatter,
   getGetPercentageValue,
@@ -46,6 +46,8 @@ function DonutPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled
   const onPieClick = (event) => {
     updateClickedItemId(event.name, event.activeCoordinate);
   };
+
+  const customLabelFormatter = getCustomLabelFormatter({ plotConfig });
 
   return (
     <PlotContainer>

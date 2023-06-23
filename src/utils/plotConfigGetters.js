@@ -88,6 +88,25 @@ export const getTickFormatterFromDataKey = (plotConfig, dataKey) => {
   return getFormatter(axisFormat);
 };
 
+const getRadialPlotLegendItemFormatter = (plotConfig) => {
+  const tooltipLabelDataKey = getTooltipLabelDataKey(plotConfig);
+
+  const formatter = getTickFormatterFromDataKey(plotConfig, tooltipLabelDataKey);
+  return formatter;
+};
+
+export const getLegendItemFormatter = (plotConfig) => {
+  const plotType = getSeriesType(plotConfig);
+  const defaultFormatter = (value) => value;
+  switch (plotType) {
+    case PLOT_TYPES.DONUT:
+    case PLOT_TYPES.PIE:
+      return getRadialPlotLegendItemFormatter(plotConfig);
+    default:
+      return defaultFormatter;
+  }
+};
+
 const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
   const axisDataKey = getSeriesKeyValue(plotConfig, axisDataKeyKey);
   return getAxisFromDataKey(plotConfig, axisDataKey);
@@ -661,7 +680,6 @@ const getRadialSpecificData = (plotConfig, data) => {
     const secondValue = secondDatum[yAxisDataKey];
     return firstValue < secondValue ? -1 : 1;
   });
-  console.log({ formattedData });
   return formattedData;
 };
 

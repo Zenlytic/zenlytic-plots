@@ -2,6 +2,8 @@ import React from 'react';
 import { PLOT_COLORS } from '../../constants/plotConstants';
 import {
   getData,
+  getTickFormatterFromDataKey,
+  getTooltipLabelDataKey,
   getXAxisDataKey,
   getYAxisDataKey,
   getYAxisName,
@@ -67,9 +69,15 @@ export const getChildren = ({ plotConfig, clickedItemId, hoveredItemId, updateHo
   });
 };
 
-export const customLabelFormatter = (value, payload) => {
-  return payload[0]?.name;
-};
+export const getCustomLabelFormatter =
+  ({ plotConfig }) =>
+  (value, payload) => {
+    const tooltipLabelDataKey = getTooltipLabelDataKey(plotConfig);
+    const formatter = getTickFormatterFromDataKey(plotConfig, tooltipLabelDataKey);
+    const rawName = payload[0]?.name;
+    const formattedName = formatter(rawName);
+    return formattedName;
+  };
 
 export const getCustomNameFormatter =
   ({ plotConfig }) =>

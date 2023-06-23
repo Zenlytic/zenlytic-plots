@@ -41,7 +41,6 @@ function GeneralChartComponents({
   isSplitAxes = false,
 }) {
   const isCartesianPlot = getIsCartesianPlot(plotConfig);
-  const isRadialPlot = getIsRadialPlot(plotConfig);
 
   return (
     <>
@@ -53,6 +52,7 @@ function GeneralChartComponents({
       {useLegend &&
         ZenlyticLegend({
           margin,
+          plotConfig,
           ...legendConfig,
         })}
       {isCartesianPlot &&
