@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useCallback } from 'react';
+import React from 'react';
 
 import { PieChart } from 'recharts';
 import useTooltip from '../../hooks/useTooltip';
@@ -20,7 +20,6 @@ import {
   getCustomNameFormatter,
   getGetPercentageValue,
   getLabel,
-  updateClickedItemIdToPayloadItemId,
 } from './utils';
 
 function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
@@ -30,7 +29,6 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   const margin = getMargin(plotConfig);
 
   const [tooltip, tooltipHandlers] = useTooltip();
-  const { isFollowUpMenuOpen } = tooltip;
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};

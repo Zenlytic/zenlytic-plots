@@ -6,6 +6,7 @@ export default function Cell({
   id,
   fill,
   strokeWidth,
+  stroke,
   fillOpacity,
   onMouseOver,
   onMouseLeave,
@@ -16,6 +17,7 @@ export default function Cell({
       fill={fill}
       id={id}
       strokeWidth={strokeWidth}
+      stroke={stroke}
       fillOpacity={fillOpacity}
       onMouseOver={onMouseOver}
       onMouseLeave={onMouseLeave}

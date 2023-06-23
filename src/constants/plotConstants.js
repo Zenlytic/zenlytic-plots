@@ -65,6 +65,8 @@ export const PLOT_TYPES = {
   STAT: 'stat_plot',
   TABLE_ONLY: 'table_only',
   WATERFALL: 'waterfall',
+  DONUT: 'donut',
+  PIE: 'pie',
 };
 
 export const COLOR_SUCCESS = colors.green[600];

@@ -652,6 +652,19 @@ export const getHorizontalBarSpecificData = (plotConfig, data) => {
   return processedData;
 };
 
+const getRadialSpecificData = (plotConfig, data) => {
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+  // We draw the smallest pieces first. This prevents a visual bug
+  // where sometimes small pieces could intersect bigger pieces.
+  const formattedData = [...data].sort((firstDatum, secondDatum) => {
+    const firstValue = firstDatum[yAxisDataKey];
+    const secondValue = secondDatum[yAxisDataKey];
+    return firstValue < secondValue ? -1 : 1;
+  });
+  console.log({ formattedData });
+  return formattedData;
+};
+
 export const getData = (plotConfig) => {
   const data = getRawData(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
@@ -668,6 +681,9 @@ export const getData = (plotConfig) => {
       return getMultilineSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.WATERFALL:
       return getWaterfallSpecificData(plotConfig, data, isDataPivoted);
+    case PLOT_TYPES.DONUT:
+    case PLOT_TYPES.PIE:
+      return getRadialSpecificData(plotConfig, data, isDataPivoted);
     default:
       return isDataPivoted ? getPivotedData(plotConfig, data) : data;
   }

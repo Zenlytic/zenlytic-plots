@@ -56,8 +56,8 @@ export const getChildren = ({ plotConfig, clickedItemId, hoveredItemId, updateHo
       onMouseOver,
       onMouseLeave,
       fill: cellColor,
-      stroke: 'transparent',
-      strokeWidth: 5,
+      stroke: 'white',
+      strokeWidth: 6,
       fillOpacity,
       id,
     });
@@ -90,7 +90,6 @@ export const getGetPercentageValue =
 export const updateClickedItemIdToPayloadItemId =
   ({ updateClickedItemId, xAxisDataKey }) =>
   (event) => {
-    console.log(event);
     updateClickedItemId(
       event?.activePayload?.[0]?.payload?.[xAxisDataKey],
       event?.activeCoordinate
