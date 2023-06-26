@@ -416,7 +416,7 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
   });
 };
 
-const RADIAL_PLOT_TYPES = ['donut', 'pie'];
+const RADIAL_PLOT_TYPES = [PLOT_TYPES.DONUT, PLOT_TYPES.PIE];
 
 const getPlotDimensionsType = (plotConfig) => {
   const plotType = getSeriesType(plotConfig);

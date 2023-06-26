@@ -1,12 +1,8 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Line as RechartsLine } from 'recharts';
 import DataAnnotation from '../data-annotation/DataAnnotation';
-
-const getRenderDot = ({ fill, stroke }) => {
-  return;
-};
 
 export default function Line({
   type,
@@ -26,23 +22,6 @@ export default function Line({
   const label = showDataAnnotations ? (
     <DataAnnotation valueFormatter={valueFormatter} />
   ) : undefined;
-
-  const renderDot = ({ cx, cy }) => (
-    <circle r="3" stroke="white" fill={stroke} strokeWidth="1" cx={cx} cy={cy} />
-  );
-
-  const renderActiveDot = ({ cx, cy }) => (
-    <circle r="4" stroke="white" fill={stroke} strokeWidth="2" cx={cx} cy={cy} />
-  );
-
-  const dotProps =
-    dot === true
-      ? {
-          dot: renderDot,
-          activeDot: renderActiveDot,
-        }
-      : { dot: false };
-
   return (
     <RechartsLine
       type={type}
@@ -51,12 +30,12 @@ export default function Line({
       key={key}
       fill={fill}
       stroke={stroke}
+      dot={dot}
       strokeWidth={strokeWidth}
       isAnimationActive={isAnimationActive}
       label={label}
       data={data}
       yAxisId={yAxisId}
-      {...dotProps}
     />
   );
 }
