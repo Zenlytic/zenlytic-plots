@@ -15,6 +15,13 @@ import {
   getStatDatumByDataKey,
   getSubStatAxis,
   getTickFormatterFromDataKey,
+  getStatPlotPrimaryNumberType,
+  getStatPlotShowCurrentPeriod,
+  getStatPlotShowPreviousPeriod,
+  getStatPlotShowAbsoluteDifference,
+  getStatPlotShowPercentageChange,
+  getStatPlotShowDataChangeDirectionColor,
+  getStatPlotTextSize,
 } from '../../utils/plotConfigGetters';
 
 function StatPlot({ plotConfig = {} }) {
@@ -22,6 +29,27 @@ function StatPlot({ plotConfig = {} }) {
   const doesSubStatDataExist = getDoesSubStatDataExist(plotConfig);
   const numMetrics = statDataKeys.length;
   const showBorder = numMetrics !== 1;
+
+  const primaryNumberType = getStatPlotPrimaryNumberType(plotConfig);
+
+  const showCurrentPeriod = getStatPlotShowCurrentPeriod(plotConfig);
+  const showPreviousPeriod = getStatPlotShowPreviousPeriod(plotConfig);
+  const showAbsoluteDifference = getStatPlotShowAbsoluteDifference(plotConfig);
+  const showPercentageChange = getStatPlotShowPercentageChange(plotConfig);
+
+  const showDataChangeDirectionColor = getStatPlotShowDataChangeDirectionColor(plotConfig);
+  const textSize = getStatPlotTextSize(plotConfig);
+
+  console.log({
+    primaryNumberType,
+    showCurrentPeriod,
+    showPreviousPeriod,
+    showAbsoluteDifference,
+    showPercentageChange,
+    showDataChangeDirectionColor,
+    textSize,
+    plotConfig,
+  });
 
   return (
     <StatsList numMetrics={numMetrics}>

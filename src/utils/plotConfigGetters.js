@@ -7,6 +7,8 @@ import {
   DEFAULT_Y_AXIS_WIDTH,
   GROUPED_BAR_DISPLAY_TYPES,
   PLOT_TYPES,
+  PRIMARY_NUMBER_KEYS,
+  TEXT_SIZE_TYPES,
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
@@ -745,6 +747,45 @@ export const getAreaPlotDataChangeType = (plotConfig) => {
 export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
   return areaPlotOptions?.dataAnnotationsChangeType ?? DATA_CHANGE_TYPES.ABSOLUTE;
+};
+
+const getStatPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig)[PLOT_TYPES.STAT];
+};
+
+export const getStatPlotPrimaryNumberType = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.primaryNumberType ?? PRIMARY_NUMBER_KEYS.CURRENT_PERIOD;
+};
+
+export const getStatPlotShowCurrentPeriod = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.showCurrentPeriod ?? true;
+};
+
+export const getStatPlotShowPreviousPeriod = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.showPreviousPeriod ?? false;
+};
+
+export const getStatPlotShowAbsoluteDifference = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.showAbsoluteDifference ?? false;
+};
+
+export const getStatPlotShowPercentageChange = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.showPercentageChange ?? false;
+};
+
+export const getStatPlotShowDataChangeDirectionColor = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.showDataChangeDirectionColor ?? false;
+};
+
+export const getStatPlotTextSize = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.textSize ?? TEXT_SIZE_TYPES.DYNAMIC;
 };
 
 export const sortBySeriesName = (firstSeries, secondSeries) =>
