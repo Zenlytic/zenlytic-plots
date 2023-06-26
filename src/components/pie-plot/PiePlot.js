@@ -22,7 +22,12 @@ import {
   getLabel,
 } from './utils';
 
-function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
+function PiePlot({
+  plotConfig = {},
+  TooltipContent = false,
+  isFollowUpDisabled = false,
+  useDonutSlices = false,
+}) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const data = getData(plotConfig);
@@ -49,6 +54,13 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
 
   const customLabelFormatter = getCustomLabelFormatter({ plotConfig });
 
+  const radiiProps = useDonutSlices
+    ? {
+        innerRadius: '75%',
+        outerRadius: '90%',
+      }
+    : {};
+
   return (
     <PlotContainer>
       <PieChart margin={margin}>
@@ -69,6 +81,7 @@ function PiePlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           children,
           label,
           onClick: onPieClick,
+          ...radiiProps,
         })}
       </PieChart>
     </PlotContainer>
