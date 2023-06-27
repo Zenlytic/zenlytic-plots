@@ -40,17 +40,6 @@ function StatPlot({ plotConfig = {} }) {
   const showDataChangeDirectionColor = getStatPlotShowDataChangeDirectionColor(plotConfig);
   const textSize = getStatPlotTextSize(plotConfig);
 
-  console.log({
-    primaryNumberType,
-    showCurrentPeriod,
-    showPreviousPeriod,
-    showAbsoluteDifference,
-    showPercentageChange,
-    showDataChangeDirectionColor,
-    textSize,
-    plotConfig,
-  });
-
   return (
     <StatsList numMetrics={numMetrics}>
       {statDataKeys.map((statDataKey) => {
