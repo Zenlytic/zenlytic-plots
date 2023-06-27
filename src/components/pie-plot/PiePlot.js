@@ -7,6 +7,7 @@ import useTooltip from '../../hooks/useTooltip';
 import {
   getData,
   getMargin,
+  getRadialPlotDisplayType,
   getXAxisDataKey,
   getYAxisDataKey,
   getYAxisTickFormatter,
@@ -21,6 +22,7 @@ import {
   getGetPercentageValue,
   getLabel,
 } from './utils';
+import { RADIAL_PLOT_DISPLAY_TYPES } from '../../constants/plotConstants';
 
 function PiePlot({
   plotConfig = {},
@@ -61,6 +63,13 @@ function PiePlot({
       }
     : {};
 
+  const displayType = getRadialPlotDisplayType(plotConfig);
+
+  const cornerRadius = {
+    [RADIAL_PLOT_DISPLAY_TYPES.CONDENSED]: 0,
+    [RADIAL_PLOT_DISPLAY_TYPES.EXPANDED]: 7,
+  }[displayType];
+
   return (
     <PlotContainer>
       <PieChart margin={margin}>
@@ -81,6 +90,7 @@ function PiePlot({
           children,
           label,
           onClick: onPieClick,
+          cornerRadius,
           ...radiiProps,
         })}
       </PieChart>

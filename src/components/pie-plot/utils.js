@@ -1,7 +1,8 @@
 import React from 'react';
-import { PLOT_COLORS } from '../../constants/plotConstants';
+import { PLOT_COLORS, RADIAL_PLOT_DISPLAY_TYPES } from '../../constants/plotConstants';
 import {
   getData,
+  getRadialPlotDisplayType,
   getTickFormatterFromDataKey,
   getTooltipLabelDataKey,
   getXAxisDataKey,
@@ -50,6 +51,14 @@ export const getChildren = ({ plotConfig, clickedItemId, hoveredItemId, updateHo
   const isSingleCategory = Array.isArray(data) && data.length === 1;
   // Hide stroke when there is only a single datum.
   const stroke = isSingleCategory ? 'transparent' : 'white';
+  const displayType = getRadialPlotDisplayType(plotConfig);
+
+  const displayTypeProps = {
+    [RADIAL_PLOT_DISPLAY_TYPES.CONDENSED]: {},
+    [RADIAL_PLOT_DISPLAY_TYPES.EXPANDED]: {
+      strokeWidth: 6,
+    },
+  }[displayType];
   return data.map((entry, index) => {
     const cellColor = PLOT_COLORS[index % PLOT_COLORS.length];
     const id = entry[xAxisDataKey];
@@ -62,9 +71,9 @@ export const getChildren = ({ plotConfig, clickedItemId, hoveredItemId, updateHo
       onMouseLeave,
       fill: cellColor,
       stroke,
-      strokeWidth: 6,
       fillOpacity,
       id,
+      ...displayTypeProps,
     });
   });
 };

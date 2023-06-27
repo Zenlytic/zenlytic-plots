@@ -7,6 +7,7 @@ import {
   DEFAULT_Y_AXIS_WIDTH,
   GROUPED_BAR_DISPLAY_TYPES,
   PLOT_TYPES,
+  RADIAL_PLOT_DISPLAY_TYPES,
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
@@ -796,6 +797,15 @@ export const getAreaPlotDataChangeType = (plotConfig) => {
 export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
   return areaPlotOptions?.dataAnnotationsChangeType ?? DATA_CHANGE_TYPES.ABSOLUTE;
+};
+
+const getRadialPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig).radial;
+};
+
+export const getRadialPlotDisplayType = (plotConfig) => {
+  const radialPlotOptions = getRadialPlotOptions(plotConfig);
+  return radialPlotOptions?.displayType ?? RADIAL_PLOT_DISPLAY_TYPES.EXPANDED;
 };
 
 export const sortBySeriesName = (firstSeries, secondSeries) =>

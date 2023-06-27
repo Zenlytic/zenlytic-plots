@@ -15,6 +15,7 @@ export default function Pie({
   paddingAngle,
   children,
   onClick,
+  cornerRadius,
 }) {
   const labelLine = { strokeWidth: 1, stroke: colors.gray[200] };
   return (
@@ -30,7 +31,7 @@ export default function Pie({
       fill={fill}
       label={label}
       labelLine={labelLine}
-      cornerRadius={7}
+      cornerRadius={cornerRadius}
       onClick={onClick}
       paddingAngle={paddingAngle}>
       {children}
