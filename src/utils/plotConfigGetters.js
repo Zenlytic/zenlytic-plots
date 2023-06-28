@@ -673,7 +673,7 @@ export const getData = (plotConfig) => {
 
 export const getStatDatumByDataKey = (plotConfig, statDataKey, subStatDataKey) => {
   const data = getData(plotConfig);
-  return data.find((datum) => datum[subStatDataKey][statDataKey] !== undefined);
+  return data.find((datum) => datum[subStatDataKey]?.[statDataKey] !== undefined);
 };
 
 export const getSubStatDatumByDataKey = (plotConfig, statDataKey, subStatDataKey) => {

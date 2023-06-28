@@ -30,7 +30,7 @@ function StatPlot({ plotConfig = {} }) {
     (subStatDataKey) => subStatDataKey !== primaryNumberSubStatDataKey
   );
 
-  console.log({ primaryNumberSubStatDataKey, subStatsToShowBelowPrimaryNumber });
+  // console.log({ primaryNumberSubStatDataKey, subStatsToShowBelowPrimaryNumber });
 
   return canShowPrimaryNumber ? (
     <StatsList numMetrics={numMetrics}>
@@ -55,7 +55,7 @@ function StatPlot({ plotConfig = {} }) {
         const axisName = getAxisName(plotConfig, statDataKey);
         const showSubStats = subStatsToShowBelowPrimaryNumber.length > 0;
 
-        console.log({ showSubStats });
+        // console.log({ showSubStats });
         return (
           <Stat showBorder={showBorder} key={statDataKey}>
             <Label>{axisName}</Label>
@@ -100,7 +100,11 @@ function SubStat({ plotConfig, statDataKey, subStatDataKey }) {
     value,
     subStatDataKey,
   };
-  console.log({ formatterProps });
+  // console.log({ formatterProps });
+
+  if (subStatFormatter === undefined) {
+    return null;
+  }
   return subStatFormatter(formatterProps);
 }
 
@@ -120,17 +124,16 @@ const StatsList = styled.div`
   ${(p) => getStatGridCss(p.numMetrics)}
   gap: ${space[4]};
   height: 100%;
-  padding: ${space[4]};
 `;
 
 const Stat = styled.div`
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   border: ${(p) => (p.showBorder ? `${space.px} solid ${colors.gray[60]}` : 'none')};
   border-radius: ${radii.lg};
+  padding: ${space[3]} ${space[4]};
 `;
 
 const SubStatLabel = styled.div`
@@ -138,24 +141,26 @@ const SubStatLabel = styled.div`
   font-size: ${fontSizes['2xs']};
   font-weight: ${fontWeights.normal};
   line-height: 11px;
+  margin-top: 4px;
 `;
 
 const Label = styled.div`
-  color: ${colors.gray[500]};
-  font-weight: ${fontWeights.light};
+  color: ${colors.gray[700]};
+  font-weight: ${fontWeights.normal};
   font-size: ${fontSizes.xs};
-  line-height: ${space[10]};
 `;
 
 const Value = styled.div`
-  font-size: ${fontSizes['4xl']};
-  margin-top: ${space[1]};
+  font-size: ${fontSizes['2xl']};
+  margin-top: 8px;
   font-weight: ${fontWeights.bold};
+  color: ${colors.gray[700]};
 `;
 
 const SubStatList = styled.div`
   display: flex;
   column-gap: 16px;
+  margin-top: 16px;
 `;
 
 const EnableOneStatMessage = styled.div`
