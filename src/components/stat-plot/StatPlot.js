@@ -15,13 +15,8 @@ import {
   getStatDatumByDataKey,
   getSubStatAxis,
   getTickFormatterFromDataKey,
-  getStatPlotPrimaryNumberType,
-  getStatPlotShowCurrentPeriod,
-  getStatPlotShowPreviousPeriod,
-  getStatPlotShowAbsoluteDifference,
-  getStatPlotShowPercentageChange,
-  getStatPlotShowDataChangeDirectionColor,
-  getStatPlotTextSize,
+  getSubStatDataKeys,
+  getPrimaryNumberSubStatDataKey,
 } from '../../utils/plotConfigGetters';
 
 function StatPlot({ plotConfig = {} }) {
@@ -29,30 +24,48 @@ function StatPlot({ plotConfig = {} }) {
   const doesSubStatDataExist = getDoesSubStatDataExist(plotConfig);
   const numMetrics = statDataKeys.length;
   const showBorder = numMetrics !== 1;
+  const subStatDataKeys = getSubStatDataKeys(plotConfig);
+  const primaryNumberSubStatDataKey = getPrimaryNumberSubStatDataKey(plotConfig);
 
-  const primaryNumberType = getStatPlotPrimaryNumberType(plotConfig);
+  const subStatsToShowBelowPrimaryNumber = subStatDataKeys.filter(
+    (subStatDataKey) => subStatDataKey !== primaryNumberSubStatDataKey
+  );
 
-  const showCurrentPeriod = getStatPlotShowCurrentPeriod(plotConfig);
-  const showPreviousPeriod = getStatPlotShowPreviousPeriod(plotConfig);
-  const showAbsoluteDifference = getStatPlotShowAbsoluteDifference(plotConfig);
-  const showPercentageChange = getStatPlotShowPercentageChange(plotConfig);
-
-  const showDataChangeDirectionColor = getStatPlotShowDataChangeDirectionColor(plotConfig);
-  const textSize = getStatPlotTextSize(plotConfig);
+  console.log({ primaryNumberSubStatDataKey, subStatsToShowBelowPrimaryNumber });
 
   return (
     <StatsList numMetrics={numMetrics}>
       {statDataKeys.map((statDataKey) => {
         const tickFormatter = getTickFormatterFromDataKey(plotConfig, statDataKey);
-        const datum = getStatDatumByDataKey(plotConfig, statDataKey);
-        const value = datum?.[statDataKey];
+        const datum = getSubStatDatumByDataKey(
+          plotConfig,
+          statDataKey,
+          primaryNumberSubStatDataKey
+        );
+        const { value, formatter } = datum;
+        // TODO: NJM Rename omg
+        const finalFormatter = formatter === 'Y_AXIS' ? tickFormatter : formatter;
+        const formattedValue = finalFormatter(value);
         const axisName = getAxisName(plotConfig, statDataKey);
 
         return (
           <Stat showBorder={showBorder} key={statDataKey}>
             <Label>{axisName}</Label>
-            <Value>{tickFormatter(value) ?? '-'}</Value>
-            {doesSubStatDataExist && <SubStat statDataKey={statDataKey} plotConfig={plotConfig} />}
+            <Value>{formattedValue ?? '-'}</Value>
+            {doesSubStatDataExist && (
+              // TODO: NJM think I need to differentiate more between subStatDataKeys
+              // and subStatDataKey, like obviously pick different names
+              <SubStatList>
+                {subStatsToShowBelowPrimaryNumber.map((subStatDataKey) => (
+                  <SubStat
+                    index={subStatDataKey}
+                    subStatDataKey={subStatDataKey}
+                    statDataKey={statDataKey}
+                    plotConfig={plotConfig}
+                  />
+                ))}
+              </SubStatList>
+            )}
           </Stat>
         );
       })}
@@ -60,10 +73,18 @@ function StatPlot({ plotConfig = {} }) {
   );
 }
 
-function SubStat({ plotConfig, statDataKey }) {
+function SubStat({ plotConfig, statDataKey, subStatDataKey }) {
   const subStatAxis = getSubStatAxis(plotConfig);
-  const subStatData = getSubStatDatumByDataKey(plotConfig, statDataKey);
-  return subStatAxis.format(subStatData);
+
+  const subStatData = getSubStatDatumByDataKey(plotConfig, statDataKey, subStatDataKey);
+  // console.log({ subStatData, subStatDataKey, statDataKey });
+  const valueFormatter = getTickFormatterFromDataKey(plotConfig, statDataKey);
+  const formatterProps = {
+    ...subStatData,
+    valueFormatter,
+    subStatDataKey,
+  };
+  return subStatAxis.format(formatterProps);
 }
 
 const getStatGridCss = (numMetrics) => {
@@ -106,6 +127,11 @@ const Value = styled.div`
   font-size: ${fontSizes['4xl']};
   margin-top: ${space[1]};
   font-weight: ${fontWeights.bold};
+`;
+
+const SubStatList = styled.div`
+  display: flex;
+  column-gap: 16px;
 `;
 
 export default StatPlot;

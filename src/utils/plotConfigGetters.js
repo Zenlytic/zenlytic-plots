@@ -555,6 +555,16 @@ const getSubStatDataKey = (plotConfig) => {
   return series?.subStatDataKey;
 };
 
+export const getSubStatDataKeys = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series?.subStatDataKeys ?? [];
+};
+
+export const getPrimaryNumberSubStatDataKey = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  return series?.primaryNumberSubStatDataKey;
+};
+
 export const getStatDataKeys = (plotConfig) => {
   const series = getSeries(plotConfig);
   return series?.statDataKeys ?? [];
@@ -663,12 +673,12 @@ export const getStatDatumByDataKey = (plotConfig, dataKey) => {
   return data.find((datum) => datum[dataKey] !== undefined);
 };
 
-export const getSubStatDatumByDataKey = (plotConfig, dataKey) => {
+export const getSubStatDatumByDataKey = (plotConfig, dataKey, subStatDataKey) => {
   const datum = getStatDatumByDataKey(plotConfig, dataKey);
   if (datum === undefined) {
     return {};
   }
-  const subStatDataKey = getSubStatDataKey(plotConfig);
+
   return datum[subStatDataKey];
 };
 
