@@ -562,7 +562,11 @@ export const getSubStatDataKeys = (plotConfig) => {
 
 export const getPrimaryNumberSubStatDataKey = (plotConfig) => {
   const series = getSeries(plotConfig);
-  return series?.primaryNumberSubStatDataKey;
+  const primaryNumberSubStatDataKey = series?.primaryNumberSubStatDataKey;
+  if (primaryNumberSubStatDataKey === undefined) {
+    return PRIMARY_NUMBER_KEYS.CURRENT_PERIOD;
+  }
+  return primaryNumberSubStatDataKey;
 };
 
 export const getStatDataKeys = (plotConfig) => {
@@ -570,10 +574,9 @@ export const getStatDataKeys = (plotConfig) => {
   return series?.statDataKeys ?? [];
 };
 
-export const getSubStatAxis = (plotConfig) => {
+export const getSubStatAxis = (plotConfig, statDataKey) => {
   const axes = getAxes(plotConfig);
-  const subStatDataKey = getSubStatDataKey(plotConfig);
-  return axes.find((a) => a.dataKey === subStatDataKey);
+  return axes.find((a) => a.dataKey === statDataKey);
 };
 
 export const getDoesSubStatDataExist = (plotConfig) => {
@@ -668,13 +671,13 @@ export const getData = (plotConfig) => {
   }
 };
 
-export const getStatDatumByDataKey = (plotConfig, dataKey) => {
+export const getStatDatumByDataKey = (plotConfig, statDataKey, subStatDataKey) => {
   const data = getData(plotConfig);
-  return data.find((datum) => datum[dataKey] !== undefined);
+  return data.find((datum) => datum[subStatDataKey][statDataKey] !== undefined);
 };
 
-export const getSubStatDatumByDataKey = (plotConfig, dataKey, subStatDataKey) => {
-  const datum = getStatDatumByDataKey(plotConfig, dataKey);
+export const getSubStatDatumByDataKey = (plotConfig, statDataKey, subStatDataKey) => {
+  const datum = getStatDatumByDataKey(plotConfig, statDataKey, subStatDataKey);
   if (datum === undefined) {
     return {};
   }
@@ -733,7 +736,7 @@ export const getIsSeriesStacked = (plotConfig) => {
 };
 
 const getPlotOptions = (plotConfig) => {
-  return plotConfig.plotOptions;
+  return plotConfig.plotOptions ?? {};
 };
 
 const getAreaPlotOptions = (plotConfig) => {
@@ -765,7 +768,7 @@ const getStatPlotOptions = (plotConfig) => {
 
 export const getStatPlotPrimaryNumberType = (plotConfig) => {
   const statPlotOptions = getStatPlotOptions(plotConfig);
-  return statPlotOptions?.primaryNumberType ?? PRIMARY_NUMBER_KEYS.CURRENT_PERIOD;
+  return statPlotOptions?.primaryNumberType;
 };
 
 export const getStatPlotShowCurrentPeriod = (plotConfig) => {

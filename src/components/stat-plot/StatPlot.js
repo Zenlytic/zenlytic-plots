@@ -9,31 +9,30 @@ import radii from '../../constants/radii';
 import space from '../../constants/space';
 import {
   getAxisName,
-  getSubStatDatumByDataKey,
-  getDoesSubStatDataExist,
-  getStatDataKeys,
-  getStatDatumByDataKey,
-  getSubStatAxis,
-  getTickFormatterFromDataKey,
-  getSubStatDataKeys,
   getPrimaryNumberSubStatDataKey,
+  getSeries,
+  getStatDataKeys,
+  getSubStatAxis,
+  getSubStatDataKeys,
+  getSubStatDatumByDataKey,
+  getTickFormatterFromDataKey,
 } from '../../utils/plotConfigGetters';
 
 function StatPlot({ plotConfig = {} }) {
   const statDataKeys = getStatDataKeys(plotConfig);
-  const doesSubStatDataExist = getDoesSubStatDataExist(plotConfig);
   const numMetrics = statDataKeys.length;
   const showBorder = numMetrics !== 1;
   const subStatDataKeys = getSubStatDataKeys(plotConfig);
   const primaryNumberSubStatDataKey = getPrimaryNumberSubStatDataKey(plotConfig);
 
+  const canShowPrimaryNumber = primaryNumberSubStatDataKey !== null;
   const subStatsToShowBelowPrimaryNumber = subStatDataKeys.filter(
     (subStatDataKey) => subStatDataKey !== primaryNumberSubStatDataKey
   );
 
   console.log({ primaryNumberSubStatDataKey, subStatsToShowBelowPrimaryNumber });
 
-  return (
+  return canShowPrimaryNumber ? (
     <StatsList numMetrics={numMetrics}>
       {statDataKeys.map((statDataKey) => {
         const tickFormatter = getTickFormatterFromDataKey(plotConfig, statDataKey);
@@ -42,23 +41,33 @@ function StatPlot({ plotConfig = {} }) {
           statDataKey,
           primaryNumberSubStatDataKey
         );
-        const { value, formatter } = datum;
+        const value = datum[statDataKey];
+        const { formatter, label: subStatLabel } = datum || { label: '', formatter: () => null };
+        const percentFormatter = (value) => {
+          return `${value * 100}%`;
+        };
         // TODO: NJM Rename omg
-        const finalFormatter = formatter === 'Y_AXIS' ? tickFormatter : formatter;
+        let finalFormatter = formatter === 'Y_AXIS' ? tickFormatter : percentFormatter;
+        if (typeof finalFormatter !== 'function') {
+          finalFormatter = (value) => value;
+        }
         const formattedValue = finalFormatter(value);
         const axisName = getAxisName(plotConfig, statDataKey);
+        const showSubStats = subStatsToShowBelowPrimaryNumber.length > 0;
 
+        console.log({ showSubStats });
         return (
           <Stat showBorder={showBorder} key={statDataKey}>
             <Label>{axisName}</Label>
             <Value>{formattedValue ?? '-'}</Value>
-            {doesSubStatDataExist && (
+            <SubStatLabel>{subStatLabel}</SubStatLabel>
+            {showSubStats && (
               // TODO: NJM think I need to differentiate more between subStatDataKeys
               // and subStatDataKey, like obviously pick different names
               <SubStatList>
                 {subStatsToShowBelowPrimaryNumber.map((subStatDataKey) => (
                   <SubStat
-                    index={subStatDataKey}
+                    key={subStatDataKey}
                     subStatDataKey={subStatDataKey}
                     statDataKey={statDataKey}
                     plotConfig={plotConfig}
@@ -70,21 +79,29 @@ function StatPlot({ plotConfig = {} }) {
         );
       })}
     </StatsList>
+  ) : (
+    <EnableOneStatMessage>
+      Please enable at least one stat and select a primary number.
+    </EnableOneStatMessage>
   );
 }
 
 function SubStat({ plotConfig, statDataKey, subStatDataKey }) {
-  const subStatAxis = getSubStatAxis(plotConfig);
+  const statAxis = getSubStatAxis(plotConfig, statDataKey);
 
+  const subStatFormatter = statAxis.subStatFormatter;
   const subStatData = getSubStatDatumByDataKey(plotConfig, statDataKey, subStatDataKey);
   // console.log({ subStatData, subStatDataKey, statDataKey });
   const valueFormatter = getTickFormatterFromDataKey(plotConfig, statDataKey);
+  const value = subStatData[statDataKey];
   const formatterProps = {
     ...subStatData,
     valueFormatter,
+    value,
     subStatDataKey,
   };
-  return subStatAxis.format(formatterProps);
+  console.log({ formatterProps });
+  return subStatFormatter(formatterProps);
 }
 
 const getStatGridCss = (numMetrics) => {
@@ -116,6 +133,13 @@ const Stat = styled.div`
   border-radius: ${radii.lg};
 `;
 
+const SubStatLabel = styled.div`
+  color: ${colors.gray[300]};
+  font-size: ${fontSizes['2xs']};
+  font-weight: ${fontWeights.normal};
+  line-height: 11px;
+`;
+
 const Label = styled.div`
   color: ${colors.gray[500]};
   font-weight: ${fontWeights.light};
@@ -132,6 +156,14 @@ const Value = styled.div`
 const SubStatList = styled.div`
   display: flex;
   column-gap: 16px;
+`;
+
+const EnableOneStatMessage = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 export default StatPlot;
