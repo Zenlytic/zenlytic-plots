@@ -163,3 +163,9 @@ export const TEXT_SIZE_TYPES = {
   SMALL: 'SMALL',
   LARGE: 'LARGE',
 };
+
+export const DATA_CHANGE_DIRECTIONS = {
+  POSITIVE: 'POSITIVE',
+  NEGATIVE: 'NEGATIVE',
+  NO_CHANGE: 'NO_CHANGE',
+};

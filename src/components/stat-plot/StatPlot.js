@@ -12,11 +12,56 @@ import {
   getPrimaryNumberSubStatDataKey,
   getSeries,
   getStatDataKeys,
+  getStatPlotShowDataChangeDirectionColor,
+  getStatPlotTextSize,
   getSubStatAxis,
   getSubStatDataKeys,
   getSubStatDatumByDataKey,
   getTickFormatterFromDataKey,
 } from '../../utils/plotConfigGetters';
+import {
+  DATA_CHANGE_DIRECTIONS,
+  PRIMARY_NUMBER_KEYS,
+  TEXT_SIZE_TYPES,
+} from '../../constants/plotConstants';
+
+const directionToBorderColorMapping = {
+  [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
+  [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[60],
+  [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
+};
+
+const getBorderColor = ({ direction, showDataChangeDirectionColor }) => {
+  if (!showDataChangeDirectionColor) {
+    return colors.gray[60];
+  }
+  return directionToBorderColorMapping[direction];
+};
+
+const directionToValueColorMapping = {
+  [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
+  [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
+  [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
+};
+
+const getValueColor = ({ direction, showDataChangeDirectionColor }) => {
+  if (!showDataChangeDirectionColor) {
+    return colors.gray[700];
+  }
+  return directionToValueColorMapping[direction];
+};
+
+const getValueFontSize = ({ textSize, numMetrics }) => {
+  const smallTextSize = fontSizes['2xl'];
+  const largeTextSize = fontSizes['4xl'];
+  const dynamicTextSize = numMetrics >= 3 ? smallTextSize : largeTextSize;
+
+  return {
+    [TEXT_SIZE_TYPES.DYNAMIC]: dynamicTextSize,
+    [TEXT_SIZE_TYPES.SMALL]: smallTextSize,
+    [TEXT_SIZE_TYPES.LARGE]: largeTextSize,
+  }[textSize];
+};
 
 function StatPlot({ plotConfig = {} }) {
   const statDataKeys = getStatDataKeys(plotConfig);
@@ -24,6 +69,8 @@ function StatPlot({ plotConfig = {} }) {
   const showBorder = numMetrics !== 1;
   const subStatDataKeys = getSubStatDataKeys(plotConfig);
   const primaryNumberSubStatDataKey = getPrimaryNumberSubStatDataKey(plotConfig);
+  const showDataChangeDirectionColor = getStatPlotShowDataChangeDirectionColor(plotConfig);
+  const textSize = getStatPlotTextSize(plotConfig);
 
   const canShowPrimaryNumber = primaryNumberSubStatDataKey !== null;
   const subStatsToShowBelowPrimaryNumber = subStatDataKeys.filter(
@@ -42,9 +89,13 @@ function StatPlot({ plotConfig = {} }) {
           primaryNumberSubStatDataKey
         );
         const value = datum[statDataKey];
-        const { formatter, label: subStatLabel } = datum || { label: '', formatter: () => null };
+        const {
+          formatter,
+          label: subStatLabel,
+          direction,
+        } = datum || { label: '', formatter: () => null };
         const percentFormatter = (value) => {
-          return `${value * 100}%`;
+          return `${(value * 100).toFixed(1)}%`;
         };
         // TODO: NJM Rename omg
         let finalFormatter = formatter === 'Y_AXIS' ? tickFormatter : percentFormatter;
@@ -55,11 +106,46 @@ function StatPlot({ plotConfig = {} }) {
         const axisName = getAxisName(plotConfig, statDataKey);
         const showSubStats = subStatsToShowBelowPrimaryNumber.length > 0;
 
-        // console.log({ showSubStats });
+        const dataChangeDirectionSubDataKey = subStatDataKeys.find(
+          (dataKey) => dataKey === '__PERCENTAGE_CHANGE' || dataKey === '__ABSOLUTE_DIFFERENCE'
+        );
+
+        const dataChangeDirectionDatum =
+          dataChangeDirectionSubDataKey === undefined
+            ? {}
+            : getSubStatDatumByDataKey(plotConfig, statDataKey, dataChangeDirectionSubDataKey);
+
+        const dataChangeDirection =
+          dataChangeDirectionDatum.direction ?? DATA_CHANGE_DIRECTIONS.NO_CHANGE;
+
+        const valueColor = getValueColor({
+          showDataChangeDirectionColor,
+          direction: dataChangeDirection,
+        });
+        const borderColor = getBorderColor({
+          direction: dataChangeDirection,
+          showDataChangeDirectionColor,
+        });
+
+        const valueFontSize = getValueFontSize({ textSize, numMetrics });
+
+        console.log({
+          valueColor,
+          borderColor,
+          showDataChangeDirectionColor,
+          direction,
+          dataChangeDirection,
+          dataChangeDirectionDatum,
+          dataChangeDirectionSubDataKey,
+          subStatDataKeys,
+        });
+
         return (
-          <Stat showBorder={showBorder} key={statDataKey}>
+          <Stat showBorder={showBorder} borderColor={borderColor} key={statDataKey}>
             <Label>{axisName}</Label>
-            <Value>{formattedValue ?? '-'}</Value>
+            <Value fontSize={valueFontSize} color={valueColor}>
+              {formattedValue ?? '-'}
+            </Value>
             <SubStatLabel>{subStatLabel}</SubStatLabel>
             {showSubStats && (
               // TODO: NJM think I need to differentiate more between subStatDataKeys
@@ -131,7 +217,7 @@ const Stat = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: ${(p) => (p.showBorder ? `${space.px} solid ${colors.gray[60]}` : 'none')};
+  border: ${(p) => (p.showBorder ? `${space.px} solid ${p.borderColor}` : 'none')};
   border-radius: ${radii.lg};
   padding: ${space[3]} ${space[4]};
 `;
@@ -151,10 +237,10 @@ const Label = styled.div`
 `;
 
 const Value = styled.div`
-  font-size: ${fontSizes['2xl']};
+  font-size: ${(p) => p.fontSize};
   margin-top: 8px;
   font-weight: ${fontWeights.bold};
-  color: ${colors.gray[700]};
+  color: ${(p) => p.color};
 `;
 
 const SubStatList = styled.div`
