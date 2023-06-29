@@ -70,7 +70,7 @@ const getSeriesKeyValue = (plotConfig, axisDataKeyKey) => {
   return series[axisDataKeyKey];
 };
 
-const getAxisFromDataKey = (plotConfig, axisDataKey) => {
+export const getAxisFromDataKey = (plotConfig, axisDataKey) => {
   const axes = getAxes(plotConfig);
   return axes.find((axis) => axis.dataKey === axisDataKey);
 };
@@ -90,7 +90,7 @@ export const getTickFormatterFromDataKey = (plotConfig, dataKey) => {
   return getFormatter(axisFormat);
 };
 
-const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
+export const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
   const axisDataKey = getSeriesKeyValue(plotConfig, axisDataKeyKey);
   return getAxisFromDataKey(plotConfig, axisDataKey);
 };

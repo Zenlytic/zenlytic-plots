@@ -8,7 +8,11 @@ import fontWeights from '../../constants/fontWeights';
 import radii from '../../constants/radii';
 import space from '../../constants/space';
 import {
+  getAxisFromAxes,
+  getAxisFromDataKey,
   getAxisName,
+  getData,
+  getFormatter,
   getPrimaryNumberSubStatDataKey,
   getSeries,
   getStatDataKeys,
@@ -24,6 +28,7 @@ import {
   PRIMARY_NUMBER_KEYS,
   TEXT_SIZE_TYPES,
 } from '../../constants/plotConstants';
+import { FiArrowUpRight, FiArrowDownRight, FiArrowDown } from 'react-icons/fi';
 
 const directionToBorderColorMapping = {
   [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
@@ -64,10 +69,15 @@ const getValueFontSize = ({ textSize, numMetrics }) => {
 };
 
 function StatPlot({ plotConfig = {} }) {
+  // console.log(plotConfig);
+  const series = getSeries(plotConfig);
+  const { mainMetricDataKeys, subMetricDataKeys } = series;
+  const data = getData(plotConfig);
   const statDataKeys = getStatDataKeys(plotConfig);
-  const numMetrics = statDataKeys.length;
+  const numMetrics = data.length;
   const showBorder = numMetrics !== 1;
   const subStatDataKeys = getSubStatDataKeys(plotConfig);
+
   const primaryNumberSubStatDataKey = getPrimaryNumberSubStatDataKey(plotConfig);
   const showDataChangeDirectionColor = getStatPlotShowDataChangeDirectionColor(plotConfig);
   const textSize = getStatPlotTextSize(plotConfig);
@@ -78,45 +88,42 @@ function StatPlot({ plotConfig = {} }) {
   );
 
   // console.log({ primaryNumberSubStatDataKey, subStatsToShowBelowPrimaryNumber });
-
   return canShowPrimaryNumber ? (
     <StatsList numMetrics={numMetrics}>
-      {statDataKeys.map((statDataKey) => {
-        const tickFormatter = getTickFormatterFromDataKey(plotConfig, statDataKey);
-        const datum = getSubStatDatumByDataKey(
-          plotConfig,
-          statDataKey,
-          primaryNumberSubStatDataKey
-        );
-        const value = datum[statDataKey];
-        const {
-          formatter,
-          label: subStatLabel,
-          direction,
-        } = datum || { label: '', formatter: () => null };
-        const percentFormatter = (value) => {
-          return `${(value * 100).toFixed(1)}%`;
-        };
-        // TODO: NJM Rename omg
-        let finalFormatter = formatter === 'Y_AXIS' ? tickFormatter : percentFormatter;
-        if (typeof finalFormatter !== 'function') {
-          finalFormatter = (value) => value;
-        }
-        const formattedValue = finalFormatter(value);
-        const axisName = getAxisName(plotConfig, statDataKey);
-        const showSubStats = subStatsToShowBelowPrimaryNumber.length > 0;
+      {data.map((datum) => {
+        // const tickFormatter = getTickFormatterFromDataKey(plotConfig, datum);
+        // const datum = getSubStatDatumByDataKey(plotConfig, datum, primaryNumberSubStatDataKey);
+        // const value = datum[datum];
+        // const {
+        //   formatter,
+        //   label: subStatLabel,
+        //   direction,
+        // } = datum || { label: '', formatter: () => null };
+        // const percentFormatter = (value) => {
+        //   return `${(value * 100).toFixed(1)}%`;
+        // };
+        // // TODO: NJM Rename omg
+        // let finalFormatter = formatter === 'Y_AXIS' ? tickFormatter : percentFormatter;
+        // if (typeof finalFormatter !== 'function') {
+        //   finalFormatter = (value) => value;
+        // }
+        // const formattedValue = finalFormatter(value);
+        // const axisName = getAxisName(plotConfig, datum);
 
-        const dataChangeDirectionSubDataKey = subStatDataKeys.find(
-          (dataKey) => dataKey === '__PERCENTAGE_CHANGE' || dataKey === '__ABSOLUTE_DIFFERENCE'
-        );
+        // const dataChangeDirectionSubDataKey = subStatDataKeys.find(
+        //   (dataKey) => dataKey === '__PERCENTAGE_CHANGE' || dataKey === '__ABSOLUTE_DIFFERENCE'
+        // );
 
-        const dataChangeDirectionDatum =
-          dataChangeDirectionSubDataKey === undefined
-            ? {}
-            : getSubStatDatumByDataKey(plotConfig, statDataKey, dataChangeDirectionSubDataKey);
+        // const dataChangeDirectionDatum =
+        //   dataChangeDirectionSubDataKey === undefined
+        //     ? {}
+        //     : getSubStatDatumByDataKey(plotConfig, datum, dataChangeDirectionSubDataKey);
 
-        const dataChangeDirection =
-          dataChangeDirectionDatum.direction ?? DATA_CHANGE_DIRECTIONS.NO_CHANGE;
+        // const dataChangeDirection =
+        //   dataChangeDirectionDatum.direction ?? DATA_CHANGE_DIRECTIONS.NO_CHANGE;
+
+        // TODO: NJM take in the actual direction
+        const dataChangeDirection = DATA_CHANGE_DIRECTIONS.POSITIVE;
 
         const valueColor = getValueColor({
           showDataChangeDirectionColor,
@@ -129,36 +136,56 @@ function StatPlot({ plotConfig = {} }) {
 
         const valueFontSize = getValueFontSize({ textSize, numMetrics });
 
-        console.log({
-          valueColor,
-          borderColor,
-          showDataChangeDirectionColor,
-          direction,
-          dataChangeDirection,
-          dataChangeDirectionDatum,
-          dataChangeDirectionSubDataKey,
-          subStatDataKeys,
-        });
+        const datumEntries = Object.keys(datum);
+        const primaryNumberDatumEntry = datumEntries.find((datumEntry) =>
+          mainMetricDataKeys.includes(datumEntry)
+        );
+        const subStatDataEntries = datumEntries.filter(
+          (datumEntry) => !mainMetricDataKeys.includes(datumEntry)
+        );
+        const showSubStats = subStatDataEntries.length > 0;
+        const primaryNumberValue = datum[primaryNumberDatumEntry];
+        const axis = getAxisFromDataKey(plotConfig, primaryNumberDatumEntry);
 
+        if (axis === undefined) {
+          return null;
+        }
+        const { format, name, subName } = axis;
+        const formatValue = getFormatter(format);
+        const formattedValue = formatValue(primaryNumberValue);
+        // return null;
         return (
-          <Stat showBorder={showBorder} borderColor={borderColor} key={statDataKey}>
-            <Label>{axisName}</Label>
+          <Stat showBorder={showBorder} borderColor={borderColor} key={primaryNumberDatumEntry}>
+            <Label>{name}</Label>
             <Value fontSize={valueFontSize} color={valueColor}>
               {formattedValue ?? '-'}
             </Value>
-            <SubStatLabel>{subStatLabel}</SubStatLabel>
+            <SubStatLabel>{subName}</SubStatLabel>
             {showSubStats && (
               // TODO: NJM think I need to differentiate more between subStatDataKeys
               // and subStatDataKey, like obviously pick different names
               <SubStatList>
-                {subStatsToShowBelowPrimaryNumber.map((subStatDataKey) => (
-                  <SubStat
-                    key={subStatDataKey}
-                    subStatDataKey={subStatDataKey}
-                    statDataKey={statDataKey}
-                    plotConfig={plotConfig}
-                  />
-                ))}
+                {subStatDataEntries.map((subStatDataKey) => {
+                  const axis = getAxisFromDataKey(plotConfig, subStatDataKey);
+                  if (axis === undefined) {
+                    return null;
+                  }
+                  const { format, name, subName, direction, inverseDataChangeDirectionColors } =
+                    axis;
+                  const rawValue = datum[subStatDataKey];
+                  const subStatFormatter = getFormatter(format);
+                  const formattedValue = subStatFormatter(rawValue);
+                  return (
+                    <SubStat
+                      key={subStatDataKey}
+                      direction={direction}
+                      color="green"
+                      label={subName}
+                      formattedValue={formattedValue}
+                      inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
+                    />
+                  );
+                })}
               </SubStatList>
             )}
           </Stat>
@@ -172,26 +199,39 @@ function StatPlot({ plotConfig = {} }) {
   );
 }
 
-function SubStat({ plotConfig, statDataKey, subStatDataKey }) {
-  const statAxis = getSubStatAxis(plotConfig, statDataKey);
+function SubStat({ direction, label, formattedValue, inverseDataChangeDirectionColors }) {
+  // TODO: NJM make this passed in
+  const color = {
+    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
+    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
+    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
+  }[direction];
 
-  const subStatFormatter = statAxis.subStatFormatter;
-  const subStatData = getSubStatDatumByDataKey(plotConfig, statDataKey, subStatDataKey);
-  // console.log({ subStatData, subStatDataKey, statDataKey });
-  const valueFormatter = getTickFormatterFromDataKey(plotConfig, statDataKey);
-  const value = subStatData[statDataKey];
-  const formatterProps = {
-    ...subStatData,
-    valueFormatter,
-    value,
-    subStatDataKey,
-  };
-  // console.log({ formatterProps });
+  const inversedColor = {
+    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.green[600],
+    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
+    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.red[600],
+  }[direction];
 
-  if (subStatFormatter === undefined) {
-    return null;
-  }
-  return subStatFormatter(formatterProps);
+  const finalColor = inverseDataChangeDirectionColors ? inversedColor : color;
+
+  // TODO: NJM Make this look nice / match ComparePeriod.tsx
+  const icon = {
+    [DATA_CHANGE_DIRECTIONS.POSITIVE]: <FiArrowUpRight color={finalColor} />,
+    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: null,
+    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: <FiArrowDownRight color={finalColor} />,
+  }[direction];
+
+  return (
+    <SubStatContainer>
+      <IconValueContainer>
+        {icon}
+        <SubStatValue color={finalColor}>{formattedValue}</SubStatValue>
+      </IconValueContainer>
+      <SubStatLabel>{label}</SubStatLabel>
+    </SubStatContainer>
+  );
+  // return subStatFormatter(formatterProps);
 }
 
 const getStatGridCss = (numMetrics) => {
@@ -210,6 +250,7 @@ const StatsList = styled.div`
   ${(p) => getStatGridCss(p.numMetrics)}
   gap: ${space[4]};
   height: 100%;
+  padding: ${space[4]};
 `;
 
 const Stat = styled.div`
@@ -228,6 +269,23 @@ const SubStatLabel = styled.div`
   font-weight: ${fontWeights.normal};
   line-height: 11px;
   margin-top: 4px;
+`;
+
+const SubStatValue = styled.span`
+  color: ${(p) => p.color};
+  font-size: ${fontSizes['2xs']};
+`;
+
+const IconValueContainer = styled.div`
+  display: flex;
+  column-gap: 4px;
+`;
+
+const SubStatContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Label = styled.div`
