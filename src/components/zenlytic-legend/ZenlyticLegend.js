@@ -6,6 +6,11 @@ import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
 import space from '../../constants/space';
+import {
+  getLegendItemFormatter,
+  getTickFormatterFromDataKey,
+  getTooltipLabelDataKey,
+} from '../../utils/plotConfigGetters';
 
 const ZenlyticLegend = ({
   isServerSide = false,
@@ -14,10 +19,14 @@ const ZenlyticLegend = ({
   margin,
   iconType = undefined,
   useStrokeColorShape,
+  plotConfig,
   ...restProps
 }) => {
+  const formatter = getLegendItemFormatter(plotConfig);
+
   const legendItem = (value, entry) => {
     const strokeColor = entry?.payload?.stroke;
+    const formattedValue = formatter(value);
 
     if (useStrokeColorShape) {
       return (
@@ -36,7 +45,7 @@ const ZenlyticLegend = ({
               color: colors.gray[500],
               fontSize: fontSizes.xs,
               fontWeight: fontWeights.normal,
-            }}>{` ${value}`}</span>
+            }}>{` ${formattedValue}`}</span>
         </span>
       );
     }
@@ -47,7 +56,7 @@ const ZenlyticLegend = ({
             color: colors.gray[500],
             fontSize: fontSizes.xs,
             fontWeight: fontWeights.normal,
-          }}>{`${value}`}</span>
+          }}>{`${formattedValue}`}</span>
       </span>
     );
   };

@@ -65,6 +65,8 @@ export const PLOT_TYPES = {
   STAT: 'stat_plot',
   TABLE_ONLY: 'table_only',
   WATERFALL: 'waterfall',
+  DONUT: 'donut',
+  PIE: 'pie',
 };
 
 export const COLOR_SUCCESS = colors.green[600];
@@ -149,4 +151,9 @@ export const DATA_CHANGE_TYPE_TO_STACK_OFFSET_MAPPING = {
 export const GROUPED_BAR_DISPLAY_TYPES = {
   GROUPED: 'GROUPED',
   STACKED: 'STACKED',
+};
+
+export const RADIAL_PLOT_DISPLAY_TYPES = {
+  CONDENSED: 'CONDENSED',
+  EXPANDED: 'EXPANDED',
 };
