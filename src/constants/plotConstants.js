@@ -83,26 +83,27 @@ export const PLOT_COLOR_PALETTE = {
 };
 
 export const PLOT_COLORS = [
-  colors.dark_blue[300],
-  colors.mint[300],
-  colors.red[300],
-  colors.green[300],
-  colors.orange[300],
-  colors.pink[300],
-  colors.light_blue[300],
-  colors.yellow[300],
+  'brown',
+  '#7eb0d5',
+  '#b2e061',
+  '#bd7ebe',
+  '#ffb55a',
+  '#ffee65',
+  '#beb9db',
+  '#fdcce5',
+  '#8bd3c7',
 ];
 
-export const PLOT_SECONDARY_COLORS = [
-  colors.dark_blue[50],
-  colors.mint[50],
-  colors.red[50],
-  colors.green[50],
-  colors.orange[50],
-  colors.pink[50],
-  colors.light_blue[50],
-  colors.yellow[50],
-];
+// export const PLOT_SECONDARY_COLORS = [
+//   colors.dark_blue[50],
+//   colors.mint[50],
+//   colors.red[50],
+//   colors.green[50],
+//   colors.orange[50],
+//   colors.pink[50],
+//   colors.light_blue[50],
+//   colors.yellow[50],
+// ];
 
 export const AXIS_COLOR = '#A6A6A6';
 export const GRID_COLOR = '#F0F0F0';

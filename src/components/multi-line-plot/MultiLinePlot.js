@@ -3,7 +3,6 @@
 import React from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { LineChart } from 'recharts';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
@@ -17,6 +16,8 @@ import {
   getData,
   getIsDataPivoted,
   getMargin,
+  getPaletteColorByIndex,
+  getSecondaryPaletteColorByIndex,
   getSeriesHiddenColumns,
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
@@ -44,7 +45,7 @@ function PivotedMultiLinePlot({ plotConfig = {} }) {
       dataKey: value,
       name: nameFormatter(value),
       key: value,
-      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+      stroke: getPaletteColorByIndex(plotConfig, index),
       type: 'monotone',
       strokeWidth: 2,
       dot: true,
@@ -69,8 +70,8 @@ function NonPivotedMultiLinePlot({ plotConfig }) {
         dataKey: axis.dataKey,
         name: axis.name,
         key: axis.name,
-        fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-        stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+        fill: getSecondaryPaletteColorByIndex(plotConfig, index),
+        stroke: getPaletteColorByIndex(plotConfig, index),
         dot: true,
         strokeWidth: 2,
         isAnimationActive: false,

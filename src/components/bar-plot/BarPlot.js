@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
 import { BarChart, Cell, ReferenceLine } from 'recharts';
-import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
+import { BAR_STROKE_WIDTH, DEFAULT_AXIS_COLOR } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
 import {
@@ -12,24 +12,19 @@ import {
   getDoesSeriesHaveFillColor,
   getDoesSeriesHaveStrokeColor,
   getMargin,
+  getPaletteColorByIndex,
   getReferenceLineValue,
+  getSecondaryPaletteColorByIndex,
   getSeriesFillColor,
   getSeriesStrokeColor,
   getXAxis,
   getXAxisInterval,
-  getYAxis,
   getYAxisDataKey,
-  getYAxisInterval,
   getYAxisName,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 import Bar from '../shared/bar/Bar';
-import {
-  PLOT_SECONDARY_COLORS,
-  PLOT_COLORS,
-  DEFAULT_AXIS_COLOR,
-} from '../../constants/plotConstants';
 
 function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
@@ -88,12 +83,12 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
                 fill={
                   doesSeriesHaveFillColor
                     ? seriesFillColor
-                    : PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]
+                    : getSecondaryPaletteColorByIndex(plotConfig, index)
                 }
                 stroke={
                   doesSeriesHaveStrokeColor
                     ? seriesStrokeColor
-                    : PLOT_COLORS[index % PLOT_COLORS.length]
+                    : getPaletteColorByIndex(plotConfig, index)
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}

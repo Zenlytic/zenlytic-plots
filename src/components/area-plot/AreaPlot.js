@@ -4,11 +4,8 @@
 import React from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { AreaChart } from 'recharts';
-import { Area } from './components/area/Area';
 import {
   DATA_CHANGE_TYPES,
-  PLOT_COLORS,
-  PLOT_SECONDARY_COLORS,
   DATA_CHANGE_TYPE_TO_STACK_OFFSET_MAPPING,
 } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
@@ -20,25 +17,28 @@ import {
   getAreaPlotDataChangeType,
   getAxisFormat,
   getCategoryAxisDataKey,
+  getCategoryAxisFormatter,
   getCategoryValueAxes,
+  getCategoryValueAxisByDataKey,
   getData,
+  getFormatter,
   getIsDataPivoted,
   getMargin,
+  getPaletteColorByIndex,
+  getSecondaryPaletteColorByIndex,
+  getSeriesHiddenColumns,
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
   getUniqueValuesOfDataKey,
+  getXAxis,
   getXAxisDataKey,
+  getXAxisInterval,
   getYAxis,
   getYAxisTickFormatter,
-  getCategoryValueAxisByDataKey,
-  getFormatter,
-  getCategoryAxisFormatter,
-  getSeriesHiddenColumns,
-  getXAxis,
-  getXAxisInterval,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
+import { Area } from './components/area/Area';
 
 function PivotedAreaPlot({ plotConfig }) {
   const data = getData(plotConfig);
@@ -55,8 +55,8 @@ function PivotedAreaPlot({ plotConfig }) {
       stackId: '1',
       dot: true,
       strokeWidth: 2,
-      stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-      fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+      stroke: getPaletteColorByIndex(plotConfig, index),
+      fill: getSecondaryPaletteColorByIndex(plotConfig, index),
       dataKey: uniqueValueOfCategoryKey,
       name: nameFormatter(uniqueValueOfCategoryKey),
       key: uniqueValueOfCategoryKey,
@@ -95,8 +95,8 @@ function NonPivotedAreaPlot({ plotConfig }) {
         dataKey: axis.dataKey,
         name: axis.name,
         key: axis.name,
-        fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-        stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+        fill: getSecondaryPaletteColorByIndex(plotConfig, index),
+        stroke: getPaletteColorByIndex(plotConfig, index),
         strokeWidth: 2,
         isAnimationActive: false,
         data,

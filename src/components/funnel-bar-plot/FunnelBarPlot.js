@@ -2,18 +2,20 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { BarChart, LabelList } from 'recharts';
-import Bar from '../shared/bar/Bar';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
+import Bar from '../shared/bar/Bar';
 
+import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 import {
   getCategoriesOfCategoryAxis,
   getData,
   getIsDataPivoted,
   getMargin,
+  getPaletteColorByIndex,
+  getSecondaryPaletteColorByIndex,
   getSeriesFillColor,
   getSeriesStrokeColor,
   getYAxis,
@@ -21,7 +23,6 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 
 function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
@@ -39,8 +40,8 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           stackId: categoryName,
           dataKey: droppedOffDataKey,
           name: `Dropped Off - ${categoryName}`,
-          stroke: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
-          fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+          stroke: getSecondaryPaletteColorByIndex(plotConfig, index),
+          fill: getSecondaryPaletteColorByIndex(plotConfig, index),
           onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
         })}
@@ -50,8 +51,8 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           stackId: categoryName,
           dataKey: convertedDataKey,
           name: `Converted - ${categoryName}`,
-          stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-          fill: PLOT_COLORS[index % PLOT_COLORS.length],
+          stroke: getPaletteColorByIndex(plotConfig, index),
+          fill: getPaletteColorByIndex(plotConfig, index),
           onMouseOver: () => updateHoveredItemId(convertedDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
           children: (

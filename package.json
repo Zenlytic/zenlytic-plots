@@ -83,6 +83,7 @@
   "dependencies": {
     "ag-grid-community": "^28.0.2",
     "ag-grid-react": "^28.0.0",
+    "chroma-js": "^2.4.2",
     "d3-array": "^3.1.6",
     "d3-format": "^3.1.0",
     "lodash": "^4.17.21",

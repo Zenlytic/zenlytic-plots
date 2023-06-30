@@ -1,7 +1,8 @@
 import React from 'react';
-import { PLOT_COLORS, RADIAL_PLOT_DISPLAY_TYPES } from '../../constants/plotConstants';
+import { RADIAL_PLOT_DISPLAY_TYPES } from '../../constants/plotConstants';
 import {
   getData,
+  getPaletteColorByIndex,
   getRadialPlotDisplayType,
   getTickFormatterFromDataKey,
   getTooltipLabelDataKey,
@@ -60,7 +61,7 @@ export const getChildren = ({ plotConfig, clickedItemId, hoveredItemId, updateHo
     },
   }[displayType];
   return data.map((entry, index) => {
-    const cellColor = PLOT_COLORS[index % PLOT_COLORS.length];
+    const cellColor = getPaletteColorByIndex(plotConfig, index);
     const id = entry[xAxisDataKey];
     const onMouseOver = () => updateHoveredItemId(id);
     const onMouseLeave = () => updateHoveredItemId(null);
