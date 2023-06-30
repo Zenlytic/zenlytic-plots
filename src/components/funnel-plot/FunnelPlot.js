@@ -7,7 +7,6 @@ import {
   getData,
   getMargin,
   getPaletteColorByIndex,
-  getSeriesStrokeColor,
   getXAxis,
   getXAxisDataKey,
   getYAxis,
@@ -23,8 +22,6 @@ function FunnelPlot({ plotConfig = {} }) {
 
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
-
-  const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
 
   return (
     <ResponsiveContainer>
