@@ -74,6 +74,7 @@ function Tooltip({
   plotConfig = {},
   customLabelFormatter = null,
   customValueFormatter = null,
+  customNameFormatter = null,
   brush = {},
   brushEvents = {},
   isFollowUpDisabled = false,
@@ -129,6 +130,15 @@ function Tooltip({
     [plotConfig]
   );
 
+  const memoizedCustomNameFormatter = useCallback(
+    ({ value, dataKey, payload }) => {
+      return customNameFormatter({ value, dataKey, payload });
+    },
+    [plotConfig]
+  );
+
+  const nameFormatter = customNameFormatter ? memoizedCustomNameFormatter : null;
+
   const isFollowUpMenuOpenAndEnabled = isFollowUpMenuOpen && !isFollowUpDisabled;
 
   const onCloseFollowUpMenu = () => {
@@ -146,6 +156,7 @@ function Tooltip({
       cursor={isFollowUpMenuOpenAndEnabled ? false : { fill: HIGHLIGHT_BAR_COLOR }}
       formatter={valueFormatter}
       labelFormatter={labelFormatter}
+      nameFormatter={nameFormatter}
       allowEscapeViewBox={{ x: true, y: true }}
       content={
         <TooltipContentWithOutsideClickHandler

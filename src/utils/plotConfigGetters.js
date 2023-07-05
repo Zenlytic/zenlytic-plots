@@ -1,4 +1,4 @@
-import { isEmpty, sortBy } from 'lodash';
+import { isEmpty } from 'lodash';
 import colors from '../constants/colors';
 import {
   AXIS_DATA_KEY_KEYS,
@@ -8,6 +8,7 @@ import {
   GROUPED_BAR_DISPLAY_TYPES,
   PLOT_TYPES,
   PRIMARY_NUMBER_KEYS,
+  RADIAL_PLOT_DISPLAY_TYPES,
   TEXT_SIZE_TYPES,
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
@@ -90,7 +91,26 @@ export const getTickFormatterFromDataKey = (plotConfig, dataKey) => {
   return getFormatter(axisFormat);
 };
 
-export const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
+const getRadialPlotLegendItemFormatter = (plotConfig) => {
+  const tooltipLabelDataKey = getTooltipLabelDataKey(plotConfig);
+
+  const formatter = getTickFormatterFromDataKey(plotConfig, tooltipLabelDataKey);
+  return formatter;
+};
+
+export const getLegendItemFormatter = (plotConfig) => {
+  const plotType = getSeriesType(plotConfig);
+  const defaultFormatter = (value) => value;
+  switch (plotType) {
+    case PLOT_TYPES.DONUT:
+    case PLOT_TYPES.PIE:
+      return getRadialPlotLegendItemFormatter(plotConfig);
+    default:
+      return defaultFormatter;
+  }
+};
+
+const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
   const axisDataKey = getSeriesKeyValue(plotConfig, axisDataKeyKey);
   return getAxisFromDataKey(plotConfig, axisDataKey);
 };
@@ -399,6 +419,23 @@ const nestedPivotDataByDataKey = (plotConfig, data, dataKey) => {
   });
 };
 
+const RADIAL_PLOT_TYPES = [PLOT_TYPES.DONUT, PLOT_TYPES.PIE];
+
+const getPlotDimensionsType = (plotConfig) => {
+  const plotType = getSeriesType(plotConfig);
+  return RADIAL_PLOT_TYPES.includes(plotType) ? 'radial' : 'cartesian';
+};
+
+export const getIsCartesianPlot = (plotConfig) => {
+  const plotDimensionsType = getPlotDimensionsType(plotConfig);
+  return plotDimensionsType === 'cartesian';
+};
+
+export const getIsRadialPlot = (plotConfig) => {
+  const plotDimensionsType = getPlotDimensionsType(plotConfig);
+  return plotDimensionsType === 'radial';
+};
+
 export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
   const plotType = getSeriesType(plotConfig);
   if (plotType === PLOT_TYPES.AREA) return flatPivotDataByDataKey(plotConfig, data, dataKey);
@@ -630,6 +667,18 @@ export const getHorizontalBarSpecificData = (plotConfig, data) => {
   return processedData;
 };
 
+const getRadialSpecificData = (plotConfig, data) => {
+  const yAxisDataKey = getYAxisDataKey(plotConfig);
+  // We draw the smallest pieces first. This prevents a visual bug
+  // where sometimes small pieces could intersect bigger pieces.
+  const formattedData = [...data].sort((firstDatum, secondDatum) => {
+    const firstValue = firstDatum[yAxisDataKey];
+    const secondValue = secondDatum[yAxisDataKey];
+    return firstValue < secondValue ? -1 : 1;
+  });
+  return formattedData;
+};
+
 export const getData = (plotConfig) => {
   const data = getRawData(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
@@ -646,6 +695,9 @@ export const getData = (plotConfig) => {
       return getMultilineSpecificData(plotConfig, data, isDataPivoted);
     case PLOT_TYPES.WATERFALL:
       return getWaterfallSpecificData(plotConfig, data, isDataPivoted);
+    case PLOT_TYPES.DONUT:
+    case PLOT_TYPES.PIE:
+      return getRadialSpecificData(plotConfig, data, isDataPivoted);
     default:
       return isDataPivoted ? getPivotedData(plotConfig, data) : data;
   }
@@ -706,11 +758,11 @@ const getPlotOptions = (plotConfig) => {
 };
 
 const getAreaPlotOptions = (plotConfig) => {
-  return getPlotOptions(plotConfig).area;
+  return getPlotOptions(plotConfig).area ?? {};
 };
 
 const getGroupedBarPlotOptions = (plotConfig) => {
-  return getPlotOptions(plotConfig).grouped_bar;
+  return getPlotOptions(plotConfig).grouped_bar ?? {};
 };
 
 export const getGroupedBarPlotDisplayType = (plotConfig) => {
@@ -740,6 +792,15 @@ export const getStatPlotShowDataChangeDirectionColor = (plotConfig) => {
 export const getStatPlotTextSize = (plotConfig) => {
   const statPlotOptions = getStatPlotOptions(plotConfig);
   return statPlotOptions?.textSize ?? TEXT_SIZE_TYPES.DYNAMIC;
+};
+
+const getRadialPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig).radial;
+};
+
+export const getRadialPlotDisplayType = (plotConfig) => {
+  const radialPlotOptions = getRadialPlotOptions(plotConfig);
+  return radialPlotOptions?.displayType ?? RADIAL_PLOT_DISPLAY_TYPES.EXPANDED;
 };
 
 export const sortBySeriesName = (firstSeries, secondSeries) =>

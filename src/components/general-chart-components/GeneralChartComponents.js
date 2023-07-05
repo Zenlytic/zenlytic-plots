@@ -2,10 +2,11 @@
 import React from 'react';
 import {
   getCategoryAxis,
+  getIsCartesianPlot,
+  getIsRadialPlot,
   getMargin,
   getSecondYAxis,
   getXAxis,
-  getXAxisInterval,
   getYAxis,
   getZAxis,
 } from '../../utils/plotConfigGetters';
@@ -34,23 +35,28 @@ function GeneralChartComponents({
   legendConfig = {},
   customLabelFormatter = null,
   customValueFormatter = null,
+  customNameFormatter = null,
   tooltipHandlers = {},
   isFollowUpDisabled = false,
   isSplitAxes = false,
 }) {
+  const isCartesianPlot = getIsCartesianPlot(plotConfig);
+
   return (
     <>
-      {XAxis({ ...xAxisConfig })}
-      {YAxis({ ...yAxisConfig })}
-      {YAxis({ ...secondYAxisConfig })}
-      {ZAxis({ ...zAxisConfig })}
-      {useGridLines && GridLines({})}
+      {isCartesianPlot && XAxis({ ...xAxisConfig })}
+      {isCartesianPlot && YAxis({ ...yAxisConfig })}
+      {isCartesianPlot && YAxis({ ...secondYAxisConfig })}
+      {isCartesianPlot && ZAxis({ ...zAxisConfig })}
+      {isCartesianPlot && useGridLines && GridLines({})}
       {useLegend &&
         ZenlyticLegend({
           margin,
+          plotConfig,
           ...legendConfig,
         })}
-      {!isFollowUpDisabled &&
+      {isCartesianPlot &&
+        !isFollowUpDisabled &&
         brush &&
         Brush({ ...brush, yAxisId: isSplitAxes ? 'left' : undefined })}
       {Tooltip({
@@ -63,6 +69,7 @@ function GeneralChartComponents({
         tooltip,
         customLabelFormatter,
         customValueFormatter,
+        customNameFormatter,
         tooltipHandlers,
         brushEvents,
         brush,

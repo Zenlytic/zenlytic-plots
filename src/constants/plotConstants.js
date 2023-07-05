@@ -65,6 +65,8 @@ export const PLOT_TYPES = {
   STAT: 'stat_plot',
   TABLE_ONLY: 'table_only',
   WATERFALL: 'waterfall',
+  DONUT: 'donut',
+  PIE: 'pie',
 };
 
 export const COLOR_SUCCESS = colors.green[600];
@@ -168,4 +170,9 @@ export const DATA_CHANGE_DIRECTIONS = {
   POSITIVE: 'POSITIVE',
   NEGATIVE: 'NEGATIVE',
   NO_CHANGE: 'NO_CHANGE',
+};
+
+export const RADIAL_PLOT_DISPLAY_TYPES = {
+  CONDENSED: 'CONDENSED',
+  EXPANDED: 'EXPANDED',
 };
