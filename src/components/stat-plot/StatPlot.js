@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { FiArrowDownRight, FiArrowUpRight } from 'react-icons/fi';
 import styled from 'styled-components';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
-import { DATA_CHANGE_DIRECTIONS, TEXT_SIZE_TYPES } from '../../constants/plotConstants';
 import radii from '../../constants/radii';
 import space from '../../constants/space';
 import {
@@ -18,49 +16,13 @@ import {
   getStatPlotShowDataChangeDirectionColor,
   getStatPlotTextSize,
 } from '../../utils/plotConfigGetters';
-
-const directionToBorderColorMapping = {
-  [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
-  [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[60],
-  [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
-};
-
-const getBorderColor = ({ direction, showDataChangeDirectionColor }) => {
-  if (!showDataChangeDirectionColor) {
-    return colors.gray[60];
-  }
-  return directionToBorderColorMapping[direction];
-};
-
-const directionToValueColorMapping = {
-  [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
-  [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-  [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
-};
-
-const getValueColor = ({ direction, showDataChangeDirectionColor }) => {
-  if (!showDataChangeDirectionColor) {
-    return colors.gray[700];
-  }
-  return directionToValueColorMapping[direction];
-};
-
-const getValueFontSize = ({ textSize, numMetrics }) => {
-  const smallTextSize = fontSizes['2xl'];
-  const largeTextSize = fontSizes['4xl'];
-  const dynamicTextSize = numMetrics >= 3 ? smallTextSize : largeTextSize;
-
-  return {
-    [TEXT_SIZE_TYPES.DYNAMIC]: dynamicTextSize,
-    [TEXT_SIZE_TYPES.SMALL]: smallTextSize,
-    [TEXT_SIZE_TYPES.LARGE]: largeTextSize,
-  }[textSize];
-};
+import SubStat from './components/sub-stat/SubStat';
+import { getBorderColor, getValueColor, getValueFontSize } from './utils';
+import { SubStatLabel } from './components/sub-stat-label/SubStatLabel';
 
 function StatPlot({ plotConfig = {} }) {
-  // console.log(plotConfig);
   const series = getSeries(plotConfig);
-  const { primarySubMetricDataKeys, secondarySubMetricDataKeys, metricDataKeys } = series;
+  const { primarySubMetricDataKeys, secondarySubMetricDataKeys } = series;
   const data = getData(plotConfig);
   const numMetrics = data.length;
   const showBorder = numMetrics !== 1;
@@ -107,7 +69,6 @@ function StatPlot({ plotConfig = {} }) {
         const { format, name, subName } = axis;
         const formatValue = getFormatter(format);
         const formattedValue = formatValue(primaryNumberValue);
-        // return null;
         return (
           <Stat
             showBorder={showBorder}
@@ -119,8 +80,6 @@ function StatPlot({ plotConfig = {} }) {
             </Value>
             <SubStatLabel>{subName}</SubStatLabel>
             {showSubStats && (
-              // TODO: NJM think I need to differentiate more between subStatDataKeys
-              // and subStatDataKey, like obviously pick different names
               <SubStatList>
                 {secondarySubMetricDataKeysForDatum.map((subStatDataKey) => {
                   const axis = getAxisFromDataKey(plotConfig, subStatDataKey);
@@ -136,7 +95,6 @@ function StatPlot({ plotConfig = {} }) {
                     <SubStat
                       key={subStatDataKey}
                       direction={direction}
-                      color="green"
                       label={subName}
                       formattedValue={formattedValue}
                       inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
@@ -154,41 +112,6 @@ function StatPlot({ plotConfig = {} }) {
       Please enable at least one stat and select a primary number.
     </EnableOneStatMessage>
   );
-}
-
-function SubStat({ direction, label, formattedValue, inverseDataChangeDirectionColors }) {
-  // TODO: NJM make this passed in
-  const color = {
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
-  }[direction];
-
-  const inversedColor = {
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.green[600],
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.red[600],
-  }[direction];
-
-  const finalColor = inverseDataChangeDirectionColors ? inversedColor : color;
-
-  // TODO: NJM Make this look nice / match ComparePeriod.tsx
-  const icon = {
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: <FiArrowUpRight color={finalColor} />,
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: null,
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: <FiArrowDownRight color={finalColor} />,
-  }[direction];
-
-  return (
-    <SubStatContainer>
-      <IconValueContainer>
-        {icon}
-        <SubStatValue color={finalColor}>{formattedValue}</SubStatValue>
-      </IconValueContainer>
-      <SubStatLabel>{label}</SubStatLabel>
-    </SubStatContainer>
-  );
-  // return subStatFormatter(formatterProps);
 }
 
 const getStatGridCss = (numMetrics) => {
@@ -220,32 +143,6 @@ const Stat = styled.div`
   padding: ${space[3]} ${space[4]};
 `;
 
-const SubStatLabel = styled.div`
-  color: ${colors.gray[300]};
-  font-size: ${fontSizes['2xs']};
-  font-weight: ${fontWeights.normal};
-  line-height: 11px;
-  margin-top: 4px;
-  text-align: center;
-`;
-
-const SubStatValue = styled.span`
-  color: ${(p) => p.color};
-  font-size: ${fontSizes['2xs']};
-`;
-
-const IconValueContainer = styled.div`
-  display: flex;
-  column-gap: 4px;
-`;
-
-const SubStatContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const Label = styled.div`
   color: ${colors.gray[700]};
   font-weight: ${fontWeights.normal};
@@ -254,15 +151,15 @@ const Label = styled.div`
 
 const Value = styled.div`
   font-size: ${(p) => p.fontSize};
-  margin-top: 8px;
+  margin-top: ${space[2]};
   font-weight: ${fontWeights.bold};
   color: ${(p) => p.color};
 `;
 
 const SubStatList = styled.div`
   display: flex;
-  column-gap: 16px;
-  margin-top: 16px;
+  column-gap: ${space[4]};
+  margin-top: ${space[4]};
 `;
 
 const EnableOneStatMessage = styled.div`
