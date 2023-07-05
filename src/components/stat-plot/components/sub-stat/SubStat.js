@@ -8,7 +8,15 @@ import { DATA_CHANGE_DIRECTIONS } from '../../../../constants/plotConstants';
 import space from '../../../../constants/space';
 import { SubStatLabel } from '../sub-stat-label/SubStatLabel';
 
-function SubStat({ direction, label, formattedValue, inverseDataChangeDirectionColors }) {
+const getColorToUse = ({
+  showDataChangeDirection,
+  inverseDataChangeDirectionColors,
+  direction,
+}) => {
+  if (!showDataChangeDirection) {
+    return colors.gray[700];
+  }
+
   const color = {
     [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
     [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
@@ -23,17 +31,35 @@ function SubStat({ direction, label, formattedValue, inverseDataChangeDirectionC
 
   const colorToUse = inverseDataChangeDirectionColors ? inversedColor : color;
 
-  const icon = {
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: <FiArrowUpRight color={colorToUse} />,
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: null,
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: <FiArrowDownRight color={colorToUse} />,
-  }[direction];
+  return colorToUse;
+};
+
+function SubStat({
+  direction,
+  label,
+  formattedValue,
+  showDataChangeDirection,
+  inverseDataChangeDirectionColors,
+}) {
+  const color = getColorToUse({
+    showDataChangeDirection,
+    inverseDataChangeDirectionColors,
+    direction,
+  });
+
+  const icon = showDataChangeDirection
+    ? {
+        [DATA_CHANGE_DIRECTIONS.POSITIVE]: <FiArrowUpRight color={color} />,
+        [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: null,
+        [DATA_CHANGE_DIRECTIONS.NEGATIVE]: <FiArrowDownRight color={color} />,
+      }[direction]
+    : null;
 
   return (
     <SubStatContainer>
       <IconValueContainer>
         {icon}
-        <SubStatValue color={colorToUse}>{formattedValue}</SubStatValue>
+        <SubStatValue color={color}>{formattedValue}</SubStatValue>
       </IconValueContainer>
       <SubStatLabel>{label}</SubStatLabel>
     </SubStatContainer>

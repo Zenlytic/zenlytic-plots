@@ -71,7 +71,7 @@ function StatPlot({ plotConfig = {} }) {
         if (axis === undefined) {
           return null;
         }
-        const { format, name, subName } = axis;
+        const { format, name, subName, showDataChangeDirection } = axis;
         const formatValue = getFormatter(format);
         const formattedValue = formatValue(primaryNumberValue);
 
@@ -92,7 +92,12 @@ function StatPlot({ plotConfig = {} }) {
                   if (axis === undefined) {
                     return null;
                   }
-                  const { format, subName, inverseDataChangeDirectionColors } = axis;
+                  const {
+                    format,
+                    subName,
+                    inverseDataChangeDirectionColors,
+                    showDataChangeDirection,
+                  } = axis;
                   const rawValue = datum[subStatDataKey];
                   const subStatFormatter = getFormatter(format);
                   const formattedValue = subStatFormatter(rawValue);
@@ -103,6 +108,7 @@ function StatPlot({ plotConfig = {} }) {
                       direction={dataChangeDirection}
                       label={subName}
                       formattedValue={formattedValue}
+                      showDataChangeDirection={showDataChangeDirection}
                       inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
                     />
                   );
