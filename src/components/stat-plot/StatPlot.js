@@ -17,7 +17,12 @@ import {
   getStatPlotTextSize,
 } from '../../utils/plotConfigGetters';
 import SubStat from './components/sub-stat/SubStat';
-import { getBorderColor, getValueColor, getValueFontSize } from './utils';
+import {
+  getBorderColor,
+  getDataChangeDirectionFromValue,
+  getValueColor,
+  getValueFontSize,
+} from './utils';
 import { SubStatLabel } from './components/sub-stat-label/SubStatLabel';
 
 function StatPlot({ plotConfig = {} }) {
@@ -36,17 +41,6 @@ function StatPlot({ plotConfig = {} }) {
   return canShowPrimaryNumber ? (
     <StatsList numMetrics={numMetrics}>
       {data.map((datum) => {
-        const dataChangeDirection = datum['__DATA_CHANGE_DIRECTION'];
-
-        const valueColor = getValueColor({
-          showDataChangeDirectionColor,
-          direction: dataChangeDirection,
-        });
-        const borderColor = getBorderColor({
-          direction: dataChangeDirection,
-          showDataChangeDirectionColor,
-        });
-
         const valueFontSize = getValueFontSize({ textSize, numMetrics });
 
         const datumEntries = Object.keys(datum);
@@ -61,6 +55,17 @@ function StatPlot({ plotConfig = {} }) {
 
         const showSubStats = secondarySubMetricDataKeysForDatum.length > 0;
         const primaryNumberValue = datum[primarySubMetricDataKeyForDatum];
+        const dataChangeDirection = getDataChangeDirectionFromValue(primaryNumberValue);
+
+        const valueColor = getValueColor({
+          showDataChangeDirectionColor,
+          direction: dataChangeDirection,
+        });
+        const borderColor = getBorderColor({
+          direction: dataChangeDirection,
+          showDataChangeDirectionColor,
+        });
+
         const axis = getAxisFromDataKey(plotConfig, primarySubMetricDataKeyForDatum);
 
         if (axis === undefined) {
@@ -69,6 +74,7 @@ function StatPlot({ plotConfig = {} }) {
         const { format, name, subName } = axis;
         const formatValue = getFormatter(format);
         const formattedValue = formatValue(primaryNumberValue);
+
         return (
           <Stat
             showBorder={showBorder}
@@ -86,15 +92,15 @@ function StatPlot({ plotConfig = {} }) {
                   if (axis === undefined) {
                     return null;
                   }
-                  const { format, name, subName, direction, inverseDataChangeDirectionColors } =
-                    axis;
+                  const { format, subName, inverseDataChangeDirectionColors } = axis;
                   const rawValue = datum[subStatDataKey];
                   const subStatFormatter = getFormatter(format);
                   const formattedValue = subStatFormatter(rawValue);
+                  const dataChangeDirection = getDataChangeDirectionFromValue(rawValue);
                   return (
                     <SubStat
                       key={subStatDataKey}
-                      direction={direction}
+                      direction={dataChangeDirection}
                       label={subName}
                       formattedValue={formattedValue}
                       inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}

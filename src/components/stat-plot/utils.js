@@ -39,3 +39,15 @@ export const getValueFontSize = ({ textSize, numMetrics }) => {
     [TEXT_SIZE_TYPES.LARGE]: largeTextSize,
   }[textSize];
 };
+
+export const getDataChangeDirectionFromValue = (value) => {
+  if (value === 0) {
+    return DATA_CHANGE_DIRECTIONS.NO_CHANGE;
+  }
+
+  if (value < 0) {
+    return DATA_CHANGE_DIRECTIONS.NEGATIVE;
+  }
+
+  return DATA_CHANGE_DIRECTIONS.POSITIVE;
+};
