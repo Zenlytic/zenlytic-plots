@@ -1,34 +1,23 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
+import { FiArrowDownRight, FiArrowUpRight } from 'react-icons/fi';
 import styled from 'styled-components';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
+import { DATA_CHANGE_DIRECTIONS, TEXT_SIZE_TYPES } from '../../constants/plotConstants';
 import radii from '../../constants/radii';
 import space from '../../constants/space';
 import {
-  getAxisFromAxes,
   getAxisFromDataKey,
-  getAxisName,
   getData,
   getFormatter,
   getPrimaryNumberSubStatDataKey,
   getSeries,
-  getStatDataKeys,
   getStatPlotShowDataChangeDirectionColor,
   getStatPlotTextSize,
-  getSubStatAxis,
-  getSubStatDataKeys,
-  getSubStatDatumByDataKey,
-  getTickFormatterFromDataKey,
 } from '../../utils/plotConfigGetters';
-import {
-  DATA_CHANGE_DIRECTIONS,
-  PRIMARY_NUMBER_KEYS,
-  TEXT_SIZE_TYPES,
-} from '../../constants/plotConstants';
-import { FiArrowUpRight, FiArrowDownRight, FiArrowDown } from 'react-icons/fi';
 
 const directionToBorderColorMapping = {
   [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
@@ -71,59 +60,21 @@ const getValueFontSize = ({ textSize, numMetrics }) => {
 function StatPlot({ plotConfig = {} }) {
   // console.log(plotConfig);
   const series = getSeries(plotConfig);
-  const { mainMetricDataKeys, subMetricDataKeys } = series;
+  const { primarySubMetricDataKeys, secondarySubMetricDataKeys, metricDataKeys } = series;
   const data = getData(plotConfig);
-  const statDataKeys = getStatDataKeys(plotConfig);
   const numMetrics = data.length;
   const showBorder = numMetrics !== 1;
-  const subStatDataKeys = getSubStatDataKeys(plotConfig);
 
   const primaryNumberSubStatDataKey = getPrimaryNumberSubStatDataKey(plotConfig);
   const showDataChangeDirectionColor = getStatPlotShowDataChangeDirectionColor(plotConfig);
   const textSize = getStatPlotTextSize(plotConfig);
 
   const canShowPrimaryNumber = primaryNumberSubStatDataKey !== null;
-  const subStatsToShowBelowPrimaryNumber = subStatDataKeys.filter(
-    (subStatDataKey) => subStatDataKey !== primaryNumberSubStatDataKey
-  );
 
-  // console.log({ primaryNumberSubStatDataKey, subStatsToShowBelowPrimaryNumber });
   return canShowPrimaryNumber ? (
     <StatsList numMetrics={numMetrics}>
       {data.map((datum) => {
-        // const tickFormatter = getTickFormatterFromDataKey(plotConfig, datum);
-        // const datum = getSubStatDatumByDataKey(plotConfig, datum, primaryNumberSubStatDataKey);
-        // const value = datum[datum];
-        // const {
-        //   formatter,
-        //   label: subStatLabel,
-        //   direction,
-        // } = datum || { label: '', formatter: () => null };
-        // const percentFormatter = (value) => {
-        //   return `${(value * 100).toFixed(1)}%`;
-        // };
-        // // TODO: NJM Rename omg
-        // let finalFormatter = formatter === 'Y_AXIS' ? tickFormatter : percentFormatter;
-        // if (typeof finalFormatter !== 'function') {
-        //   finalFormatter = (value) => value;
-        // }
-        // const formattedValue = finalFormatter(value);
-        // const axisName = getAxisName(plotConfig, datum);
-
-        // const dataChangeDirectionSubDataKey = subStatDataKeys.find(
-        //   (dataKey) => dataKey === '__PERCENTAGE_CHANGE' || dataKey === '__ABSOLUTE_DIFFERENCE'
-        // );
-
-        // const dataChangeDirectionDatum =
-        //   dataChangeDirectionSubDataKey === undefined
-        //     ? {}
-        //     : getSubStatDatumByDataKey(plotConfig, datum, dataChangeDirectionSubDataKey);
-
-        // const dataChangeDirection =
-        //   dataChangeDirectionDatum.direction ?? DATA_CHANGE_DIRECTIONS.NO_CHANGE;
-
-        // TODO: NJM take in the actual direction
-        const dataChangeDirection = DATA_CHANGE_DIRECTIONS.POSITIVE;
+        const dataChangeDirection = datum['__DATA_CHANGE_DIRECTION'];
 
         const valueColor = getValueColor({
           showDataChangeDirectionColor,
@@ -137,15 +88,18 @@ function StatPlot({ plotConfig = {} }) {
         const valueFontSize = getValueFontSize({ textSize, numMetrics });
 
         const datumEntries = Object.keys(datum);
-        const primaryNumberDatumEntry = datumEntries.find((datumEntry) =>
-          mainMetricDataKeys.includes(datumEntry)
+
+        const primarySubMetricDataKeyForDatum = datumEntries.find((datumEntry) =>
+          primarySubMetricDataKeys.includes(datumEntry)
         );
-        const subStatDataEntries = datumEntries.filter(
-          (datumEntry) => !mainMetricDataKeys.includes(datumEntry)
+
+        const secondarySubMetricDataKeysForDatum = datumEntries.filter((datumEntry) =>
+          secondarySubMetricDataKeys.includes(datumEntry)
         );
-        const showSubStats = subStatDataEntries.length > 0;
-        const primaryNumberValue = datum[primaryNumberDatumEntry];
-        const axis = getAxisFromDataKey(plotConfig, primaryNumberDatumEntry);
+
+        const showSubStats = secondarySubMetricDataKeysForDatum.length > 0;
+        const primaryNumberValue = datum[primarySubMetricDataKeyForDatum];
+        const axis = getAxisFromDataKey(plotConfig, primarySubMetricDataKeyForDatum);
 
         if (axis === undefined) {
           return null;
@@ -155,7 +109,10 @@ function StatPlot({ plotConfig = {} }) {
         const formattedValue = formatValue(primaryNumberValue);
         // return null;
         return (
-          <Stat showBorder={showBorder} borderColor={borderColor} key={primaryNumberDatumEntry}>
+          <Stat
+            showBorder={showBorder}
+            borderColor={borderColor}
+            key={primarySubMetricDataKeyForDatum}>
             <Label>{name}</Label>
             <Value fontSize={valueFontSize} color={valueColor}>
               {formattedValue ?? '-'}
@@ -165,7 +122,7 @@ function StatPlot({ plotConfig = {} }) {
               // TODO: NJM think I need to differentiate more between subStatDataKeys
               // and subStatDataKey, like obviously pick different names
               <SubStatList>
-                {subStatDataEntries.map((subStatDataKey) => {
+                {secondarySubMetricDataKeysForDatum.map((subStatDataKey) => {
                   const axis = getAxisFromDataKey(plotConfig, subStatDataKey);
                   if (axis === undefined) {
                     return null;
@@ -269,6 +226,7 @@ const SubStatLabel = styled.div`
   font-weight: ${fontWeights.normal};
   line-height: 11px;
   margin-top: 4px;
+  text-align: center;
 `;
 
 const SubStatValue = styled.span`
