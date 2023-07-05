@@ -555,11 +555,6 @@ const getSubStatDataKey = (plotConfig) => {
   return series?.subStatDataKey;
 };
 
-export const getSubStatDataKeys = (plotConfig) => {
-  const series = getSeries(plotConfig);
-  return series?.subStatDataKeys ?? [];
-};
-
 export const getPrimaryNumberSubStatDataKey = (plotConfig) => {
   const series = getSeries(plotConfig);
   const primaryNumberSubStatDataKey = series?.primaryNumberSubStatDataKey;
@@ -567,21 +562,6 @@ export const getPrimaryNumberSubStatDataKey = (plotConfig) => {
     return PRIMARY_NUMBER_KEYS.CURRENT_PERIOD;
   }
   return primaryNumberSubStatDataKey;
-};
-
-export const getStatDataKeys = (plotConfig) => {
-  const series = getSeries(plotConfig);
-  return series?.statDataKeys ?? [];
-};
-
-export const getSubStatAxis = (plotConfig, statDataKey) => {
-  const axes = getAxes(plotConfig);
-  return axes.find((a) => a.dataKey === statDataKey);
-};
-
-export const getDoesSubStatDataExist = (plotConfig) => {
-  const subStatDataKey = getSubStatDataKey(plotConfig);
-  return subStatDataKey !== undefined;
 };
 
 export const getBarSpecificData = (plotConfig, data) => {
@@ -671,20 +651,6 @@ export const getData = (plotConfig) => {
   }
 };
 
-export const getStatDatumByDataKey = (plotConfig, statDataKey, subStatDataKey) => {
-  const data = getData(plotConfig);
-  return data.find((datum) => datum[subStatDataKey]?.[statDataKey] !== undefined);
-};
-
-export const getSubStatDatumByDataKey = (plotConfig, statDataKey, subStatDataKey) => {
-  const datum = getStatDatumByDataKey(plotConfig, statDataKey, subStatDataKey);
-  if (datum === undefined) {
-    return {};
-  }
-
-  return datum[subStatDataKey];
-};
-
 export const getValuesOfCategoryAxis = (plotConfig) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const uniqueValuesOfDataKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
@@ -764,31 +730,6 @@ export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
 
 const getStatPlotOptions = (plotConfig) => {
   return getPlotOptions(plotConfig)[PLOT_TYPES.STAT];
-};
-
-export const getStatPlotPrimaryNumberType = (plotConfig) => {
-  const statPlotOptions = getStatPlotOptions(plotConfig);
-  return statPlotOptions?.primaryNumberType;
-};
-
-export const getStatPlotShowCurrentPeriod = (plotConfig) => {
-  const statPlotOptions = getStatPlotOptions(plotConfig);
-  return statPlotOptions?.showCurrentPeriod ?? true;
-};
-
-export const getStatPlotShowPreviousPeriod = (plotConfig) => {
-  const statPlotOptions = getStatPlotOptions(plotConfig);
-  return statPlotOptions?.showPreviousPeriod ?? false;
-};
-
-export const getStatPlotShowAbsoluteDifference = (plotConfig) => {
-  const statPlotOptions = getStatPlotOptions(plotConfig);
-  return statPlotOptions?.showAbsoluteDifference ?? false;
-};
-
-export const getStatPlotShowPercentageChange = (plotConfig) => {
-  const statPlotOptions = getStatPlotOptions(plotConfig);
-  return statPlotOptions?.showPercentageChange ?? false;
 };
 
 export const getStatPlotShowDataChangeDirectionColor = (plotConfig) => {
