@@ -24,6 +24,7 @@ import {
   getValueFontSize,
 } from './utils';
 import { SubStatLabel } from './components/sub-stat-label/SubStatLabel';
+import { DATA_CHANGE_DIRECTION } from '../../constants/plotConstants';
 
 function StatPlot({ plotConfig = {} }) {
   const series = getSeries(plotConfig);
@@ -44,6 +45,7 @@ function StatPlot({ plotConfig = {} }) {
         const valueFontSize = getValueFontSize({ textSize, numMetrics });
 
         const datumEntries = Object.keys(datum);
+        const dataChangeDirection = datum[DATA_CHANGE_DIRECTION];
 
         const primarySubMetricDataKeyForDatum = datumEntries.find((datumEntry) =>
           primarySubMetricDataKeys.includes(datumEntry)
@@ -55,7 +57,6 @@ function StatPlot({ plotConfig = {} }) {
 
         const showSubStats = secondarySubMetricDataKeysForDatum.length > 0;
         const primaryNumberValue = datum[primarySubMetricDataKeyForDatum];
-        const dataChangeDirection = getDataChangeDirectionFromValue(primaryNumberValue);
 
         const valueColor = getValueColor({
           showDataChangeDirectionColor,
