@@ -7,37 +7,14 @@ import fontSizes from '../../../../constants/fontSizes';
 import { DATA_CHANGE_DIRECTIONS, TEXT_SIZE_TYPES } from '../../../../constants/plotConstants';
 import space from '../../../../constants/space';
 import fontWeights from '../../../../constants/fontWeights';
-import { getIconSizeProps } from '../../utils';
-
-const getColorToUse = ({
-  showDataChangeDirection,
-  showHighContrastDataChangeDirectionColor,
-  inverseDataChangeDirectionColors,
-  direction,
-}) => {
-  if (!showDataChangeDirection && !showHighContrastDataChangeDirectionColor) {
-    return colors.gray[700];
-  }
-
-  const color = {
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
-  }[direction];
-
-  const inversedColor = {
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.green[600],
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.red[600],
-  }[direction];
-
-  const colorToUse = inverseDataChangeDirectionColors ? inversedColor : color;
-
-  return colorToUse;
-};
+import {
+  getStatPlotDataChangeDirectionColor,
+  getIconSizeProps,
+  getValueFontSize,
+} from '../../utils';
 
 function SubStat({
-  direction,
+  dataChangeDirection,
   topLabel,
   bottomLabel,
   formattedValue,
@@ -45,15 +22,16 @@ function SubStat({
   showHighContrastDataChangeDirectionColor,
   inverseDataChangeDirectionColors,
   statType,
-  fontSize,
   staticTextSize,
 }) {
-  const color = getColorToUse({
+  const color = getStatPlotDataChangeDirectionColor({
     showDataChangeDirection,
     showHighContrastDataChangeDirectionColor,
     inverseDataChangeDirectionColors,
-    direction,
+    dataChangeDirection,
   });
+
+  const valueFontSize = getValueFontSize({ staticTextSize, statType });
 
   const iconSizeProps = getIconSizeProps({ statType, staticTextSize });
 
@@ -62,7 +40,7 @@ function SubStat({
         [DATA_CHANGE_DIRECTIONS.POSITIVE]: <FiArrowUpRight color={color} {...iconSizeProps} />,
         [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: null,
         [DATA_CHANGE_DIRECTIONS.NEGATIVE]: <FiArrowDownRight color={color} {...iconSizeProps} />,
-      }[direction]
+      }[dataChangeDirection]
     : null;
 
   return (
@@ -71,10 +49,9 @@ function SubStat({
       <IconValueContainer>
         {icon}
         <SubStatValue
-          isBold={statType === 'primary'}
           statType={statType}
           staticTextSize={staticTextSize}
-          fontSize={fontSize}
+          fontSize={valueFontSize}
           color={color}>
           {formattedValue ?? '-'}
         </SubStatValue>
@@ -102,7 +79,7 @@ const SubStatValue = styled.span`
   font-weight: ${(p) => (p.statType === 'primary' ? fontWeights.bold : fontWeights.normal)};
   line-height: ${(p) => {
     if (p.statType === 'secondary') {
-      return '7px';
+      return '8px';
     }
 
     return {

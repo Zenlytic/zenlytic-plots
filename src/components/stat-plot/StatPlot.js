@@ -15,13 +15,7 @@ import {
   getStatPlotTextSize,
 } from '../../utils/plotConfigGetters';
 import SubStat from './components/sub-stat/SubStat';
-import {
-  getBorderColor,
-  getDataChangeDirectionFromValue,
-  getStaticTextSize,
-  getValueColor,
-  getValueFontSize,
-} from './utils';
+import { getBorderColor, getStaticTextSize } from './utils';
 
 function StatPlot({ plotConfig = {} }) {
   const { primarySubStatDataKeys, secondarySubStatDataKeys } =
@@ -32,13 +26,6 @@ function StatPlot({ plotConfig = {} }) {
     getStatPlotShowHighContrastDataChangeDirectionColor(plotConfig);
   const textSize = getStatPlotTextSize(plotConfig);
   const staticTextSize = getStaticTextSize({ textSize, numMetrics });
-
-  // Filter to data that has the minimum correct configuration, e.g. it has a primary number.
-  // const dataWithPrimaryNumber = data.filter((datum) =>
-  //   Object.keys(datum).some((datumEntry) => primarySubStatDataKeys.includes(datumEntry))
-  // );
-
-  // console.log({ data, primarySubStatDataKeys, dataWithPrimaryNumber });
 
   return (
     <StatsContainerList numMetrics={numMetrics}>
@@ -57,28 +44,18 @@ function StatPlot({ plotConfig = {} }) {
           );
         }
 
+        const dataChangeDirection = datum[DATA_CHANGE_DIRECTION];
+
+        const borderColor = getBorderColor({
+          dataChangeDirection,
+          showHighContrastDataChangeDirectionColor,
+        });
+
         const axis = getAxisFromDataKey(plotConfig, primarySubMetricDataKeyForDatum);
 
         if (axis === undefined) {
           return null;
         }
-
-        const secondarySubStatDataKeysForDatum = datumEntries.filter((datumEntry) =>
-          secondarySubStatDataKeys.includes(datumEntry)
-        );
-
-        const showSubStats = secondarySubStatDataKeysForDatum.length > 0;
-
-        const primaryNumberValue = datum[primarySubMetricDataKeyForDatum];
-
-        const valueFontSize = getValueFontSize({ textSize, numMetrics });
-
-        const dataChangeDirection = datum[DATA_CHANGE_DIRECTION];
-
-        const borderColor = getBorderColor({
-          direction: dataChangeDirection,
-          showHighContrastDataChangeDirectionColor,
-        });
 
         const {
           format,
@@ -89,16 +66,25 @@ function StatPlot({ plotConfig = {} }) {
           inverseDataChangeDirectionColors,
         } = axis;
 
-        const formatValue = getFormatter(format);
-        const formattedValue = formatValue(primaryNumberValue);
+        const secondarySubStatDataKeysForDatum = datumEntries.filter((datumEntry) =>
+          secondarySubStatDataKeys.includes(datumEntry)
+        );
+
+        const showSubStats = secondarySubStatDataKeysForDatum.length > 0;
+
+        const primarySubStatRawValue = datum[primarySubMetricDataKeyForDatum];
+
+        const primarySubStatFormatter = getFormatter(format);
+
+        const primarySubStatFormattedValue = primarySubStatFormatter(primarySubStatRawValue);
 
         return (
           <StatsContainer borderColor={borderColor} key={primarySubMetricDataKeyForDatum}>
             <SubStat
-              direction={dataChangeDirection}
+              dataChangeDirection={dataChangeDirection}
               topLabel={name}
               bottomLabel={subName}
-              formattedValue={formattedValue}
+              formattedValue={primarySubStatFormattedValue}
               showDataChangeDirection={showDataChangeDirection}
               showHighContrastDataChangeDirectionColor={
                 showHighContrastDataChangeDirectionColor &&
@@ -106,35 +92,44 @@ function StatPlot({ plotConfig = {} }) {
               }
               inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
               statType="primary"
-              fontSize={valueFontSize}
               staticTextSize={staticTextSize}
             />
             {showSubStats && (
               <SubStatList>
                 {secondarySubStatDataKeysForDatum.map((subStatDataKey) => {
                   const axis = getAxisFromDataKey(plotConfig, subStatDataKey);
+
                   if (axis === undefined) {
                     return null;
                   }
+
                   const {
                     format,
                     subName,
-                    inverseDataChangeDirectionColors,
                     showDataChangeDirection,
-                    showHighContrastDataChangeDirection,
+                    showHighContrastDataChangeDirectionColor:
+                      showHighContrastDataChangeDirectionColorForSubStat,
+                    inverseDataChangeDirectionColors,
                   } = axis;
-                  const rawValue = datum[subStatDataKey];
-                  const subStatFormatter = getFormatter(format);
-                  const formattedValue = subStatFormatter(rawValue);
-                  const dataChangeDirection = getDataChangeDirectionFromValue(rawValue);
+
+                  const secondarySubStatRawValue = datum[subStatDataKey];
+
+                  const secondarySubStatFormatter = getFormatter(format);
+
+                  const secondarySubStatFormattedValue =
+                    secondarySubStatFormatter(secondarySubStatRawValue);
+
                   return (
                     <SubStat
                       key={subStatDataKey}
-                      direction={dataChangeDirection}
+                      dataChangeDirection={dataChangeDirection}
                       bottomLabel={subName}
-                      formattedValue={formattedValue}
+                      formattedValue={secondarySubStatFormattedValue}
                       showDataChangeDirection={showDataChangeDirection}
-                      showHighContrastDataChangeDirectionColor={showHighContrastDataChangeDirection}
+                      showHighContrastDataChangeDirectionColor={
+                        showHighContrastDataChangeDirectionColor &&
+                        showHighContrastDataChangeDirectionColorForSubStat
+                      }
                       inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
                       statType="secondary"
                       staticTextSize={staticTextSize}
