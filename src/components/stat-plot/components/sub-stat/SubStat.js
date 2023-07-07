@@ -65,8 +65,6 @@ function SubStat({
       }[direction]
     : null;
 
-  console.log({ topLabel, fontSize });
-
   return (
     <SubStatContainer>
       {topLabel && <TopLabel>{topLabel}</TopLabel>}
