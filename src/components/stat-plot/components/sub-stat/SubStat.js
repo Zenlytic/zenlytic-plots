@@ -88,7 +88,7 @@ const TopLabel = styled.span`
   color: ${colors.gray[700]};
   font-weight: ${fontWeights.normal};
   font-size: ${fontSizes.xs};
-  margin-bottom: ${space[4]};
+  margin-bottom: ${space[3]};
   text-align: center;
   text-wrap: nowrap;
   text-overflow: ellipsis;
