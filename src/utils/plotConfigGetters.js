@@ -436,6 +436,17 @@ export const getIsRadialPlot = (plotConfig) => {
   return plotDimensionsType === 'radial';
 };
 
+export const getStatPlotNumMetrics = (plotConfig) => {
+  const data = getData(plotConfig);
+  return data.length;
+};
+
+export const getStatPlotSubMetricDataKeys = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  const { primarySubMetricDataKeys, secondarySubMetricDataKeys } = series;
+  return { primarySubMetricDataKeys, secondarySubMetricDataKeys };
+};
+
 export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
   const plotType = getSeriesType(plotConfig);
   if (plotType === PLOT_TYPES.AREA) return flatPivotDataByDataKey(plotConfig, data, dataKey);
@@ -585,20 +596,6 @@ const getWaterfallSpecificData = (plotConfig, data) => {
   };
 
   return [startDataPoint, ...accumulatedData, otherFactorsDataPoint, endDataPoint];
-};
-
-const getSubStatDataKey = (plotConfig) => {
-  const series = getSeries(plotConfig);
-  return series?.subStatDataKey;
-};
-
-export const getPrimaryNumberSubStatDataKey = (plotConfig) => {
-  const series = getSeries(plotConfig);
-  const primaryNumberSubStatDataKey = series?.primaryNumberSubStatDataKey;
-  if (primaryNumberSubStatDataKey === undefined) {
-    return PRIMARY_NUMBER_KEYS.CURRENT_PERIOD;
-  }
-  return primaryNumberSubStatDataKey;
 };
 
 export const getBarSpecificData = (plotConfig, data) => {
@@ -784,9 +781,9 @@ const getStatPlotOptions = (plotConfig) => {
   return getPlotOptions(plotConfig)[PLOT_TYPES.STAT];
 };
 
-export const getStatPlotShowDataChangeDirectionColor = (plotConfig) => {
+export const getStatPlotShowHighContrastDataChangeDirectionColor = (plotConfig) => {
   const statPlotOptions = getStatPlotOptions(plotConfig);
-  return statPlotOptions?.showDataChangeDirectionColor ?? false;
+  return statPlotOptions?.showHighContrastDataChangeDirectionColor ?? false;
 };
 
 export const getStatPlotTextSize = (plotConfig) => {

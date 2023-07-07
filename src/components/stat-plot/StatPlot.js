@@ -2,18 +2,16 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../../constants/colors';
-import fontSizes from '../../constants/fontSizes';
-import fontWeights from '../../constants/fontWeights';
+import { DATA_CHANGE_DIRECTION } from '../../constants/plotConstants';
 import radii from '../../constants/radii';
 import space from '../../constants/space';
 import {
   getAxisFromDataKey,
   getData,
   getFormatter,
-  getPrimaryNumberSubStatDataKey,
-  getSeries,
-  getStatPlotShowDataChangeDirectionColor,
+  getStatPlotNumMetrics,
+  getStatPlotShowHighContrastDataChangeDirectionColor,
+  getStatPlotSubMetricDataKeys,
   getStatPlotTextSize,
 } from '../../utils/plotConfigGetters';
 import SubStat from './components/sub-stat/SubStat';
@@ -23,69 +21,84 @@ import {
   getValueColor,
   getValueFontSize,
 } from './utils';
-import { SubStatLabel } from './components/sub-stat-label/SubStatLabel';
-import { DATA_CHANGE_DIRECTION } from '../../constants/plotConstants';
 
 function StatPlot({ plotConfig = {} }) {
-  const series = getSeries(plotConfig);
-  const { primarySubMetricDataKeys, secondarySubMetricDataKeys } = series;
+  const { primarySubMetricDataKeys, secondarySubMetricDataKeys } =
+    getStatPlotSubMetricDataKeys(plotConfig);
   const data = getData(plotConfig);
-  const numMetrics = data.length;
-  const showBorder = numMetrics !== 1;
-
-  const primaryNumberSubStatDataKey = getPrimaryNumberSubStatDataKey(plotConfig);
-  const showDataChangeDirectionColor = getStatPlotShowDataChangeDirectionColor(plotConfig);
+  const numMetrics = getStatPlotNumMetrics(plotConfig);
+  const showHighContrastDataChangeDirectionColor =
+    getStatPlotShowHighContrastDataChangeDirectionColor(plotConfig);
   const textSize = getStatPlotTextSize(plotConfig);
 
-  const canShowPrimaryNumber = primaryNumberSubStatDataKey !== null;
-
-  return canShowPrimaryNumber ? (
-    <StatsList numMetrics={numMetrics}>
+  return (
+    <StatsContainerList numMetrics={numMetrics}>
       {data.map((datum) => {
-        const valueFontSize = getValueFontSize({ textSize, numMetrics });
-
         const datumEntries = Object.keys(datum);
-        const dataChangeDirection = datum[DATA_CHANGE_DIRECTION];
 
         const primarySubMetricDataKeyForDatum = datumEntries.find((datumEntry) =>
           primarySubMetricDataKeys.includes(datumEntry)
         );
 
-        const secondarySubMetricDataKeysForDatum = datumEntries.filter((datumEntry) =>
-          secondarySubMetricDataKeys.includes(datumEntry)
-        );
-
-        const showSubStats = secondarySubMetricDataKeysForDatum.length > 0;
-        const primaryNumberValue = datum[primarySubMetricDataKeyForDatum];
-
-        const valueColor = getValueColor({
-          showDataChangeDirectionColor,
-          direction: dataChangeDirection,
-        });
-        const borderColor = getBorderColor({
-          direction: dataChangeDirection,
-          showDataChangeDirectionColor,
-        });
+        if (primarySubMetricDataKeyForDatum === undefined) {
+          return (
+            <EnableOneStatMessage>
+              Please enable at least one stat and select a primary number.
+            </EnableOneStatMessage>
+          );
+        }
 
         const axis = getAxisFromDataKey(plotConfig, primarySubMetricDataKeyForDatum);
 
         if (axis === undefined) {
           return null;
         }
-        const { format, name, subName, showDataChangeDirection } = axis;
+
+        const secondarySubMetricDataKeysForDatum = datumEntries.filter((datumEntry) =>
+          secondarySubMetricDataKeys.includes(datumEntry)
+        );
+
+        const showSubStats = secondarySubMetricDataKeysForDatum.length > 0;
+
+        const primaryNumberValue = datum[primarySubMetricDataKeyForDatum];
+
+        const valueFontSize = getValueFontSize({ textSize, numMetrics });
+
+        const dataChangeDirection = datum[DATA_CHANGE_DIRECTION];
+
+        const borderColor = getBorderColor({
+          direction: dataChangeDirection,
+          showHighContrastDataChangeDirectionColor,
+        });
+
+        const {
+          format,
+          name,
+          subName,
+          showDataChangeDirection,
+          showHighContrastDataChangeDirectionColor: showHighContrastDataChangeDirectionColorForStat,
+          inverseDataChangeDirectionColors,
+        } = axis;
+
         const formatValue = getFormatter(format);
         const formattedValue = formatValue(primaryNumberValue);
 
         return (
-          <Stat
-            showBorder={showBorder}
-            borderColor={borderColor}
-            key={primarySubMetricDataKeyForDatum}>
-            <Label>{name}</Label>
-            <Value fontSize={valueFontSize} color={valueColor}>
-              {formattedValue ?? '-'}
-            </Value>
-            <SubStatLabel>{subName}</SubStatLabel>
+          <StatsContainer borderColor={borderColor} key={primarySubMetricDataKeyForDatum}>
+            <SubStat
+              direction={dataChangeDirection}
+              topLabel={name}
+              bottomLabel={subName}
+              formattedValue={formattedValue}
+              showDataChangeDirection={showDataChangeDirection}
+              showHighContrastDataChangeDirectionColor={
+                showHighContrastDataChangeDirectionColor &&
+                showHighContrastDataChangeDirectionColorForStat
+              }
+              inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
+              statType="primary"
+              fontSize={valueFontSize}
+            />
             {showSubStats && (
               <SubStatList>
                 {secondarySubMetricDataKeysForDatum.map((subStatDataKey) => {
@@ -98,6 +111,7 @@ function StatPlot({ plotConfig = {} }) {
                     subName,
                     inverseDataChangeDirectionColors,
                     showDataChangeDirection,
+                    showHighContrastDataChangeDirection,
                   } = axis;
                   const rawValue = datum[subStatDataKey];
                   const subStatFormatter = getFormatter(format);
@@ -107,23 +121,21 @@ function StatPlot({ plotConfig = {} }) {
                     <SubStat
                       key={subStatDataKey}
                       direction={dataChangeDirection}
-                      label={subName}
+                      bottomLabel={subName}
                       formattedValue={formattedValue}
                       showDataChangeDirection={showDataChangeDirection}
+                      showHighContrastDataChangeDirectionColor={showHighContrastDataChangeDirection}
                       inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
+                      statType="secondary"
                     />
                   );
                 })}
               </SubStatList>
             )}
-          </Stat>
+          </StatsContainer>
         );
       })}
-    </StatsList>
-  ) : (
-    <EnableOneStatMessage>
-      Please enable at least one stat and select a primary number.
-    </EnableOneStatMessage>
+    </StatsContainerList>
   );
 }
 
@@ -138,7 +150,7 @@ const getStatGridCss = (numMetrics) => {
   return `grid-template-columns: repeat(${numColumns}, 1fr);`;
 };
 
-const StatsList = styled.div`
+const StatsContainerList = styled.div`
   display: grid;
   ${(p) => getStatGridCss(p.numMetrics)}
   gap: ${space[4]};
@@ -146,27 +158,14 @@ const StatsList = styled.div`
   padding: ${space[4]};
 `;
 
-const Stat = styled.div`
+const StatsContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: ${(p) => (p.showBorder ? `${space.px} solid ${p.borderColor}` : 'none')};
+  border: ${space.px} solid ${(p) => p.borderColor};
   border-radius: ${radii.lg};
   padding: ${space[3]} ${space[4]};
-`;
-
-const Label = styled.div`
-  color: ${colors.gray[700]};
-  font-weight: ${fontWeights.normal};
-  font-size: ${fontSizes.xs};
-`;
-
-const Value = styled.div`
-  font-size: ${(p) => p.fontSize};
-  margin-top: ${space[2]};
-  font-weight: ${fontWeights.bold};
-  color: ${(p) => p.color};
 `;
 
 const SubStatList = styled.div`

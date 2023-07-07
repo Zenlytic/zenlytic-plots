@@ -7,13 +7,15 @@ import fontSizes from '../../../../constants/fontSizes';
 import { DATA_CHANGE_DIRECTIONS } from '../../../../constants/plotConstants';
 import space from '../../../../constants/space';
 import { SubStatLabel } from '../sub-stat-label/SubStatLabel';
+import fontWeights from '../../../../constants/fontWeights';
 
 const getColorToUse = ({
   showDataChangeDirection,
+  showHighContrastDataChangeDirectionColor,
   inverseDataChangeDirectionColors,
   direction,
 }) => {
-  if (!showDataChangeDirection) {
+  if (!showDataChangeDirection && !showHighContrastDataChangeDirectionColor) {
     return colors.gray[700];
   }
 
@@ -36,13 +38,18 @@ const getColorToUse = ({
 
 function SubStat({
   direction,
-  label,
+  topLabel,
+  bottomLabel,
   formattedValue,
   showDataChangeDirection,
+  showHighContrastDataChangeDirectionColor,
   inverseDataChangeDirectionColors,
+  statType,
+  fontSize,
 }) {
   const color = getColorToUse({
     showDataChangeDirection,
+    showHighContrastDataChangeDirectionColor,
     inverseDataChangeDirectionColors,
     direction,
   });
@@ -57,18 +64,28 @@ function SubStat({
 
   return (
     <SubStatContainer>
+      {topLabel && <TopLabel>{topLabel}</TopLabel>}
       <IconValueContainer>
         {icon}
-        <SubStatValue color={color}>{formattedValue}</SubStatValue>
+        <SubStatValue isBold={statType === 'primary'} fontSize={fontSize} color={color}>
+          {formattedValue ?? '-'}
+        </SubStatValue>
       </IconValueContainer>
-      <SubStatLabel>{label}</SubStatLabel>
+      <SubStatLabel>{bottomLabel}</SubStatLabel>
     </SubStatContainer>
   );
 }
 
+const TopLabel = styled.span`
+  color: ${colors.gray[700]};
+  font-weight: ${fontWeights.normal};
+  font-size: ${fontSizes.xs};
+`;
+
 const SubStatValue = styled.span`
   color: ${(p) => p.color};
-  font-size: ${fontSizes['2xs']};
+  font-size: ${(p) => p.fontSize ?? fontSizes['2xs']};
+  font-weight: ${(p) => (p.isBold ? fontWeights.bold : fontWeights.normal)};
 `;
 
 const IconValueContainer = styled.div`
