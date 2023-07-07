@@ -7,11 +7,7 @@ import fontSizes from '../../../../constants/fontSizes';
 import { DATA_CHANGE_DIRECTIONS, TEXT_SIZE_TYPES } from '../../../../constants/plotConstants';
 import space from '../../../../constants/space';
 import fontWeights from '../../../../constants/fontWeights';
-import {
-  getStatPlotDataChangeDirectionColor,
-  getIconSizeProps,
-  getValueFontSize,
-} from '../../utils';
+import { getValueDataChangeDirectionColor, getIconSizeProps, getValueFontSize } from '../../utils';
 
 function SubStat({
   dataChangeDirection,
@@ -24,7 +20,7 @@ function SubStat({
   statType,
   staticTextSize,
 }) {
-  const color = getStatPlotDataChangeDirectionColor({
+  const color = getValueDataChangeDirectionColor({
     showDataChangeDirection,
     showHighContrastDataChangeDirectionColor,
     inverseDataChangeDirectionColors,

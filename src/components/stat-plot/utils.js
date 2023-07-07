@@ -16,7 +16,7 @@ const getInversedDataChangeDirection = (dataChangeDirection) => {
   }[dataChangeDirection];
 };
 
-export const getBorderColor = ({
+export const getBorderDataChangeDirectionColor = ({
   dataChangeDirection,
   showHighContrastDataChangeDirectionColor,
   inverseDataChangeDirectionColors,
@@ -81,7 +81,7 @@ const dataChangeDirectionToColorMapping = {
   [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
 };
 
-export const getStatPlotDataChangeDirectionColor = ({
+export const getValueDataChangeDirectionColor = ({
   showDataChangeDirection,
   showHighContrastDataChangeDirectionColor,
   inverseDataChangeDirectionColors,

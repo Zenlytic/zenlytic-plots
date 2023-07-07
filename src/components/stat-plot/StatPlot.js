@@ -15,7 +15,7 @@ import {
   getStatPlotTextSize,
 } from '../../utils/plotConfigGetters';
 import SubStat from './components/sub-stat/SubStat';
-import { getBorderColor, getStaticTextSize } from './utils';
+import { getBorderDataChangeDirectionColor, getStaticTextSize } from './utils';
 
 function StatPlot({ plotConfig = {} }) {
   const { primarySubStatDataKeys, secondarySubStatDataKeys } =
@@ -46,7 +46,7 @@ function StatPlot({ plotConfig = {} }) {
 
         const dataChangeDirection = datum[DATA_CHANGE_DIRECTION];
 
-        const borderColor = getBorderColor({
+        const borderColor = getBorderDataChangeDirectionColor({
           dataChangeDirection,
           showHighContrastDataChangeDirectionColor,
           inverseDataChangeDirectionColors,
