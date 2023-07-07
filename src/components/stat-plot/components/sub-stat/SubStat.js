@@ -46,20 +46,57 @@ function SubStat({
       numSecondarySubStats={numSecondarySubStats}
       secondarySubStatIndex={secondarySubStatIndex}>
       {topLabel && <TopLabel>{topLabel}</TopLabel>}
-      <IconValueContainer>
-        {icon}
-        <SubStatValue
-          statType={statType}
-          staticTextSize={staticTextSize}
-          fontSize={valueFontSize}
-          color={color}>
-          {formattedValue ?? '-'}
-        </SubStatValue>
-      </IconValueContainer>
-      <SubStatLabel statType={statType}>{bottomLabel}</SubStatLabel>
+      <IconValueLabelContainer
+        numSecondarySubStats={numSecondarySubStats}
+        secondarySubStatIndex={secondarySubStatIndex}>
+        <IconValueContainer>
+          {icon}
+          <SubStatValue
+            statType={statType}
+            staticTextSize={staticTextSize}
+            fontSize={valueFontSize}
+            color={color}>
+            {formattedValue ?? '-'}
+          </SubStatValue>
+        </IconValueContainer>
+        <SubStatLabel statType={statType}>{bottomLabel}</SubStatLabel>
+      </IconValueLabelContainer>
     </SubStatContainer>
   );
 }
+
+const IconValueLabelContainer = styled.div`
+  ${(p) => {
+    if (p.numSecondarySubStats !== 3) {
+      return `
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    `;
+    }
+    if (p.secondarySubStatIndex === 0) {
+      return `
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    `;
+    }
+    if (p.secondarySubStatIndex === 1) {
+      return `
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    `;
+    }
+    if (p.secondarySubStatIndex === 2) {
+      return `
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    `;
+    }
+  }};
+`;
 
 const TopLabel = styled.span`
   color: ${colors.gray[700]};
@@ -79,7 +116,7 @@ const SubStatValue = styled.span`
   font-weight: ${(p) => (p.statType === 'primary' ? fontWeights.bold : fontWeights.normal)};
   line-height: ${(p) => {
     if (p.statType === 'secondary') {
-      return '6px';
+      return '8px';
     }
 
     return {
@@ -95,6 +132,7 @@ const IconValueContainer = styled.div`
   display: flex;
   column-gap: ${space[1]};
   align-items: flex-end;
+  justify-content: center;
   max-width: 100%;
 `;
 
@@ -102,31 +140,33 @@ const SubStatContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
   ${(p) => {
     if (p.numSecondarySubStats !== 3) {
-      return;
+      return `align-items: center;`;
     }
 
     if (p.secondarySubStatIndex === 0) {
       return `
       grid-column: 1 / span 1;
       text-align: right;
+      align-items: flex-end;
     `;
     }
     if (p.secondarySubStatIndex === 1) {
       return `
       grid-column: 2 / span 1;
       text-align: center;
+      align-items: center;
     `;
     }
     if (p.secondarySubStatIndex === 2) {
       return `
       grid-column: 3 / span 1;
       text-align: left;
+      align-items: flex-start;
     `;
     }
   }};

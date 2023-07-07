@@ -192,6 +192,7 @@ const SubStatList = styled.div`
       display: grid;
       grid-template-rows: 1fr;
       grid-template-columns: 1fr auto 1fr;
+      align-items: flex-end;
     `;
     }
     return `display: flex;`;
