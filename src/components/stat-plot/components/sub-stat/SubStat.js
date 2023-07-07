@@ -4,10 +4,10 @@ import styled from 'styled-components';
 import { FiArrowDownRight, FiArrowUpRight } from 'react-icons/fi';
 import colors from '../../../../constants/colors';
 import fontSizes from '../../../../constants/fontSizes';
-import { DATA_CHANGE_DIRECTIONS } from '../../../../constants/plotConstants';
+import { DATA_CHANGE_DIRECTIONS, TEXT_SIZE_TYPES } from '../../../../constants/plotConstants';
 import space from '../../../../constants/space';
-import { SubStatLabel } from '../sub-stat-label/SubStatLabel';
 import fontWeights from '../../../../constants/fontWeights';
+import { getIconSizeProps } from '../../utils';
 
 const getColorToUse = ({
   showDataChangeDirection,
@@ -46,6 +46,7 @@ function SubStat({
   inverseDataChangeDirectionColors,
   statType,
   fontSize,
+  staticTextSize,
 }) {
   const color = getColorToUse({
     showDataChangeDirection,
@@ -54,24 +55,33 @@ function SubStat({
     direction,
   });
 
+  const iconSizeProps = getIconSizeProps({ statType, staticTextSize });
+
   const icon = showDataChangeDirection
     ? {
-        [DATA_CHANGE_DIRECTIONS.POSITIVE]: <FiArrowUpRight color={color} />,
+        [DATA_CHANGE_DIRECTIONS.POSITIVE]: <FiArrowUpRight color={color} {...iconSizeProps} />,
         [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: null,
-        [DATA_CHANGE_DIRECTIONS.NEGATIVE]: <FiArrowDownRight color={color} />,
+        [DATA_CHANGE_DIRECTIONS.NEGATIVE]: <FiArrowDownRight color={color} {...iconSizeProps} />,
       }[direction]
     : null;
+
+  console.log({ topLabel, fontSize });
 
   return (
     <SubStatContainer>
       {topLabel && <TopLabel>{topLabel}</TopLabel>}
       <IconValueContainer>
         {icon}
-        <SubStatValue isBold={statType === 'primary'} fontSize={fontSize} color={color}>
+        <SubStatValue
+          isBold={statType === 'primary'}
+          statType={statType}
+          staticTextSize={staticTextSize}
+          fontSize={fontSize}
+          color={color}>
           {formattedValue ?? '-'}
         </SubStatValue>
       </IconValueContainer>
-      <SubStatLabel>{bottomLabel}</SubStatLabel>
+      <SubStatLabel statType={statType}>{bottomLabel}</SubStatLabel>
     </SubStatContainer>
   );
 }
@@ -80,17 +90,29 @@ const TopLabel = styled.span`
   color: ${colors.gray[700]};
   font-weight: ${fontWeights.normal};
   font-size: ${fontSizes.xs};
+  margin-bottom: ${space[4]};
 `;
 
 const SubStatValue = styled.span`
   color: ${(p) => p.color};
   font-size: ${(p) => p.fontSize ?? fontSizes['2xs']};
-  font-weight: ${(p) => (p.isBold ? fontWeights.bold : fontWeights.normal)};
+  font-weight: ${(p) => (p.statType === 'primary' ? fontWeights.bold : fontWeights.normal)};
+  line-height: ${(p) => {
+    if (p.statType === 'secondary') {
+      return '7px';
+    }
+
+    return {
+      [TEXT_SIZE_TYPES.SMALL]: '16px',
+      [TEXT_SIZE_TYPES.LARGE]: '24px',
+    }[p.staticTextSize];
+  }};
 `;
 
 const IconValueContainer = styled.div`
   display: flex;
   column-gap: ${space[1]};
+  align-items: flex-end;
 `;
 
 const SubStatContainer = styled.div`
@@ -98,6 +120,15 @@ const SubStatContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const SubStatLabel = styled.div`
+  color: ${colors.gray[300]};
+  font-size: ${fontSizes['2xs']};
+  font-weight: ${fontWeights.normal};
+  line-height: 11px;
+  margin-top: ${(p) => (p.statType === 'primary' ? space[3] : space[1.5])};
+  text-align: center;
 `;
 
 export default SubStat;

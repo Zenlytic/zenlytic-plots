@@ -443,8 +443,8 @@ export const getStatPlotNumMetrics = (plotConfig) => {
 
 export const getStatPlotSubMetricDataKeys = (plotConfig) => {
   const series = getSeries(plotConfig);
-  const { primarySubMetricDataKeys, secondarySubMetricDataKeys } = series;
-  return { primarySubMetricDataKeys, secondarySubMetricDataKeys };
+  const { primarySubStatDataKeys, secondarySubStatDataKeys } = series;
+  return { primarySubStatDataKeys, secondarySubStatDataKeys };
 };
 
 export const pivotDataByDataKey = (plotConfig, data, dataKey) => {

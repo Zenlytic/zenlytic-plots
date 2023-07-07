@@ -18,18 +18,27 @@ import SubStat from './components/sub-stat/SubStat';
 import {
   getBorderColor,
   getDataChangeDirectionFromValue,
+  getStaticTextSize,
   getValueColor,
   getValueFontSize,
 } from './utils';
 
 function StatPlot({ plotConfig = {} }) {
-  const { primarySubMetricDataKeys, secondarySubMetricDataKeys } =
+  const { primarySubStatDataKeys, secondarySubStatDataKeys } =
     getStatPlotSubMetricDataKeys(plotConfig);
   const data = getData(plotConfig);
   const numMetrics = getStatPlotNumMetrics(plotConfig);
   const showHighContrastDataChangeDirectionColor =
     getStatPlotShowHighContrastDataChangeDirectionColor(plotConfig);
   const textSize = getStatPlotTextSize(plotConfig);
+  const staticTextSize = getStaticTextSize({ textSize, numMetrics });
+
+  // Filter to data that has the minimum correct configuration, e.g. it has a primary number.
+  // const dataWithPrimaryNumber = data.filter((datum) =>
+  //   Object.keys(datum).some((datumEntry) => primarySubStatDataKeys.includes(datumEntry))
+  // );
+
+  // console.log({ data, primarySubStatDataKeys, dataWithPrimaryNumber });
 
   return (
     <StatsContainerList numMetrics={numMetrics}>
@@ -37,7 +46,7 @@ function StatPlot({ plotConfig = {} }) {
         const datumEntries = Object.keys(datum);
 
         const primarySubMetricDataKeyForDatum = datumEntries.find((datumEntry) =>
-          primarySubMetricDataKeys.includes(datumEntry)
+          primarySubStatDataKeys.includes(datumEntry)
         );
 
         if (primarySubMetricDataKeyForDatum === undefined) {
@@ -54,11 +63,11 @@ function StatPlot({ plotConfig = {} }) {
           return null;
         }
 
-        const secondarySubMetricDataKeysForDatum = datumEntries.filter((datumEntry) =>
-          secondarySubMetricDataKeys.includes(datumEntry)
+        const secondarySubStatDataKeysForDatum = datumEntries.filter((datumEntry) =>
+          secondarySubStatDataKeys.includes(datumEntry)
         );
 
-        const showSubStats = secondarySubMetricDataKeysForDatum.length > 0;
+        const showSubStats = secondarySubStatDataKeysForDatum.length > 0;
 
         const primaryNumberValue = datum[primarySubMetricDataKeyForDatum];
 
@@ -98,10 +107,11 @@ function StatPlot({ plotConfig = {} }) {
               inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
               statType="primary"
               fontSize={valueFontSize}
+              staticTextSize={staticTextSize}
             />
             {showSubStats && (
               <SubStatList>
-                {secondarySubMetricDataKeysForDatum.map((subStatDataKey) => {
+                {secondarySubStatDataKeysForDatum.map((subStatDataKey) => {
                   const axis = getAxisFromDataKey(plotConfig, subStatDataKey);
                   if (axis === undefined) {
                     return null;
@@ -127,6 +137,7 @@ function StatPlot({ plotConfig = {} }) {
                       showHighContrastDataChangeDirectionColor={showHighContrastDataChangeDirection}
                       inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
                       statType="secondary"
+                      staticTextSize={staticTextSize}
                     />
                   );
                 })}

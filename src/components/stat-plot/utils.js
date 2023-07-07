@@ -14,8 +14,8 @@ export const directionToValueColorMapping = {
   [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
 };
 
-export const getBorderColor = ({ direction, showDataChangeDirectionColor }) => {
-  if (!showDataChangeDirectionColor) {
+export const getBorderColor = ({ direction, showHighContrastDataChangeDirectionColor }) => {
+  if (!showHighContrastDataChangeDirectionColor) {
     return colors.gray[60];
   }
   return directionToBorderColorMapping[direction];
@@ -38,6 +38,33 @@ export const getValueFontSize = ({ textSize, numMetrics }) => {
     [TEXT_SIZE_TYPES.SMALL]: smallTextSize,
     [TEXT_SIZE_TYPES.LARGE]: largeTextSize,
   }[textSize];
+};
+
+export const getStaticTextSize = ({ textSize, numMetrics }) => {
+  if (textSize === TEXT_SIZE_TYPES.DYNAMIC) {
+    return numMetrics >= 3 ? TEXT_SIZE_TYPES.SMALL : TEXT_SIZE_TYPES.LARGE;
+  }
+
+  return textSize;
+};
+
+export const getIconSizeProps = ({ statType, staticTextSize }) => {
+  // The viewBox is edited so that the icon takes up the entire space within the SVG.
+  // These were fine-tuned with the line-height of the formattedValue to ensure the
+  // arrow takes up the exact same vertical space as the formattedValue.
+  const secondarySubStatIconSizeProps = { size: '8px', viewBox: '6 6 12 12' };
+  const primarySubStatLargeTextSizeIconSizeProps = { size: '24px', viewBox: '6 6 12 12' };
+  const primarySubStatSmallTextSizeIconSizeProps = { size: '16px', viewBox: '6 6 12 12' };
+
+  if (statType === 'secondary') {
+    return secondarySubStatIconSizeProps;
+  }
+
+  if (staticTextSize === TEXT_SIZE_TYPES.LARGE) {
+    return primarySubStatLargeTextSizeIconSizeProps;
+  }
+
+  return primarySubStatSmallTextSizeIconSizeProps;
 };
 
 export const getDataChangeDirectionFromValue = (value) => {
