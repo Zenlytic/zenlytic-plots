@@ -19,6 +19,8 @@ function SubStat({
   inverseDataChangeDirectionColors,
   statType,
   staticTextSize,
+  numSecondarySubStats,
+  secondarySubStatIndex,
 }) {
   const color = getValueDataChangeDirectionColor({
     showDataChangeDirection,
@@ -40,7 +42,9 @@ function SubStat({
     : null;
 
   return (
-    <SubStatContainer>
+    <SubStatContainer
+      numSecondarySubStats={numSecondarySubStats}
+      secondarySubStatIndex={secondarySubStatIndex}>
       {topLabel && <TopLabel>{topLabel}</TopLabel>}
       <IconValueContainer>
         {icon}
@@ -75,7 +79,7 @@ const SubStatValue = styled.span`
   font-weight: ${(p) => (p.statType === 'primary' ? fontWeights.bold : fontWeights.normal)};
   line-height: ${(p) => {
     if (p.statType === 'secondary') {
-      return '8px';
+      return '6px';
     }
 
     return {
@@ -102,6 +106,30 @@ const SubStatContainer = styled.div`
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
+  ${(p) => {
+    if (p.numSecondarySubStats !== 3) {
+      return;
+    }
+
+    if (p.secondarySubStatIndex === 0) {
+      return `
+      grid-column: 1 / span 1;
+      text-align: right;
+    `;
+    }
+    if (p.secondarySubStatIndex === 1) {
+      return `
+      grid-column: 2 / span 1;
+      text-align: center;
+    `;
+    }
+    if (p.secondarySubStatIndex === 2) {
+      return `
+      grid-column: 3 / span 1;
+      text-align: left;
+    `;
+    }
+  }};
 `;
 
 const SubStatLabel = styled.div`

@@ -71,7 +71,9 @@ function StatPlot({ plotConfig = {} }) {
           secondarySubStatDataKeys.includes(datumEntry)
         );
 
-        const showSubStats = secondarySubStatDataKeysForDatum.length > 0;
+        const numSecondarySubStats = secondarySubStatDataKeysForDatum.length;
+
+        const showSecondarySubStats = numSecondarySubStats > 0;
 
         const primarySubStatRawValue = datum[primarySubMetricDataKeyForDatum];
 
@@ -95,48 +97,52 @@ function StatPlot({ plotConfig = {} }) {
               statType="primary"
               staticTextSize={staticTextSize}
             />
-            {showSubStats && (
-              <SubStatList>
-                {secondarySubStatDataKeysForDatum.map((subStatDataKey) => {
-                  const axis = getAxisFromDataKey(plotConfig, subStatDataKey);
+            {showSecondarySubStats && (
+              <SubStatList numSecondarySubStats={secondarySubStatDataKeysForDatum.length}>
+                {secondarySubStatDataKeysForDatum.map(
+                  (secondarySubStatDataKey, secondarySubStatIndex) => {
+                    const axis = getAxisFromDataKey(plotConfig, secondarySubStatDataKey);
 
-                  if (axis === undefined) {
-                    return null;
+                    if (axis === undefined) {
+                      return null;
+                    }
+
+                    const {
+                      format,
+                      subName,
+                      showDataChangeDirection,
+                      showHighContrastDataChangeDirectionColor:
+                        showHighContrastDataChangeDirectionColorForSubStat,
+                      inverseDataChangeDirectionColors,
+                    } = axis;
+
+                    const secondarySubStatRawValue = datum[secondarySubStatDataKey];
+
+                    const secondarySubStatFormatter = getFormatter(format);
+
+                    const secondarySubStatFormattedValue =
+                      secondarySubStatFormatter(secondarySubStatRawValue);
+
+                    return (
+                      <SubStat
+                        key={secondarySubStatDataKey}
+                        dataChangeDirection={dataChangeDirection}
+                        bottomLabel={subName}
+                        formattedValue={secondarySubStatFormattedValue}
+                        showDataChangeDirection={showDataChangeDirection}
+                        showHighContrastDataChangeDirectionColor={
+                          showHighContrastDataChangeDirectionColor &&
+                          showHighContrastDataChangeDirectionColorForSubStat
+                        }
+                        inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
+                        statType="secondary"
+                        staticTextSize={staticTextSize}
+                        numSecondarySubStats={numSecondarySubStats}
+                        secondarySubStatIndex={secondarySubStatIndex}
+                      />
+                    );
                   }
-
-                  const {
-                    format,
-                    subName,
-                    showDataChangeDirection,
-                    showHighContrastDataChangeDirectionColor:
-                      showHighContrastDataChangeDirectionColorForSubStat,
-                    inverseDataChangeDirectionColors,
-                  } = axis;
-
-                  const secondarySubStatRawValue = datum[subStatDataKey];
-
-                  const secondarySubStatFormatter = getFormatter(format);
-
-                  const secondarySubStatFormattedValue =
-                    secondarySubStatFormatter(secondarySubStatRawValue);
-
-                  return (
-                    <SubStat
-                      key={subStatDataKey}
-                      dataChangeDirection={dataChangeDirection}
-                      bottomLabel={subName}
-                      formattedValue={secondarySubStatFormattedValue}
-                      showDataChangeDirection={showDataChangeDirection}
-                      showHighContrastDataChangeDirectionColor={
-                        showHighContrastDataChangeDirectionColor &&
-                        showHighContrastDataChangeDirectionColorForSubStat
-                      }
-                      inverseDataChangeDirectionColors={inverseDataChangeDirectionColors}
-                      statType="secondary"
-                      staticTextSize={staticTextSize}
-                    />
-                  );
-                })}
+                )}
               </SubStatList>
             )}
           </StatsContainer>
@@ -178,9 +184,18 @@ const StatsContainer = styled.div`
 `;
 
 const SubStatList = styled.div`
-  display: flex;
   column-gap: ${space[4]};
   margin-top: ${space[4]};
+  ${(p) => {
+    if (p.numSecondarySubStats === 3) {
+      return `
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr auto 1fr;
+    `;
+    }
+    return `display: flex;`;
+  }};
 `;
 
 const EnableOneStatMessage = styled.div`
