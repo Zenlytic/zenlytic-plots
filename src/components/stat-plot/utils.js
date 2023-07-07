@@ -2,26 +2,36 @@ import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import { DATA_CHANGE_DIRECTIONS, TEXT_SIZE_TYPES } from '../../constants/plotConstants';
 
-export const dataChangeDirectionToBorderColorMapping = {
+const dataChangeDirectionToBorderColorMapping = {
   [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
   [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[60],
   [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
 };
 
-export const dataChangeDirectionToValueColorMapping = {
-  [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
-  [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-  [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
+const getInversedDataChangeDirection = (dataChangeDirection) => {
+  return {
+    [DATA_CHANGE_DIRECTIONS.POSITIVE]: DATA_CHANGE_DIRECTIONS.NEGATIVE,
+    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: DATA_CHANGE_DIRECTIONS.POSITIVE,
+    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: DATA_CHANGE_DIRECTIONS.NO_CHANGE,
+  }[dataChangeDirection];
 };
 
 export const getBorderColor = ({
   dataChangeDirection,
   showHighContrastDataChangeDirectionColor,
+  inverseDataChangeDirectionColors,
 }) => {
   if (!showHighContrastDataChangeDirectionColor) {
     return colors.gray[60];
   }
-  return dataChangeDirectionToBorderColorMapping[dataChangeDirection];
+
+  const color = dataChangeDirectionToBorderColorMapping[dataChangeDirection];
+
+  const inversedDataChangeDirection = getInversedDataChangeDirection(dataChangeDirection);
+
+  const inversedColor = dataChangeDirectionToBorderColorMapping[inversedDataChangeDirection];
+
+  return inverseDataChangeDirectionColors ? inversedColor : color;
 };
 
 export const getValueFontSize = ({ staticTextSize, statType }) => {
@@ -65,6 +75,12 @@ export const getIconSizeProps = ({ statType, staticTextSize }) => {
   return primarySubStatSmallTextSizeIconSizeProps;
 };
 
+const dataChangeDirectionToColorMapping = {
+  [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
+  [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
+  [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
+};
+
 export const getStatPlotDataChangeDirectionColor = ({
   showDataChangeDirection,
   showHighContrastDataChangeDirectionColor,
@@ -75,17 +91,11 @@ export const getStatPlotDataChangeDirectionColor = ({
     return colors.gray[700];
   }
 
-  const color = {
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.green[600],
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.red[600],
-  }[dataChangeDirection];
+  const color = dataChangeDirectionToColorMapping[dataChangeDirection];
 
-  const inversedColor = {
-    [DATA_CHANGE_DIRECTIONS.NEGATIVE]: colors.green[600],
-    [DATA_CHANGE_DIRECTIONS.NO_CHANGE]: colors.gray[700],
-    [DATA_CHANGE_DIRECTIONS.POSITIVE]: colors.red[600],
-  }[dataChangeDirection];
+  const inversedDataChangeDirection = getInversedDataChangeDirection(dataChangeDirection);
+
+  const inversedColor = dataChangeDirectionToBorderColorMapping[inversedDataChangeDirection];
 
   const colorToUse = inverseDataChangeDirectionColors ? inversedColor : color;
 

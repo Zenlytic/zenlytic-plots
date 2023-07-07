@@ -49,6 +49,7 @@ function StatPlot({ plotConfig = {} }) {
         const borderColor = getBorderColor({
           dataChangeDirection,
           showHighContrastDataChangeDirectionColor,
+          inverseDataChangeDirectionColors,
         });
 
         const axis = getAxisFromDataKey(plotConfig, primarySubMetricDataKeyForDatum);
