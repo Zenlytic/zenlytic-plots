@@ -89,6 +89,11 @@ const TopLabel = styled.span`
   font-weight: ${fontWeights.normal};
   font-size: ${fontSizes.xs};
   margin-bottom: ${space[4]};
+  text-align: center;
+  text-wrap: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  overflow: hidden;
 `;
 
 const SubStatValue = styled.span`
@@ -105,12 +110,15 @@ const SubStatValue = styled.span`
       [TEXT_SIZE_TYPES.LARGE]: '24px',
     }[p.staticTextSize];
   }};
+  max-width: 100%;
+  text-wrap: nowrap;
 `;
 
 const IconValueContainer = styled.div`
   display: flex;
   column-gap: ${space[1]};
   align-items: flex-end;
+  max-width: 100%;
 `;
 
 const SubStatContainer = styled.div`
@@ -118,6 +126,9 @@ const SubStatContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 `;
 
 const SubStatLabel = styled.div`

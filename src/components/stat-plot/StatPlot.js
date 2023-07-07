@@ -177,6 +177,8 @@ const StatsContainer = styled.div`
   border: ${space.px} solid ${(p) => p.borderColor};
   border-radius: ${radii.lg};
   padding: ${space[3]} ${space[4]};
+  max-width: 100%;
+  overflow: hidden;
 `;
 
 const SubStatList = styled.div`
