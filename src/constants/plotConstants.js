@@ -39,6 +39,7 @@ export const DEFAULT_LABEL_PROPS = {
   fill: '#595959',
   fontWeight: 500,
   fontSize: '0.75rem',
+  maxWidth: '100px',
 };
 
 export const DEFAULT_TICK_PROPS = {

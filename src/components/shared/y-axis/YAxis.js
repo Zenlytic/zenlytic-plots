@@ -8,6 +8,7 @@ import {
   DEFAULT_LABEL_PROPS,
   DEFAULT_TICK_PROPS,
 } from '../../../constants/plotConstants';
+import Tick from '../tick/Tick';
 
 const YAxis = ({
   type,
@@ -27,10 +28,10 @@ const YAxis = ({
       name={name}
       type={type}
       stroke={DEFAULT_AXIS_COLOR}
-      width={width}
-      tick={DEFAULT_TICK_PROPS}
+      tick={Tick}
       orientation={orientation}
       domain={domain}
+      width={width}
       allowDataOverflow={true}
       interval={interval}
       yAxisId={yAxisId}>
