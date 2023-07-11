@@ -108,6 +108,16 @@ export const getLegendItemFormatter = (plotConfig) => {
   }
 };
 
+export const getXAxisDataKey = (plotConfig) => {
+  const xAxisDataKey = getSeriesKeyValue(plotConfig, AXIS_DATA_KEY_KEYS.X_AXIS_DATA_KEY_KEY);
+  return xAxisDataKey;
+};
+
+export const getYAxisDataKey = (plotConfig) => {
+  const yAxisDataKey = getSeriesKeyValue(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
+  return yAxisDataKey;
+};
+
 const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
   const axisDataKey = getSeriesKeyValue(plotConfig, axisDataKeyKey);
   return getAxisFromDataKey(plotConfig, axisDataKey);
@@ -195,10 +205,6 @@ export const getXAxisTickFormatter = (plotConfig) => {
   return xAxis?.tickFormatter;
 };
 
-export const getXAxisDataKey = (plotConfig) => {
-  const xAxis = getXAxis(plotConfig);
-  return xAxis?.dataKey;
-};
 export const getXAxisName = (plotConfig) => {
   const xAxis = getXAxis(plotConfig);
   return xAxis?.name;
@@ -326,10 +332,6 @@ export const getYAxisTickFormatter = (plotConfig) => {
   return yAxis.tickFormatter;
 };
 
-export const getYAxisDataKey = (plotConfig) => {
-  const yAxis = getYAxis(plotConfig);
-  return yAxis?.dataKey;
-};
 export const getYAxisName = (plotConfig) => {
   const yAxis = getYAxis(plotConfig);
   return yAxis?.name;
