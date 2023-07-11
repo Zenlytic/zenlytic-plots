@@ -272,7 +272,6 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
     return Math.max(agg, formattedValueLength);
   }, 0);
 
-  console.log({ data, formattedValuesMaxLength });
   return formattedValuesMaxLength;
 };
 
