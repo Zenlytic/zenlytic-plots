@@ -217,7 +217,9 @@ export const getSecondYAxis = (plotConfig) => {
     tickFormatter,
     yAxisId: 'right',
     orientation: 'right',
+    width: DEFAULT_Y_AXIS_WIDTH,
     domain,
+    useWideYAxis: false,
   };
 };
 
@@ -260,6 +262,7 @@ export const getYAxis = (plotConfig) => {
     orientation: isSplitAxes ? 'left' : undefined,
     domain,
     width: useWideYAxis ? 200 : DEFAULT_Y_AXIS_WIDTH,
+    useWideYAxis,
   };
 };
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/function-component-definition */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Label, YAxis as RechartsYAxis } from 'recharts';
 import {
   DEFAULT_AXIS_COLOR,
@@ -20,7 +20,12 @@ const YAxis = ({
   domain,
   width,
   interval = 'preserveEnd',
+  useWideYAxis,
 }) => {
+  const TickMemoized = useCallback(
+    (props) => <Tick useWideYAxis={useWideYAxis} axisWidth={width} {...props} />,
+    [width]
+  );
   return (
     <RechartsYAxis
       dataKey={dataKey}
@@ -28,7 +33,7 @@ const YAxis = ({
       name={name}
       type={type}
       stroke={DEFAULT_AXIS_COLOR}
-      tick={Tick}
+      tick={TickMemoized}
       orientation={orientation}
       domain={domain}
       width={width}

@@ -42,6 +42,7 @@ export const DEFAULT_LABEL_PROPS = {
   maxWidth: '100px',
 };
 
+// TODO: NJM Move to Tick.js component.
 export const DEFAULT_TICK_PROPS = {
   fill: '#8C8C8C',
   fontWeight: 300,
