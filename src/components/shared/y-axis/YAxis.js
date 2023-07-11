@@ -21,10 +21,18 @@ const YAxis = ({
   width,
   interval = 'preserveEnd',
   useWideYAxis,
+  tickMaxLength,
 }) => {
   const TickMemoized = useCallback(
-    (props) => <Tick useWideYAxis={useWideYAxis} axisWidth={width} {...props} />,
-    [width]
+    (props) => (
+      <Tick
+        useWideYAxis={useWideYAxis}
+        tickMaxLength={tickMaxLength}
+        axisWidth={width}
+        {...props}
+      />
+    ),
+    [width, tickMaxLength, useWideYAxis]
   );
   return (
     <RechartsYAxis

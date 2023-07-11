@@ -1,30 +1,18 @@
-import { Text } from 'recharts';
 import React from 'react';
-import { DEFAULT_TICK_PROPS } from '../../../constants/plotConstants';
+import { Text } from 'recharts';
 
 const AXIS_WIDTH_TO_TEXT_LENGTH_MULTIPLIER = 0.8;
 
 const FORMATTED_VALUE_LENGTH_THRESHOLD = 11;
 
-const Tick = (props) => {
-  const rawValue = props.payload.value;
+const Tick = ({ payload, tickFormatter, tickMaxLength, useWideYAxis, axisWidth, ...rest }) => {
+  const rawValue = payload.value;
 
-  const formattedValue =
-    typeof props.tickFormatter === 'function' ? props.tickFormatter(rawValue) : rawValue;
+  const formattedValue = typeof tickFormatter === 'function' ? tickFormatter(rawValue) : rawValue;
 
-  const formattedValueLength = formattedValue.toString().length;
-
-  const shouldUseTextLength =
-    !props.useWideYAxis && formattedValueLength > FORMATTED_VALUE_LENGTH_THRESHOLD;
-
-  // Limit text length when it exceeds threshold.
-  const textLength = shouldUseTextLength
-    ? (props.axisWidth ?? 80) * AXIS_WIDTH_TO_TEXT_LENGTH_MULTIPLIER
-    : undefined;
-
-  console.log({ textLength, props, formattedValue, formattedValueLength });
+  console.log({ payload, tickMaxLength, axisWidth, formattedValue, rest });
   return (
-    <Text {...props} {...DEFAULT_TICK_PROPS} textLength={textLength}>
+    <Text {...rest} fill={'#8C8C8C'} fontWeight={300} fontSize={'0.75rem'}>
       {formattedValue}
     </Text>
   );
