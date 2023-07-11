@@ -140,7 +140,6 @@ const SubStatContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100%;
   ${(p) => {
@@ -179,6 +178,7 @@ const SubStatLabel = styled.div`
   line-height: 11px;
   margin-top: ${(p) => (p.statType === 'primary' ? space[3] : space[1.5])};
   text-align: center;
+  text-wrap: ${(p) => (p.statType === 'primary' ? 'nowrap' : 'wrap')};
 `;
 
 export default SubStat;

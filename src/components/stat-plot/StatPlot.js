@@ -191,7 +191,7 @@ const SubStatList = styled.div`
       return `
       display: grid;
       grid-template-rows: 1fr;
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       align-items: flex-end;
     `;
     }
