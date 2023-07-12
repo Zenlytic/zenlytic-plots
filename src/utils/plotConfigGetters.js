@@ -1,4 +1,4 @@
-import { isEmpty, sortBy } from 'lodash';
+import { isEmpty } from 'lodash';
 import colors from '../constants/colors';
 import {
   AXIS_DATA_KEY_KEYS,
@@ -8,6 +8,7 @@ import {
   GROUPED_BAR_DISPLAY_TYPES,
   PLOT_TYPES,
   RADIAL_PLOT_DISPLAY_TYPES,
+  TEXT_SIZE_TYPES,
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
@@ -69,7 +70,7 @@ const getSeriesKeyValue = (plotConfig, axisDataKeyKey) => {
   return series[axisDataKeyKey];
 };
 
-const getAxisFromDataKey = (plotConfig, axisDataKey) => {
+export const getAxisFromDataKey = (plotConfig, axisDataKey) => {
   const axes = getAxes(plotConfig);
   return axes.find((axis) => axis.dataKey === axisDataKey);
 };
@@ -523,6 +524,17 @@ export const getIsRadialPlot = (plotConfig) => {
   return plotDimensionsType === 'radial';
 };
 
+export const getStatPlotNumMetrics = (plotConfig) => {
+  const data = getData(plotConfig);
+  return data.length;
+};
+
+export const getStatPlotSubMetricDataKeys = (plotConfig) => {
+  const series = getSeries(plotConfig);
+  const { primarySubStatDataKeys, secondarySubStatDataKeys } = series;
+  return { primarySubStatDataKeys, secondarySubStatDataKeys };
+};
+
 export const pivotDataByDataKey = (plotConfig, data, dataKey) => {
   const plotType = getSeriesType(plotConfig);
   if (plotType === PLOT_TYPES.AREA) return flatPivotDataByDataKey(plotConfig, data, dataKey);
@@ -674,27 +686,6 @@ const getWaterfallSpecificData = (plotConfig, data) => {
   return [startDataPoint, ...accumulatedData, otherFactorsDataPoint, endDataPoint];
 };
 
-const getSubStatDataKey = (plotConfig) => {
-  const series = getSeries(plotConfig);
-  return series?.subStatDataKey;
-};
-
-export const getStatDataKeys = (plotConfig) => {
-  const series = getSeries(plotConfig);
-  return series?.statDataKeys ?? [];
-};
-
-export const getSubStatAxis = (plotConfig) => {
-  const axes = getAxes(plotConfig);
-  const subStatDataKey = getSubStatDataKey(plotConfig);
-  return axes.find((a) => a.dataKey === subStatDataKey);
-};
-
-export const getDoesSubStatDataExist = (plotConfig) => {
-  const subStatDataKey = getSubStatDataKey(plotConfig);
-  return subStatDataKey !== undefined;
-};
-
 export const getBarSpecificData = (plotConfig, data) => {
   const activeIds = getSeriesActiveIds(plotConfig);
 
@@ -797,20 +788,6 @@ export const getData = (plotConfig) => {
   }
 };
 
-export const getStatDatumByDataKey = (plotConfig, dataKey) => {
-  const data = getData(plotConfig);
-  return data.find((datum) => datum[dataKey] !== undefined);
-};
-
-export const getSubStatDatumByDataKey = (plotConfig, dataKey) => {
-  const datum = getStatDatumByDataKey(plotConfig, dataKey);
-  if (datum === undefined) {
-    return {};
-  }
-  const subStatDataKey = getSubStatDataKey(plotConfig);
-  return datum[subStatDataKey];
-};
-
 export const getValuesOfCategoryAxis = (plotConfig) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const uniqueValuesOfDataKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
@@ -886,6 +863,20 @@ export const getAreaPlotDataChangeType = (plotConfig) => {
 export const getAreaPlotDataAnnotationsChangeType = (plotConfig) => {
   const areaPlotOptions = getAreaPlotOptions(plotConfig);
   return areaPlotOptions?.dataAnnotationsChangeType ?? DATA_CHANGE_TYPES.ABSOLUTE;
+};
+
+const getStatPlotOptions = (plotConfig) => {
+  return getPlotOptions(plotConfig)[PLOT_TYPES.STAT];
+};
+
+export const getStatPlotShowHighContrastDataChangeDirectionColor = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.showHighContrastDataChangeDirectionColor ?? false;
+};
+
+export const getStatPlotTextSize = (plotConfig) => {
+  const statPlotOptions = getStatPlotOptions(plotConfig);
+  return statPlotOptions?.textSize ?? TEXT_SIZE_TYPES.DYNAMIC;
 };
 
 const getRadialPlotOptions = (plotConfig) => {
