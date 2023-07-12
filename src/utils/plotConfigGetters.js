@@ -109,6 +109,16 @@ export const getLegendItemFormatter = (plotConfig) => {
   }
 };
 
+export const getXAxisDataKey = (plotConfig) => {
+  const xAxisDataKey = getSeriesKeyValue(plotConfig, AXIS_DATA_KEY_KEYS.X_AXIS_DATA_KEY_KEY);
+  return xAxisDataKey;
+};
+
+export const getYAxisDataKey = (plotConfig) => {
+  const yAxisDataKey = getSeriesKeyValue(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
+  return yAxisDataKey;
+};
+
 const getAxisFromAxes = (plotConfig, axisDataKeyKey) => {
   const axisDataKey = getSeriesKeyValue(plotConfig, axisDataKeyKey);
   return getAxisFromDataKey(plotConfig, axisDataKey);
@@ -196,10 +206,6 @@ export const getXAxisTickFormatter = (plotConfig) => {
   return xAxis?.tickFormatter;
 };
 
-export const getXAxisDataKey = (plotConfig) => {
-  const xAxis = getXAxis(plotConfig);
-  return xAxis?.dataKey;
-};
 export const getXAxisName = (plotConfig) => {
   const xAxis = getXAxis(plotConfig);
   return xAxis?.name;
@@ -211,6 +217,12 @@ export const getSecondYAxis = (plotConfig) => {
   if (!secondYAxis) return { domain };
   const { dataType, name, dataKey, format } = secondYAxis || {};
   const tickFormatter = getFormatter(format);
+  const tickMaxLength = getYAxisMaxDataWidth(plotConfig, {
+    tickFormatter,
+    yAxisDataKey: dataKey,
+  });
+  const useWideYAxis = false;
+  const width = getYAxisWidth({ useWideYAxis, tickMaxLength });
   return {
     type: dataType,
     name,
@@ -218,7 +230,10 @@ export const getSecondYAxis = (plotConfig) => {
     tickFormatter,
     yAxisId: 'right',
     orientation: 'right',
+    width,
     domain,
+    useWideYAxis,
+    tickMaxLength,
   };
 };
 
@@ -241,7 +256,64 @@ export const getIsSplitAxes = (plotConfig) => {
   return !!getSecondYAxisDataKey(plotConfig);
 };
 
+const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
+  const plotType = getSeriesType(plotConfig);
+
+  const shouldLimitYAxisWidth = [
+    PLOT_TYPES.LINE,
+    PLOT_TYPES.MULTI_LINE,
+    PLOT_TYPES.BAR,
+    PLOT_TYPES.GROUPED_BAR,
+    PLOT_TYPES.AREA,
+  ].includes(plotType);
+
+  if (!shouldLimitYAxisWidth) {
+    return null;
+  }
+
+  const data = getData(plotConfig);
+
+  const isDataPivoted = getIsDataPivoted(plotConfig);
+
+  const categoryValueDataKeys = getUniqueValuesOfCategoryAxis(plotConfig);
+
+  const formattedValuesMaxLength = data.reduce((agg, datum) => {
+    let rawValue;
+    if (
+      [PLOT_TYPES.BAR, PLOT_TYPES.LINE, PLOT_TYPES.HORIZONTAL_BAR].includes(plotType) ||
+      !isDataPivoted
+    ) {
+      rawValue = datum[yAxisDataKey];
+    } else if (
+      [PLOT_TYPES.MULTI_LINE, PLOT_TYPES.GROUPED_BAR, PLOT_TYPES.AREA].includes(plotType) &&
+      isDataPivoted
+    ) {
+      rawValue = categoryValueDataKeys.reduce((agg, currentCategoryValueDataKey) => {
+        const rawCategoryValue = datum[currentCategoryValueDataKey];
+        return Math.max(agg, rawCategoryValue);
+      }, 0);
+    }
+    const formattedValue = tickFormatter(rawValue);
+    const formattedValueLength = formattedValue?.toString().length ?? 0;
+    return Math.max(agg, formattedValueLength);
+  }, 0);
+
+  return formattedValuesMaxLength;
+};
+
+const getYAxisWidth = ({ useWideYAxis, tickMaxLength }) => {
+  if (useWideYAxis) {
+    return 200;
+  }
+
+  if (tickMaxLength > 10) {
+    return 120;
+  }
+  return useWideYAxis ? 200 : DEFAULT_Y_AXIS_WIDTH;
+};
+
 export const getYAxis = (plotConfig) => {
+  const plotType = getSeriesType(plotConfig);
   const domain = getYAxisDomainWithFallback(plotConfig);
   const yAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
 
@@ -250,8 +322,17 @@ export const getYAxis = (plotConfig) => {
   if (!yAxis) return { domain };
   const { dataType, name, dataKey, format } = yAxis || {};
   const isSplitAxes = getIsSplitAxes(plotConfig);
-  const useWideYAxis = getSeriesType(plotConfig) === PLOT_TYPES.HORIZONTAL_BAR;
+  const useWideYAxis = plotType === PLOT_TYPES.HORIZONTAL_BAR;
+
   const tickFormatter = getFormatter(format);
+
+  const tickMaxLength = getYAxisMaxDataWidth(plotConfig, {
+    tickFormatter,
+    yAxisDataKey: dataKey,
+  });
+
+  const width = getYAxisWidth({ useWideYAxis, tickMaxLength });
+
   return {
     type: dataType,
     name,
@@ -260,7 +341,9 @@ export const getYAxis = (plotConfig) => {
     yAxisId: isSplitAxes ? 'left' : undefined,
     orientation: isSplitAxes ? 'left' : undefined,
     domain,
-    width: useWideYAxis ? 200 : DEFAULT_Y_AXIS_WIDTH,
+    width,
+    useWideYAxis,
+    tickMaxLength,
   };
 };
 
@@ -269,10 +352,6 @@ export const getYAxisTickFormatter = (plotConfig) => {
   return yAxis.tickFormatter;
 };
 
-export const getYAxisDataKey = (plotConfig) => {
-  const yAxis = getYAxis(plotConfig);
-  return yAxis?.dataKey;
-};
 export const getYAxisName = (plotConfig) => {
   const yAxis = getYAxis(plotConfig);
   return yAxis?.name;
@@ -322,12 +401,25 @@ export const getUniqueValuesOfDataKey = (plotConfig, dataKey) => {
   return [...new Set(data.map((item) => item[dataKey]))].sort();
 };
 
-export const getCategoriesOfCategoryAxis = (plotConfig) => {
+const getUniqueValuesOfCategoryAxis = (plotConfig) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const categories = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
+  return categories;
+};
+
+export const getCategoriesOfCategoryAxis = (plotConfig) => {
+  const categories = getUniqueValuesOfCategoryAxis(plotConfig);
   return categories.map((category) => {
     return { name: category, dataKey: category };
   });
+};
+
+const getCategoryValueDataKeys = (plotConfig) => {
+  const categoryValueDataKeys = getSeriesKeyValue(
+    plotConfig,
+    AXIS_DATA_KEY_KEYS.CATEGORY_VALUE_DATA_KEYS_KEY
+  );
+  return categoryValueDataKeys ?? [];
 };
 
 export const getCategoryValueAxes = (plotConfig) => {
@@ -335,10 +427,7 @@ export const getCategoryValueAxes = (plotConfig) => {
   if (getCategoryAxisDataKey(plotConfig)) {
     return getCategoriesOfCategoryAxis(plotConfig).sort(sortBySeriesName);
   }
-  const categoryValueDataKeys = getSeriesKeyValue(
-    plotConfig,
-    AXIS_DATA_KEY_KEYS.CATEGORY_VALUE_DATA_KEYS_KEY
-  );
+  const categoryValueDataKeys = getCategoryValueDataKeys(plotConfig);
   if (!categoryValueDataKeys || !categoryValueDataKeys.length) return null;
   return categoryValueDataKeys
     .map((categoryValueDataKey) => {
