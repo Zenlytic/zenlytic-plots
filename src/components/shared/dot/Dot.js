@@ -1,7 +1,7 @@
 import React from 'react';
 
-function Dot(props) {
-  return <circle {...props} strokeWidth={1} fill={props.color} stroke="white" r="2" />;
+function Dot({ color, strokeWidth, radius, ...rest }) {
+  return <circle {...rest} strokeWidth={strokeWidth} fill={color} stroke="white" r={radius} />;
 }
 
 export default Dot;

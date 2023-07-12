@@ -4,7 +4,6 @@ import React from 'react';
 import { Line as RechartsLine } from 'recharts';
 import DataAnnotation from '../data-annotation/DataAnnotation';
 import Dot from '../dot/Dot';
-import ActiveDot from '../dot/ActiveDot';
 
 export default function Line({
   type,
@@ -24,9 +23,9 @@ export default function Line({
     <DataAnnotation valueFormatter={valueFormatter} />
   ) : undefined;
 
-  const dot = showDot ? <Dot color={color} /> : undefined;
+  const dot = showDot ? <Dot color={color} strokeWidth={1} radius="2" /> : undefined;
 
-  const activeDot = showDot ? <ActiveDot color={color} /> : undefined;
+  const activeDot = showDot ? <Dot color={color} strokeWidth={2} radius="4" /> : undefined;
 
   return (
     <RechartsLine
