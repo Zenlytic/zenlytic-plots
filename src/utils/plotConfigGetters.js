@@ -263,6 +263,7 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
     PLOT_TYPES.MULTI_LINE,
     PLOT_TYPES.BAR,
     PLOT_TYPES.GROUPED_BAR,
+    PLOT_TYPES.AREA,
   ].includes(plotType);
 
   if (!shouldLimitYAxisWidth) {
@@ -283,7 +284,7 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
     ) {
       rawValue = datum[yAxisDataKey];
     } else if (
-      [PLOT_TYPES.MULTI_LINE, PLOT_TYPES.GROUPED_BAR].includes(plotType) &&
+      [PLOT_TYPES.MULTI_LINE, PLOT_TYPES.GROUPED_BAR, PLOT_TYPES.AREA].includes(plotType) &&
       isDataPivoted
     ) {
       rawValue = categoryValueDataKeys.reduce((agg, currentCategoryValueDataKey) => {
@@ -295,7 +296,6 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
     const formattedValueLength = formattedValue?.toString().length ?? 0;
     return Math.max(agg, formattedValueLength);
   }, 0);
-  console.log({ data, plotType, categoryValueDataKeys, formattedValuesMaxLength, plotConfig });
 
   return formattedValuesMaxLength;
 };
