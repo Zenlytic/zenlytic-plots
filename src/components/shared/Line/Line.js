@@ -3,15 +3,16 @@
 import React from 'react';
 import { Line as RechartsLine } from 'recharts';
 import DataAnnotation from '../data-annotation/DataAnnotation';
+import Dot from '../dot/Dot';
+import ActiveDot from '../dot/ActiveDot';
 
 export default function Line({
   type,
   dataKey,
   name,
   key,
-  fill,
-  stroke,
-  dot,
+  color,
+  dot: showDot,
   strokeWidth,
   isAnimationActive,
   showDataAnnotations,
@@ -22,15 +23,20 @@ export default function Line({
   const label = showDataAnnotations ? (
     <DataAnnotation valueFormatter={valueFormatter} />
   ) : undefined;
+
+  const dot = showDot ? <Dot color={color} /> : undefined;
+
+  const activeDot = showDot ? <ActiveDot color={color} /> : undefined;
+
   return (
     <RechartsLine
       type={type}
       dataKey={dataKey}
       name={name}
       key={key}
-      fill={fill}
-      stroke={stroke}
+      stroke={color}
       dot={dot}
+      activeDot={activeDot}
       strokeWidth={strokeWidth}
       isAnimationActive={isAnimationActive}
       label={label}

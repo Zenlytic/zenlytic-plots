@@ -87,9 +87,8 @@ function LinePlot({
           yAxisId,
           type: 'monotone',
           dataKey: yAxisDataKey,
-          stroke: seriesStrokeColor,
+          color: seriesStrokeColor,
           dot: true,
-          strokeWidth: 2,
           name: yAxisName,
           isAnimationActive: false,
           valueFormatter: yAxisTickFormatter,
@@ -100,12 +99,11 @@ function LinePlot({
             yAxisId: secondYAxisId,
             type: 'monotone',
             dataKey: secondYAxisDataKey,
-            stroke:
+            color:
               seriesStrokeColor === colors.light_blue[300]
                 ? colors.red[300]
                 : colors.light_blue[300],
             dot: true,
-            strokeWidth: 2,
             name: secondYAxisName,
             isAnimationActive: false,
             valueFormatter: secondYAxisTickFormatter,
