@@ -263,6 +263,7 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
     PLOT_TYPES.MULTI_LINE,
     PLOT_TYPES.BAR,
     PLOT_TYPES.GROUPED_BAR,
+    PLOT_TYPES.AREA,
   ].includes(plotType);
 
   if (!shouldLimitYAxisWidth) {
@@ -271,8 +272,26 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
 
   const data = getData(plotConfig);
 
+  const isDataPivoted = getIsDataPivoted(plotConfig);
+
+  const categoryValueDataKeys = getUniqueValuesOfCategoryAxis(plotConfig);
+
   const formattedValuesMaxLength = data.reduce((agg, datum) => {
-    const rawValue = datum[yAxisDataKey];
+    let rawValue;
+    if (
+      [PLOT_TYPES.BAR, PLOT_TYPES.LINE, PLOT_TYPES.HORIZONTAL_BAR].includes(plotType) ||
+      !isDataPivoted
+    ) {
+      rawValue = datum[yAxisDataKey];
+    } else if (
+      [PLOT_TYPES.MULTI_LINE, PLOT_TYPES.GROUPED_BAR, PLOT_TYPES.AREA].includes(plotType) &&
+      isDataPivoted
+    ) {
+      rawValue = categoryValueDataKeys.reduce((agg, currentCategoryValueDataKey) => {
+        const rawCategoryValue = datum[currentCategoryValueDataKey];
+        return Math.max(agg, rawCategoryValue);
+      }, 0);
+    }
     const formattedValue = tickFormatter(rawValue);
     const formattedValueLength = formattedValue?.toString().length ?? 0;
     return Math.max(agg, formattedValueLength);
@@ -381,12 +400,25 @@ export const getUniqueValuesOfDataKey = (plotConfig, dataKey) => {
   return [...new Set(data.map((item) => item[dataKey]))].sort();
 };
 
-export const getCategoriesOfCategoryAxis = (plotConfig) => {
+const getUniqueValuesOfCategoryAxis = (plotConfig) => {
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const categories = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
+  return categories;
+};
+
+export const getCategoriesOfCategoryAxis = (plotConfig) => {
+  const categories = getUniqueValuesOfCategoryAxis(plotConfig);
   return categories.map((category) => {
     return { name: category, dataKey: category };
   });
+};
+
+const getCategoryValueDataKeys = (plotConfig) => {
+  const categoryValueDataKeys = getSeriesKeyValue(
+    plotConfig,
+    AXIS_DATA_KEY_KEYS.CATEGORY_VALUE_DATA_KEYS_KEY
+  );
+  return categoryValueDataKeys ?? [];
 };
 
 export const getCategoryValueAxes = (plotConfig) => {
@@ -394,10 +426,7 @@ export const getCategoryValueAxes = (plotConfig) => {
   if (getCategoryAxisDataKey(plotConfig)) {
     return getCategoriesOfCategoryAxis(plotConfig).sort(sortBySeriesName);
   }
-  const categoryValueDataKeys = getSeriesKeyValue(
-    plotConfig,
-    AXIS_DATA_KEY_KEYS.CATEGORY_VALUE_DATA_KEYS_KEY
-  );
+  const categoryValueDataKeys = getCategoryValueDataKeys(plotConfig);
   if (!categoryValueDataKeys || !categoryValueDataKeys.length) return null;
   return categoryValueDataKeys
     .map((categoryValueDataKey) => {
