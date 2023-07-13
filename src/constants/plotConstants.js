@@ -136,7 +136,7 @@ export const AXIS_DATA_KEY_KEYS = {
   CATEGORY_VALUE_DATA_KEYS_KEY: 'categoryValueDataKeys',
 };
 
-export const BAR_STROKE_WIDTH = 1;
+export const DEFAULT_STROKE_WIDTH = 1;
 
 export const DATA_CHANGE_TYPES = {
   ABSOLUTE: 'ABSOLUTE',

@@ -7,7 +7,7 @@ import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
 import {
-  BAR_STROKE_WIDTH,
+  DEFAULT_STROKE_WIDTH,
   PLOT_COLORS,
   PLOT_SECONDARY_COLORS,
 } from '../../constants/plotConstants';
@@ -47,7 +47,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           dataKey: droppedOffDataKey,
           name: `Dropped Off - ${categoryName}`,
           stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-          strokeWidth: BAR_STROKE_WIDTH,
+          strokeWidth: DEFAULT_STROKE_WIDTH,
           fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
           strokeDasharray: STROKE_DASHARRAY,
           onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
@@ -60,7 +60,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           dataKey: convertedDataKey,
           name: `Converted - ${categoryName}`,
           stroke: PLOT_COLORS[index % PLOT_COLORS.length],
-          strokeWidth: BAR_STROKE_WIDTH,
+          strokeWidth: DEFAULT_STROKE_WIDTH,
           fill: PLOT_COLORS[index % PLOT_COLORS.length],
           onMouseOver: () => updateHoveredItemId(convertedDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
@@ -99,7 +99,7 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
         fill: seriesFillColor,
         strokeDasharray: STROKE_DASHARRAY,
         stroke: seriesStrokeColor,
-        strokeWidth: BAR_STROKE_WIDTH,
+        strokeWidth: DEFAULT_STROKE_WIDTH,
         stackId: 'a',
         onMouseOver: () => updateHoveredItemId(DROPPED_OFF_DATA_KEY),
         onMouseLeave: () => updateHoveredItemId(null),
@@ -111,7 +111,7 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
         dataKey: CONVERTED_DATA_KEY,
         fill: seriesStrokeColor,
         stackId: 'a',
-        strokeWidth: BAR_STROKE_WIDTH,
+        strokeWidth: DEFAULT_STROKE_WIDTH,
         onMouseOver: () => updateHoveredItemId(CONVERTED_DATA_KEY),
         onMouseLeave: () => updateHoveredItemId(null),
         children: (
