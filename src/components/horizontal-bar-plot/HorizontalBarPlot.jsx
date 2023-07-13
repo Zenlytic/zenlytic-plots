@@ -3,7 +3,7 @@
 import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { BarChart, Cell, ReferenceLine } from 'recharts';
-import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
+import { BAR_STROKE_WIDTH, DEFAULT_AXIS_PROPS } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
 import {
@@ -24,11 +24,7 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 // import Bar from '../shared/bar/Bar';
-import {
-  DEFAULT_AXIS_COLOR,
-  PLOT_COLORS,
-  PLOT_SECONDARY_COLORS,
-} from '../../constants/plotConstants';
+import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import Bar from '../shared/bar/Bar';
 
 function HorizontalBarPlot({
@@ -82,7 +78,9 @@ function HorizontalBarPlot({
           xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
           yAxisConfig: { ...yAxisConfig, interval: yAxisInterval },
         })}
-        {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
+        {referenceLineValue && (
+          <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_PROPS.stroke} />
+        )}
         {Bar({
           dataKey: xAxisDataKey,
           name: xAxisName,
