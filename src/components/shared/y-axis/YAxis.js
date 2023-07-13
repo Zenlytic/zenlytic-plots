@@ -9,6 +9,7 @@ import {
   DEFAULT_TICK_LINE,
 } from '../../../constants/plotConstants';
 import Tick from '../tick/Tick';
+import { getAllowDataOverflow } from './utils';
 
 const YAxis = ({
   type,
@@ -25,6 +26,8 @@ const YAxis = ({
     (props) => <Tick orientation={orientation} shouldOffsetX={true} {...props} />,
     []
   );
+
+  const allowDataOverflow = getAllowDataOverflow({ domain });
   return (
     <RechartsYAxis
       {...DEFAULT_AXIS_PROPS}
@@ -37,7 +40,7 @@ const YAxis = ({
       orientation={orientation}
       domain={domain}
       width={width}
-      allowDataOverflow={true}
+      allowDataOverflow={allowDataOverflow}
       interval={interval}
       yAxisId={yAxisId}>
       <Label

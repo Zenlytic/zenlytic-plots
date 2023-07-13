@@ -909,7 +909,15 @@ export const getYAxisPlotOptions = (plotConfig) => {
   return yAxisPlotOptions;
 };
 
-const convertYAxisRangeToDomain = (range) => [range?.minValue ?? 0, range?.maxValue ?? 'auto'];
+export const DEFAULT_Y_AXIS_RANGE = {
+  MIN_VALUE: 0,
+  MAX_VALUE: 'auto',
+};
+
+const convertYAxisRangeToDomain = (range) => [
+  range?.minValue ?? DEFAULT_Y_AXIS_RANGE.MIN_VALUE,
+  range?.maxValue ?? DEFAULT_Y_AXIS_RANGE.MAX_VALUE,
+];
 
 export const getYAxisDomainWithFallback = (plotConfig) => {
   const yAxisPlotOptions = getYAxisPlotOptions(plotConfig);
