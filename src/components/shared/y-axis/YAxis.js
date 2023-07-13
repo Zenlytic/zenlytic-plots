@@ -21,7 +21,10 @@ const YAxis = ({
   width,
   interval = 'preserveEnd',
 }) => {
-  const TickMemoized = useCallback((props) => <Tick shouldOffsetX={true} {...props} />, []);
+  const TickMemoized = useCallback(
+    (props) => <Tick orientation={orientation} shouldOffsetX={true} {...props} />,
+    []
+  );
   return (
     <RechartsYAxis
       {...DEFAULT_AXIS_PROPS}

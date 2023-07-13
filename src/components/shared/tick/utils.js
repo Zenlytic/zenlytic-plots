@@ -1,12 +1,12 @@
 const X_OFFSET = 6;
 
-export const getOffsetX = ({ x }) => {
+export const getOffsetX = ({ x, orientation }) => {
   const parsedX = Number.parseInt(x);
   if (Number.isNaN(parsedX)) {
     return x;
   }
 
-  const offsetX = parsedX - X_OFFSET;
+  const offsetX = orientation === 'right' ? parsedX + X_OFFSET : parsedX - X_OFFSET;
   return offsetX;
 };
 

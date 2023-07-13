@@ -5,12 +5,21 @@ import colors from '../../../constants/colors';
 import fontWeights from '../../../constants/fontWeights';
 import fontSizes from '../../../constants/fontSizes';
 
-const Tick = ({ payload, tickFormatter, x, y, shouldOffsetX, shouldOffsetY, ...rest }) => {
+const Tick = ({
+  payload,
+  tickFormatter,
+  orientation,
+  x,
+  y,
+  shouldOffsetX,
+  shouldOffsetY,
+  ...rest
+}) => {
   const rawValue = payload.value;
 
   const formattedValue = typeof tickFormatter === 'function' ? tickFormatter(rawValue) : rawValue;
 
-  const offsetX = shouldOffsetX ? getOffsetX({ x }) : x;
+  const offsetX = shouldOffsetX ? getOffsetX({ x, orientation }) : x;
 
   const offsetY = shouldOffsetY ? getOffsetY({ y }) : y;
 

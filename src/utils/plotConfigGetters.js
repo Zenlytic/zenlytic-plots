@@ -302,18 +302,18 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
 };
 
 const getYAxisWidth = ({ useWideYAxis, tickMaxLength }) => {
+  console.log({ tickMaxLength });
   if (useWideYAxis) {
     return 200;
   }
 
-  if (tickMaxLength > 10) {
+  if (tickMaxLength > 9) {
     return 120;
   }
   return useWideYAxis ? 200 : DEFAULT_Y_AXIS_WIDTH;
 };
 
 export const getYAxis = (plotConfig) => {
-  console.log('test');
   const plotType = getSeriesType(plotConfig);
   const domain = getYAxisDomainWithFallback(plotConfig);
   const yAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
@@ -324,7 +324,7 @@ export const getYAxis = (plotConfig) => {
   // but we still want to return Recharts-centric yAxis information like domain.
   if (!yAxis) return { domain, tickFormatter: defaultTickFormatter };
 
-  const { dataType, name, dataKey } = yAxis || {};
+  const { dataType, name, dataKey, format } = yAxis || {};
   const isSplitAxes = getIsSplitAxes(plotConfig);
   const useWideYAxis = plotType === PLOT_TYPES.HORIZONTAL_BAR;
 
