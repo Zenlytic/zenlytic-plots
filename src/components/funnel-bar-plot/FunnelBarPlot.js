@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { BarChart, LabelList } from 'recharts';
+import { BarChart } from 'recharts';
 import Bar from '../shared/bar/Bar';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
@@ -26,6 +26,7 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
+import LabelList from '../shared/label-list/LabelList';
 
 const STROKE_DASHARRAY = [5, 2];
 
@@ -67,6 +68,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
             <LabelList
               offset={16}
               dataKey={convertedDataKey}
+              sumDataKeys={[convertedDataKey, droppedOffDataKey]}
               position="top"
               fill={colors.gray[500]}
               fontWeight={fontWeights.medium}
@@ -80,6 +82,9 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
   });
 }
 
+const CONVERTED_DATA_KEY = 'CONVERTED';
+const DROPPED_OFF_DATA_KEY = 'DROPPED_OFF';
+
 function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemId }) {
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
   const seriesFillColor = getSeriesFillColor(plotConfig);
@@ -88,35 +93,38 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
     <>
       {Bar({
         isAnimationActive: false,
-        id: 'DROPPED_OFF',
+        id: DROPPED_OFF_DATA_KEY,
         name: 'Dropped Off',
-        dataKey: 'DROPPED_OFF',
+        dataKey: DROPPED_OFF_DATA_KEY,
         fill: seriesFillColor,
         strokeDasharray: STROKE_DASHARRAY,
         stroke: seriesStrokeColor,
         strokeWidth: BAR_STROKE_WIDTH,
         stackId: 'a',
-        onMouseOver: () => updateHoveredItemId('DROPPED_OFF'),
+        onMouseOver: () => updateHoveredItemId(DROPPED_OFF_DATA_KEY),
         onMouseLeave: () => updateHoveredItemId(null),
       })}
       {Bar({
         isAnimationActive: false,
-        id: 'CONVERTED',
+        id: CONVERTED_DATA_KEY,
         name: 'Converted',
-        dataKey: 'CONVERTED',
+        dataKey: CONVERTED_DATA_KEY,
         fill: seriesStrokeColor,
         stackId: 'a',
         strokeWidth: BAR_STROKE_WIDTH,
-        onMouseOver: () => updateHoveredItemId('CONVERTED'),
+        onMouseOver: () => updateHoveredItemId(CONVERTED_DATA_KEY),
         onMouseLeave: () => updateHoveredItemId(null),
         children: (
           <LabelList
             offset={16}
-            dataKey="CONVERTED"
+            dataKey={CONVERTED_DATA_KEY}
+            sumDataKeys={[CONVERTED_DATA_KEY, DROPPED_OFF_DATA_KEY]}
             position="top"
             fill={colors.gray[500]}
+            subLabelFill={colors.gray[300]}
             fontWeight={fontWeights.medium}
             fontSize={fontSizes.xs}
+            subLabelFontSize={fontSizes['2xs']}
             formatter={yAxisTickFormatter}
           />
         ),
