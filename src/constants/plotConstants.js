@@ -47,9 +47,17 @@ export const DEFAULT_TICK_PROPS = {
   fontSize: '0.75rem',
 };
 
-export const DEFAULT_AXIS_COLOR = '#A6A6A6';
-
 export const DEFAULT_CARTESIAN_GRID_COLOR = '#F0F0F0';
+
+export const DEFAULT_AXIS_PROPS = {
+  stroke: colors.gray[50],
+  tickSize: 5,
+  tickMargin: 4,
+};
+
+export const DEFAULT_TICK_LINE = {
+  stroke: colors.gray[300],
+};
 
 export const PLOT_TYPES = {
   AREA: 'area',

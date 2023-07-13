@@ -4,9 +4,9 @@
 import React, { useCallback } from 'react';
 import { Label, YAxis as RechartsYAxis } from 'recharts';
 import {
-  DEFAULT_AXIS_COLOR,
+  DEFAULT_AXIS_PROPS,
   DEFAULT_LABEL_PROPS,
-  DEFAULT_TICK_PROPS,
+  DEFAULT_TICK_LINE,
 } from '../../../constants/plotConstants';
 import Tick from '../tick/Tick';
 
@@ -20,28 +20,20 @@ const YAxis = ({
   domain,
   width,
   interval = 'preserveEnd',
-  useWideYAxis,
-  tickMaxLength,
 }) => {
   const TickMemoized = useCallback(
-    (props) => (
-      <Tick
-        useWideYAxis={useWideYAxis}
-        tickMaxLength={tickMaxLength}
-        axisWidth={width}
-        {...props}
-      />
-    ),
-    [width, tickMaxLength, useWideYAxis]
+    (props) => <Tick orientation={orientation} shouldOffsetX={true} {...props} />,
+    []
   );
   return (
     <RechartsYAxis
+      {...DEFAULT_AXIS_PROPS}
       dataKey={dataKey}
       tickFormatter={tickFormatter}
       name={name}
       type={type}
-      stroke={DEFAULT_AXIS_COLOR}
       tick={TickMemoized}
+      tickLine={DEFAULT_TICK_LINE}
       orientation={orientation}
       domain={domain}
       width={width}

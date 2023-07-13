@@ -4,7 +4,12 @@ import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
 import { BarChart, Cell, ReferenceLine } from 'recharts';
-import { DEFAULT_STROKE_WIDTH } from '../../constants/plotConstants';
+import {
+  DEFAULT_STROKE_WIDTH,
+  DEFAULT_AXIS_PROPS,
+  PLOT_COLORS,
+  PLOT_SECONDARY_COLORS,
+} from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
 import {
@@ -17,19 +22,12 @@ import {
   getSeriesStrokeColor,
   getXAxis,
   getXAxisInterval,
-  getYAxis,
   getYAxisDataKey,
-  getYAxisInterval,
   getYAxisName,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 import Bar from '../shared/bar/Bar';
-import {
-  PLOT_SECONDARY_COLORS,
-  PLOT_COLORS,
-  DEFAULT_AXIS_COLOR,
-} from '../../constants/plotConstants';
 
 function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
@@ -72,7 +70,9 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           isFollowUpDisabled,
           xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
         })}
-        {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
+        {referenceLineValue && (
+          <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_PROPS.stroke} />
+        )}
         {Bar({
           dataKey: yAxisDataKey,
           name: yAxisName,
