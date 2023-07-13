@@ -49,10 +49,6 @@ export const DEFAULT_TICK_PROPS = {
 
 export const DEFAULT_CARTESIAN_GRID_COLOR = '#F0F0F0';
 
-export const DEFAULT_AXIS_TICK_LINE_COLOR = {
-  stroke: colors.gray[300],
-};
-
 export const DEFAULT_AXIS_PROPS = {
   stroke: colors.gray[50],
   tickSize: 5,

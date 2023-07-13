@@ -307,7 +307,7 @@ const getYAxisWidth = ({ useWideYAxis, tickMaxLength }) => {
   }
 
   if (tickMaxLength > 9) {
-    return 120;
+    return 130;
   }
   return useWideYAxis ? 200 : DEFAULT_Y_AXIS_WIDTH;
 };
