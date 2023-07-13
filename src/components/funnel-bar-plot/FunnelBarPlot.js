@@ -27,6 +27,7 @@ import GeneralChartComponents from '../general-chart-components/GeneralChartComp
 import PlotContainer from '../plot-container/PlotContainer';
 import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 import LabelList from '../shared/label-list/LabelList';
+
 const STROKE_DASHARRAY = [5, 2];
 
 const DEFAULT_LABEL_LIST_PROPS = {
