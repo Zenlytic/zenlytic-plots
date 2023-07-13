@@ -302,7 +302,6 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
 };
 
 const getYAxisWidth = ({ useWideYAxis, tickMaxLength }) => {
-  console.log({ tickMaxLength });
   if (useWideYAxis) {
     return 200;
   }
