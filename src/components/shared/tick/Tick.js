@@ -26,7 +26,6 @@ const Tick = ({
   return (
     <Text
       {...rest}
-      className={''}
       x={offsetX}
       y={offsetY}
       color={colors.gray[400]}
