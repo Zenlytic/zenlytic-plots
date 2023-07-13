@@ -6,7 +6,11 @@ import Bar from '../shared/bar/Bar';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+import {
+  BAR_STROKE_WIDTH,
+  PLOT_COLORS,
+  PLOT_SECONDARY_COLORS,
+} from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 
 import {
@@ -22,6 +26,8 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
+
+const STROKE_DASHARRAY = [5, 2];
 
 function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
@@ -39,8 +45,10 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           stackId: categoryName,
           dataKey: droppedOffDataKey,
           name: `Dropped Off - ${categoryName}`,
-          stroke: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+          stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+          strokeWidth: BAR_STROKE_WIDTH,
           fill: PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length],
+          strokeDasharray: STROKE_DASHARRAY,
           onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
         })}
@@ -51,6 +59,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           dataKey: convertedDataKey,
           name: `Converted - ${categoryName}`,
           stroke: PLOT_COLORS[index % PLOT_COLORS.length],
+          strokeWidth: BAR_STROKE_WIDTH,
           fill: PLOT_COLORS[index % PLOT_COLORS.length],
           onMouseOver: () => updateHoveredItemId(convertedDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
@@ -83,8 +92,10 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
         name: 'Dropped Off',
         dataKey: 'DROPPED_OFF',
         fill: seriesFillColor,
+        strokeDasharray: STROKE_DASHARRAY,
+        stroke: seriesStrokeColor,
+        strokeWidth: BAR_STROKE_WIDTH,
         stackId: 'a',
-        radius: [3, 3, 0, 0],
         onMouseOver: () => updateHoveredItemId('DROPPED_OFF'),
         onMouseLeave: () => updateHoveredItemId(null),
       })}
@@ -95,7 +106,7 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
         dataKey: 'CONVERTED',
         fill: seriesStrokeColor,
         stackId: 'a',
-        radius: [3, 3, 0, 0],
+        strokeWidth: BAR_STROKE_WIDTH,
         onMouseOver: () => updateHoveredItemId('CONVERTED'),
         onMouseLeave: () => updateHoveredItemId(null),
         children: (
