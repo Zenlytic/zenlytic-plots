@@ -37,6 +37,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
   return categoriesOfCategoryAxis.map((category, index) => {
     const { name: categoryName } = category;
     const convertedDataKey = `CONVERTED_${categoryName}`;
+    const convertedPercentDataKey = `CONVERTED_PERCENT_${categoryName}`;
     const droppedOffDataKey = `DROPPED_OFF_${categoryName}`;
     return (
       <>
@@ -68,7 +69,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
             <LabelList
               offset={16}
               dataKey={convertedDataKey}
-              sumDataKeys={[convertedDataKey, droppedOffDataKey]}
+              convertedPercentDataKey={convertedPercentDataKey}
               position="top"
               fill={colors.gray[500]}
               fontWeight={fontWeights.medium}
@@ -83,6 +84,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
 }
 
 const CONVERTED_DATA_KEY = 'CONVERTED';
+const CONVERTED_PERCENT_DATA_KEY = 'CONVERTED_PERCENT';
 const DROPPED_OFF_DATA_KEY = 'DROPPED_OFF';
 
 function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemId }) {
@@ -118,7 +120,7 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
           <LabelList
             offset={16}
             dataKey={CONVERTED_DATA_KEY}
-            sumDataKeys={[CONVERTED_DATA_KEY, DROPPED_OFF_DATA_KEY]}
+            convertedPercentDataKey={CONVERTED_PERCENT_DATA_KEY}
             position="top"
             fill={colors.gray[500]}
             subLabelFill={colors.gray[300]}
