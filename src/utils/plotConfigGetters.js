@@ -4,6 +4,7 @@ import colors from '../constants/colors';
 import {
   AXIS_DATA_KEY_KEYS,
   DATA_CHANGE_TYPES,
+  DEFAULT_COLOR,
   DEFAULT_PLOT_MARGIN,
   DEFAULT_Y_AXIS_WIDTH,
   GROUPED_BAR_DISPLAY_TYPES,
@@ -783,7 +784,16 @@ export const getPlotPalette = (plotConfig) => {
   return plotOptions.palette ?? PLOT_COLORS;
 };
 
-export const getPaletteColorByIndex = (plotConfig, index) => {
+export const getDataKeyColorMappings = (plotConfig) => {
+  const plotOptions = getPlotOptions(plotConfig);
+  return plotOptions.dataKeyColorMapping ?? {};
+};
+
+export const getPaletteColorByIndex = (plotConfig, index, dataKey) => {
+  const dateKeyColorMapping = getDataKeyColorMappings(plotConfig);
+  if (dateKeyColorMapping[dataKey]) {
+    return dateKeyColorMapping[dataKey];
+  }
   const plotPalette = getPlotPalette(plotConfig);
   return plotPalette[index % plotPalette.length];
 };
@@ -791,11 +801,21 @@ export const getPaletteColorByIndex = (plotConfig, index) => {
 export const getPlotSecondaryPalette = (plotConfig) => {
   const plotPalette = getPlotPalette(plotConfig);
   return plotPalette.map((color) => {
-    return chroma(color).brighten(2);
+    if (chroma.valid(color)) {
+      return chroma(color).alpha(0.1);
+    }
+    return chroma(DEFAULT_COLOR).alpha(0.1);
   });
 };
 
-export const getSecondaryPaletteColorByIndex = (plotConfig, index) => {
+export const getSecondaryPaletteColorByIndex = (plotConfig, index, dataKey) => {
+  const dateKeyColorMapping = getDataKeyColorMappings(plotConfig);
+  if (dateKeyColorMapping[dataKey]) {
+    if (chroma.valid(dateKeyColorMapping[dataKey])) {
+      return chroma(dateKeyColorMapping[dataKey]).alpha(0.1);
+    }
+    return chroma(DEFAULT_COLOR).alpha(0.1);
+  }
   const plotSecondaryPalette = getPlotSecondaryPalette(plotConfig);
   return plotSecondaryPalette[index % plotSecondaryPalette.length];
 };

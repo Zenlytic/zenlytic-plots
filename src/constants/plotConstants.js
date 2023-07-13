@@ -82,8 +82,9 @@ export const PLOT_COLOR_PALETTE = {
   LIGHT_BLUE_MARK: 'lightblue',
 };
 
+export const DEFAULT_COLOR = '#BFBFBF';
+
 export const PLOT_COLORS = [
-  'brown',
   '#7eb0d5',
   '#b2e061',
   '#bd7ebe',

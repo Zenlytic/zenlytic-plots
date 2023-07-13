@@ -39,21 +39,22 @@ function PivotedMultiLinePlot({ plotConfig = {} }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
   const nameFormatter = getCategoryAxisFormatter(plotConfig);
-  return uniqueValuesOfCategoryKey.map((value, index) =>
-    Line({
+
+  return uniqueValuesOfCategoryKey.map((value, index) => {
+    return Line({
       id: value,
       dataKey: value,
       name: nameFormatter(value),
       key: value,
-      stroke: getPaletteColorByIndex(plotConfig, index),
+      stroke: getPaletteColorByIndex(plotConfig, index, value),
       type: 'monotone',
       strokeWidth: 2,
       dot: true,
       isAnimationActive: false,
       showDataAnnotations,
       valueFormatter: yAxisTickFormatter,
-    })
-  );
+    });
+  });
 }
 
 function NonPivotedMultiLinePlot({ plotConfig }) {
@@ -64,21 +65,21 @@ function NonPivotedMultiLinePlot({ plotConfig }) {
     .filter((axis) => {
       return !seriesHiddenColumns.includes(axis.dataKey);
     })
-    .map((axis, index) =>
-      Line({
+    .map((axis, index) => {
+      return Line({
         type: 'monotone',
         dataKey: axis.dataKey,
         name: axis.name,
         key: axis.name,
-        fill: getSecondaryPaletteColorByIndex(plotConfig, index),
-        stroke: getPaletteColorByIndex(plotConfig, index),
+        fill: getSecondaryPaletteColorByIndex(plotConfig, index, axis.dataKey),
+        stroke: getPaletteColorByIndex(plotConfig, index, axis.dataKey),
         dot: true,
         strokeWidth: 2,
         isAnimationActive: false,
         showDataAnnotations,
         valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
-      })
-    );
+      });
+    });
 }
 
 function MultiLinePlot({
