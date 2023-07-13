@@ -8,5 +8,7 @@ export const getAllowDataOverflow = ({ domain }) => {
   // When a user has set a custom domain, we allow data to overflow.
   // Otherwise the plot adjusts the domain to ensure all data is fit in,
   // which is confusing to the user that's trying to control that domain.
+  // When `allowDataOverflow` is set to `true`, dots are cut off on the edges
+  // of charts, so we try to set it to `false` as much as possible.
   return userHasSetCustomDomain;
 };
