@@ -564,10 +564,15 @@ const getPivotedFunnelSpecificData = (plotConfig, data) => {
     const calculatedDataPoint = [];
     let previousValue = 0;
     seriesData.forEach((d, index) => {
+      const convertedValue = d[yAxisDataKey];
+      const droppedOffValue = index === 0 ? 0 : previousValue - d[yAxisDataKey];
+      const totalValue = convertedValue + droppedOffValue;
+      const convertedPercent = totalValue === 0 ? 0 : convertedValue / totalValue;
       calculatedDataPoint.push({
         [xAxisDataKey]: d[xAxisDataKey],
-        [`CONVERTED_${seriesName}`]: d[yAxisDataKey],
-        [`DROPPED_OFF_${seriesName}`]: index === 0 ? 0 : previousValue - d[yAxisDataKey],
+        [`CONVERTED_${seriesName}`]: convertedValue,
+        [`DROPPED_OFF_${seriesName}`]: droppedOffValue,
+        [`CONVERTED_PERCENT_${seriesName}`]: convertedPercent,
       });
       previousValue = d[yAxisDataKey];
     });
@@ -592,12 +597,17 @@ const getNonPivotedFunnelSpecificData = (plotConfig, data) => {
   const newData = [];
   let previousValue = 0;
   data.forEach((d, index) => {
+    const convertedValue = d[yAxisDataKey];
+    const droppedOffValue = index === 0 ? 0 : previousValue - d[yAxisDataKey];
+    const totalValue = convertedValue + droppedOffValue;
+    const convertedPercent = totalValue === 0 ? 0 : convertedValue / totalValue;
     newData.push({
       ...d,
-      CONVERTED: d[yAxisDataKey],
-      DROPPED_OFF: index === 0 ? 0 : previousValue - d[yAxisDataKey],
+      CONVERTED: convertedValue,
+      DROPPED_OFF: droppedOffValue,
+      CONVERTED_PERCENT: convertedPercent,
     });
-    previousValue = d[yAxisDataKey];
+    previousValue = convertedValue;
   });
   return newData;
 };

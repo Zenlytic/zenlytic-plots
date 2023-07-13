@@ -4,6 +4,9 @@
 import { Area as RechartsArea } from 'recharts';
 import React from 'react';
 import StackedDataAnnotation from '../stacked-data-annotation/StackedDataAnnotation';
+import Dot from '../../../shared/dot/Dot';
+import ActiveDot from '../../../shared/dot/ActiveDot';
+import { DEFAULT_STROKE_WIDTH } from '../../../../constants/plotConstants';
 
 export function Area({
   type,
@@ -15,7 +18,7 @@ export function Area({
   strokeWidth,
   stackId,
   isAnimationActive,
-  dot,
+  dot: showDot,
   showDataAnnotations,
   data,
   axisDataKey,
@@ -24,9 +27,14 @@ export function Area({
   dataChangeType,
   valueFormatter,
 }) {
+  const dot = showDot ? <Dot color={stroke} /> : undefined;
+
+  const activeDot = showDot ? <ActiveDot color={stroke} /> : undefined;
+
   return (
     <RechartsArea
       dot={dot}
+      activeDot={activeDot}
       isAnimationActive={isAnimationActive}
       type={type}
       dataKey={dataKey}
@@ -34,7 +42,7 @@ export function Area({
       key={key}
       fill={fill}
       stroke={stroke}
-      strokeWidth={strokeWidth}
+      strokeWidth={DEFAULT_STROKE_WIDTH}
       stackId={stackId}
       label={
         showDataAnnotations ? (
