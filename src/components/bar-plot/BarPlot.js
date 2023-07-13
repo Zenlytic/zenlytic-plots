@@ -5,7 +5,7 @@ import { useResizeDetector } from 'react-resize-detector';
 
 import { BarChart, Cell, ReferenceLine } from 'recharts';
 import {
-  BAR_STROKE_WIDTH,
+  DEFAULT_STROKE_WIDTH,
   DEFAULT_AXIS_PROPS,
   PLOT_COLORS,
   PLOT_SECONDARY_COLORS,
@@ -78,7 +78,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           name: yAxisName,
           fill: seriesFillColor,
           stroke: seriesStrokeColor,
-          strokeWidth: BAR_STROKE_WIDTH,
+          strokeWidth: DEFAULT_STROKE_WIDTH,
           radius: 2,
           children: data.map((item, index) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
@@ -97,7 +97,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}
-                strokeWidth={BAR_STROKE_WIDTH}
+                strokeWidth={DEFAULT_STROKE_WIDTH}
               />
             );
           }),
