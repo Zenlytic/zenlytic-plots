@@ -30,6 +30,16 @@ import LabelList from '../shared/label-list/LabelList';
 
 const STROKE_DASHARRAY = [5, 2];
 
+const DEFAULT_LABEL_LIST_PROPS = {
+  offset: 16,
+  position: 'top',
+  fill: colors.gray[500],
+  subLabelFill: colors.gray[300],
+  fontWeight: fontWeights.medium,
+  fontSize: fontSizes.xs,
+  subLabelFontSize: fontSizes['2xs'],
+};
+
 function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
@@ -67,13 +77,9 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           onMouseLeave: () => updateHoveredItemId(null),
           children: (
             <LabelList
-              offset={16}
+              {...DEFAULT_LABEL_LIST_PROPS}
               dataKey={convertedDataKey}
               convertedPercentDataKey={convertedPercentDataKey}
-              position="top"
-              fill={colors.gray[500]}
-              fontWeight={fontWeights.medium}
-              fontSize={fontSizes.xs}
               formatter={yAxisTickFormatter}
             />
           ),
@@ -118,15 +124,9 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
         onMouseLeave: () => updateHoveredItemId(null),
         children: (
           <LabelList
-            offset={16}
+            {...DEFAULT_LABEL_LIST_PROPS}
             dataKey={CONVERTED_DATA_KEY}
             convertedPercentDataKey={CONVERTED_PERCENT_DATA_KEY}
-            position="top"
-            fill={colors.gray[500]}
-            subLabelFill={colors.gray[300]}
-            fontWeight={fontWeights.medium}
-            fontSize={fontSizes.xs}
-            subLabelFontSize={fontSizes['2xs']}
             formatter={yAxisTickFormatter}
           />
         ),

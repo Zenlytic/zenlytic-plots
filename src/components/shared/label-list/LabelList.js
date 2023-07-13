@@ -60,7 +60,6 @@ function LabelList({
     fontSize,
     fontWeight,
     formatter,
-    subLabel: '(97%)',
     subLabelFontSize,
     subLabelFill,
     getSubLabelFromIndex,
