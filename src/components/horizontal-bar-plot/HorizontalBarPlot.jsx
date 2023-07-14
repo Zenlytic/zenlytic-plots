@@ -3,7 +3,7 @@
 import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { BarChart, Cell, ReferenceLine } from 'recharts';
-import { BAR_STROKE_WIDTH } from '../../constants/plotConstants';
+import { DEFAULT_AXIS_PROPS, DEFAULT_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
 import {
@@ -26,7 +26,7 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 // import Bar from '../shared/bar/Bar';
-import { DEFAULT_AXIS_COLOR } from '../../constants/plotConstants';
+
 import Bar from '../shared/bar/Bar';
 
 function HorizontalBarPlot({
@@ -80,13 +80,15 @@ function HorizontalBarPlot({
           xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
           yAxisConfig: { ...yAxisConfig, interval: yAxisInterval },
         })}
-        {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
+        {referenceLineValue && (
+          <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_PROPS.stroke} />
+        )}
         {Bar({
           dataKey: xAxisDataKey,
           name: xAxisName,
           fill: seriesFillColor,
           stroke: seriesStrokeColor,
-          strokeWidth: BAR_STROKE_WIDTH,
+          strokeWidth: DEFAULT_STROKE_WIDTH,
           radius: 2,
           children: data.map((item, index) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
@@ -105,7 +107,7 @@ function HorizontalBarPlot({
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}
-                strokeWidth={BAR_STROKE_WIDTH}
+                strokeWidth={DEFAULT_STROKE_WIDTH}
               />
             );
           }),

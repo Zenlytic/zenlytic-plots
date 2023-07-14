@@ -130,7 +130,7 @@ function WaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
                     stroke={getBarStrokeColor(item?.id, index)}
                     fillOpacity={itemOpacity}
                     strokeOpacity={itemOpacity}
-                    strokeWidth={2}
+                    strokeWidth={1}
                   />
                 );
               })}

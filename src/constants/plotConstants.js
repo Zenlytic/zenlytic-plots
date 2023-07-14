@@ -47,9 +47,17 @@ export const DEFAULT_TICK_PROPS = {
   fontSize: '0.75rem',
 };
 
-export const DEFAULT_AXIS_COLOR = '#A6A6A6';
-
 export const DEFAULT_CARTESIAN_GRID_COLOR = '#F0F0F0';
+
+export const DEFAULT_AXIS_PROPS = {
+  stroke: colors.gray[50],
+  tickSize: 5,
+  tickMargin: 4,
+};
+
+export const DEFAULT_TICK_LINE = {
+  stroke: colors.gray[300],
+};
 
 export const PLOT_TYPES = {
   AREA: 'area',
@@ -138,7 +146,7 @@ export const AXIS_DATA_KEY_KEYS = {
   CATEGORY_VALUE_DATA_KEYS_KEY: 'categoryValueDataKeys',
 };
 
-export const BAR_STROKE_WIDTH = 2;
+export const DEFAULT_STROKE_WIDTH = 1;
 
 export const DATA_CHANGE_TYPES = {
   ABSOLUTE: 'ABSOLUTE',

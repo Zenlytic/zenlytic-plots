@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
 import { BarChart, Cell, ReferenceLine } from 'recharts';
-import { BAR_STROKE_WIDTH, DEFAULT_AXIS_COLOR } from '../../constants/plotConstants';
+import { DEFAULT_AXIS_PROPS, DEFAULT_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
 import {
@@ -67,13 +67,15 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           isFollowUpDisabled,
           xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
         })}
-        {referenceLineValue && <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_COLOR} />}
+        {referenceLineValue && (
+          <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_PROPS.stroke} />
+        )}
         {Bar({
           dataKey: yAxisDataKey,
           name: yAxisName,
           fill: seriesFillColor,
           stroke: seriesStrokeColor,
-          strokeWidth: BAR_STROKE_WIDTH,
+          strokeWidth: DEFAULT_STROKE_WIDTH,
           radius: 2,
           children: data.map((item, index) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
@@ -92,7 +94,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}
-                strokeWidth={BAR_STROKE_WIDTH}
+                strokeWidth={DEFAULT_STROKE_WIDTH}
               />
             );
           }),

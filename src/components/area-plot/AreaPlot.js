@@ -97,7 +97,6 @@ function NonPivotedAreaPlot({ plotConfig }) {
         key: axis.name,
         fill: getSecondaryPaletteColorByIndex(plotConfig, index),
         stroke: getPaletteColorByIndex(plotConfig, index),
-        strokeWidth: 2,
         isAnimationActive: false,
         data,
         showDataAnnotations,

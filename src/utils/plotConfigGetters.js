@@ -309,8 +309,8 @@ const getYAxisWidth = ({ useWideYAxis, tickMaxLength }) => {
     return 200;
   }
 
-  if (tickMaxLength > 10) {
-    return 120;
+  if (tickMaxLength > 9) {
+    return 130;
   }
   return useWideYAxis ? 200 : DEFAULT_Y_AXIS_WIDTH;
 };
@@ -320,9 +320,12 @@ export const getYAxis = (plotConfig) => {
   const domain = getYAxisDomainWithFallback(plotConfig);
   const yAxis = getAxisFromAxes(plotConfig, AXIS_DATA_KEY_KEYS.Y_AXIS_DATA_KEY_KEY);
 
+  const defaultTickFormatter = getFormatter('decimal_0');
+
   // Not all plotTypes will have a column associated with the yAxis,
   // but we still want to return Recharts-centric yAxis information like domain.
-  if (!yAxis) return { domain };
+  if (!yAxis) return { domain, tickFormatter: defaultTickFormatter };
+
   const { dataType, name, dataKey, format } = yAxis || {};
   const isSplitAxes = getIsSplitAxes(plotConfig);
   const useWideYAxis = plotType === PLOT_TYPES.HORIZONTAL_BAR;
@@ -567,10 +570,15 @@ const getPivotedFunnelSpecificData = (plotConfig, data) => {
     const calculatedDataPoint = [];
     let previousValue = 0;
     seriesData.forEach((d, index) => {
+      const convertedValue = d[yAxisDataKey];
+      const droppedOffValue = index === 0 ? 0 : previousValue - d[yAxisDataKey];
+      const totalValue = convertedValue + droppedOffValue;
+      const convertedPercent = totalValue === 0 ? 0 : convertedValue / totalValue;
       calculatedDataPoint.push({
         [xAxisDataKey]: d[xAxisDataKey],
-        [`CONVERTED_${seriesName}`]: d[yAxisDataKey],
-        [`DROPPED_OFF_${seriesName}`]: index === 0 ? 0 : previousValue - d[yAxisDataKey],
+        [`CONVERTED_${seriesName}`]: convertedValue,
+        [`DROPPED_OFF_${seriesName}`]: droppedOffValue,
+        [`CONVERTED_PERCENT_${seriesName}`]: convertedPercent,
       });
       previousValue = d[yAxisDataKey];
     });
@@ -595,12 +603,17 @@ const getNonPivotedFunnelSpecificData = (plotConfig, data) => {
   const newData = [];
   let previousValue = 0;
   data.forEach((d, index) => {
+    const convertedValue = d[yAxisDataKey];
+    const droppedOffValue = index === 0 ? 0 : previousValue - d[yAxisDataKey];
+    const totalValue = convertedValue + droppedOffValue;
+    const convertedPercent = totalValue === 0 ? 0 : convertedValue / totalValue;
     newData.push({
       ...d,
-      CONVERTED: d[yAxisDataKey],
-      DROPPED_OFF: index === 0 ? 0 : previousValue - d[yAxisDataKey],
+      CONVERTED: convertedValue,
+      DROPPED_OFF: droppedOffValue,
+      CONVERTED_PERCENT: convertedPercent,
     });
-    previousValue = d[yAxisDataKey];
+    previousValue = convertedValue;
   });
   return newData;
 };
@@ -941,7 +954,15 @@ export const getYAxisPlotOptions = (plotConfig) => {
   return yAxisPlotOptions;
 };
 
-const convertYAxisRangeToDomain = (range) => [range?.minValue ?? 0, range?.maxValue ?? 'auto'];
+export const DEFAULT_Y_AXIS_RANGE = {
+  MIN_VALUE: 0,
+  MAX_VALUE: 'auto',
+};
+
+const convertYAxisRangeToDomain = (range) => [
+  range?.minValue ?? DEFAULT_Y_AXIS_RANGE.MIN_VALUE,
+  range?.maxValue ?? DEFAULT_Y_AXIS_RANGE.MAX_VALUE,
+];
 
 export const getYAxisDomainWithFallback = (plotConfig) => {
   const yAxisPlotOptions = getYAxisPlotOptions(plotConfig);

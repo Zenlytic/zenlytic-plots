@@ -3,7 +3,8 @@
 import React from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { BarChart } from 'recharts';
-import { BAR_STROKE_WIDTH, GROUPED_BAR_DISPLAY_TYPES } from '../../constants/plotConstants';
+
+import { DEFAULT_STROKE_WIDTH, GROUPED_BAR_DISPLAY_TYPES } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import Bar from '../shared/bar/Bar';
 
@@ -49,7 +50,8 @@ function PivotedGroupedBar({
       stackId: isSeriesStacked ? 'a' : undefined,
       fill: getSecondaryPaletteColorByIndex(plotConfig, index),
       stroke: getPaletteColorByIndex(plotConfig, index),
-      strokeWidth: BAR_STROKE_WIDTH,
+      strokeWidth: DEFAULT_STROKE_WIDTH,
+
       fillOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       strokeOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       radius: 2,
@@ -75,7 +77,7 @@ function NonPivotedGroupedBar({
       fill: getSecondaryPaletteColorByIndex(plotConfig, index),
       stroke: getPaletteColorByIndex(plotConfig, index),
       stackId: isSeriesStacked ? 'a' : undefined,
-      strokeWidth: BAR_STROKE_WIDTH,
+      strokeWidth: DEFAULT_STROKE_WIDTH,
       radius: 2,
       onMouseLeave: () => updateHoveredItemId(null),
     });
