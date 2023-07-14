@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 /* eslint-disable react/function-component-definition */
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Label, YAxis as RechartsYAxis } from 'recharts';
 import {
   DEFAULT_AXIS_COLOR,
   DEFAULT_LABEL_PROPS,
   DEFAULT_TICK_PROPS,
 } from '../../../constants/plotConstants';
+import Tick from '../tick/Tick';
 
 const YAxis = ({
   type,
@@ -19,7 +20,20 @@ const YAxis = ({
   domain,
   width,
   interval = 'preserveEnd',
+  useWideYAxis,
+  tickMaxLength,
 }) => {
+  const TickMemoized = useCallback(
+    (props) => (
+      <Tick
+        useWideYAxis={useWideYAxis}
+        tickMaxLength={tickMaxLength}
+        axisWidth={width}
+        {...props}
+      />
+    ),
+    [width, tickMaxLength, useWideYAxis]
+  );
   return (
     <RechartsYAxis
       dataKey={dataKey}
@@ -27,10 +41,10 @@ const YAxis = ({
       name={name}
       type={type}
       stroke={DEFAULT_AXIS_COLOR}
-      width={width}
-      tick={DEFAULT_TICK_PROPS}
+      tick={TickMemoized}
       orientation={orientation}
       domain={domain}
+      width={width}
       allowDataOverflow={true}
       interval={interval}
       yAxisId={yAxisId}>
