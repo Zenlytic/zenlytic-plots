@@ -286,13 +286,13 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
       [PLOT_TYPES.BAR, PLOT_TYPES.LINE, PLOT_TYPES.HORIZONTAL_BAR].includes(plotType) ||
       !isDataPivoted
     ) {
-      rawValue = datum[yAxisDataKey];
+      rawValue = Math.abs(datum[yAxisDataKey]);
     } else if (
       [PLOT_TYPES.MULTI_LINE, PLOT_TYPES.GROUPED_BAR, PLOT_TYPES.AREA].includes(plotType) &&
       isDataPivoted
     ) {
       rawValue = categoryValueDataKeys.reduce((agg, currentCategoryValueDataKey) => {
-        const rawCategoryValue = datum[currentCategoryValueDataKey];
+        const rawCategoryValue = Math.abs(datum[currentCategoryValueDataKey]);
         return Math.max(agg, rawCategoryValue);
       }, 0);
     }
