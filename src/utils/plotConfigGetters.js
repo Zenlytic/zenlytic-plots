@@ -859,7 +859,6 @@ const getPlotOptions = (plotConfig) => {
 };
 
 export const getPlotPalette = (plotConfig) => {
-  console.log('🚀 ~ file: plotConfigGetters.js:849 ~ getPlotPalette ~ plotConfig:', plotConfig);
   const plotOptions = getPlotOptions(plotConfig);
   return plotOptions.palette ?? PLOT_COLORS;
 };
