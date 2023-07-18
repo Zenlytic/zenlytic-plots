@@ -3,7 +3,6 @@
 import React from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { LineChart } from 'recharts';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
@@ -17,6 +16,8 @@ import {
   getData,
   getIsDataPivoted,
   getMargin,
+  getPaletteColorByIndex,
+  getSecondaryPaletteColorByIndex,
   getSeriesHiddenColumns,
   getSeriesShowDataAnnotations,
   getTickFormatterFromDataKey,
@@ -38,20 +39,21 @@ function PivotedMultiLinePlot({ plotConfig = {} }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
   const nameFormatter = getCategoryAxisFormatter(plotConfig);
-  return uniqueValuesOfCategoryKey.map((value, index) =>
-    Line({
+
+  return uniqueValuesOfCategoryKey.map((value, index) => {
+    return Line({
       id: value,
       dataKey: value,
       name: nameFormatter(value),
       key: value,
-      color: PLOT_COLORS[index % PLOT_COLORS.length],
+      color: getPaletteColorByIndex(plotConfig, index, value),
       type: 'monotone',
       dot: true,
       isAnimationActive: false,
       showDataAnnotations,
       valueFormatter: yAxisTickFormatter,
-    })
-  );
+    });
+  });
 }
 
 function NonPivotedMultiLinePlot({ plotConfig }) {
@@ -62,19 +64,19 @@ function NonPivotedMultiLinePlot({ plotConfig }) {
     .filter((axis) => {
       return !seriesHiddenColumns.includes(axis.dataKey);
     })
-    .map((axis, index) =>
-      Line({
+    .map((axis, index) => {
+      return Line({
         type: 'monotone',
         dataKey: axis.dataKey,
         name: axis.name,
         key: axis.name,
-        color: PLOT_COLORS[index % PLOT_COLORS.length],
+        color: getPaletteColorByIndex(plotConfig, index, axis.dataKey),
         dot: true,
         isAnimationActive: false,
         showDataAnnotations,
         valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
-      })
-    );
+      });
+    });
 }
 
 function MultiLinePlot({

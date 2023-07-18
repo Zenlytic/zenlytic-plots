@@ -2,11 +2,11 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { Sankey } from 'recharts';
-import { PLOT_COLORS } from '../../constants/plotConstants';
 
 import {
   getData,
   getMargin,
+  getPaletteColorByIndex,
   getTickFormatterFromDataKey,
   getXAxisDataKey,
   getYAxisDataKey,
@@ -31,7 +31,7 @@ function SankeyPlot({ plotConfig = {}, TooltipContent = () => {}, isFollowUpDisa
   categories = [...new Set(data?.nodes?.map((d) => d[xAxisDataKey]))];
   const nodeColors = {};
   categories.forEach((category, index) => {
-    nodeColors[category] = PLOT_COLORS[index % PLOT_COLORS.length];
+    nodeColors[category] = getPaletteColorByIndex(plotConfig, index);
   });
 
   const colorGradients = data.links?.map((link) => {

@@ -3,7 +3,7 @@
 import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { BarChart, Cell, ReferenceLine } from 'recharts';
-import { DEFAULT_STROKE_WIDTH, DEFAULT_AXIS_PROPS } from '../../constants/plotConstants';
+import { DEFAULT_AXIS_PROPS, DEFAULT_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
 import {
@@ -11,7 +11,9 @@ import {
   getDoesSeriesHaveFillColor,
   getDoesSeriesHaveStrokeColor,
   getMargin,
+  getPaletteColorByIndex,
   getReferenceLineValue,
+  getSecondaryPaletteColorByIndex,
   getSeriesFillColor,
   getSeriesStrokeColor,
   getXAxis,
@@ -24,7 +26,7 @@ import {
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
 // import Bar from '../shared/bar/Bar';
-import { PLOT_COLORS, PLOT_SECONDARY_COLORS } from '../../constants/plotConstants';
+
 import Bar from '../shared/bar/Bar';
 
 function HorizontalBarPlot({
@@ -96,12 +98,12 @@ function HorizontalBarPlot({
                 fill={
                   doesSeriesHaveFillColor
                     ? seriesFillColor
-                    : PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length]
+                    : getSecondaryPaletteColorByIndex(plotConfig, index)
                 }
                 stroke={
                   doesSeriesHaveStrokeColor
                     ? seriesStrokeColor
-                    : PLOT_COLORS[index % PLOT_COLORS.length]
+                    : getPaletteColorByIndex(plotConfig, index)
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}

@@ -2,21 +2,19 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, { useCallback } from 'react';
 import { BarChart, Cell, LabelList } from 'recharts';
-import Bar from '../shared/bar/Bar';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
-import {
-  COLOR_FAIL,
-  COLOR_SUCCESS,
-  PLOT_COLORS,
-  PLOT_SECONDARY_COLORS,
-} from '../../constants/plotConstants';
+import { COLOR_FAIL, COLOR_SUCCESS } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
+import Bar from '../shared/bar/Bar';
 
+import colors from '../../constants/colors';
 import {
   getData,
   getMargin,
+  getPaletteColorByIndex,
+  getSecondaryPaletteColorByIndex,
   getSeriesFillColor,
   getSeriesStrokeColor,
   getXAxis,
@@ -25,7 +23,6 @@ import {
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
-import colors from '../../constants/colors';
 
 const renderCustomizedLabel = (props, yAxisTickFormatter) => {
   const { x, y, width, height, value, fill, label, index } = props;
@@ -83,14 +80,14 @@ function WaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
   const getBarFillColor = (barId, index) => {
     if (barId === 'start' || barId === 'end') return seriesFillColor;
     if (barId === 'other_factors') return colors.gray[50];
-    return PLOT_SECONDARY_COLORS[index % PLOT_SECONDARY_COLORS.length];
+    return getSecondaryPaletteColorByIndex(plotConfig, index);
   };
 
   const getBarStrokeColor = (barId, index) => {
     if (barId === 'start' || barId === 'end') return seriesStrokeColor;
     if (barId === 'other_factors') return colors.gray[200];
 
-    return PLOT_COLORS[index % PLOT_COLORS.length];
+    return getPaletteColorByIndex(plotConfig, index);
   };
 
   return (
