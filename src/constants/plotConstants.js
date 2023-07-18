@@ -103,17 +103,6 @@ export const PLOT_COLORS = [
   '#8bd3c7',
 ];
 
-// export const PLOT_SECONDARY_COLORS = [
-//   colors.dark_blue[50],
-//   colors.mint[50],
-//   colors.red[50],
-//   colors.green[50],
-//   colors.orange[50],
-//   colors.pink[50],
-//   colors.light_blue[50],
-//   colors.yellow[50],
-// ];
-
 export const AXIS_COLOR = '#A6A6A6';
 export const GRID_COLOR = '#F0F0F0';
 export const LABEL_COLOR = '#737373';
