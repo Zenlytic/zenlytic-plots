@@ -597,7 +597,6 @@ const getPivotedFunnelSpecificData = (plotConfig, data) => {
     flattenedNewNewPivotedData.push(flattenedSeries);
   });
 
-  console.log({ newNewPivotedData, flattenedNewNewPivotedData, pivotedData });
   return flattenedNewNewPivotedData;
 };
 
