@@ -416,7 +416,8 @@ const getUniqueValuesOfCategoryAxis = (plotConfig) => {
 export const getCategoriesOfCategoryAxis = (plotConfig) => {
   const categories = getUniqueValuesOfCategoryAxis(plotConfig);
   return categories.map((category) => {
-    return { name: category, dataKey: category };
+    const formattedCategory = category === null ? 'null' : category;
+    return { name: formattedCategory, dataKey: formattedCategory };
   });
 };
 
@@ -570,8 +571,8 @@ const getPivotedFunnelSpecificData = (plotConfig, data) => {
     const calculatedDataPoint = [];
     let previousValue = 0;
     seriesData.forEach((d, index) => {
-      const convertedValue = d[yAxisDataKey];
-      const droppedOffValue = index === 0 ? 0 : previousValue - d[yAxisDataKey];
+      const convertedValue = d[yAxisDataKey] ?? 0;
+      const droppedOffValue = index === 0 ? 0 : previousValue - convertedValue;
       const totalValue = convertedValue + droppedOffValue;
       const convertedPercent = totalValue === 0 ? 0 : convertedValue / totalValue;
       calculatedDataPoint.push({
@@ -595,6 +596,8 @@ const getPivotedFunnelSpecificData = (plotConfig, data) => {
     });
     flattenedNewNewPivotedData.push(flattenedSeries);
   });
+
+  console.log({ newNewPivotedData, flattenedNewNewPivotedData, pivotedData });
   return flattenedNewNewPivotedData;
 };
 
@@ -603,8 +606,8 @@ const getNonPivotedFunnelSpecificData = (plotConfig, data) => {
   const newData = [];
   let previousValue = 0;
   data.forEach((d, index) => {
-    const convertedValue = d[yAxisDataKey];
-    const droppedOffValue = index === 0 ? 0 : previousValue - d[yAxisDataKey];
+    const convertedValue = d[yAxisDataKey] ?? 0;
+    const droppedOffValue = index === 0 ? 0 : previousValue - convertedValue;
     const totalValue = convertedValue + droppedOffValue;
     const convertedPercent = totalValue === 0 ? 0 : convertedValue / totalValue;
     newData.push({

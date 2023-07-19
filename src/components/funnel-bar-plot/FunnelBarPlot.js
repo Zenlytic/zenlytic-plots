@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { BarChart, LabelList } from 'recharts';
+import { BarChart } from 'recharts';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
 import { DEFAULT_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import Bar from '../shared/bar/Bar';
+import LabelList from '../shared/label-list/LabelList';
 
 import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 import {
@@ -54,7 +55,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
           stackId: categoryName,
           dataKey: droppedOffDataKey,
           name: `Dropped Off - ${categoryName}`,
-          stroke: getSecondaryPaletteColorByIndex(plotConfig, index),
+          stroke: getPaletteColorByIndex(plotConfig, index),
           fill: getSecondaryPaletteColorByIndex(plotConfig, index),
           strokeWidth: DEFAULT_STROKE_WIDTH,
           strokeDasharray: STROKE_DASHARRAY,
@@ -94,6 +95,7 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
   const seriesFillColor = getSeriesFillColor(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+
   return (
     <>
       {Bar({
@@ -102,9 +104,9 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
         name: 'Dropped Off',
         dataKey: DROPPED_OFF_DATA_KEY,
         fill: seriesFillColor,
-        strokeDasharray: STROKE_DASHARRAY,
         stroke: seriesStrokeColor,
         strokeWidth: DEFAULT_STROKE_WIDTH,
+        strokeDasharray: STROKE_DASHARRAY,
         stackId: 'a',
         onMouseOver: () => updateHoveredItemId(DROPPED_OFF_DATA_KEY),
         onMouseLeave: () => updateHoveredItemId(null),
@@ -141,10 +143,9 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
   const isDataPivoted = getIsDataPivoted(plotConfig);
 
   const [tooltip, tooltipHandlers] = useTooltip();
-  const { isFollowUpMenuOpen } = tooltip;
 
-  const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
-  const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
+  const { updateHoveredItemId } = tooltipHandlers || {};
+  const { hoveredItemId = null } = tooltip || {};
 
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
