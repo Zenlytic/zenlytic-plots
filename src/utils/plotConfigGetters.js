@@ -881,9 +881,9 @@ export const getPlotSecondaryPalette = (plotConfig) => {
   const plotPalette = getPlotPalette(plotConfig);
   return plotPalette.map((color) => {
     if (chroma.valid(color)) {
-      return chroma(color).alpha(0.1);
+      return chroma.mix(color, 'white', 0.9);
     }
-    return chroma(DEFAULT_COLOR).alpha(0.1);
+    return chroma.mix(DEFAULT_COLOR, 'white', 0.9);
   });
 };
 
@@ -891,9 +891,9 @@ export const getSecondaryPaletteColorByIndex = (plotConfig, index, dataKey) => {
   const dateKeyColorMapping = getDataKeyColorMappings(plotConfig);
   if (dateKeyColorMapping[dataKey]) {
     if (chroma.valid(dateKeyColorMapping[dataKey])) {
-      return chroma(dateKeyColorMapping[dataKey]).alpha(0.1);
+      return chroma.mix(dateKeyColorMapping[dataKey], 'white', 0.9);
     }
-    return chroma(DEFAULT_COLOR).alpha(0.1);
+    return chroma.mix(DEFAULT_COLOR, 'white', 0.9);
   }
   const plotSecondaryPalette = getPlotSecondaryPalette(plotConfig);
   return plotSecondaryPalette[index % plotSecondaryPalette.length];
