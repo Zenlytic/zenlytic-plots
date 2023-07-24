@@ -119,7 +119,6 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, getSubLabelFrom
             <LabelList
               {...DEFAULT_LABEL_LIST_PROPS}
               dataKey={convertedDataKey}
-              convertedPercentDataKey={convertedPercentDataKey}
               content={renderCustomizedLabel}
               formatter={yAxisTickFormatter}
             />
