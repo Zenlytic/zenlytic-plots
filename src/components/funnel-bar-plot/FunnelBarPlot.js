@@ -1,14 +1,14 @@
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
-import { BarChart } from 'recharts';
+import { BarChart, LabelList } from 'recharts';
 import colors from '../../constants/colors';
 import fontSizes from '../../constants/fontSizes';
 import fontWeights from '../../constants/fontWeights';
 import { DEFAULT_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import Bar from '../shared/bar/Bar';
-import LabelList from '../shared/label-list/LabelList';
 
 import { overrideAxisConfig } from '../../utils/overrideAxisConfig';
 import {
@@ -38,7 +38,40 @@ const DEFAULT_LABEL_LIST_PROPS = {
   subLabelFontSize: fontSizes['2xs'],
 };
 
-function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
+const Y_OFFSET = 8;
+
+const getRenderCustomizedLabel =
+  ({ getSubLabelFromIndex, formatter }) =>
+  // eslint-disable-next-line react/function-component-definition
+  ({ x, y, width, value: rawValue, index }) => {
+    const formattedValue = formatter(rawValue);
+    const positionedX = x + width / 2;
+    const positionedY = y - Y_OFFSET;
+    const subLabel = getSubLabelFromIndex({ index });
+
+    return (
+      <text
+        x={positionedX}
+        y={positionedY}
+        offset={DEFAULT_LABEL_LIST_PROPS.offset}
+        fontSize={DEFAULT_LABEL_LIST_PROPS.fontSize}
+        fontWeight={DEFAULT_LABEL_LIST_PROPS.fontWeight}
+        textAnchor="middle">
+        <tspan x={positionedX} dy="-16px" fill={DEFAULT_LABEL_LIST_PROPS.fill}>
+          {formattedValue}
+        </tspan>
+        <tspan
+          x={positionedX}
+          dy="14px"
+          fontSize={DEFAULT_LABEL_LIST_PROPS.subLabelFontSize}
+          fill={DEFAULT_LABEL_LIST_PROPS.subLabelFill}>
+          {subLabel}
+        </tspan>
+      </text>
+    );
+  };
+
+function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, getSubLabelFromIndexAndDataKey }) {
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
   const categoriesOfCategoryAxis = getCategoriesOfCategoryAxis(plotConfig);
@@ -47,6 +80,15 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
     const convertedDataKey = `CONVERTED_${categoryName}`;
     const convertedPercentDataKey = `CONVERTED_PERCENT_${categoryName}`;
     const droppedOffDataKey = `DROPPED_OFF_${categoryName}`;
+
+    const getSubLabelFromIndex = ({ index }) =>
+      getSubLabelFromIndexAndDataKey({ index, dataKey: convertedPercentDataKey });
+
+    const renderCustomizedLabel = getRenderCustomizedLabel({
+      formatter: yAxisTickFormatter,
+      getSubLabelFromIndex,
+    });
+
     return (
       <>
         {Bar({
@@ -77,7 +119,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId }) {
             <LabelList
               {...DEFAULT_LABEL_LIST_PROPS}
               dataKey={convertedDataKey}
-              convertedPercentDataKey={convertedPercentDataKey}
+              content={renderCustomizedLabel}
               formatter={yAxisTickFormatter}
             />
           ),
@@ -91,10 +133,22 @@ const CONVERTED_DATA_KEY = 'CONVERTED';
 const CONVERTED_PERCENT_DATA_KEY = 'CONVERTED_PERCENT';
 const DROPPED_OFF_DATA_KEY = 'DROPPED_OFF';
 
-function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemId }) {
+function NonPivotedFunnelBarPlot({
+  plotConfig,
+  updateHoveredItemId,
+  getSubLabelFromIndexAndDataKey,
+}) {
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
   const seriesFillColor = getSeriesFillColor(plotConfig);
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+
+  const getSubLabelFromIndex = ({ index }) =>
+    getSubLabelFromIndexAndDataKey({ index, dataKey: CONVERTED_PERCENT_DATA_KEY });
+
+  const renderCustomizedLabel = getRenderCustomizedLabel({
+    getSubLabelFromIndex,
+    formatter: yAxisTickFormatter,
+  });
 
   return (
     <>
@@ -125,7 +179,7 @@ function NonPivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, hoveredItemI
           <LabelList
             {...DEFAULT_LABEL_LIST_PROPS}
             dataKey={CONVERTED_DATA_KEY}
-            convertedPercentDataKey={CONVERTED_PERCENT_DATA_KEY}
+            content={renderCustomizedLabel}
             formatter={yAxisTickFormatter}
           />
         ),
@@ -149,6 +203,13 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
 
   const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
+  const getSubLabelFromIndexAndDataKey = ({ index, dataKey }) => {
+    const datum = data[index];
+    const convertedPercentRawValue = datum[dataKey];
+    const convertedPercentFormattedValue = `(${(convertedPercentRawValue * 100).toFixed(0)}%)`;
+    return convertedPercentFormattedValue;
+  };
+
   return (
     <PlotContainer>
       <BarChart data={data} margin={margin} barGap={6} reverseStackOrder>
@@ -161,12 +222,14 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
           isFollowUpDisabled,
           customValueFormatter: yAxisTickFormatter,
         })}
-        {isDataPivoted && PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId })}
+        {isDataPivoted &&
+          PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, getSubLabelFromIndexAndDataKey })}
         {!isDataPivoted &&
           NonPivotedFunnelBarPlot({
             plotConfig,
             updateHoveredItemId,
             hoveredItemId,
+            getSubLabelFromIndexAndDataKey,
           })}
       </BarChart>
     </PlotContainer>
