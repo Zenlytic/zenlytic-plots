@@ -113,7 +113,7 @@ function WaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
         })}
         {Bar({
           dataKey: yAxisDataKey,
-          isAnimationActive: false,
+          isAnimationActive: true,
           radius: 2,
           children: (
             <>

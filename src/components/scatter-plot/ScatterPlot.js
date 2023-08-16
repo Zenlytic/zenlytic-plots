@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import { useResizeDetector } from 'react-resize-detector';
-import { Scatter, ScatterChart } from 'recharts';
+import { Scatter, ScatterChart, XAxis, YAxis } from 'recharts';
 import useBrush, { BRUSH_DIRECTIONS } from '../../hooks/useBrush';
 import useTooltip from '../../hooks/useTooltip';
 
@@ -51,9 +51,20 @@ function ScatterPlot({
   const xAxisConfig = getXAxis(plotConfig);
   const xAxisInterval = getXAxisInterval(plotConfig, width);
 
+  // const data = [
+  //   { x: 100, y: 200, z: 200 },
+  //   { x: 120, y: 100, z: 260 },
+  //   { x: 170, y: 300, z: 400 },
+  //   { x: 140, y: 250, z: 280 },
+  //   { x: 150, y: 400, z: 500 },
+  //   { x: 110, y: 280, z: 200 },
+  // ];
+
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <ScatterChart margin={margin} {...brushEvents}>
+        {/* <XAxis type="number" dataKey="ORDERS_AVERAGE_ORDER_VALUE" name="stature" />
+        <YAxis type="number" dataKey="ORDERS_MEDIAN_ORDER_VALUE" name="weight" /> */}
         {GeneralChartComponents({
           plotConfig,
           brush,
@@ -62,9 +73,9 @@ function ScatterPlot({
           tooltipHandlers,
           tooltip,
           isFollowUpDisabled,
-          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          xAxisConfig: { ...xAxisConfig },
         })}
-        <Scatter data={data} fill={seriesStrokeColor} />
+        <Scatter name="the hardest" data={data} fill={seriesStrokeColor} />
       </ScatterChart>
     </PlotContainer>
   );

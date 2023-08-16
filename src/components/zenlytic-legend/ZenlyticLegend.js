@@ -79,7 +79,7 @@ const ZenlyticLegend = ({
       }}
       onMouseEnter={onLegendItemHover}
       onMouseLeave={onLegendItemLeave}
-      isAnimationActive={!isServerSide}
+      isAnimationActive={true}
       formatter={legendItem}
       {...restProps}
     />

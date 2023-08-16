@@ -51,7 +51,6 @@ function PivotedGroupedBar({
       fill: getSecondaryPaletteColorByIndex(plotConfig, index),
       stroke: getPaletteColorByIndex(plotConfig, index),
       strokeWidth: DEFAULT_STROKE_WIDTH,
-
       fillOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       strokeOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       radius: 2,
@@ -106,7 +105,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   const xAxisInterval = getXAxisInterval(plotConfig, width);
 
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <BarChart data={data} margin={margin}>
         {GeneralChartComponents({
           plotConfig,
@@ -116,7 +115,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
           tooltipHandlers,
           legendConfig: { useStrokeColorShape: true, iconType: 'square' },
           isFollowUpDisabled,
-          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          xAxisConfig: { ...xAxisConfig },
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
             dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),

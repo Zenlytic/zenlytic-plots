@@ -60,7 +60,7 @@ function PivotedAreaPlot({ plotConfig }) {
       dataKey: uniqueValueOfCategoryKey,
       name: nameFormatter(uniqueValueOfCategoryKey),
       key: uniqueValueOfCategoryKey,
-      isAnimationActive: false,
+      isAnimationActive: true,
       showDataAnnotations,
       data,
       axisDataKey: uniqueValueOfCategoryKey,
@@ -97,7 +97,7 @@ function NonPivotedAreaPlot({ plotConfig }) {
         key: axis.name,
         fill: getSecondaryPaletteColorByIndex(plotConfig, index),
         stroke: getPaletteColorByIndex(plotConfig, index),
-        isAnimationActive: false,
+        isAnimationActive: true,
         data,
         showDataAnnotations,
         axisDataKey: axis.dataKey,
@@ -156,7 +156,7 @@ function AreaPlot({
   const xAxisInterval = getXAxisInterval(plotConfig, width);
 
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <AreaChart
         margin={margin}
         data={data}
@@ -172,7 +172,7 @@ function AreaPlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
-          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          xAxisConfig: { ...xAxisConfig },
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
             // DataKey should not be included in Y-Axis when multiple metrics are shown on the y-axis.
             // Including it will break the y-axis domain.

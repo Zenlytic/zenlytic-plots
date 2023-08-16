@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/jsx-filename-extension */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 import { LineChart } from 'recharts';
 import useBrush, { BRUSH_SELECTION_TYPES } from '../../hooks/useBrush';
@@ -49,7 +49,7 @@ function PivotedMultiLinePlot({ plotConfig = {} }) {
       color: getPaletteColorByIndex(plotConfig, index, value),
       type: 'monotone',
       dot: true,
-      isAnimationActive: false,
+      isAnimationActive: true,
       showDataAnnotations,
       valueFormatter: yAxisTickFormatter,
     });
@@ -72,7 +72,7 @@ function NonPivotedMultiLinePlot({ plotConfig }) {
         key: axis.name,
         color: getPaletteColorByIndex(plotConfig, index, axis.dataKey),
         dot: true,
-        isAnimationActive: false,
+        isAnimationActive: true,
         showDataAnnotations,
         valueFormatter: getTickFormatterFromDataKey(plotConfig, axis.dataKey),
       });
@@ -85,7 +85,7 @@ function MultiLinePlot({
   onBrushUpdate = () => {},
   isFollowUpDisabled = false,
 }) {
-  const data = getData(plotConfig);
+  const data = useMemo(() => getData(plotConfig), [plotConfig]);
   const margin = getMargin(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
 
@@ -116,7 +116,7 @@ function MultiLinePlot({
   const xAxisInterval = getXAxisInterval(plotConfig, width);
 
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <LineChart data={data} margin={margin} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
@@ -127,7 +127,7 @@ function MultiLinePlot({
           tooltip,
           TooltipContent,
           tooltipHandlers,
-          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          xAxisConfig: { ...xAxisConfig },
           yAxisConfig: overrideAxisConfig(yAxisConfig, {
             dataKey: isDataPivoted ? undefined : yAxisConfig.dataKey,
           }),

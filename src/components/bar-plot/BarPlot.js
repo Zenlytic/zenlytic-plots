@@ -3,7 +3,7 @@
 import React, { useCallback } from 'react';
 import { useResizeDetector } from 'react-resize-detector';
 
-import { BarChart, Cell, ReferenceLine } from 'recharts';
+import { BarChart, Cell, ReferenceLine, ResponsiveContainer } from 'recharts';
 import { DEFAULT_AXIS_PROPS, DEFAULT_STROKE_WIDTH } from '../../constants/plotConstants';
 import useTooltip from '../../hooks/useTooltip';
 import getItemOpacity from '../../utils/getItemOpacity';
@@ -23,8 +23,8 @@ import {
   getYAxisName,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
-import PlotContainer from '../plot-container/PlotContainer';
 import Bar from '../shared/bar/Bar';
+import PlotContainer from '../plot-container/PlotContainer';
 
 function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled = false }) {
   const yAxisDataKey = getYAxisDataKey(plotConfig);
@@ -57,7 +57,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   const xAxisInterval = getXAxisInterval(plotConfig, width);
 
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <BarChart data={data} margin={margin} onClick={onPlotClick}>
         {GeneralChartComponents({
           plotConfig,
@@ -65,7 +65,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           tooltipHandlers,
           tooltip,
           isFollowUpDisabled,
-          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          xAxisConfig: { ...xAxisConfig },
         })}
         {referenceLineValue && (
           <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_PROPS.stroke} />

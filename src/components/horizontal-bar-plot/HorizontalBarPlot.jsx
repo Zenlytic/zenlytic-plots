@@ -69,7 +69,7 @@ function HorizontalBarPlot({
   const yAxisInterval = getYAxisInterval(plotConfig, height);
 
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <BarChart data={data} margin={margin} onClick={onPlotClick} layout="vertical">
         {GeneralChartComponents({
           plotConfig,
@@ -77,8 +77,8 @@ function HorizontalBarPlot({
           tooltipHandlers,
           tooltip,
           isFollowUpDisabled,
-          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
-          yAxisConfig: { ...yAxisConfig, interval: yAxisInterval },
+          xAxisConfig: { ...xAxisConfig },
+          yAxisConfig: { ...yAxisConfig },
         })}
         {referenceLineValue && (
           <ReferenceLine y={referenceLineValue} stroke={DEFAULT_AXIS_PROPS.stroke} />

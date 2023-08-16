@@ -5,7 +5,7 @@ import React from 'react';
 import { ZAxis as RechartsZAxis } from 'recharts';
 
 const ZAxis = ({ type, dataKey, name, tickFormatter }) => {
-  return <RechartsZAxis dataKey={dataKey} tickFormatter={tickFormatter} name={name} />;
+  return <RechartsZAxis dataKey={dataKey} tickFormatter={tickFormatter} name={name} type={type} />;
 };
 
 ZAxis.propTypes = {};

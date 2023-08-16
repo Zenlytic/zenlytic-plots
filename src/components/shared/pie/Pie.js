@@ -22,7 +22,7 @@ export default function Pie({
     <RechartsPie
       dataKey={dataKey}
       nameKey={nameKey}
-      isAnimationActive={false}
+      isAnimationActive={true}
       data={data}
       cx={cx}
       cy={cy}

@@ -69,7 +69,7 @@ function LinePlot({
   const xAxisInterval = getXAxisInterval(plotConfig, width);
 
   return (
-    <PlotContainer ref={ref}>
+    <PlotContainer>
       <LineChart data={data} margin={margin} {...brushEvents}>
         {GeneralChartComponents({
           plotConfig,
@@ -81,7 +81,7 @@ function LinePlot({
           isFollowUpDisabled,
           useLegend: isSplitAxes,
           isSplitAxes,
-          xAxisConfig: { ...xAxisConfig, interval: xAxisInterval },
+          xAxisConfig: { ...xAxisConfig },
         })}
         {Line({
           yAxisId,
@@ -90,7 +90,7 @@ function LinePlot({
           color: seriesStrokeColor,
           dot: true,
           name: yAxisName,
-          isAnimationActive: false,
+          isAnimationActive: true,
           valueFormatter: yAxisTickFormatter,
           showDataAnnotations,
         })}
@@ -105,7 +105,7 @@ function LinePlot({
                 : colors.light_blue[300],
             dot: true,
             name: secondYAxisName,
-            isAnimationActive: false,
+            isAnimationActive: true,
             valueFormatter: secondYAxisTickFormatter,
             showDataAnnotations,
           })}
@@ -113,7 +113,5 @@ function LinePlot({
     </PlotContainer>
   );
 }
-
-LinePlot.propTypes = {};
 
 export default LinePlot;

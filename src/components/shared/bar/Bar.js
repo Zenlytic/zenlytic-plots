@@ -14,7 +14,7 @@ function Bar({
   key,
   fillOpacity,
   strokeOpacity,
-  isAnimationActive = false,
+  isAnimationActive = true,
   onMouseOver = () => {},
   onMouseLeave = () => {},
   onClick = () => {},
@@ -28,9 +28,9 @@ function Bar({
       dataKey={dataKey}
       name={name}
       fill={fill}
-      stroke={stroke}
       id={id}
-      data={data}
+      stroke={stroke}
+      // data={data}
       key={key}
       fillOpacity={fillOpacity}
       strokeOpacity={strokeOpacity}

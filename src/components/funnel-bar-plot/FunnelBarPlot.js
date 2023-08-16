@@ -93,7 +93,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, getSubLabelFrom
       <>
         {Bar({
           id: droppedOffDataKey,
-          isAnimationActive: false,
+          isAnimationActive: true,
           stackId: categoryName,
           dataKey: droppedOffDataKey,
           name: `Dropped Off - ${categoryName}`,
@@ -106,7 +106,7 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, getSubLabelFrom
         })}
         {Bar({
           id: convertedDataKey,
-          isAnimationActive: false,
+          isAnimationActive: true,
           stackId: categoryName,
           dataKey: convertedDataKey,
           name: `Converted - ${categoryName}`,
@@ -153,7 +153,7 @@ function NonPivotedFunnelBarPlot({
   return (
     <>
       {Bar({
-        isAnimationActive: false,
+        isAnimationActive: true,
         id: DROPPED_OFF_DATA_KEY,
         name: 'Dropped Off',
         dataKey: DROPPED_OFF_DATA_KEY,
@@ -166,7 +166,7 @@ function NonPivotedFunnelBarPlot({
         onMouseLeave: () => updateHoveredItemId(null),
       })}
       {Bar({
-        isAnimationActive: false,
+        isAnimationActive: true,
         id: CONVERTED_DATA_KEY,
         name: 'Converted',
         dataKey: CONVERTED_DATA_KEY,
