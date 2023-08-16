@@ -435,7 +435,7 @@ export const getCategoryValueAxes = (plotConfig) => {
     return getCategoriesOfCategoryAxis(plotConfig).sort(sortBySeriesName);
   }
   const categoryValueDataKeys = getCategoryValueDataKeys(plotConfig);
-  if (!categoryValueDataKeys || !categoryValueDataKeys.length) return null;
+  if (!categoryValueDataKeys || !categoryValueDataKeys.length) return [];
   return categoryValueDataKeys
     .map((categoryValueDataKey) => {
       const categoryValue = getAxisFromDataKey(plotConfig, categoryValueDataKey);
