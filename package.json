@@ -1,6 +1,6 @@
 {
   "name": "zenlytic-plots",
-  "version": "1.16.2",
+  "version": "1.16.8",
   "description": "",
   "main": "lib/index.umd.js",
   "browser": "lib/index.umd.js",
@@ -25,9 +25,7 @@
     "type": "git",
     "url": "https://github.com/Zenlytic/zenlytic-plots.git"
   },
-  "keywords": [
-    
-  ],
+  "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
