@@ -28,7 +28,7 @@ export const formatUnixValue = (formatter, value) => {
     case null:
       return value;
     default:
-      return d3Format(formatter)(value);
+      return d3Format(formatter)(value).replace('G', 'B');
   }
 };
 
@@ -50,7 +50,7 @@ const formatValue = (formatter, value) => {
     case null:
       return value;
     default:
-      return d3Format(formatter)(value);
+      return d3Format(formatter)(value).replace('G', 'B');
   }
 };
 
