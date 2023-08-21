@@ -15,6 +15,7 @@ import {
 } from '../constants/plotConstants';
 import formatValue from './formatValue';
 import getD3DataFormatter from './getD3DataFormatter';
+import { getAbsoluteNumber } from './numberUtils';
 
 export const getAxes = (plotConfig = {}) => {
   return plotConfig.axes || [];
@@ -286,13 +287,13 @@ const getYAxisMaxDataWidth = (plotConfig, { tickFormatter, yAxisDataKey }) => {
       [PLOT_TYPES.BAR, PLOT_TYPES.LINE, PLOT_TYPES.HORIZONTAL_BAR].includes(plotType) ||
       !isDataPivoted
     ) {
-      rawValue = Math.abs(datum[yAxisDataKey]);
+      rawValue = getAbsoluteNumber(datum[yAxisDataKey]);
     } else if (
       [PLOT_TYPES.MULTI_LINE, PLOT_TYPES.GROUPED_BAR, PLOT_TYPES.AREA].includes(plotType) &&
       isDataPivoted
     ) {
       rawValue = categoryValueDataKeys.reduce((agg, currentCategoryValueDataKey) => {
-        const rawCategoryValue = Math.abs(datum[currentCategoryValueDataKey]);
+        const rawCategoryValue = getAbsoluteNumber(datum[currentCategoryValueDataKey]);
         return Math.max(agg, rawCategoryValue);
       }, 0);
     }
