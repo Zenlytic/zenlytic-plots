@@ -873,6 +873,7 @@ export const getDataKeyColorMappings = (plotConfig) => {
 
 export const getPaletteColorByIndex = (plotConfig, index, dataKey) => {
   const dateKeyColorMapping = getDataKeyColorMappings(plotConfig);
+
   if (dateKeyColorMapping[dataKey]) {
     return dateKeyColorMapping[dataKey];
   }

@@ -55,7 +55,7 @@ function LinePlot({
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
   const isSplitAxes = getIsSplitAxes(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const [brush, brushEvents] = useBrush({
     onBrushUpdate,
     tooltipHandlers,

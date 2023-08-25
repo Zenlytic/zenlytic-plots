@@ -48,8 +48,8 @@ function PivotedGroupedBar({
       name: nameFormatter(value),
       key: value,
       stackId: isSeriesStacked ? 'a' : undefined,
-      fill: getSecondaryPaletteColorByIndex(plotConfig, index),
-      stroke: getPaletteColorByIndex(plotConfig, index),
+      fill: getSecondaryPaletteColorByIndex(plotConfig, index, value),
+      stroke: getPaletteColorByIndex(plotConfig, index, value),
       strokeWidth: DEFAULT_STROKE_WIDTH,
 
       fillOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
@@ -74,8 +74,8 @@ function NonPivotedGroupedBar({
     return Bar({
       dataKey: axes.dataKey,
       name: axes.name,
-      fill: getSecondaryPaletteColorByIndex(plotConfig, index),
-      stroke: getPaletteColorByIndex(plotConfig, index),
+      fill: getSecondaryPaletteColorByIndex(plotConfig, index, axes.dataKey),
+      stroke: getPaletteColorByIndex(plotConfig, index, axes.dataKey),
       stackId: isSeriesStacked ? 'a' : undefined,
       strokeWidth: DEFAULT_STROKE_WIDTH,
       radius: 2,
@@ -88,7 +88,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
   const isDataPivoted = getIsDataPivoted(plotConfig);
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const { updateHoveredItemId = () => {}, updateClickedItemId = () => {} } = tooltipHandlers || {};
   const { hoveredItemId = null, clickedItemId = null } = tooltip || {};
 

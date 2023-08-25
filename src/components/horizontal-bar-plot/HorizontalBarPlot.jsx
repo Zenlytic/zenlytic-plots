@@ -46,7 +46,7 @@ function HorizontalBarPlot({
   const doesSeriesHaveStrokeColor = getDoesSeriesHaveStrokeColor(plotConfig);
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const { isFollowUpMenuOpen } = tooltip;
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
@@ -98,12 +98,12 @@ function HorizontalBarPlot({
                 fill={
                   doesSeriesHaveFillColor
                     ? seriesFillColor
-                    : getSecondaryPaletteColorByIndex(plotConfig, index)
+                    : getSecondaryPaletteColorByIndex(plotConfig, index, xAxisDataKey)
                 }
                 stroke={
                   doesSeriesHaveStrokeColor
                     ? seriesStrokeColor
-                    : getPaletteColorByIndex(plotConfig, index)
+                    : getPaletteColorByIndex(plotConfig, index, xAxisDataKey)
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}

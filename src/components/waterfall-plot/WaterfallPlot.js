@@ -62,7 +62,7 @@ function WaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const { isFollowUpMenuOpen } = tooltip;
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
@@ -87,7 +87,7 @@ function WaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
     if (barId === 'start' || barId === 'end') return seriesStrokeColor;
     if (barId === 'other_factors') return colors.gray[200];
 
-    return getPaletteColorByIndex(plotConfig, index);
+    return getPaletteColorByIndex(plotConfig, index, yAxisDataKey);
   };
 
   return (

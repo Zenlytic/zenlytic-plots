@@ -39,7 +39,7 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   const doesSeriesHaveStrokeColor = getDoesSeriesHaveStrokeColor(plotConfig);
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const { isFollowUpMenuOpen } = tooltip;
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};
@@ -85,12 +85,12 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
                 fill={
                   doesSeriesHaveFillColor
                     ? seriesFillColor
-                    : getSecondaryPaletteColorByIndex(plotConfig, index)
+                    : getSecondaryPaletteColorByIndex(plotConfig, index, yAxisDataKey)
                 }
                 stroke={
                   doesSeriesHaveStrokeColor
                     ? seriesStrokeColor
-                    : getPaletteColorByIndex(plotConfig, index)
+                    : getPaletteColorByIndex(plotConfig, index, yAxisDataKey)
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}

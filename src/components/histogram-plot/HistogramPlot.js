@@ -38,7 +38,7 @@ function HistogramPlot({
 
   const yAxisTickFormatter = getFormatter('decimal');
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const [brush, brushEvents] = useBrush({
     onBrushUpdate,
     tooltipHandlers,

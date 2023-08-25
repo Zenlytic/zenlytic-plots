@@ -101,7 +101,7 @@ function MultiLinePlot({
     return formatter(value);
   };
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const [brush, brushEvents] = useBrush({
     onBrushUpdate,
     tooltipHandlers,

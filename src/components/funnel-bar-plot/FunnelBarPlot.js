@@ -97,8 +97,8 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, getSubLabelFrom
           stackId: categoryName,
           dataKey: droppedOffDataKey,
           name: `Dropped Off - ${categoryName}`,
-          stroke: getPaletteColorByIndex(plotConfig, index),
-          fill: getSecondaryPaletteColorByIndex(plotConfig, index),
+          stroke: getPaletteColorByIndex(plotConfig, index, droppedOffDataKey),
+          fill: getSecondaryPaletteColorByIndex(plotConfig, index, droppedOffDataKey),
           strokeWidth: DEFAULT_STROKE_WIDTH,
           strokeDasharray: STROKE_DASHARRAY,
           onMouseOver: () => updateHoveredItemId(droppedOffDataKey),
@@ -110,8 +110,8 @@ function PivotedFunnelBarPlot({ plotConfig, updateHoveredItemId, getSubLabelFrom
           stackId: categoryName,
           dataKey: convertedDataKey,
           name: `Converted - ${categoryName}`,
-          stroke: getPaletteColorByIndex(plotConfig, index),
-          fill: getPaletteColorByIndex(plotConfig, index),
+          stroke: getPaletteColorByIndex(plotConfig, index, convertedDataKey),
+          fill: getPaletteColorByIndex(plotConfig, index, convertedDataKey),
           strokeWidth: DEFAULT_STROKE_WIDTH,
           onMouseOver: () => updateHoveredItemId(convertedDataKey),
           onMouseLeave: () => updateHoveredItemId(null),
@@ -196,7 +196,7 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
 
   const isDataPivoted = getIsDataPivoted(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
 
   const { updateHoveredItemId } = tooltipHandlers || {};
   const { hoveredItemId = null } = tooltip || {};
