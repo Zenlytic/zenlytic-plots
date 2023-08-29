@@ -85,12 +85,12 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
                 fill={
                   doesSeriesHaveFillColor
                     ? seriesFillColor
-                    : getSecondaryPaletteColorByIndex(plotConfig, index, yAxisDataKey)
+                    : getSecondaryPaletteColorByIndex(plotConfig, index)
                 }
                 stroke={
                   doesSeriesHaveStrokeColor
                     ? seriesStrokeColor
-                    : getPaletteColorByIndex(plotConfig, index, yAxisDataKey)
+                    : getPaletteColorByIndex(plotConfig, index)
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}

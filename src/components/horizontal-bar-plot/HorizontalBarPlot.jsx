@@ -98,12 +98,12 @@ function HorizontalBarPlot({
                 fill={
                   doesSeriesHaveFillColor
                     ? seriesFillColor
-                    : getSecondaryPaletteColorByIndex(plotConfig, index, xAxisDataKey)
+                    : getSecondaryPaletteColorByIndex(plotConfig, index)
                 }
                 stroke={
                   doesSeriesHaveStrokeColor
                     ? seriesStrokeColor
-                    : getPaletteColorByIndex(plotConfig, index, xAxisDataKey)
+                    : getPaletteColorByIndex(plotConfig, index)
                 }
                 fillOpacity={itemOpacity}
                 strokeOpacity={itemOpacity}
