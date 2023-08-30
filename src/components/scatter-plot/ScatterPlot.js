@@ -35,7 +35,7 @@ function ScatterPlot({
   const yAxisDataKey = getYAxisDataKey(plotConfig);
   const yAxisFormat = getAxisFormat(plotConfig, yAxisDataKey);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const [brush, brushEvents] = useBrush({
     onBrushUpdate,
     brushDirection: BRUSH_DIRECTIONS.BOTH,

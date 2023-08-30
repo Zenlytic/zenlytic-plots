@@ -62,7 +62,7 @@ function WaterfallPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
   const data = getData(plotConfig);
   const margin = getMargin(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const { isFollowUpMenuOpen } = tooltip;
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};

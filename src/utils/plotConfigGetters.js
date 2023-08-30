@@ -871,8 +871,11 @@ export const getDataKeyColorMappings = (plotConfig) => {
   return plotOptions.dataKeyColorMapping ?? {};
 };
 
+// TODO: ZEN-1051 all plot types should respect `dataKeyColorMappings`, but right now
+// only GroupedBar and MultiLine do.
 export const getPaletteColorByIndex = (plotConfig, index, dataKey) => {
   const dateKeyColorMapping = getDataKeyColorMappings(plotConfig);
+
   if (dateKeyColorMapping[dataKey]) {
     return dateKeyColorMapping[dataKey];
   }

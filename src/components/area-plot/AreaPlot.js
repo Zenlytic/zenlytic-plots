@@ -123,7 +123,7 @@ function AreaPlot({
   const xAxisDataKey = getXAxisDataKey(plotConfig);
   const xAxisFormat = getAxisFormat(plotConfig, xAxisDataKey);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const [brush, brushEvents] = useBrush({
     onBrushUpdate,
     tooltipHandlers,

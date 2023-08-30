@@ -196,7 +196,7 @@ function FunnelBarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisa
 
   const isDataPivoted = getIsDataPivoted(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
 
   const { updateHoveredItemId } = tooltipHandlers || {};
   const { hoveredItemId = null } = tooltip || {};

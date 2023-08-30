@@ -46,7 +46,7 @@ function HorizontalBarPlot({
   const doesSeriesHaveStrokeColor = getDoesSeriesHaveStrokeColor(plotConfig);
   const seriesStrokeColor = getSeriesStrokeColor(plotConfig);
 
-  const [tooltip, tooltipHandlers] = useTooltip();
+  const [tooltip, tooltipHandlers] = useTooltip({ isFollowUpDisabled });
   const { isFollowUpMenuOpen } = tooltip;
 
   const { updateHoveredItemId, updateClickedItemId } = tooltipHandlers || {};

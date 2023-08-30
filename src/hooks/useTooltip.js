@@ -9,6 +9,7 @@ function useTooltip(params) {
       clickedItemId: null,
       useOutsideClickHandler: true,
     },
+    isFollowUpDisabled = false,
   } = params || {};
   const [state, setState] = useState(initialState);
 
@@ -25,12 +26,20 @@ function useTooltip(params) {
   };
 
   const updateIsFollowUpMenuOpen = (isOpen) => {
+    if (isFollowUpDisabled) {
+      return;
+    }
+
     setState((currentState) => {
       return { ...currentState, isFollowUpMenuOpen: isOpen };
     });
   };
 
   const updateClickedItemId = (clickedItemId, tooltipCoords) => {
+    if (isFollowUpDisabled) {
+      return;
+    }
+
     // TODO: This is a hack to disable the premade bars on a waterfall
     if (clickedItemId === 'other_factors' || clickedItemId === 'start' || clickedItemId === 'end') {
       return;
