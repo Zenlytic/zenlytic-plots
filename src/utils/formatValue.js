@@ -36,17 +36,17 @@ const formatValue = (formatter, value) => {
   if (value === null || value === undefined) return null;
   switch (formatter) {
     case 'date':
-      return moment(value).utc().format(dateFormat);
+      return moment.utc(value).format(dateFormat);
     case 'month':
-      return moment(value).utc().format(monthFormat);
+      return moment.utc(value).format(monthFormat);
     case 'week':
-      return moment(value).utc().format(weekFormat);
+      return moment.utc(value).format(weekFormat);
     case 'quarter':
-      return moment(value).utc().format(quarterFormat);
+      return moment.utc(value).format(quarterFormat);
     case 'year':
-      return moment(value).utc().format(yearFormat);
+      return moment.utc(value).format(yearFormat);
     case 'time':
-      return moment(value).utc().format(timeOfDayFormat);
+      return moment.utc(value).format(timeOfDayFormat);
     case null:
       return value;
     default:
