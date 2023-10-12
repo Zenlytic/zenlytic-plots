@@ -1,14 +1,25 @@
 const getD3DataFormatter = (format, value) => {
   switch (format) {
+    case 'eur':
+      if (value && Math.abs(value) < 1000) {
+        return '€.2f';
+      }
+      return '€.3~s';
     case 'usd':
       if (value && Math.abs(value) < 1000) {
         return '$.2f';
       }
       return '$.3~s';
+    case 'eur_0':
+      return '€,.0~f';
     case 'usd_0':
       return '$,.0~f';
+    case 'eur_1':
+      return '€,.1f';
     case 'usd_1':
       return '$,.1f';
+    case 'eur_2':
+      return '€,.2f';
     case 'usd_2':
       return '$,.2f';
     case 'percent_0':
