@@ -1,6 +1,6 @@
 {
   "name": "zenlytic-plots",
-  "version": "1.16.8",
+  "version": "1.16.13",
   "description": "",
   "main": "lib/index.umd.js",
   "browser": "lib/index.umd.js",
