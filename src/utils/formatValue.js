@@ -52,6 +52,10 @@ const formatValue = (formatter, value) => {
     case null:
       return value;
     default:
+      // d3-format has a local config, but seems out of scope for now
+      if (formatter.includes('€')) {
+        return `€${d3Format(formatter.replace('€', ''))(value)}`;
+      }
       return d3Format(formatter)(value).replace('G', 'B');
   }
 };
