@@ -20,6 +20,8 @@ import {
   getMargin,
   getPaletteColorByIndex,
   getSecondaryPaletteColorByIndex,
+  getSeries,
+  getSeriesShowDataAnnotations,
   getUniqueValuesOfDataKey,
   getXAxis,
   getXAxisInterval,
@@ -34,27 +36,31 @@ function PivotedGroupedBar({
   updateHoveredItemId = () => {},
   updateClickedItemId = () => {},
   hoveredItemId = null,
+  showDataAnnotations,
 }) {
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
   const isSeriesStacked = displayType === GROUPED_BAR_DISPLAY_TYPES.STACKED;
   const categoryAxisDataKey = getCategoryAxisDataKey(plotConfig);
   const uniqueValuesOfCategoryKey = getUniqueValuesOfDataKey(plotConfig, categoryAxisDataKey);
   const nameFormatter = getCategoryAxisFormatter(plotConfig);
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
 
   return uniqueValuesOfCategoryKey.map((value, index) =>
     Bar({
       id: value,
       dataKey: value,
+      showDataAnnotations,
       name: nameFormatter(value),
+      valueFormatter: yAxisTickFormatter,
       key: value,
       stackId: isSeriesStacked ? 'a' : undefined,
       fill: getSecondaryPaletteColorByIndex(plotConfig, index, value),
       stroke: getPaletteColorByIndex(plotConfig, index, value),
       strokeWidth: DEFAULT_STROKE_WIDTH,
-
       fillOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       strokeOpacity: !hoveredItemId || hoveredItemId === value ? 1 : 0.2,
       radius: 2,
+      position: 'top',
       onMouseOver: () => updateHoveredItemId(value),
       onMouseLeave: () => updateHoveredItemId(null),
       onClick: (e) => updateClickedItemId(value, e?.tooltipPosition),
@@ -66,6 +72,7 @@ function NonPivotedGroupedBar({
   plotConfig = {},
   updateHoveredItemId = () => {},
   updateClickedItemId = () => {},
+  showDataAnnotations,
 }) {
   const categoryValueAxes = getCategoryValueAxes(plotConfig);
   const displayType = getGroupedBarPlotDisplayType(plotConfig);
@@ -79,6 +86,9 @@ function NonPivotedGroupedBar({
       stackId: isSeriesStacked ? 'a' : undefined,
       strokeWidth: DEFAULT_STROKE_WIDTH,
       radius: 2,
+      position: 'top',
+      showDataAnnotations,
+      valueFormatter: axes.tickFormatter,
       onMouseLeave: () => updateHoveredItemId(null),
     });
   });
@@ -104,6 +114,7 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
   const { width, ref } = useResizeDetector();
   const xAxisConfig = getXAxis(plotConfig);
   const xAxisInterval = getXAxisInterval(plotConfig, width);
+  const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
 
   return (
     <PlotContainer ref={ref}>
@@ -128,10 +139,16 @@ function GroupedBar({ plotConfig = {}, TooltipContent = false, isFollowUpDisable
             updateHoveredItemId,
             updateClickedItemId,
             hoveredItemId,
+            showDataAnnotations,
             clickedItemId,
           })}
         {!isDataPivoted &&
-          NonPivotedGroupedBar({ plotConfig, updateHoveredItemId, updateClickedItemId })}
+          NonPivotedGroupedBar({
+            plotConfig,
+            updateHoveredItemId,
+            updateClickedItemId,
+            showDataAnnotations,
+          })}
       </BarChart>
     </PlotContainer>
   );
