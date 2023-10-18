@@ -60,7 +60,6 @@ export default [
       file: packageJSON.browser,
       format: 'umd',
       sourcemap: true,
-      exports: 'named',
       name: 'zenlyticPlots',
       globals: {
         react: 'React',

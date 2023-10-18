@@ -6,8 +6,6 @@ import fontSizes from '../../../constants/fontSizes';
 function DataAnnotation({
   x,
   y,
-  dx,
-  dy,
   width,
   height,
   offset,
@@ -19,26 +17,20 @@ function DataAnnotation({
   const positionAttributes = {
     top: {
       x: shouldUseSpaceOffset ? x + width / 2 : x,
-      y: y,
-      dy: -4,
+      y: y - offset,
       textAnchor: 'middle',
+      verticalAnchor: 'end',
     },
     right: {
       x: x + width + offset,
       y: shouldUseSpaceOffset ? y + height / 2 : y,
       textAnchor: 'start',
+      verticalAnchor: 'middle',
     },
   }[position];
 
   return (
-    <text
-      x={x}
-      y={y}
-      dx={dx}
-      dy={dy}
-      {...positionAttributes}
-      fill={'black'}
-      fontSize={fontSizes['2xs']}>
+    <text x={x} y={y} {...positionAttributes} fill={'black'} fontSize={fontSizes['2xs']}>
       {valueFormatter(value)}
     </text>
   );
