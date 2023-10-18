@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React from 'react';
 import fontSizes from '../../../constants/fontSizes';
+import colors from '../../../constants/colors';
 
 function DataAnnotation({
   x,
@@ -30,7 +31,7 @@ function DataAnnotation({
   }[position];
 
   return (
-    <text x={x} y={y} {...positionAttributes} fill={'black'} fontSize={fontSizes['2xs']}>
+    <text x={x} y={y} {...positionAttributes} fill={colors.gray[800]} fontSize={fontSizes['2xs']}>
       {valueFormatter(value)}
     </text>
   );
