@@ -21,7 +21,7 @@ export default function Line({
   yAxisId,
 }) {
   const label = showDataAnnotations ? (
-    <DataAnnotation valueFormatter={valueFormatter} />
+    <DataAnnotation valueFormatter={valueFormatter} position="top" shouldUseSpaceOffset={false} />
   ) : undefined;
 
   const dot = showDot ? <Dot color={color} /> : undefined;

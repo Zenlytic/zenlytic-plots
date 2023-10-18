@@ -15,13 +15,16 @@ import {
   getReferenceLineValue,
   getSecondaryPaletteColorByIndex,
   getSeriesFillColor,
+  getSeriesShowDataAnnotations,
   getSeriesStrokeColor,
   getXAxis,
   getXAxisDataKey,
   getXAxisInterval,
   getXAxisName,
+  getXAxisTickFormatter,
   getYAxis,
   getYAxisInterval,
+  getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -67,6 +70,8 @@ function HorizontalBarPlot({
 
   const yAxisConfig = getYAxis(plotConfig);
   const yAxisInterval = getYAxisInterval(plotConfig, height);
+  const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
+  const xAxisTickFormatter = getXAxisTickFormatter(plotConfig);
 
   return (
     <PlotContainer ref={ref}>
@@ -90,6 +95,9 @@ function HorizontalBarPlot({
           stroke: seriesStrokeColor,
           strokeWidth: DEFAULT_STROKE_WIDTH,
           radius: 2,
+          showDataAnnotations,
+          valueFormatter: xAxisTickFormatter,
+          position: 'right',
           children: data.map((item, index) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
             return (
