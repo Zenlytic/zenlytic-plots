@@ -16,11 +16,13 @@ import {
   getReferenceLineValue,
   getSecondaryPaletteColorByIndex,
   getSeriesFillColor,
+  getSeriesShowDataAnnotations,
   getSeriesStrokeColor,
   getXAxis,
   getXAxisInterval,
   getYAxisDataKey,
   getYAxisName,
+  getYAxisTickFormatter,
 } from '../../utils/plotConfigGetters';
 import GeneralChartComponents from '../general-chart-components/GeneralChartComponents';
 import PlotContainer from '../plot-container/PlotContainer';
@@ -55,6 +57,10 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
   const { width, ref } = useResizeDetector();
   const xAxisConfig = getXAxis(plotConfig);
   const xAxisInterval = getXAxisInterval(plotConfig, width);
+  const yAxisTickFormatter = getYAxisTickFormatter(plotConfig);
+  const showDataAnnotations = getSeriesShowDataAnnotations(plotConfig);
+
+  console.log('Test 6', { showDataAnnotations });
 
   return (
     <PlotContainer ref={ref}>
@@ -77,6 +83,8 @@ function BarPlot({ plotConfig = {}, TooltipContent = false, isFollowUpDisabled =
           stroke: seriesStrokeColor,
           strokeWidth: DEFAULT_STROKE_WIDTH,
           radius: 2,
+          valueFormatter: yAxisTickFormatter,
+          showDataAnnotations,
           children: data.map((item, index) => {
             const itemOpacity = getItemOpacity({ id: item.id, hoveredItemId, clickedItemId });
             return (

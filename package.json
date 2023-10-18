@@ -19,7 +19,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
     "format": "prettier --write './**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
-    "dev": "rollup -c -w --watch.onEnd 'yalc push'"
+    "dev": "rollup -c -w --watch.onEnd 'yalc push --sig --replace'"
   },
   "repository": {
     "type": "git",
